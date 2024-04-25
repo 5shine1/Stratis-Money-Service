@@ -2,7 +2,7 @@ import React from "react";
 
 const mockData = [
   { title: "Lowest Fees", text: "asdf" },
-  { title: "Fast & Safe", text: "asdf" },
+  { title: "Fast & Safe", text: "asdfs" },
   { title: "Direct Withdraw", text: "asdf" },
 ];
 
