@@ -14,9 +14,29 @@
 }
 
 body {
-  @apply font-inter bg-primary-800 text-white;
+  @apply font-inter bg-primary-800 text-white leading-tight overflow-x-hidden;
 }
 
 h1 {
-  @apply text-85;
+  @apply font-bold xl:text-85  lg:text-72 text-56 g-header;
+}
+
+h2 {
+  @apply font-bold xl:text-52 lg:text-48 text-40 g-header;
+}
+
+.g-effect {
+  background: radial-gradient(#136165a0 0.82%, rgba(3, 21, 33, 0) 70%);
+}
+
+.g-header {
+  background: linear-gradient(40deg, #c0d4c9, #db9b1e);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.g-button-text {
+  background: linear-gradient(40deg, #2589ac, #db9b1e);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
