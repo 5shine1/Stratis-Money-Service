@@ -49,6 +49,11 @@ module.exports = {
         ...theme("spacing"),
       }),
 
+      animation: {
+        spinSlow: "spin 10s linear infinite",
+        pingSlow: "ping 1.5s linear infinite",
+      },
+
       colors: {
         primary: {
           100: "#C0D4C9",

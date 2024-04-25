@@ -1,30 +1,86 @@
-import React from "react";
+"use client";
+import React, { useState, useContext } from "react";
 import Link from "next/link";
+import { Icon } from "@iconify/react";
 
 import { APP_ROUTES } from "@/config/constants";
+import { ScrollContext } from "@/components/providers/ScrollProvider";
 import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
 
 const Header = () => {
+  const [openMobile, setOpenMobile] = useState(false);
+  const { scroll } = useContext(ScrollContext);
+
   return (
-    <header className="flex items-center justify-between max-w-1440 mx-auto p-4 py-12">
-      <Link href={"/"}>
-        <span className="text-32 font-bold font-sora">Stratis Payment</span>
-      </Link>
-      <div className="flex items-center gap-32">
-        {APP_ROUTES.map((item) => (
-          <Link
-            className="font-semibold hover:text-secondary-100 u-transition-color"
-            href={item.path}
-            key={item.key}
-          >
-            {item.text}
+    <>
+      <header
+        className={`z-10 fixed top-0  left-0 w-full px-16 transition-all duration-300 ${
+          scroll > 0 ? "bg-black/30 backdrop-blur-lg py-16 shadow-md" : "py-40"
+        }`}
+      >
+        <nav className="flex items-center gap-8 max-w-1440 mx-auto">
+          <Link href={"/"} className="mr-auto">
+            <span className="text-32 font-bold">S</span>
+            <span className="text-32 font-bold hidden md:inline">
+              tratis Payment
+            </span>
           </Link>
-        ))}
+          <ul className="items-center gap-48 hidden md:flex">
+            {APP_ROUTES.map((item) => (
+              <Link
+                className=" hover:text-secondary-100 u-transition-color"
+                href={item.path}
+                key={item.key}
+              >
+                {item.text}
+              </Link>
+            ))}
+          </ul>
+          <AnimatedSlideButton className="border border-secondary-200 px-24 py-8 ml-auto">
+            Sign In
+          </AnimatedSlideButton>
+          <div
+            className="cursor-pointer md:hidden"
+            onClick={() => setOpenMobile(true)}
+          >
+            <Icon
+              icon="heroicons-outline:menu"
+              className="w-24 h-24 text-secondary-100"
+            />
+          </div>
+        </nav>
+      </header>
+      <div
+        className={`fixed top-0 w-full h-full bg-primary-800/80 z-20 backdrop-blur-lg transition-all duration-300 flex flex-col justify-center items-center lg:hidden ${
+          openMobile ? "opacity-100 left-0" : "opacity-0 left-full"
+        }`}
+      >
+        <div
+          className="cursor-pointer absolute right-32 top-32"
+          onClick={() => setOpenMobile(false)}
+        >
+          <Icon
+            icon="fontisto:close"
+            className="w-24 h-24 text-secondary-100"
+          />
+        </div>
+
+        <div className="g-button-text text-32 font-bold w-fit">
+          Stratis Payment
+        </div>
+        <ul className="flex flex-col  gap-24 text-24 mt-42">
+          {APP_ROUTES.map((item) => (
+            <Link
+              className=" hover:text-secondary-100 u-transition-color"
+              href={item.path}
+              key={item.key}
+            >
+              {item.text}
+            </Link>
+          ))}
+        </ul>
       </div>
-      <AnimatedSlideButton className="border border-secondary-200 px-24 py-8">
-        Sign In
-      </AnimatedSlideButton>
-    </header>
+    </>
   );
 };
 
