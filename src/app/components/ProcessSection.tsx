@@ -2,6 +2,7 @@
 import React from "react";
 
 import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
+import ScrollAnimationElement from "@/components/global/ScrollAnimatedElement";
 
 const mockData = [
   { key: "Create Account", text: "lorem" },
@@ -17,45 +18,78 @@ const ProcessSection = () => {
 
       <div className="relative items-center w-full  max-w-600 lg:max-w-1440 mx-auto flex gap-80 flex-col lg:flex-row-reverse">
         <div className="w-full flex flex-col gap-32">
-          <h2 className="uppercase text-center lg:text-left">
-            How our platform works
-          </h2>
-
-          <p className="text-gray-400">
-            Lorem ipsum is a pseudo-Latin text used in web design, typography,
-            layout, and printing in place of English to emphasise design
-            elements over content. It&apos; s also called placeholder (or
-            filler) text.
-          </p>
+          <ScrollAnimationElement
+            initial={{ opacity: 0, filter: "blur(12px)", x: 40 }}
+            animate={{ opacity: 1, filter: "blur(0px)", x: 0 }}
+            duration={0.5}
+          >
+            <h2 className="uppercase text-center lg:text-left">
+              How our platform works
+            </h2>
+          </ScrollAnimationElement>
+          <ScrollAnimationElement
+            initial={{ opacity: 0, filter: "blur(12px)", x: 40 }}
+            animate={{ opacity: 1, filter: "blur(0px)", x: 0 }}
+            duration={0.5}
+            delay={0.3}
+          >
+            <p className="text-gray-400">
+              Lorem ipsum is a pseudo-Latin text used in web design, typography,
+              layout, and printing in place of English to emphasise design
+              elements over content. It&apos; s also called placeholder (or
+              filler) text.
+            </p>
+          </ScrollAnimationElement>
 
           <div className="flex flex-col gap-36">
             {mockData.map((item, i) => (
-              <div key={i} className="flex items-center gap-16">
-                <div className="rounded-full flex-none w-64 h-64 bg-gradient-to-b from-primary-400 to-secondary-200"></div>
-                <div className="flex flex-col gap-4">
-                  <p className="g-button-text text-24 font-semibold w-fit">
-                    {item.key}
-                  </p>
-                  <p className=" text-gray-400">
-                    Lorem ipsum is a pseudo-Latin text used in web design,
-                    typography, layout, and printing in place of English to
-                    emphasise design elements over content.
-                  </p>
+              <ScrollAnimationElement
+                key={i}
+                initial={{ opacity: 0, filter: "blur(12px)", x: 40 }}
+                animate={{ opacity: 1, filter: "blur(0px)", x: 0 }}
+                duration={0.5}
+                delay={0.3 + i * 0.2}
+              >
+                <div className="flex items-center gap-16">
+                  <div className="rounded-full flex-none w-64 h-64 bg-gradient-to-b from-primary-400 to-secondary-200"></div>
+                  <div className="flex flex-col gap-4">
+                    <p className="g-button-text text-24 font-semibold w-fit">
+                      {item.key}
+                    </p>
+                    <p className=" text-gray-400">
+                      Lorem ipsum is a pseudo-Latin text used in web design,
+                      typography, layout, and printing in place of English to
+                      emphasise design elements over content.
+                    </p>
+                  </div>
                 </div>
-              </div>
+              </ScrollAnimationElement>
             ))}
           </div>
-          <AnimatedSlideButton className="text20 lg:text-24 border border-secondary-200 rounded-full w-fit mx-auto lg:mx-0 px-32 py-12 lg:px-40 lg:py-16 mt-24">
-            Learn More
-          </AnimatedSlideButton>
+          <ScrollAnimationElement
+            initial={{ opacity: 0, filter: "blur(12px)", y: 40 }}
+            animate={{ opacity: 1, filter: "blur(0px)", y: 0 }}
+            duration={0.5}
+            delay={1.2}
+          >
+            <AnimatedSlideButton className="text20 lg:text-24 border border-secondary-200 rounded-full w-fit mx-auto lg:mx-0 px-32 py-12 lg:px-40 lg:py-16 mt-24">
+              Learn More
+            </AnimatedSlideButton>
+          </ScrollAnimationElement>
         </div>
         <div className="w-full relative p-12">
-          <img
-            src="/assets/landing/hero-bg.png"
-            alt=""
-            className="absolute w-full"
-          />
-          <img src="/assets/landing/hero.png" alt="" className="relative" />
+          <ScrollAnimationElement
+            initial={{ opacity: 0, filter: "blur(12px)", x: -40 }}
+            animate={{ opacity: 1, filter: "blur(0px)", x: 0 }}
+            duration={0.8}
+          >
+            <img
+              src="/assets/landing/hero-bg.png"
+              alt=""
+              className="absolute w-full"
+            />
+            <img src="/assets/landing/hero.png" alt="" className="relative" />
+          </ScrollAnimationElement>
         </div>
       </div>
     </section>

@@ -5,6 +5,28 @@
 @tailwind components;
 @tailwind utilities;
 
+/* global */
+::-webkit-scrollbar {
+  cursor: pointer;
+  width: 5px;
+  height: 3px;
+}
+/* Track */
+::-webkit-scrollbar-track {
+  cursor: pointer;
+  background: #072a36;
+}
+/* Handle */
+::-webkit-scrollbar-thumb {
+  cursor: pointer;
+  background: #185464;
+  border-radius: 4px;
+}
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #2589ac;
+}
+
 .u-transition-color {
   @apply transition-colors duration-300;
 }
