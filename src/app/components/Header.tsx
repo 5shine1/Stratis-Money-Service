@@ -21,7 +21,7 @@ const Header = () => {
       >
         <nav className="flex items-center gap-8 max-w-1440 mx-auto">
           <Link href={"/"} className="mr-auto flex gap-16 items-center">
-            <SvgLogo className={"w-40 h-40 lg:w-48 lg:h-48"} />
+            <SvgLogo className={"w-40 h-40"} />
             <span className="text-32 font-bold hidden md:inline">
               Stratis Payment
             </span>
