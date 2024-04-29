@@ -3,10 +3,10 @@ import React, { useState, useContext } from "react";
 import Link from "next/link";
 import { Icon } from "@iconify/react";
 
+import SvgLogo from "@/assets/SvgLogo";
 import { APP_ROUTES } from "@/config/constants";
 import { ScrollContext } from "@/components/providers/ScrollProvider";
 import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
-import SvgLogo from "@/assets/SvgLogo";
 
 const Header = () => {
   const [openMobile, setOpenMobile] = useState(false);
