@@ -6,6 +6,7 @@ import { Icon } from "@iconify/react";
 import { APP_ROUTES } from "@/config/constants";
 import { ScrollContext } from "@/components/providers/ScrollProvider";
 import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
+import SvgLogo from "@/assets/SvgLogo";
 
 const Header = () => {
   const [openMobile, setOpenMobile] = useState(false);
@@ -15,14 +16,14 @@ const Header = () => {
     <>
       <header
         className={`z-10 fixed top-0  left-0 w-full px-16 transition-all duration-300 ${
-          scroll > 0 ? "bg-black/30 backdrop-blur-lg py-16 shadow-md" : "py-40"
+          scroll > 0 ? "bg-black/30 backdrop-blur-lg py-16 shadow-md" : "py-32"
         }`}
       >
         <nav className="flex items-center gap-8 max-w-1440 mx-auto">
-          <Link href={"/"} className="mr-auto">
-            <span className="text-32 font-bold">S</span>
+          <Link href={"/"} className="mr-auto flex gap-16 items-center">
+            <SvgLogo className={"w-40 h-40 lg:w-48 lg:h-48"} />
             <span className="text-32 font-bold hidden md:inline">
-              tratis Payment
+              Stratis Payment
             </span>
           </Link>
           <ul className="items-center gap-48 hidden md:flex">
@@ -36,7 +37,7 @@ const Header = () => {
               </Link>
             ))}
           </ul>
-          <AnimatedSlideButton className="border border-secondary-200 px-24 py-8 ml-auto">
+          <AnimatedSlideButton className="border border-secondary-200 px-24 py-8 lg:text-18 lg:py-10 lg:px-32 ml-auto">
             Sign In
           </AnimatedSlideButton>
           <div
