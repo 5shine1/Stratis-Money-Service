@@ -72,9 +72,11 @@ const ProcessSection = () => {
             duration={0.5}
             delay={1.2}
           >
-            <AnimatedSlideButton className="text20 lg:text-24 border border-secondary-200 rounded-full w-fit mx-auto lg:mx-0 px-32 py-12 lg:px-40 lg:py-16 mt-24">
-              Learn More
-            </AnimatedSlideButton>
+            <div className="w-full flex items-center lg:justify-start justify-center">
+              <AnimatedSlideButton className="text-20 lg:text-24 border border-secondary-200 rounded-full px-32 py-12 lg:px-40 lg:py-16 mt-24">
+                Learn More
+              </AnimatedSlideButton>
+            </div>
           </ScrollAnimationElement>
         </div>
         <div className="w-full relative p-12">
