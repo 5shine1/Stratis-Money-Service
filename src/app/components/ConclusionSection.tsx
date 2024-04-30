@@ -4,6 +4,7 @@ import React from "react";
 
 import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
 import ScrollAnimationElement from "@/components/global/ScrollAnimatedElement";
+import Link from "next/link";
 
 const ConclusionSection = () => {
   return (
@@ -33,9 +34,11 @@ const ConclusionSection = () => {
               Lorem ipsum is a pseudo-Latin text used in web design, typography,
               layout, and printing in place ...
             </div>
-            <AnimatedSlideButton className=" text-18 lg:text-24 py-12 px-28 lg:px-36 border border-secondary-200 rounded-full mt-36">
-              Sign Up Now
-            </AnimatedSlideButton>
+            <Link href={"/auth/register"}>
+              <AnimatedSlideButton className=" text-18 lg:text-24 py-12 px-28 lg:px-36 border border-secondary-200 rounded-full mt-36">
+                Sign Up Now
+              </AnimatedSlideButton>
+            </Link>
           </div>
         </ScrollAnimationElement>
       </div>

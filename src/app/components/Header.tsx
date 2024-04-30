@@ -37,9 +37,11 @@ const Header = () => {
               </Link>
             ))}
           </ul>
-          <AnimatedSlideButton className="border border-secondary-200 px-24 py-8 lg:text-18 lg:py-10 lg:px-32 ml-auto">
-            Sign In
-          </AnimatedSlideButton>
+          <Link href={"/auth/register"} className=" ml-auto">
+            <AnimatedSlideButton className="border border-secondary-200 px-24 py-8 lg:text-18 lg:py-10 lg:px-32">
+              Sign Up
+            </AnimatedSlideButton>
+          </Link>
           <div
             className="cursor-pointer md:hidden"
             onClick={() => setOpenMobile(true)}
