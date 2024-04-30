@@ -25,9 +25,9 @@ const LoginPage = () => {
 
   return (
     <main className="relative w-full overflow-x-hidden">
-      <div className="g-effect absolute -top-[300px] -left-[300px] w-[1000px] h-[1000px] scale-50 lg:scale-100"></div>
+      <div className="g-effect absolute -top-[300px] -right-[300px] w-[1000px] h-[1000px] scale-50 lg:scale-100"></div>
 
-      <div className="min-h-screen w-full relative flex flex-row-reverse items-center">
+      <div className="min-h-screen w-full max-w-1440 mx-auto relative flex flex-row-reverse items-center">
         <div className="w-full p-12 relative hidden lg:block">
           <img
             src="/assets/landing/hero-bg.png"
@@ -72,7 +72,7 @@ const LoginPage = () => {
                   error={password.error}
                 />
                 <Link
-                  className=" text-12 ml-auto block text-right mt-6 text-primary-400/80 u-transition-color hover:text-primary-400 focus:text-primary-400 outline-none"
+                  className=" text-12 ml-12 text-right block mt-6 text-primary-400/80 u-transition-color hover:text-primary-400 focus:text-primary-400 outline-none"
                   href={"/auth/forgot-password"}
                 >
                   Forgot Password?

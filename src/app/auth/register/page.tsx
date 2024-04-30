@@ -36,7 +36,7 @@ const RegisterPage = () => {
     <main className="relative w-full overflow-x-hidden">
       <div className="g-effect absolute -top-[300px] -right-[300px] w-[1000px] h-[1000px] scale-50 lg:scale-100"></div>
 
-      <div className="min-h-screen w-full relative flex items-center">
+      <div className="min-h-screen w-full  max-w-1440 mx-auto relative flex items-center">
         <div className="w-full p-12 relative hidden lg:block">
           <img
             src="/assets/landing/hero-bg.png"
