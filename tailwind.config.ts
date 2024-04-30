@@ -69,6 +69,9 @@ module.exports = {
           100: "#e7bc69 ",
           200: "#DB9B1E",
         },
+        error: {
+          DEFAULT: "#FD7325",
+        },
       },
     },
   },

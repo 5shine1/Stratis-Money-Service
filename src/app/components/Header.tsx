@@ -3,10 +3,10 @@ import React, { useState, useContext } from "react";
 import Link from "next/link";
 import { Icon } from "@iconify/react";
 
+import SvgLogo from "@/assets/SvgLogo";
 import { APP_ROUTES } from "@/config/constants";
 import { ScrollContext } from "@/components/providers/ScrollProvider";
 import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
-import SvgLogo from "@/assets/SvgLogo";
 
 const Header = () => {
   const [openMobile, setOpenMobile] = useState(false);
@@ -37,9 +37,11 @@ const Header = () => {
               </Link>
             ))}
           </ul>
-          <AnimatedSlideButton className="border border-secondary-200 px-24 py-8 lg:text-18 lg:py-10 lg:px-32 ml-auto">
-            Sign In
-          </AnimatedSlideButton>
+          <Link href={"/auth/register"} className=" ml-auto">
+            <AnimatedSlideButton className="border border-secondary-200 px-24 py-8 lg:text-18 lg:py-10 lg:px-32">
+              Sign Up
+            </AnimatedSlideButton>
+          </Link>
           <div
             className="cursor-pointer md:hidden"
             onClick={() => setOpenMobile(true)}
