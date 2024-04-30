@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { Icon } from "@iconify/react";
-import dynamic from "next/dynamic";
+
 import ScrollAnimationElement from "@/components/global/ScrollAnimatedElement";
 
 const mockData = [

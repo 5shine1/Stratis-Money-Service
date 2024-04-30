@@ -47,6 +47,14 @@ h2 {
   @apply font-bold xl:text-52 lg:text-48 text-40 g-header;
 }
 
+h3 {
+  @apply font-bold xl:text-42 lg:text-36 text-32 g-header;
+}
+
+h4 {
+  @apply font-bold xl:text-32 lg:text-30 text-28 g-header;
+}
+
 .g-effect {
   background: radial-gradient(#136165a0 0.82%, rgba(3, 21, 33, 0) 70%);
 }
