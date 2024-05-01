@@ -37,9 +37,9 @@ const Header = () => {
               </Link>
             ))}
           </ul>
-          <Link href={"/auth/register"} className=" ml-auto">
+          <Link href={"/auth/login"} className=" ml-auto">
             <AnimatedSlideButton className="border border-secondary-200 px-24 py-8 lg:text-18 lg:py-10 lg:px-32">
-              Sign Up
+              Sign In
             </AnimatedSlideButton>
           </Link>
           <div
