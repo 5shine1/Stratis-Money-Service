@@ -14,7 +14,8 @@
     "next": "14.2.1",
     "react": "^18",
     "react-dom": "^18",
-    "react-intersection-observer": "^9.8.2"
+    "react-intersection-observer": "^9.8.2",
+    "react-verification-input": "^4.1.2"
   },
   "devDependencies": {
     "@types/node": "^20",
@@ -27,5 +28,5 @@
   },
   "engines": {
     "node": "18.19.1"
-}
+  }
 }
