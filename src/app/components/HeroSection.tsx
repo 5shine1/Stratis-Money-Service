@@ -91,7 +91,11 @@ const HeroSection = () => {
               alt=""
               className="absolute w-full"
             />
-            <img src="/assets/landing/hero.png" alt="" className="relative" />
+            <img
+              src="/assets/landing/hero.png"
+              alt=""
+              className="relative max-w-full"
+            />
           </ScrollAnimationElement>
         </div>
       </div>
