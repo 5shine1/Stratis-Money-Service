@@ -41,14 +41,16 @@ const LoginPage = () => {
           />
         </div>
 
-        <div className="w-full h-full flex flex-col items-center justify-center px-10 py-72">
+        <div className="w-full h-full flex flex-col items-center justify-center px-16 py-72">
           <Link href={"/"}>
             <SvgLogo className="w-50 h-50" />
           </Link>
           <div className="w-full  max-w-360  flex flex-col gap-24 mt-32">
             <div>
-              <h4 className="g-button-text w-fit">Sign In Your Account</h4>
-              <p className="text-gray-400 text-14 mt-8">
+              <h4 className="g-button-text w-fit mx-auto text-center">
+                Sign In Your Account
+              </h4>
+              <p className="text-gray-400 text-14 mt-8 text-center">
                 Welcome to stratis payment. Enjoy now!
               </p>
             </div>
@@ -81,7 +83,7 @@ const LoginPage = () => {
 
               <AnimatedSlideButton
                 onClick={handleSubmit}
-                className=" text-18 py-14 border border-secondary-200 rounded-full "
+                className=" text-18 py-14 border border-secondary-300 rounded-full "
               >
                 Continue with Email
               </AnimatedSlideButton>
@@ -101,14 +103,14 @@ const LoginPage = () => {
               <hr className="border-gray-400 w-full" />
             </div>
             <div className="flex items-center justify-center gap-12">
-              <button className="flex items-center justify-center gap-8 border border-secondary-100 hover:border-secondary-200 u-transition-color rounded-12 h-50 px-24 ">
+              <button className="flex items-center justify-center gap-8 border border-secondary-200 hover:border-secondary-300 u-transition-color rounded-12 h-50 px-24 ">
                 <Icon
                   icon="ri:apple-fill"
                   className="text-gray-100 w-28 h-28"
                 />
                 Apple
               </button>
-              <button className="flex items-center justify-center gap-8 border border-secondary-100 hover:border-secondary-200 u-transition-color rounded-12 h-50 px-24 ">
+              <button className="flex items-center justify-center gap-8 border border-secondary-200 hover:border-secondary-300 u-transition-color rounded-12 h-50 px-24 ">
                 <Icon
                   icon="devicon:google"
                   className="text-gray-100 w-24 h-24"

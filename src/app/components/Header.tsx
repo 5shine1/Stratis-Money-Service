@@ -21,7 +21,7 @@ const Header = () => {
       >
         <nav className="flex items-center gap-8 max-w-1440 mx-auto">
           <Link href={"/"} className="mr-auto flex gap-16 items-center">
-            <SvgLogo className={"w-40 h-40"} />
+            <SvgLogo className={"w-36 h-36 lg:w-48 lg:h-48"} />
             <span className="text-32 font-bold hidden md:inline">
               Stratis Payment
             </span>
@@ -29,7 +29,7 @@ const Header = () => {
           <ul className="items-center gap-48 hidden md:flex">
             {APP_ROUTES.map((item) => (
               <Link
-                className=" hover:text-secondary-100 u-transition-color"
+                className=" hover:text-secondary-200 u-transition-color"
                 href={item.path}
                 key={item.key}
               >
@@ -38,7 +38,7 @@ const Header = () => {
             ))}
           </ul>
           <Link href={"/auth/login"} className=" ml-auto">
-            <AnimatedSlideButton className="border border-secondary-200 px-24 py-8 lg:text-18 lg:py-10 lg:px-32">
+            <AnimatedSlideButton className="border border-secondary-300 px-24 py-8 lg:text-18 lg:py-10 lg:px-32">
               Sign In
             </AnimatedSlideButton>
           </Link>
@@ -48,7 +48,7 @@ const Header = () => {
           >
             <Icon
               icon="heroicons-outline:menu"
-              className="w-24 h-24 text-secondary-100"
+              className="w-24 h-24 text-secondary-200"
             />
           </div>
         </nav>
@@ -64,7 +64,7 @@ const Header = () => {
         >
           <Icon
             icon="fontisto:close"
-            className="w-24 h-24 text-secondary-100"
+            className="w-24 h-24 text-secondary-200"
           />
         </div>
 
@@ -74,7 +74,7 @@ const Header = () => {
         <ul className="flex flex-col  gap-24 text-24 mt-42">
           {APP_ROUTES.map((item) => (
             <Link
-              className=" hover:text-secondary-100 u-transition-color"
+              className=" hover:text-secondary-200 u-transition-color"
               href={item.path}
               key={item.key}
             >
