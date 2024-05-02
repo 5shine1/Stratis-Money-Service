@@ -14,7 +14,7 @@ const AnimatedSlideButton = ({ children, className, onClick }: Props) => {
     >
       <span
         className={
-          "absolute -left-full group-hover:left-0 group-focus:left-0 top-0 w-full h-full transition-all duration-200 bg-gradient-to-r from-primary-400 to-secondary-200"
+          "absolute -left-full group-hover:left-0 group-focus:left-0 top-0 w-full h-full transition-all duration-200 bg-gradient-to-r from-primary-400 to-secondary-300"
         }
       ></span>
       <span className="relative z-10">{children}</span>

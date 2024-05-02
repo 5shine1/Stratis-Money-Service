@@ -22,7 +22,7 @@ const ForgotPasswordPage = () => {
 
   return (
     <main className="relative w-full overflow-x-hidden">
-      <div className="g-effect absolute -top-[300px] -right-[300px] w-[1000px] h-[1000px] scale-50 lg:scale-100"></div>
+      <div className="g-effect absolute -top-[300px] -left-[300px] w-[1000px] h-[1000px] scale-50 lg:scale-100"></div>
 
       <div className="min-h-screen w-full  max-w-1440 mx-auto relative flex flex-row-reverse items-center">
         <div className="w-full p-12 relative hidden lg:block">
@@ -38,14 +38,16 @@ const ForgotPasswordPage = () => {
           />
         </div>
 
-        <div className="w-full h-full flex flex-col items-center justify-center px-10 py-72">
+        <div className="w-full h-full flex flex-col items-center justify-center px-16 py-72">
           <Link href={"/"}>
             <SvgLogo className="w-50 h-50" />
           </Link>
           <div className="w-full  max-w-360  flex flex-col gap-48 mt-32">
             <div>
-              <h4 className="g-button-text w-fit">Forgot Password?</h4>
-              <p className="text-gray-400 text-14 mt-8">
+              <h4 className="g-button-text w-fit mx-auto text-center">
+                Forgot Password?
+              </h4>
+              <p className="text-gray-400 text-14 mt-8 text-center">
                 Please enter your email address and we will send you a link to
                 reset your password.
               </p>
@@ -62,7 +64,7 @@ const ForgotPasswordPage = () => {
 
             <AnimatedSlideButton
               onClick={handleSubmit}
-              className=" text-18 py-14 border border-secondary-200 rounded-full "
+              className=" text-18 py-14 border border-secondary-300 rounded-full "
             >
               Send Link
             </AnimatedSlideButton>

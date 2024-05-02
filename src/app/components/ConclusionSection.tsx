@@ -35,7 +35,7 @@ const ConclusionSection = () => {
               layout, and printing in place ...
             </div>
             <Link href={"/auth/register"}>
-              <AnimatedSlideButton className=" text-18 lg:text-24 py-12 px-28 lg:px-36 border border-secondary-200 rounded-full mt-36">
+              <AnimatedSlideButton className=" text-18 lg:text-24 py-12 px-28 lg:px-36 border border-secondary-300 rounded-full mt-36">
                 Sign Up Now
               </AnimatedSlideButton>
             </Link>

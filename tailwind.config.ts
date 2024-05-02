@@ -66,8 +66,9 @@ module.exports = {
           800: "#031521",
         },
         secondary: {
-          100: "#e7bc69 ",
-          200: "#DB9B1E",
+          100: "#F6D28A",
+          200: "#e7bc69 ",
+          300: "#DB9B1E",
         },
         error: {
           DEFAULT: "#FD7325",
