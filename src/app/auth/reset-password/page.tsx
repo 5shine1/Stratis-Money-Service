@@ -2,16 +2,13 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Icon } from "@iconify/react";
 
 import SvgLogo from "@/assets/SvgLogo";
 import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
 import CustomInput from "@/components/global/CustomInput";
-import { isValidEmail } from "@/utils/string.utils";
 
-const RegisterPage = () => {
+const ResetPasswordPage = () => {
   const router = useRouter();
-  const [email, setEmail] = useState({ value: "", error: "" });
   const [password, setPassword] = useState({ value: "", error: "" });
   const [passwordConfirm, setPasswordConfirm] = useState({
     value: "",
@@ -19,9 +16,6 @@ const RegisterPage = () => {
   });
 
   const handleSubmit = () => {
-    if (!email.value) return setEmail({ ...email, error: "Email required" });
-    if (!isValidEmail(email.value))
-      return setEmail({ ...email, error: "Invalid email" });
     if (!password.value)
       return setPassword({ ...password, error: "Password required" });
     if (passwordConfirm.value !== password.value)
@@ -56,23 +50,14 @@ const RegisterPage = () => {
           </Link>
           <div className="w-full  max-w-360  flex flex-col gap-24 mt-32">
             <div>
-              <h4 className="g-button-text w-fit  mx-auto text-center ">
-                Create Your Account
+              <h4 className="g-button-text w-fit  mx-auto text-center">
+                Reset Your Password
               </h4>
               <p className="text-gray-400 text-14 mt-8 text-center">
-                Setting up an account takes only few minutes.
+                Reset your password of Test@test.com account
               </p>
             </div>
             <div className="flex flex-col gap-24 mt-12">
-              <div>
-                <CustomInput
-                  value={email.value}
-                  onChange={(e) => setEmail({ error: "", value: e })}
-                  icon="ic:round-alternate-email"
-                  placeholder="Email Address"
-                  error={email.error}
-                />
-              </div>
               <div>
                 <CustomInput
                   value={password.value}
@@ -97,38 +82,8 @@ const RegisterPage = () => {
                 onClick={handleSubmit}
                 className=" text-18 py-14 border border-secondary-300 rounded-full mt-16"
               >
-                Continue with Email
+                Reset Password
               </AnimatedSlideButton>
-              <div className="text-center text-14 text-gray-500">
-                Already have an account?{" "}
-                <Link
-                  href="/auth/login"
-                  className="underline text-primary-400/80 u-transition-color hover:text-primary-400 focus:text-primary-400 outline-none"
-                >
-                  Login
-                </Link>
-              </div>
-            </div>
-            <div className="flex items-center gap-12 justify-center text-14 mt-12">
-              <hr className="border-gray-400 w-full" />
-              <span className="flex-none">Or Continue With</span>
-              <hr className="border-gray-400 w-full" />
-            </div>
-            <div className="flex items-center justify-center gap-12">
-              <button className="flex items-center justify-center gap-8 border border-secondary-200 hover:border-secondary-300 u-transition-color rounded-12 h-50 px-24 ">
-                <Icon
-                  icon="ri:apple-fill"
-                  className="text-gray-100 w-28 h-28"
-                />
-                Apple
-              </button>
-              <button className="flex items-center justify-center gap-8 border border-secondary-200 hover:border-secondary-300 u-transition-color rounded-12 h-50 px-24 ">
-                <Icon
-                  icon="devicon:google"
-                  className="text-gray-100 w-24 h-24"
-                />
-                Google
-              </button>
             </div>
           </div>
         </div>
@@ -137,4 +92,4 @@ const RegisterPage = () => {
   );
 };
 
-export default RegisterPage;
+export default ResetPasswordPage;

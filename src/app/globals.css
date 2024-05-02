@@ -55,6 +55,10 @@ h4 {
   @apply font-bold xl:text-32 lg:text-30 text-28 g-header;
 }
 
+img {
+  @apply max-w-none;
+}
+
 .g-effect {
   background: radial-gradient(#136165a0 0.82%, rgba(3, 21, 33, 0) 70%);
 }

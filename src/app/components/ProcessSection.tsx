@@ -51,7 +51,7 @@ const ProcessSection = () => {
                 delay={0.3 + i * 0.2}
               >
                 <div className="flex items-center gap-16">
-                  <div className="rounded-full flex-none w-64 h-64 bg-gradient-to-b from-primary-400 to-secondary-200"></div>
+                  <div className="rounded-full flex-none w-64 h-64 bg-gradient-to-b from-primary-400 to-secondary-300"></div>
                   <div className="flex flex-col gap-4">
                     <p className="g-button-text text-24 font-semibold w-fit">
                       {item.key}
@@ -73,7 +73,7 @@ const ProcessSection = () => {
             delay={1.2}
           >
             <div className="w-full flex items-center lg:justify-start justify-center">
-              <AnimatedSlideButton className="text-20 lg:text-24 border border-secondary-200 rounded-full px-32 py-12 lg:px-40 lg:py-16 mt-24">
+              <AnimatedSlideButton className="text-20 lg:text-24 border border-secondary-300 rounded-full px-32 py-12 lg:px-40 lg:py-16 mt-24">
                 Learn More
               </AnimatedSlideButton>
             </div>
@@ -90,7 +90,11 @@ const ProcessSection = () => {
               alt=""
               className="absolute w-full"
             />
-            <img src="/assets/landing/hero.png" alt="" className="relative" />
+            <img
+              src="/assets/landing/hero.png"
+              alt=""
+              className="relative max-w-full"
+            />
           </ScrollAnimationElement>
         </div>
       </div>

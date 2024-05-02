@@ -3,7 +3,7 @@ import React from "react";
 import Link from "next/link";
 import { Icon } from "@iconify/react";
 
-import { APP_ROUTES } from "@/config/constants";
+import { APP_ROUTES, SOCIAL_LINKS } from "@/config/constants";
 
 const Footer = () => {
   return (
@@ -14,25 +14,21 @@ const Footer = () => {
         <div className="items-center flex-col lg:flex-row flex gap-24 justify-between max-w-1440 mx-auto w-full">
           <div className="text-32 font-bold">Stratis Payment</div>
           <div className="flex gap-24 items-center">
-            <Icon
-              icon={"simple-icons:facebook"}
-              className="w-20 h-20 text-gray-400 cursor-pointer hover:text-primary-300 u-transition-color"
-            />
-            <Icon
-              icon={"simple-icons:linkedin"}
-              className="w-20 h-20 text-gray-400 cursor-pointer hover:text-primary-300 u-transition-color"
-            />
-            <Icon
-              icon={"fa6-brands:x-twitter"}
-              className="w-20 h-20 text-gray-400 cursor-pointer hover:text-primary-300 u-transition-color"
-            />
+            {SOCIAL_LINKS.map((item) => (
+              <Link key={item.id} href={item.link}>
+                <Icon
+                  icon={item.icon}
+                  className="w-20 h-20 text-gray-400 cursor-pointer hover:text-primary-300 u-transition-color"
+                />
+              </Link>
+            ))}
           </div>
         </div>
       </div>
       <div className="relative flex items-center justify-center gap-48 py-40">
         {APP_ROUTES.map((item) => (
           <Link
-            className=" hover:text-secondary-100 u-transition-color"
+            className=" hover:text-secondary-200 u-transition-color"
             href={item.path}
             key={item.key}
           >
