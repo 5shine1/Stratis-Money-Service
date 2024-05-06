@@ -15,6 +15,7 @@ const minFontSize = 4;
 const maxFontSize = 140;
 
 module.exports = {
+  darkMode: "light",
   content: ["./src/**/*.tsx"],
   theme: {
     spacing: {
@@ -69,6 +70,7 @@ module.exports = {
           100: "#F6D28A",
           200: "#e7bc69 ",
           300: "#DB9B1E",
+          400: "#FFBF44",
         },
         error: {
           DEFAULT: "#FD7325",
