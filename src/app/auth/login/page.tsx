@@ -8,6 +8,7 @@ import SvgLogo from "@/assets/SvgLogo";
 import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
 import CustomInput from "@/components/global/CustomInput";
 import { isValidEmail } from "@/utils/string.utils";
+import { apiLogin } from "@/api/auth.api";
 
 const LoginPage = () => {
   const router = useRouter();
@@ -20,7 +21,8 @@ const LoginPage = () => {
       return setEmail({ ...email, error: "Invalid email" });
     if (!password.value)
       return setPassword({ ...password, error: "Password required" });
-    router.push("/");
+    apiLogin(email.value, password.value);
+    // router.push("/");
   };
 
   return (
