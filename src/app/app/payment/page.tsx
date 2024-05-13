@@ -10,6 +10,7 @@ const PaymentPage = () => {
   const currencies = [
     { id: "USDT", img: "/assets/icon/usdt.png" },
     { id: "USDC", img: "/assets/icon/usdc.png" },
+    { id: "STRAX", img: "/assets/icon/strax.png" },
   ];
   const fiats = [
     { id: "USD", img: "/assets/icon/usd.png" },

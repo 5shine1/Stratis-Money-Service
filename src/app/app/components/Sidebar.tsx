@@ -88,7 +88,7 @@ const AppSidebar = () => {
                 isWrapped ? "block" : "hidden"
               }`}
             >
-              Harry DonatoHarrydo
+              Harry Donato Harrydo
             </div>
             <div className="text-10 text-gray-200 bg-primary-700 rounded-4 px-4 py-2 ml-auto">
               Customer
