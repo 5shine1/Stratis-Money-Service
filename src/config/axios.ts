@@ -4,26 +4,23 @@ import { BACKEND_URL } from "./env";
 const axiosInstance = axios.create({
   baseURL: BACKEND_URL,
   headers: {
+    accept: "application/json",
     "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "*",
   },
 });
 
+let auth;
+if (typeof window !== "undefined") {
+  auth = localStorage.getItem("stratis-auth");
+}
+
+const accessToken = auth ? JSON.parse(auth)?.accessToken : "";
 axiosInstance.interceptors.request.use((config) => {
-  config.headers["auth-token"] = localStorage.getItem("stratis-auth-token");
+  config.headers["Authorization"] = "Bearer " + accessToken;
   return config;
 });
 
 export default axiosInstance;
-
-export const getErrorMessage = (err: any) => {
-  return (
-    err.response?.data?.error ||
-    err.response?.data?.message ||
-    err.message ||
-    "Server Error"
-  );
-};
 
 export const fileUpload = async (file: any, path: string) => {
   try {
