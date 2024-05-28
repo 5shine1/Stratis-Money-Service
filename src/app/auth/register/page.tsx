@@ -1,16 +1,19 @@
 "use client";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Icon } from "@iconify/react";
+import toast from "react-hot-toast";
 
 import SvgLogo from "@/assets/SvgLogo";
+import { LoadingContext } from "@/components/providers/LoadingProvider";
 import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
 import CustomInput from "@/components/global/CustomInput";
-import { isValidEmail } from "@/utils/string.utils";
+import { isValidPassword, isValidEmail } from "@/utils/string.utils";
+import { apiRegister } from "@/api/auth.api";
 
 const RegisterPage = () => {
   const router = useRouter();
+  const { setLoading } = useContext(LoadingContext);
   const [email, setEmail] = useState({ value: "", error: "" });
   const [password, setPassword] = useState({ value: "", error: "" });
   const [passwordConfirm, setPasswordConfirm] = useState({
@@ -18,18 +21,44 @@ const RegisterPage = () => {
     error: "",
   });
 
-  const handleSubmit = () => {
-    if (!email.value) return setEmail({ ...email, error: "Email required" });
+  const handleSubmit = async () => {
+    if (!email.value) return setEmail({ ...email, error: "Email required." });
     if (!isValidEmail(email.value))
-      return setEmail({ ...email, error: "Invalid email" });
+      return setEmail({ ...email, error: "Invalid email." });
     if (!password.value)
-      return setPassword({ ...password, error: "Password required" });
+      return setPassword({ ...password, error: "Password required." });
+    if (isValidPassword(password.value))
+      return setPassword({
+        ...password,
+        error: isValidPassword(password.value),
+      });
     if (passwordConfirm.value !== password.value)
       return setPasswordConfirm({
         ...passwordConfirm,
-        error: "Password confirmation does not match",
+        error: "Password confirmation does not match.",
       });
-    router.push("/auth/verify-email");
+
+    setLoading(true);
+    try {
+      const result = await apiRegister(email.value, password.value);
+      if (result === true) {
+        toast.success("Registered successfully.");
+        router.push("/auth/login");
+      } else {
+        console.log(result);
+        if (result?.DuplicateUserName)
+          setEmail({ ...email, error: "Username is already taken." });
+        else
+          setPassword({
+            ...password,
+            error: String(Object.values(result)[0]) || "",
+          });
+        toast.error("Register failed.");
+      }
+    } catch (error: any) {
+      toast.error("Something went wrong.");
+    }
+    setLoading(false);
   };
 
   return (
@@ -108,27 +137,6 @@ const RegisterPage = () => {
                   Login
                 </Link>
               </div>
-            </div>
-            <div className="flex items-center gap-12 justify-center text-14 mt-12">
-              <hr className="border-gray-400 w-full" />
-              <span className="flex-none">Or Continue With</span>
-              <hr className="border-gray-400 w-full" />
-            </div>
-            <div className="flex items-center justify-center gap-12">
-              <button className="flex items-center justify-center gap-8 border border-secondary-200 hover:border-secondary-300 u-transition-color rounded-12 h-50 px-24 ">
-                <Icon
-                  icon="ri:apple-fill"
-                  className="text-gray-100 w-28 h-28"
-                />
-                Apple
-              </button>
-              <button className="flex items-center justify-center gap-8 border border-secondary-200 hover:border-secondary-300 u-transition-color rounded-12 h-50 px-24 ">
-                <Icon
-                  icon="devicon:google"
-                  className="text-gray-100 w-24 h-24"
-                />
-                Google
-              </button>
             </div>
           </div>
         </div>
