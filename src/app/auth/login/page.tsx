@@ -1,28 +1,56 @@
 "use client";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Icon } from "@iconify/react";
+import toast from "react-hot-toast";
 
 import SvgLogo from "@/assets/SvgLogo";
+import { LoadingContext } from "@/components/providers/LoadingProvider";
 import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
 import CustomInput from "@/components/global/CustomInput";
+import useAppDispatch from "@/hooks/global/useAppDispatch";
+import { setAuth } from "@/store/slices/auth.slice";
 import { isValidEmail } from "@/utils/string.utils";
 import { apiLogin } from "@/api/auth.api";
 
 const LoginPage = () => {
   const router = useRouter();
+  const { setLoading } = useContext(LoadingContext);
+  const dispatch = useAppDispatch();
   const [email, setEmail] = useState({ value: "", error: "" });
   const [password, setPassword] = useState({ value: "", error: "" });
 
-  const handleSubmit = () => {
-    if (!email.value) return setEmail({ ...email, error: "Email required" });
+  const handleSubmit = async () => {
+    if (!email.value) return setEmail({ ...email, error: "Email required." });
     if (!isValidEmail(email.value))
-      return setEmail({ ...email, error: "Invalid email" });
+      return setEmail({ ...email, error: "Invalid email." });
     if (!password.value)
-      return setPassword({ ...password, error: "Password required" });
-    apiLogin(email.value, password.value);
-    // router.push("/");
+      return setPassword({ ...password, error: "Password required." });
+
+    setLoading(true);
+    try {
+      const result = await apiLogin(email.value, password.value);
+      if (result?.isSucceed) {
+        dispatch(
+          setAuth({
+            email: email.value,
+            accessToken: result?.data?.accessToken,
+            refreshToken: result?.data?.refreshToken,
+          })
+        );
+        router.push("/");
+        toast.success("Logged in successfully.");
+      } else {
+        if (result?.messages.email)
+          setEmail({ ...email, error: "Email not found." });
+        if (result?.messages?.password)
+          setPassword({ ...password, error: "Incorrect password." });
+        toast.error("Login failed.");
+      }
+    } catch (error) {
+      toast.error("Something went wrong.");
+    }
+    setLoading(false);
   };
 
   return (
@@ -98,27 +126,6 @@ const LoginPage = () => {
                   Sign Up
                 </Link>
               </div>
-            </div>
-            <div className="flex items-center gap-12 justify-center text-14 mt-12">
-              <hr className="border-gray-400 w-full" />
-              <span className="flex-none">Or Continue With</span>
-              <hr className="border-gray-400 w-full" />
-            </div>
-            <div className="flex items-center justify-center gap-12">
-              <button className="flex items-center justify-center gap-8 border border-secondary-200 hover:border-secondary-300 u-transition-color rounded-12 h-50 px-24 ">
-                <Icon
-                  icon="ri:apple-fill"
-                  className="text-gray-100 w-28 h-28"
-                />
-                Apple
-              </button>
-              <button className="flex items-center justify-center gap-8 border border-secondary-200 hover:border-secondary-300 u-transition-color rounded-12 h-50 px-24 ">
-                <Icon
-                  icon="devicon:google"
-                  className="text-gray-100 w-24 h-24"
-                />
-                Google
-              </button>
             </div>
           </div>
         </div>
