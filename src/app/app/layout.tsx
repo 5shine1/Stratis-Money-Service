@@ -1,15 +1,16 @@
 "use client";
 import React, { PropsWithChildren } from "react";
-import { useRouter } from "next/navigation";
 import useAppSelector from "@/hooks/global/useAppSelector";
 import AppSidebar from "./components/Sidebar";
+import { useRouter } from "next/navigation";
 
 const AppLayout: React.FC<PropsWithChildren> = ({ children }) => {
   const router = useRouter();
-  const { email } = useAppSelector((state) => state.auth);
+  const { email, isAuthLoading } = useAppSelector((state) => state.auth);
+  if (isAuthLoading) return;
   if (!email) {
     router.push("/auth/login");
-    return null;
+    return;
   }
   return (
     <main className="w-full h-[100vh] flex gap-4">
