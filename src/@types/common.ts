@@ -11,4 +11,5 @@ export interface IAuth {
   accessToken: string;
   refreshToken: string;
   email: string;
+  isAuthLoading: boolean;
 }

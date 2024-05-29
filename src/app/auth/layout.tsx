@@ -1,14 +1,13 @@
 "use client";
 import useAppSelector from "@/hooks/global/useAppSelector";
-import { useRouter } from "next/navigation";
 import { PropsWithChildren } from "react";
+import NotFoundPage from "../components/NotFoundPage";
 
 const AuthLayout: React.FC<PropsWithChildren> = ({ children }) => {
-  const router = useRouter();
-  const { email } = useAppSelector((state) => state.auth);
+  const { email, isAuthLoading } = useAppSelector((state) => state.auth);
+  if (isAuthLoading) return null;
   if (email) {
-    router.push("/");
-    return null;
+    return <NotFoundPage />;
   }
   return children;
 };

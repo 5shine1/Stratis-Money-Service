@@ -5,6 +5,7 @@ const initialState: IAuth = {
   email: "",
   accessToken: "",
   refreshToken: "",
+  isAuthLoading: true,
 };
 
 export const authSlice = createSlice({
@@ -12,19 +13,23 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     setAuth: (state, action) => {
-      state = { ...action.payload };
+      state = { ...action.payload, isAuthLoading: false };
       localStorage.setItem("stratis-auth", JSON.stringify(action.payload));
       return state;
     },
 
     logout: (state) => {
-      state = initialState;
+      state = { ...initialState, isAuthLoading: false };
       localStorage.removeItem("stratis-auth");
+      return state;
+    },
+    setAuthLoading: (state) => {
+      state = { ...state, isAuthLoading: false };
       return state;
     },
   },
 });
 
-export const { setAuth, logout } = authSlice.actions;
+export const { setAuth, logout, setAuthLoading } = authSlice.actions;
 
 export default authSlice.reducer;
