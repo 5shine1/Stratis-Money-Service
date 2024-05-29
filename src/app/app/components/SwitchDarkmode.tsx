@@ -10,6 +10,7 @@ type Props = {
 
 const SwitchDarkmode: React.FC<Props> = ({ isWrapped }) => {
   const { isDarkMode, toggleTheme } = useDarkMode();
+  console.log(isDarkMode);
   return (
     <div className="flex items-center">
       {!(!isWrapped && isDarkMode) && (
@@ -17,7 +18,7 @@ const SwitchDarkmode: React.FC<Props> = ({ isWrapped }) => {
           className={`p-4 ${
             isWrapped
               ? ""
-              : "cursor-pointer hover:bg-white/20 rounded-6 u-transition-color"
+              : "cursor-pointer hover:bg-white/20 dark:hover:bg-primary-700/30 rounded-6 u-transition-color"
           }`}
           onClick={() => {
             if (isWrapped) return;
@@ -30,7 +31,7 @@ const SwitchDarkmode: React.FC<Props> = ({ isWrapped }) => {
       {isWrapped && (
         <CustomSwitch
           value={isDarkMode}
-          onChange={(e) => {
+          onChange={() => {
             toggleTheme();
           }}
         />
@@ -40,7 +41,7 @@ const SwitchDarkmode: React.FC<Props> = ({ isWrapped }) => {
           className={`p-4 ${
             isWrapped
               ? ""
-              : "cursor-pointer hover:bg-white/20 rounded-6 u-transition-color"
+              : "cursor-pointer hover:bg-primary-700/30 rounded-6 u-transition-color"
           }`}
           onClick={() => {
             if (isWrapped) return;

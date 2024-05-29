@@ -36,7 +36,7 @@
 }
 
 body {
-  @apply font-inter bg-primary-800 text-white leading-tight overflow-x-hidden;
+  @apply font-inter bg-primary-800 text-white leading-tight overflow-x-hidden box-border;
 }
 
 h1 {
