@@ -29,10 +29,8 @@ const Header = () => {
     try {
       await apiLogout();
       toast.success("Logout successfully");
-      dispatch(logout());
-    } catch (error) {
-      toast.error("Something went wrong");
-    }
+    } catch (error) {}
+    dispatch(logout());
     setLoading(false);
   };
 
