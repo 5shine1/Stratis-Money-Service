@@ -31,9 +31,5 @@ export const ScrollProvider = ({ children }: Props) => {
     window.scrollTo({ top: position, behavior: "smooth" });
   };
 
-  return (
-    <ScrollContext.Provider value={{ scroll, scrollTo }}>
-      {children}
-    </ScrollContext.Provider>
-  );
+  return <ScrollContext.Provider value={{ scroll, scrollTo }}>{children}</ScrollContext.Provider>;
 };

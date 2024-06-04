@@ -23,9 +23,7 @@ const ProcessSection = () => {
             animate={{ opacity: 1, filter: "blur(0px)", x: 0 }}
             duration={0.5}
           >
-            <h2 className="uppercase text-center lg:text-left">
-              How our platform works
-            </h2>
+            <h2 className="uppercase text-center lg:text-left">How our platform works</h2>
           </ScrollAnimationElement>
           <ScrollAnimationElement
             initial={{ opacity: 0, filter: "blur(12px)", x: 40 }}
@@ -34,10 +32,8 @@ const ProcessSection = () => {
             delay={0.3}
           >
             <p className="text-gray-400">
-              Lorem ipsum is a pseudo-Latin text used in web design, typography,
-              layout, and printing in place of English to emphasise design
-              elements over content. It&apos; s also called placeholder (or
-              filler) text.
+              Lorem ipsum is a pseudo-Latin text used in web design, typography, layout, and printing in place of
+              English to emphasise design elements over content. It&apos; s also called placeholder (or filler) text.
             </p>
           </ScrollAnimationElement>
 
@@ -53,13 +49,10 @@ const ProcessSection = () => {
                 <div className="flex items-center gap-16">
                   <div className="rounded-full flex-none w-64 h-64 bg-gradient-to-b from-primary-400 to-secondary-300"></div>
                   <div className="flex flex-col gap-4">
-                    <p className="g-button-text text-24 font-semibold w-fit">
-                      {item.key}
-                    </p>
+                    <p className="g-button-text text-24 font-semibold w-fit">{item.key}</p>
                     <p className=" text-gray-400">
-                      Lorem ipsum is a pseudo-Latin text used in web design,
-                      typography, layout, and printing in place of English to
-                      emphasise design elements over content.
+                      Lorem ipsum is a pseudo-Latin text used in web design, typography, layout, and printing in place
+                      of English to emphasise design elements over content.
                     </p>
                   </div>
                 </div>
@@ -85,16 +78,8 @@ const ProcessSection = () => {
             animate={{ opacity: 1, filter: "blur(0px)", x: 0 }}
             duration={0.8}
           >
-            <img
-              src="/assets/landing/hero-bg.png"
-              alt=""
-              className="absolute w-full"
-            />
-            <img
-              src="/assets/landing/hero.png"
-              alt=""
-              className="relative max-w-full"
-            />
+            <img src="/assets/landing/hero-bg.png" alt="" className="absolute w-full" />
+            <img src="/assets/landing/hero.png" alt="" className="relative max-w-full" />
           </ScrollAnimationElement>
         </div>
       </div>

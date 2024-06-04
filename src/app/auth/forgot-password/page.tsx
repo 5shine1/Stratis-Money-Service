@@ -14,8 +14,7 @@ const ForgotPasswordPage = () => {
 
   const handleSubmit = () => {
     if (!email.value) return setEmail({ ...email, error: "Email required" });
-    if (!isValidEmail(email.value))
-      return setEmail({ ...email, error: "Invalid email" });
+    if (!isValidEmail(email.value)) return setEmail({ ...email, error: "Invalid email" });
 
     router.push("/");
   };
@@ -44,12 +43,9 @@ const ForgotPasswordPage = () => {
           </Link>
           <div className="w-full  max-w-360  flex flex-col gap-48 mt-32">
             <div>
-              <h4 className="g-button-text w-fit mx-auto text-center">
-                Forgot Password?
-              </h4>
+              <h4 className="g-button-text w-fit mx-auto text-center">Forgot Password?</h4>
               <p className="text-gray-400 text-14 mt-8 text-center">
-                Please enter your email address and we will send you a link to
-                reset your password.
+                Please enter your email address and we will send you a link to reset your password.
               </p>
             </div>
             <div>

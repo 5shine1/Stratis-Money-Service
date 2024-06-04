@@ -11,14 +11,7 @@ type Props = {
   children: React.ReactNode;
 };
 
-const ScrollAnimationElement = ({
-  initial,
-  animate,
-  delay = 0,
-  duration = 1,
-  triggerOnce = true,
-  children,
-}: Props) => {
+const ScrollAnimationElement = ({ initial, animate, delay = 0, duration = 1, triggerOnce = true, children }: Props) => {
   const [inViewRef, inView] = useInView({
     triggerOnce: triggerOnce,
   });
@@ -33,11 +26,7 @@ const ScrollAnimationElement = ({
   }, [inView, animate, controls, delay]);
 
   return (
-    <motion.div
-      initial={initial}
-      animate={controls}
-      transition={{ duration: duration }}
-    >
+    <motion.div initial={initial} animate={controls} transition={{ duration: duration }}>
       <div ref={inViewRef}>{children}</div>
     </motion.div>
   );

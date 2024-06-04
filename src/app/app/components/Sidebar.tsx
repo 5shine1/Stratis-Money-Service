@@ -25,10 +25,7 @@ const AppSidebar = () => {
             isWrapped ? "w-240" : "w-64"
           }`}
         >
-          <Link
-            href={"/"}
-            className={`flex text-24 font-bold items-center justify-start overflow-hidden gap-12`}
-          >
+          <Link href={"/"} className={`flex text-24 font-bold items-center justify-start overflow-hidden gap-12`}>
             <SvgLogoApp className="w-48 h-48 flex-none !fill-primary-500 dark:!fill-secondary-200" />
             <div className={`${isWrapped ? "block" : "hidden"}`}>STRATIS</div>
           </Link>
@@ -42,13 +39,8 @@ const AppSidebar = () => {
                   : "hover:bg-white/30 dark:hover:bg-primary-700/40"
               }`}
             >
-              <Icon
-                icon="fluent:payment-20-regular"
-                className="w-36 h-36 flex-none"
-              />
-              <div className={` ${isWrapped ? "block" : "hidden"}`}>
-                Payment
-              </div>
+              <Icon icon="fluent:payment-20-regular" className="w-36 h-36 flex-none" />
+              <div className={` ${isWrapped ? "block" : "hidden"}`}>Payment</div>
             </Link>
             <Link
               href="/app/order"
@@ -58,10 +50,7 @@ const AppSidebar = () => {
                   : "hover:bg-white/30 dark:hover:bg-primary-700/40"
               }`}
             >
-              <Icon
-                icon="solar:round-transfer-diagonal-outline"
-                className="w-36 h-36 flex-none"
-              />
+              <Icon icon="solar:round-transfer-diagonal-outline" className="w-36 h-36 flex-none" />
               <div className={` ${isWrapped ? "block" : "hidden"}`}>Order</div>
             </Link>
           </div>
@@ -83,9 +72,7 @@ const AppSidebar = () => {
             <Link
               href="/app/profile"
               className={`p-6 flex items-center justify-start gap-12  u-transition-color hover:bg-white/20 hover:dark:bg-primary-700/30 rounded-8 overflow-hidden ${
-                pathname.includes("/app/profile")
-                  ? "bg-primary-700 dark:bg-secondary-400"
-                  : ""
+                pathname.includes("/app/profile") ? "bg-primary-700 dark:bg-secondary-400" : ""
               }`}
             >
               <img
@@ -93,21 +80,13 @@ const AppSidebar = () => {
                 alt="avatar"
                 className=" w-36 h-36 flex-none rounded-full"
               />
-              <div
-                className={`text-14 u-text-overflow ${
-                  isWrapped ? "block" : "hidden"
-                }`}
-              >
-                Harry Donato Name Here
-              </div>
+              <div className={`text-14 u-text-overflow ${isWrapped ? "block" : "hidden"}`}>Harry Donato Name Here</div>
               <div className="text-10 text-white dark:text-black bg-primary-500 dark:bg-secondary-400 rounded-4 px-4 py-2 ml-auto">
                 Customer
               </div>
             </Link>
             <div
-              className={`flex items-center w-full overflow-hidden ${
-                isWrapped ? "justify-between" : "justify-center"
-              }`}
+              className={`flex items-center w-full overflow-hidden ${isWrapped ? "justify-between" : "justify-center"}`}
             >
               <SwitchDarkmode isWrapped={isWrapped} />
               <div
@@ -126,18 +105,14 @@ const AppSidebar = () => {
           >
             <Icon
               icon="icon-park-outline:right"
-              className={`${
-                isWrapped ? "rotate-180" : "rotate-0"
-              } w-16 h-16 transition-all duration-300`}
+              className={`${isWrapped ? "rotate-180" : "rotate-0"} w-16 h-16 transition-all duration-300`}
             />
           </div>
         </div>
       </aside>
       <div
         className={`fixed top-0 left-0 w-full h-full bg-black/50 backdrop-blur-md z-20 lg:hidden transition-all duration-200 ${
-          isOpenMobileMenu
-            ? "opacity-100 pointer-event-auto"
-            : "opacity-0 pointer-events-none"
+          isOpenMobileMenu ? "opacity-100 pointer-event-auto" : "opacity-0 pointer-events-none"
         }`}
         onClick={() => {
           setIsOpenMobileMenu(false);
@@ -156,10 +131,7 @@ const AppSidebar = () => {
               setIsOpenMobileMenu(true);
             }}
           >
-            <Icon
-              icon="ic:round-menu"
-              className="w-28 h-28 dark:text-secondary-200 text-primary-500"
-            />
+            <Icon icon="ic:round-menu" className="w-28 h-28 dark:text-secondary-200 text-primary-500" />
           </div>
         </div>
       </header>

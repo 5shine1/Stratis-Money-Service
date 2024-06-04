@@ -76,6 +76,12 @@ module.exports = {
         error: {
           DEFAULT: "#FD7325",
         },
+        success: {
+          DEFAULT: "#74FF5E",
+        },
+        info: {
+          DEFAULT: "#2BCCFF",
+        },
       },
     },
   },
