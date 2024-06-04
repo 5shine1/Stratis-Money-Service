@@ -8,23 +8,23 @@
 /* global */
 ::-webkit-scrollbar {
   cursor: pointer;
-  width: 5px;
-  height: 3px;
+  width: 8px;
+  height: 8px;
 }
 /* Track */
 ::-webkit-scrollbar-track {
   cursor: pointer;
-  background: #072a36;
+  background: #031521;
 }
 /* Handle */
 ::-webkit-scrollbar-thumb {
   cursor: pointer;
-  background: #185464;
-  border-radius: 4px;
+  background: #afafaf41;
+  border-radius: 6px;
 }
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #2589ac;
+  background: #acafb183;
 }
 
 .u-transition-color {
@@ -59,6 +59,17 @@ img {
   @apply max-w-none;
 }
 
+table {
+}
+
+th {
+  @apply font-bold;
+}
+th,
+td {
+  @apply u-text-overflow;
+}
+
 .g-effect {
   background: radial-gradient(#136165a0 0.82%, rgba(3, 21, 33, 0) 70%);
 }
@@ -73,4 +84,27 @@ img {
   background: linear-gradient(40deg, #2589ac, #db9b1e);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+ul.rc-pagination {
+  @apply w-full flex items-center justify-center;
+}
+ul.rc-pagination li {
+  @apply border border-primary-200 rounded-4 text-primary-200 p-6 min-w-28 h-28 flex items-center justify-center cursor-pointer hover:text-primary-400 hover:border-primary-400;
+}
+ul.rc-pagination li.rc-pagination-item-active {
+  @apply text-white bg-primary-200;
+}
+
+ul.rc-pagination li.rc-pagination-disabled {
+  @apply cursor-not-allowed;
+}
+ul.rc-pagination li.rc-pagination-jump-next,
+ul.rc-pagination li.rc-pagination-jump-prev {
+  @apply border-transparent;
+}
+ul.rc-pagination li.rc-pagination-jump-next button::after,
+ul.rc-pagination li.rc-pagination-jump-prev button::after {
+  content: "\2022\2022\2022";
+  display: block;
 }

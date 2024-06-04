@@ -16,8 +16,7 @@ const ResetPasswordPage = () => {
   });
 
   const handleSubmit = () => {
-    if (!password.value)
-      return setPassword({ ...password, error: "Password required" });
+    if (!password.value) return setPassword({ ...password, error: "Password required" });
     if (passwordConfirm.value !== password.value)
       return setPasswordConfirm({
         ...passwordConfirm,
@@ -50,12 +49,8 @@ const ResetPasswordPage = () => {
           </Link>
           <div className="w-full  max-w-360  flex flex-col gap-24 mt-32">
             <div>
-              <h4 className="g-button-text w-fit  mx-auto text-center">
-                Reset Your Password
-              </h4>
-              <p className="text-gray-400 text-14 mt-8 text-center">
-                Reset your password of Test@test.com account
-              </p>
+              <h4 className="g-button-text w-fit  mx-auto text-center">Reset Your Password</h4>
+              <p className="text-gray-400 text-14 mt-8 text-center">Reset your password of Test@test.com account</p>
             </div>
             <div className="flex flex-col gap-24 mt-12">
               <div>

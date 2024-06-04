@@ -23,10 +23,8 @@ const RegisterPage = () => {
 
   const handleSubmit = async () => {
     if (!email.value) return setEmail({ ...email, error: "Email required." });
-    if (!isValidEmail(email.value))
-      return setEmail({ ...email, error: "Invalid email." });
-    if (!password.value)
-      return setPassword({ ...password, error: "Password required." });
+    if (!isValidEmail(email.value)) return setEmail({ ...email, error: "Invalid email." });
+    if (!password.value) return setPassword({ ...password, error: "Password required." });
     if (isValidPassword(password.value))
       return setPassword({
         ...password,
@@ -46,8 +44,7 @@ const RegisterPage = () => {
         router.push("/auth/login");
       } else {
         console.log(result);
-        if (result?.DuplicateUserName)
-          setEmail({ ...email, error: "Username is already taken." });
+        if (result?.DuplicateUserName) setEmail({ ...email, error: "Username is already taken." });
         else
           setPassword({
             ...password,
@@ -85,12 +82,8 @@ const RegisterPage = () => {
           </Link>
           <div className="w-full  max-w-360  flex flex-col gap-24 mt-32">
             <div>
-              <h4 className="g-button-text w-fit  mx-auto text-center ">
-                Create Your Account
-              </h4>
-              <p className="text-gray-400 text-14 mt-8 text-center">
-                Setting up an account takes only few minutes.
-              </p>
+              <h4 className="g-button-text w-fit  mx-auto text-center ">Create Your Account</h4>
+              <p className="text-gray-400 text-14 mt-8 text-center">Setting up an account takes only few minutes.</p>
             </div>
             <div className="flex flex-col gap-24 mt-12">
               <div>

@@ -40,8 +40,7 @@ const VerifyEmailPage = () => {
             <div>
               <h4 className="g-button-text text-center">Verify Your Email</h4>
               <p className="text-gray-400 text-14 mt-8 text-center">
-                We have sent 6 digits verification code to your email. Please
-                enter here and verify your email
+                We have sent 6 digits verification code to your email. Please enter here and verify your email
               </p>
             </div>
             <div>
@@ -50,8 +49,7 @@ const VerifyEmailPage = () => {
                 inputProps={{ inputMode: "numeric" }}
                 classNames={{
                   container: "flex items-center gap-12 justify-center w-full",
-                  character:
-                    "w-50 h-50 rounded-8 bg-transparent border-primary-300 outline-none text-20 text-white",
+                  character: "w-50 h-50 rounded-8 bg-transparent border-primary-300 outline-none text-20 text-white",
                   characterSelected: "!border-secondary-300",
                 }}
               />
