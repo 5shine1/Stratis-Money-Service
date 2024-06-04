@@ -41,11 +41,7 @@ const NotFoundPage = () => {
           <div className="aspect-square w-full max-w-400 mx-auto relative">
             <div className="absolute w-full top-10 aspect-square rounded-40 bg-primary-300/10 animate-spinSlow"></div>
             <div className="absolute w-[90%] -translate-x-1/2 left-1/2 aspect-square bottom-0 rounded-40 bg-gradient-to-tr from-secondary-100 to-secondary-300"></div>
-            <img
-              src="/assets/global/404.png"
-              alt=""
-              className="absolute bottom-0 w-full left-[10%]"
-            />
+            <img src="/assets/global/404.png" alt="" className="absolute bottom-0 w-full left-[10%]" />
           </div>
         </div>
       </div>

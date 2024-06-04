@@ -10,30 +10,19 @@ type Props = {
   error?: string;
   icon?: string;
 };
-const CustomInput: React.FC<Props> = ({
-  value,
-  onChange,
-  type = "text",
-  error = "",
-  icon = "",
-  placeholder,
-}) => {
+const CustomInput: React.FC<Props> = ({ value, onChange, type = "text", error = "", icon = "", placeholder }) => {
   return (
     <>
       <div
         className={`w-full border-b-2 flex items-center px-12 gap-12  u-transition-color group ${
-          error
-            ? "border-error"
-            : "border-primary-300/80 focus-within:border-primary-400"
+          error ? "border-error" : "border-primary-300/80 focus-within:border-primary-400"
         }`}
       >
         {icon && (
           <Icon
             icon={icon}
             className={`w-25 h-25 u-transition-color ${
-              error
-                ? "text-error"
-                : "text-primary-300/80 group-focus-within:text-primary-400"
+              error ? "text-error" : "text-primary-300/80 group-focus-within:text-primary-400"
             }`}
           />
         )}

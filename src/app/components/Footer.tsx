@@ -27,11 +27,7 @@ const Footer = () => {
       </div>
       <div className="relative flex items-center justify-center gap-48 py-40">
         {APP_ROUTES.map((item) => (
-          <Link
-            className=" hover:text-secondary-200 u-transition-color"
-            href={item.path}
-            key={item.key}
-          >
+          <Link className=" hover:text-secondary-200 u-transition-color" href={item.path} key={item.key}>
             {item.text}
           </Link>
         ))}

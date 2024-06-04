@@ -2,13 +2,10 @@ import axiosInstance from "@/config/axios";
 
 export const apiLogin = async (email: string, password: string) => {
   try {
-    const result = await axiosInstance.post(
-      "/api/Identity/Login?useSessionCookies=true",
-      {
-        email,
-        password,
-      }
-    );
+    const result = await axiosInstance.post("/api/Identity/Login?useSessionCookies=true", {
+      email,
+      password,
+    });
     return result?.data;
   } catch (error) {
     throw "Something went wrong.";
