@@ -24,11 +24,7 @@ const HeroSection = () => {
 
       <div className="relative flex-col lg:flex-row items-center w-full max-w-600 lg:max-w-1440  mx-auto flex gap-60 xl:gap-120">
         <div className="w-full flex flex-col gap-32 lg:gap-56">
-          <ScrollAnimationElement
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            duration={0.8}
-          >
+          <ScrollAnimationElement initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} duration={0.8}>
             <h1 className="text-center lg:text-left">Your Header Text Here</h1>
           </ScrollAnimationElement>
 
@@ -39,10 +35,8 @@ const HeroSection = () => {
             delay={0.4}
           >
             <p className="text-center lg:text-left text-gray-400">
-              Lorem ipsum is a pseudo-Latin text used in web design, typography,
-              layout, and printing in place of English to emphasise design
-              elements over content. It&apos; s also called placeholder (or
-              filler) text.
+              Lorem ipsum is a pseudo-Latin text used in web design, typography, layout, and printing in place of
+              English to emphasise design elements over content. It&apos; s also called placeholder (or filler) text.
             </p>
           </ScrollAnimationElement>
           <ScrollAnimationElement
@@ -59,8 +53,7 @@ const HeroSection = () => {
                     className="flex-none lg:h-32 lg:w-32 w-24 h-24 text-primary-400"
                   />
                   <p className="text-18 lg:text-24 font-semibold text-gray-200">
-                    <span className="text-primary-400">{item.key} </span> -{" "}
-                    {item.text}
+                    <span className="text-primary-400">{item.key} </span> - {item.text}
                   </p>
                 </div>
               ))}
@@ -81,21 +74,9 @@ const HeroSection = () => {
           </div>
         </div>
         <div className="w-full p-12 relative">
-          <ScrollAnimationElement
-            initial={{ opacity: 0, y: -40 }}
-            animate={{ opacity: 1, y: 0 }}
-            duration={1}
-          >
-            <img
-              src="/assets/landing/hero-bg.png"
-              alt=""
-              className="absolute w-full"
-            />
-            <img
-              src="/assets/landing/hero.png"
-              alt=""
-              className="relative max-w-full"
-            />
+          <ScrollAnimationElement initial={{ opacity: 0, y: -40 }} animate={{ opacity: 1, y: 0 }} duration={1}>
+            <img src="/assets/landing/hero-bg.png" alt="" className="absolute w-full" />
+            <img src="/assets/landing/hero.png" alt="" className="relative max-w-full" />
           </ScrollAnimationElement>
         </div>
       </div>

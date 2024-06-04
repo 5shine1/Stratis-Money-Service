@@ -22,10 +22,8 @@ const LoginPage = () => {
 
   const handleSubmit = async () => {
     if (!email.value) return setEmail({ ...email, error: "Email required." });
-    if (!isValidEmail(email.value))
-      return setEmail({ ...email, error: "Invalid email." });
-    if (!password.value)
-      return setPassword({ ...password, error: "Password required." });
+    if (!isValidEmail(email.value)) return setEmail({ ...email, error: "Invalid email." });
+    if (!password.value) return setPassword({ ...password, error: "Password required." });
 
     setLoading(true);
     try {
@@ -41,10 +39,8 @@ const LoginPage = () => {
         router.push("/");
         toast.success("Logged in successfully.");
       } else {
-        if (result?.messages.email)
-          setEmail({ ...email, error: "Email not found." });
-        if (result?.messages?.password)
-          setPassword({ ...password, error: "Incorrect password." });
+        if (result?.messages.email) setEmail({ ...email, error: "Email not found." });
+        if (result?.messages?.password) setPassword({ ...password, error: "Incorrect password." });
         toast.error("Login failed.");
       }
     } catch (error) {
@@ -77,12 +73,8 @@ const LoginPage = () => {
           </Link>
           <div className="w-full  max-w-360  flex flex-col gap-24 mt-32">
             <div>
-              <h4 className="g-button-text w-fit mx-auto text-center">
-                Sign In Your Account
-              </h4>
-              <p className="text-gray-400 text-14 mt-8 text-center">
-                Welcome to stratis payment. Enjoy now!
-              </p>
+              <h4 className="g-button-text w-fit mx-auto text-center">Sign In Your Account</h4>
+              <p className="text-gray-400 text-14 mt-8 text-center">Welcome to stratis payment. Enjoy now!</p>
             </div>
             <div className="flex flex-col gap-24 mt-12">
               <div>
