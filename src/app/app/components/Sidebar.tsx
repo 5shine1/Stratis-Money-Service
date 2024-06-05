@@ -1,22 +1,21 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React, { useState } from "react";
+import React, { PropsWithChildren, useState } from "react";
 import { Icon } from "@iconify/react";
 
 import SvgLogoApp from "@/assets/SvgLogoApp";
-import { optimizedBalance } from "@/utils/number.utils";
 
 import SwitchDarkmode from "./SwitchDarkmode";
 
-const AppSidebar = () => {
+const AppSidebar: React.FC<PropsWithChildren> = ({ children }) => {
   const [isWrapped, setIsWrapped] = useState(true);
   const [isOpenMobileMenu, setIsOpenMobileMenu] = useState(false);
   const pathname = usePathname();
   return (
-    <>
+    <main className="w-full h-[100vh] flex gap-4">
       <aside
-        className={`h-full p-8 flex-none dark:text-secondary-200 text-primary-500 absolute lg:relative z-30 block top-0 transition-all duration-300 ${
+        className={`h-full p-8 flex-none dark:text-secondary-100 text-primary-500 fixed z-40 block top-0 transition-all duration-300 ${
           isOpenMobileMenu ? "left-0" : "-left-full lg:left-0"
         }`}
       >
@@ -26,7 +25,7 @@ const AppSidebar = () => {
           }`}
         >
           <Link href={"/"} className={`flex text-24 font-bold items-center justify-start overflow-hidden gap-12`}>
-            <SvgLogoApp className="w-48 h-48 flex-none !fill-primary-500 dark:!fill-secondary-200" />
+            <SvgLogoApp className="w-48 h-48 flex-none !fill-primary-500 dark:!fill-secondary-100" />
             <div className={`${isWrapped ? "block" : "hidden"}`}>STRATIS</div>
           </Link>
 
@@ -111,14 +110,14 @@ const AppSidebar = () => {
         </div>
       </aside>
       <div
-        className={`fixed top-0 left-0 w-full h-full bg-black/50 backdrop-blur-md z-20 lg:hidden transition-all duration-200 ${
+        className={`fixed top-0 left-0 w-full h-full bg-black/50 backdrop-blur-md z-30 lg:hidden transition-all duration-200 ${
           isOpenMobileMenu ? "opacity-100 pointer-event-auto" : "opacity-0 pointer-events-none"
         }`}
         onClick={() => {
           setIsOpenMobileMenu(false);
         }}
       ></div>
-      <header className=" dark:text-secondary-200 text-primary-500 fixed top-0 left-0 w-full z-10 lg:hidden">
+      <header className=" dark:text-secondary-200 text-primary-500 fixed top-0 left-0 w-full z-20 lg:hidden">
         <div
           className={`relative dark:bg-primary-900 bg-secondary-100 flex justify-between items-center h-full shadow-md p-8 transition-all duration-300`}
         >
@@ -135,7 +134,14 @@ const AppSidebar = () => {
           </div>
         </div>
       </header>
-    </>
+      <section
+        className={`p-8 w-full transition-all duration-300 min-h-screen pt-65 lg:pt-0 ${
+          isWrapped ? "lg:pl-256" : "lg:pl-80"
+        }`}
+      >
+        {children}
+      </section>
+    </main>
   );
 };
 
