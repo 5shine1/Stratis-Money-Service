@@ -15,7 +15,7 @@ const AppSidebar: React.FC<PropsWithChildren> = ({ children }) => {
   return (
     <main className="w-full h-[100vh] flex gap-4">
       <aside
-        className={`h-full p-8 flex-none dark:text-secondary-100 text-primary-500 fixed z-30 block top-0 transition-all duration-300 ${
+        className={`h-full p-8 flex-none dark:text-secondary-100 text-primary-500 fixed z-40 block top-0 transition-all duration-300 ${
           isOpenMobileMenu ? "left-0" : "-left-full lg:left-0"
         }`}
       >
@@ -110,14 +110,14 @@ const AppSidebar: React.FC<PropsWithChildren> = ({ children }) => {
         </div>
       </aside>
       <div
-        className={`fixed top-0 left-0 w-full h-full bg-black/50 backdrop-blur-md z-20 lg:hidden transition-all duration-200 ${
+        className={`fixed top-0 left-0 w-full h-full bg-black/50 backdrop-blur-md z-30 lg:hidden transition-all duration-200 ${
           isOpenMobileMenu ? "opacity-100 pointer-event-auto" : "opacity-0 pointer-events-none"
         }`}
         onClick={() => {
           setIsOpenMobileMenu(false);
         }}
       ></div>
-      <header className=" dark:text-secondary-200 text-primary-500 fixed top-0 left-0 w-full z-10 lg:hidden">
+      <header className=" dark:text-secondary-200 text-primary-500 fixed top-0 left-0 w-full z-20 lg:hidden">
         <div
           className={`relative dark:bg-primary-900 bg-secondary-100 flex justify-between items-center h-full shadow-md p-8 transition-all duration-300`}
         >
