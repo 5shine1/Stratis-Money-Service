@@ -10,7 +10,7 @@ type Props = {
 const AppCheckbox: React.FC<Props> = ({ value, onChange, label }) => {
   return (
     <div
-      className="flex items-center gap-6 cursor-pointer"
+      className="flex items-center gap-6 cursor-pointer "
       onClick={() => {
         onChange(!value);
       }}
@@ -22,7 +22,7 @@ const AppCheckbox: React.FC<Props> = ({ value, onChange, label }) => {
           <Icon icon="mdi:checkbox-blank-outline" className="w-24 h-24 text-primary-200" />
         )}
       </div>
-      <div>{label}</div>
+      <div className={`${value?'text-white/90':'text-white/50'}`}>{label}</div>
     </div>
   );
 };
