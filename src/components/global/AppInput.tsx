@@ -21,8 +21,8 @@ const AppInput: React.FC<Props> = ({
   label = "",
 }) => {
   return (
-    <>
-      {label && <span className="text-white/50 mb-4 text-14">{label}</span>}
+    <div className="w-full flex flex-col gap-4">
+      {label && <span className="text-white/50 text-14">{label}</span>}
       <div
         className={`w-full border flex items-center px-12 gap-6 u-transition-color group rounded-6 ${
           error ? "border-error" : "border-primary-500 focus-within:border-primary-400"
@@ -44,8 +44,8 @@ const AppInput: React.FC<Props> = ({
           placeholder={placeholder}
         />
       </div>
-      {error && <span className="text-error mt-4 text-12 mx-12">{error}</span>}
-    </>
+      {error && <span className="text-error text-12 mx-12">{error}</span>}
+    </div>
   );
 };
 

@@ -34,7 +34,9 @@
 .u-text-overflow {
   @apply overflow-hidden text-ellipsis whitespace-nowrap;
 }
-
+* {
+  @apply outline-none;
+}
 body {
   @apply font-inter bg-primary-800 text-white leading-tight overflow-x-hidden box-border;
 }
