@@ -86,10 +86,10 @@ const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext, data }) => {
         className="w-32 h-32 text-white/50 hover:text-white/80 u-transition-color cursor-pointer absolute right-20 top-20"
         onClick={onClose}
       />
-      <div className="p-32 flex flex-col gap-32">
-        <h4 className="g-button-text w-fit">{data ? "Edit Detail" : "Generate New Link"}</h4>
-        <div className="flex flex-col gap-24">
-          <div className="flex gap-24">
+      <div className="p-12 py-24 md:p-32 flex flex-col gap-16 md:gap-32">
+        <h4 className="g-button-text w-fit pr-30">{data ? "Edit Detail" : "Generate New Link"}</h4>
+        <div className="flex flex-col gap-12 md:gap-24">
+          <div className="flex gap-12 md:gap-24">
             <AppInput
               value={amount.value}
               onChange={(e) => {
@@ -119,7 +119,7 @@ const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext, data }) => {
             error={description.error}
           />
           <div className="text-20 font-bold text-white mt-16">Payer Info</div>
-          <div className="flex gap-24">
+          <div className="flex gap-12 md:gap-24">
             <AppInput
               value={payerEmail.value}
               onChange={(e) => {
@@ -139,7 +139,7 @@ const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext, data }) => {
               error={payerName.error}
             />
           </div>
-          <div className="flex gap-24">
+          <div className="flex gap-12 md:gap-24">
             <AppInput
               value={payerCountry.value}
               onChange={(e) => {
