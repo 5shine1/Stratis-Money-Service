@@ -1,8 +1,8 @@
 "use client";
-import React, { PropsWithChildren, useContext, useEffect } from "react";
+import React, { PropsWithChildren, useEffect } from "react";
 import { Provider } from "react-redux";
 import { Toaster } from "react-hot-toast";
-import Modal from 'react-modal'
+import Modal from "react-modal";
 import { store } from "@/store";
 import { ScrollProvider } from "@/components/providers/ScrollProvider";
 import LoadingProvider from "@/components/providers/LoadingProvider";
@@ -11,7 +11,7 @@ import { setAuth, setAuthLoading } from "@/store/slices/auth.slice";
 import useAppSelector from "@/hooks/global/useAppSelector";
 
 const RootTemplate = ({ children }: PropsWithChildren) => {
-  Modal.setAppElement('body');
+  Modal.setAppElement("body");
   return (
     <>
       <Provider store={store}>
