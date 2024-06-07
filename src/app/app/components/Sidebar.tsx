@@ -31,17 +31,6 @@ const AppSidebar: React.FC<PropsWithChildren> = ({ children }) => {
 
           <div className="mt-36 flex flex-col gap-8">
             <Link
-              href="/app/payment"
-              className={`p-6 flex items-center justify-start gap-12  u-transition-color rounded-8 overflow-hidden ${
-                pathname.includes("/app/payment")
-                  ? "bg-secondary-400 dark:bg-primary-700"
-                  : "hover:bg-white/30 dark:hover:bg-primary-700/40"
-              }`}
-            >
-              <Icon icon="fluent:payment-20-regular" className="w-36 h-36 flex-none" />
-              <div className={` ${isWrapped ? "block" : "hidden"}`}>Payment</div>
-            </Link>
-            <Link
               href="/app/order"
               className={`p-6 flex items-center justify-start gap-12  u-transition-color rounded-8 overflow-hidden ${
                 pathname.includes("/app/order")
@@ -49,8 +38,30 @@ const AppSidebar: React.FC<PropsWithChildren> = ({ children }) => {
                   : "hover:bg-white/30 dark:hover:bg-primary-700/40"
               }`}
             >
-              <Icon icon="solar:round-transfer-diagonal-outline" className="w-36 h-36 flex-none" />
+              <Icon icon="fluent:payment-20-regular" className="w-36 h-36 flex-none" />
               <div className={` ${isWrapped ? "block" : "hidden"}`}>Order</div>
+            </Link>
+            <Link
+              href="/app/withdraw"
+              className={`p-6 flex items-center justify-start gap-12  u-transition-color rounded-8 overflow-hidden ${
+                pathname.includes("/app/withdraw")
+                  ? "bg-secondary-400 dark:bg-primary-700"
+                  : "hover:bg-white/30 dark:hover:bg-primary-700/40"
+              }`}
+            >
+              <Icon icon="solar:round-transfer-diagonal-outline" className="w-36 h-36 flex-none" />
+              <div className={` ${isWrapped ? "block" : "hidden"}`}>Withdraw</div>
+            </Link>
+            <Link
+              href="/app/user"
+              className={`p-6 flex items-center justify-start gap-12  u-transition-color rounded-8 overflow-hidden ${
+                pathname.includes("/app/user")
+                  ? "bg-secondary-400 dark:bg-primary-700"
+                  : "hover:bg-white/30 dark:hover:bg-primary-700/40"
+              }`}
+            >
+              <Icon icon="lucide:user-cog" className="w-36 h-36 flex-none" />
+              <div className={` ${isWrapped ? "block" : "hidden"}`}>User</div>
             </Link>
           </div>
 
@@ -80,7 +91,7 @@ const AppSidebar: React.FC<PropsWithChildren> = ({ children }) => {
                 className=" w-36 h-36 flex-none rounded-full"
               />
               <div className={`text-14 u-text-overflow ${isWrapped ? "block" : "hidden"}`}>Harry Donato Name Here</div>
-              <div className="text-10 text-white dark:text-black bg-primary-500 dark:bg-secondary-400 rounded-4 px-4 py-2 ml-auto">
+              <div className="text-10  border border-primary-500 text-primary-500 dark:border-secondary-400 dark:text-secondary-400 rounded-4 px-4 py-2 ml-auto">
                 Customer
               </div>
             </Link>
