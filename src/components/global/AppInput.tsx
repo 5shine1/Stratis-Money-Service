@@ -40,7 +40,7 @@ const AppInput: React.FC<Props> = ({
           value={value}
           type={type}
           onChange={(e) => onChange(e.target.value)}
-          className="text-16 placeholder:text-white/40 py-12 w-full text-gray-200 outline-none bg-transparent "
+          className="text-14 placeholder:text-white/40 py-12 w-full text-gray-200 outline-none bg-transparent "
           placeholder={placeholder}
         />
       </div>
