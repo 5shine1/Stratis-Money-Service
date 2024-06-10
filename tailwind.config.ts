@@ -30,10 +30,7 @@ module.exports = {
     },
     extend: {
       fontSize: {
-        ...range(minFontSize, maxFontSize).reduce(
-          (merged, f) => ({ ...merged, [f]: `${f}px` }),
-          {}
-        ),
+        ...range(minFontSize, maxFontSize).reduce((merged, f) => ({ ...merged, [f]: `${f}px` }), {}),
       },
       gap: (theme: any) => theme("spacing"),
       height: (theme: any) => ({
@@ -77,7 +74,7 @@ module.exports = {
           DEFAULT: "#FD7325",
         },
         success: {
-          DEFAULT: "#74FF5E",
+          DEFAULT: "#45c931",
         },
         info: {
           DEFAULT: "#2BCCFF",

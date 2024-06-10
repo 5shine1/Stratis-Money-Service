@@ -82,8 +82,8 @@ const OrderPage = () => {
 
   return (
     <>
-      <div className="flex flex-col gap-24 lg:gap-48 lg:p-48 py-32 p-8 text-14">
-        <h2 className="w-fit">Payment Orders</h2>
+      <div className="flex flex-col gap-24 lg:gap-32 lg:px-48 lg:py-64 py-32 p-8 text-14">
+        <h4 className="w-fit g-header-app">Payment Orders</h4>
         <div className="flex flex-col gap-32">
           <div className="flex items-stretch md:items-center justify-between gap-12  md:flex-row flex-col-reverse ">
             <div className="w-full md:max-w-320">
@@ -98,20 +98,21 @@ const OrderPage = () => {
               onClick={() => {
                 setControlModalOpen("");
               }}
-              className=" text-16 py-12 px-32 border border-secondary-300 rounded-full"
+              className=" text-primary-200 dark:text-white text-16 py-12 px-32 border border-primary-200 dark:border-secondary-300 rounded-full"
+              backClassName="from-primary-100 to-secondary-100 dark:from-primary-400 dark:to-secondary-300 "
             >
               Generate New
             </AnimatedSlideButton>
           </div>
           {isLoading ? (
-            <div className="text-white/70 p-12 text-center">
+            <div className="text-primary-200 dark:text-white/70 p-12 text-center">
               <Icon icon="eos-icons:three-dots-loading" className="w-64 h-64 mx-auto" />
             </div>
           ) : (
             <div className="w-full overflow-x-auto">
-              <table className="w-full table-fixed min-w-800 text-white/70">
+              <table className="w-full table-fixed min-w-800 text-primary-200 dark:text-white/70">
                 <thead>
-                  <tr className="border-b border-white/10">
+                  <tr className="border-b border-primary-200/20 dark:border-white/10">
                     <th className="px-8 py-16 text-left w-160">Payment ID</th>
                     <th className="px-8 py-16 text-left w-160">Payment Link</th>
                     <th className="px-8 py-16 text-left w-120">From</th>
@@ -133,40 +134,40 @@ const OrderPage = () => {
                     <>
                       {filteredData.slice(currentPage * 10 - 10, currentPage * 10).map((item, i) => {
                         return (
-                          <tr key={i} className="even:bg-[#ffffff04]">
+                          <tr key={i} className="even:bg-secondary-100/10 dark:even:bg-[#ffffff04]">
                             <td className="px-8 py-16">{item.id}</td>
                             <td className="px-8 py-16">{item.link}</td>
                             <td className="px-8 py-16">{item.from}</td>
                             <td className="px-8 py-16">{item.to}</td>
                             <td className="px-8 py-16">
-                              {item.amount} <span className="text-white/30">{item.currency.name}</span>
+                              {item.amount} <span className="opacity-50">{item.currency.name}</span>
                             </td>
                             <td className={`px-8 py-16 ${item.status === "Completed" ? "text-success" : ""}`}>
                               {item.status}
                             </td>
-                            <td className={`px-8 py-16 `}>{item.date}</td>
+                            <td className="px-8 py-16">{item.date}</td>
                             <td className="px-8">
                               <div className="flex items-center gap-12 justify-end">
-                                <button className="text-white/60 u-transition-color hover:text-info">
+                                <button className="text-primary-200/30 dark:text-white/60 u-transition-color hover:text-info">
                                   <Icon icon="ph:eye-fill" className="w-20 h-20"></Icon>
                                 </button>
                                 <button
                                   onClick={() => setControlModalOpen(item.id)}
-                                  className="text-white/60 u-transition-color hover:text-success"
+                                  className="text-primary-200/30 dark:text-white/60 u-transition-color hover:text-success"
                                 >
                                   <Icon icon="fluent:edit-48-filled" className="w-20 h-20"></Icon>
                                 </button>
                                 <button
                                   onClick={() => setDeleteModalOpen(true)}
-                                  className="text-white/60 u-transition-color hover:text-error"
+                                  className="text-primary-200/30 dark:text-white/60 u-transition-color hover:text-error"
                                 >
                                   <Icon icon="bxs:trash" className="w-20 h-20"></Icon>
                                 </button>
                                 <Link
                                   href={`/payment/${item.id}`}
-                                  className="text-white/60 u-transition-color hover:text-success"
+                                  className="text-primary-200/30 dark:text-white/60 u-transition-color hover:text-success"
                                 >
-                                  <Icon icon="iconoir:play-solid" className="w-20 h-20"></Icon>
+                                  <Icon icon="ion:play" className="w-20 h-20"></Icon>
                                 </Link>
                               </div>
                             </td>
