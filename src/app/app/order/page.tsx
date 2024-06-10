@@ -12,7 +12,7 @@ import { callAPI, mockOrderLinks } from "@/config/mock";
 import ControlModal from "./components/ControlModal";
 import DeleteModal from "./components/DeleteModal";
 
-const PaymentPage = () => {
+const OrderPage = () => {
   const { setLoading } = useContext(LoadingContext);
   const [paymentOrders, setPaymentOrders] = useState([]);
   const [searchIndex, setSearchIndex] = useState("");
@@ -199,4 +199,4 @@ const PaymentPage = () => {
   );
 };
 
-export default PaymentPage;
+export default OrderPage;
