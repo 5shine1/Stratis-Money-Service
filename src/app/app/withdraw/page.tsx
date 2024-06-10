@@ -85,13 +85,13 @@ const WithdrawPage = () => {
                   <th className="px-8 py-16 text-left w-100">From</th>
                   <th className="px-8 py-16 text-left w-100">To</th>
                   <th className="px-8 py-16 text-left w-120">Amount</th>
-                  <th className="px-8 py-16 text-left w-160">Date</th>
+                  <th className="px-8 py-16 text-right w-160">Date</th>
                 </tr>
               </thead>
               <tbody>
                 {!filteredData.length ? (
                   <tr>
-                    <td colSpan={8} className="text-error p-24 lg:text-center text-left">
+                    <td colSpan={5} className="text-error p-24 lg:text-center text-left">
                       No Order Links
                     </td>
                   </tr>
@@ -106,8 +106,7 @@ const WithdrawPage = () => {
                           <td className="px-8 py-16">
                             {item.amount} <span className="text-white/30">{item.currency.name}</span>
                           </td>
-
-                          <td className={`px-8 py-16 `}>{item.date}</td>
+                          <td className={`px-8 py-16 text-right`}>{item.date}</td>
                         </tr>
                       );
                     })}

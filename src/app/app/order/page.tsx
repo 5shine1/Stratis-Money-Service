@@ -1,5 +1,6 @@
 "use client";
 import React, { useContext, useEffect, useMemo, useState } from "react";
+import Link from "next/link";
 import Pagination from "rc-pagination";
 import toast from "react-hot-toast";
 import { Icon } from "@iconify/react";
@@ -161,6 +162,12 @@ const OrderPage = () => {
                                 >
                                   <Icon icon="bxs:trash" className="w-20 h-20"></Icon>
                                 </button>
+                                <Link
+                                  href={`/payment/${item.id}`}
+                                  className="text-white/60 u-transition-color hover:text-success"
+                                >
+                                  <Icon icon="iconoir:play-solid" className="w-20 h-20"></Icon>
+                                </Link>
                               </div>
                             </td>
                           </tr>
