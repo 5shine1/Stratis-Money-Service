@@ -11,8 +11,16 @@
   width: 8px;
   height: 8px;
 }
-/* Track */
 ::-webkit-scrollbar-track {
+  cursor: pointer;
+  background: #031521;
+}
+/* Track */
+#mainSection ::-webkit-scrollbar-track {
+  cursor: pointer;
+  background: #fdf6e9;
+}
+.dark #mainSection ::-webkit-scrollbar-track {
   cursor: pointer;
   background: #031521;
 }
@@ -77,6 +85,17 @@ td {
 }
 
 .g-header {
+  background: linear-gradient(40deg, #c0d4c9, #db9b1e);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.g-header-app {
+  background: linear-gradient(40deg, #004d20, #ffd51a);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.dark .g-header-app {
   background: linear-gradient(40deg, #c0d4c9, #db9b1e);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;

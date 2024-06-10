@@ -13,7 +13,7 @@ const AppSidebar: React.FC<PropsWithChildren> = ({ children }) => {
   const [isOpenMobileMenu, setIsOpenMobileMenu] = useState(false);
   const pathname = usePathname();
   return (
-    <main className="w-full h-[100vh] flex gap-4">
+    <main className="w-full h-[100vh] flex gap-4 bg-white dark:bg-primary-800">
       <aside
         className={`h-full p-8 flex-none dark:text-secondary-100 text-primary-500 fixed z-40 block top-0 transition-all duration-300 ${
           isOpenMobileMenu ? "left-0" : "-left-full lg:left-0"
@@ -29,38 +29,38 @@ const AppSidebar: React.FC<PropsWithChildren> = ({ children }) => {
             <div className={`${isWrapped ? "block" : "hidden"}`}>STRATIS</div>
           </Link>
 
-          <div className="mt-36 flex flex-col gap-8">
+          <div className="mt-36 flex flex-col gap-8 text-14">
             <Link
               href="/app/order"
-              className={`p-6 flex items-center justify-start gap-12  u-transition-color rounded-8 overflow-hidden ${
+              className={`py-10 px-12 flex items-center justify-start gap-12  u-transition-color rounded-8 overflow-hidden ${
                 pathname.includes("/app/order")
-                  ? "bg-secondary-400 dark:bg-primary-700"
+                  ? "bg-secondary-400/80 dark:bg-primary-700"
                   : "hover:bg-white/30 dark:hover:bg-primary-700/40"
               }`}
             >
-              <Icon icon="fluent:payment-20-regular" className="w-36 h-36 flex-none" />
+              <Icon icon="lets-icons:order-light" className="w-30 h-30 flex-none" />
               <div className={` ${isWrapped ? "block" : "hidden"}`}>Order</div>
             </Link>
             <Link
               href="/app/withdraw"
-              className={`p-6 flex items-center justify-start gap-12  u-transition-color rounded-8 overflow-hidden ${
+              className={`py-10 px-12 flex items-center justify-start gap-12  u-transition-color rounded-8 overflow-hidden ${
                 pathname.includes("/app/withdraw")
-                  ? "bg-secondary-400 dark:bg-primary-700"
+                  ? "bg-secondary-400/80 dark:bg-primary-700"
                   : "hover:bg-white/30 dark:hover:bg-primary-700/40"
               }`}
             >
-              <Icon icon="solar:round-transfer-diagonal-outline" className="w-36 h-36 flex-none" />
+              <Icon icon="ph:hand-withdraw-thin" className="w-30 h-30 flex-none" />
               <div className={` ${isWrapped ? "block" : "hidden"}`}>Withdraw</div>
             </Link>
             <Link
               href="/app/user"
-              className={`p-6 flex items-center justify-start gap-12  u-transition-color rounded-8 overflow-hidden ${
+              className={`py-10 px-12 flex items-center justify-start gap-12  u-transition-color rounded-8 overflow-hidden ${
                 pathname.includes("/app/user")
-                  ? "bg-secondary-400 dark:bg-primary-700"
+                  ? "bg-secondary-400/80 dark:bg-primary-700"
                   : "hover:bg-white/30 dark:hover:bg-primary-700/40"
               }`}
             >
-              <Icon icon="lucide:user-cog" className="w-36 h-36 flex-none" />
+              <Icon icon="ph:user-list-thin" className="w-30 h-30 flex-none" />
               <div className={` ${isWrapped ? "block" : "hidden"}`}>User</div>
             </Link>
           </div>
@@ -111,7 +111,7 @@ const AppSidebar: React.FC<PropsWithChildren> = ({ children }) => {
 
           <div
             onClick={() => setIsWrapped(!isWrapped)}
-            className={`hidden lg:block bg-secondary-100 dark:bg-primary-900 rounded-full absolute  p-3 cursor-pointer top-64 -right-4 hover:bg-secondary-200 dark:hover:bg-primary-700 u-transition-color `}
+            className={`hidden lg:block bg-secondary-100 dark:bg-primary-900 rounded-full absolute  p-3 cursor-pointer top-64 -right-4 hover:bg-secondary-400 dark:hover:bg-primary-700 u-transition-color `}
           >
             <Icon
               icon="icon-park-outline:right"
@@ -146,7 +146,8 @@ const AppSidebar: React.FC<PropsWithChildren> = ({ children }) => {
         </div>
       </header>
       <section
-        className={`p-8 w-full transition-all duration-300 min-h-screen pt-65 lg:pt-0 ${
+        id="mainSection"
+        className={`p-8 w-full transition-all duration-300 min-h-screen bg-secondary-100/20 dark:bg-primary-800 overflow-auto pt-65 lg:pt-0 ${
           isWrapped ? "lg:pl-256" : "lg:pl-80"
         }`}
       >
