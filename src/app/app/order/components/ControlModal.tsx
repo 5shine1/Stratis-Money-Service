@@ -78,15 +78,15 @@ const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext, data }) => {
         setPayerCountry({ value: "", error: "" });
         setPayerPhone({ value: "", error: "" });
       }}
-      className="relative z-50 bg-primary-800 w-full max-w-640  rounded-12 shadow-md m-auto"
+      className="relative z-50  overflow-hidden bg-white dark:bg-primary-800 w-full max-w-640  rounded-12 shadow-md m-auto"
       overlayClassName="bg-black/50 backdrop-blur-md fixed left-0 top-0 w-full h-full z-40 px-8 py-32 overflow-y-auto flex items-start justify-center"
     >
       <Icon
-        icon="zondicons:close-solid"
-        className="w-32 h-32 text-white/50 hover:text-white/80 u-transition-color cursor-pointer absolute right-20 top-20"
+        icon="zondicons:close-outline"
+        className="w-32 h-32 text-primary-200 dark:text-white/50 dark:hover:text-white/80 hover:text-primary-500 u-transition-color cursor-pointer absolute right-20 top-20"
         onClick={onClose}
       />
-      <div className="p-12 py-24 md:p-32 flex flex-col gap-16 md:gap-32">
+      <div className="p-12 py-24 md:p-32 flex flex-col gap-16 md:gap-32 bg-secondary-100/20 dark:bg-transparent">
         <h4 className="g-button-text w-fit pr-30">{data ? "Edit Detail" : "Generate New Link"}</h4>
         <div className="flex flex-col gap-12 md:gap-24">
           <div className="flex gap-12 md:gap-24">
@@ -118,7 +118,7 @@ const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext, data }) => {
             placeholder="Your description here.."
             error={description.error}
           />
-          <div className="text-20 font-bold text-white mt-16">Payer Info</div>
+          <div className="text-20 font-bold text-primary-200 dark:text-white mt-16">Payer Info</div>
           <div className="flex gap-12 md:gap-24">
             <AppInput
               value={payerEmail.value}
@@ -161,7 +161,8 @@ const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext, data }) => {
           </div>
           <AnimatedSlideButton
             onClick={handleClick}
-            className=" text-20 py-12 px-32 border border-secondary-300 rounded-full mt-8"
+            className="text-primary-200 dark:text-white text-20 py-12 px-32 border border-primary-200 dark:border-secondary-300  rounded-full mt-8"
+            backClassName="from-primary-100 to-secondary-100 dark:from-primary-400 dark:to-secondary-300 "
           >
             {data ? "Save" : "Generate"}
           </AnimatedSlideButton>
