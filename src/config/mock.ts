@@ -1,5 +1,5 @@
 export const callAPI = () => {
-  return new Promise((resolve) => setTimeout(resolve, 5000));
+  return new Promise((resolve) => setTimeout(resolve, 2000));
 };
 export const mockOrderLinks = [
   {
@@ -157,5 +157,116 @@ export const mockOrderLinks = [
     },
     status: "In Progress",
     date: "05/28/2024 12:43:00",
+  },
+];
+
+export const mockUsers = [
+  {
+    id: "3fa81264-5717-4562-b3fc-2c963f66afa2",
+    name: "John Doe",
+    email: "johndoe@stratis.com",
+    phone: "+44023321231",
+    role: "Admin",
+    isKycVerified: true,
+    isEmailVerified: true,
+  },
+  {
+    id: "3fa81264-5717-45e2-b3fc-2c963f66afa2",
+    name: "Jahn Doe",
+    email: "jahndoe@stratis.com",
+    phone: "+4123321231",
+    role: "Business",
+    isKycVerified: true,
+    isEmailVerified: false,
+  },
+  {
+    id: "3fa81264-5717-4562-b3fc-2c963f66afa4",
+    name: "John Smith",
+    email: "johnsmith@stratis.com",
+    phone: "+44323321231",
+    role: "Customer",
+    isKycVerified: true,
+    isEmailVerified: true,
+  },
+  {
+    id: "3fa81264-5717-4562-b3fc-2c963f626afa2",
+    name: "John Lee",
+    email: "johnlee@stratis.com",
+    phone: "+44023324231",
+    role: "Customer",
+    isKycVerified: false,
+    isEmailVerified: true,
+  },
+  {
+    id: "3fa81264-5717-4562-b3fc-2c965366afa2",
+    name: "Taylor Wells",
+    email: "tailorwell@stratis.com",
+    phone: "+1923321231",
+    role: "Business",
+    isKycVerified: false,
+    isEmailVerified: false,
+  },
+  {
+    id: "3fa81264-5717-4566-b3fc-2c963f13afa2",
+    name: "Mike Doe",
+    email: "mikedoe@stratis.com",
+    phone: "+67023321231",
+    role: "Admin",
+    isKycVerified: true,
+    isEmailVerified: true,
+  },
+  {
+    id: "3fa81264-5717-45e2-b3fc-2c963f66a112",
+    name: "Jahn Smith",
+    email: "jahnsmith@stratis.com",
+    phone: "+41233231231",
+    role: "Business",
+    isKycVerified: true,
+    isEmailVerified: false,
+  },
+  {
+    id: "3fa81264-5717-4562-b3fc-2c9cdf66afa4",
+    name: "Mike Smith",
+    email: "mikesmith@stratis.com",
+    phone: "+1323321231",
+    role: "Customer",
+    isKycVerified: true,
+    isEmailVerified: true,
+  },
+  {
+    id: "3fa81264-5717-4562-b3fc-2c935f626afa2",
+    name: "Mike Lee",
+    email: "mikelee@stratis.com",
+    phone: "+13324231",
+    role: "Customer",
+    isKycVerified: false,
+    isEmailVerified: true,
+  },
+  {
+    id: "3fa81264-5717-4562-b3fc-2c965112afa2",
+    name: "Mike Wells",
+    email: "mikewell@stratis.com",
+    phone: "+33923321231",
+    role: "Business",
+    isKycVerified: false,
+    isEmailVerified: false,
+  },
+  {
+    id: "3fa81264-5717-4562-b3fc-2c965526afa2",
+    name: "Mike Wells",
+    email: "mikewell@stratis.com",
+    phone: "+33923321231",
+    role: "Business",
+    isKycVerified: false,
+    isEmailVerified: false,
+  },
+  {
+    id: "3fa81264-57127-4562-b3fc-2c965526afa2",
+    name: "Lucas Lee",
+    email: "lucaslee@stratis.com",
+    phone: "+1923321231",
+    role: "Business",
+    isKycVerified: false,
+    isEmailVerified: false,
   },
 ];
