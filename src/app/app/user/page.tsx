@@ -1,0 +1,194 @@
+"use client";
+import React, { useEffect, useMemo, useState } from "react";
+import Pagination from "rc-pagination";
+import toast from "react-hot-toast";
+import { Icon } from "@iconify/react";
+
+import AppInput from "@/components/global/AppInput";
+import { callAPI, mockUsers } from "@/config/mock";
+import CustomSelect from "@/components/global/CustomSelect";
+import Link from "next/link";
+
+const UserPage = () => {
+  const sortData = [
+    { id: 0, key: "date", text: "Sort By Date" },
+    { id: 1, key: "name", text: "Sort By Name" },
+    { id: 2, key: "email", text: "Sort By Email" },
+    { id: 3, key: "role", text: "Sort By Role" },
+  ];
+
+  const [users, setUsers] = useState([]);
+  const [searchIndex, setSearchIndex] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [currentSort, setCurrentSort] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const filteredData = useMemo(
+    () =>
+      users
+        .filter((item) => {
+          return (
+            item.email.toUpperCase().includes(searchIndex.toUpperCase()) ||
+            item.name.toUpperCase().includes(searchIndex.toUpperCase()) ||
+            item.phone.toUpperCase().includes(searchIndex.toUpperCase())
+          );
+        })
+        .sort((a, b) => {
+          if (currentSort === 1) return a.name.localeCompare(b.name);
+          if (currentSort === 2) return a.email.localeCompare(b.email);
+          if (currentSort === 3) return a.role.localeCompare(b.role);
+          return 0;
+        }),
+    [users, searchIndex, currentSort]
+  );
+
+  const handleGetOrders = async () => {
+    setIsLoading(true);
+    try {
+      await callAPI();
+      setUsers(mockUsers);
+    } catch (error) {
+      toast.error("Server error.");
+    }
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    handleGetOrders();
+    return () => {};
+  }, []);
+
+  return (
+    <>
+      <div className="flex flex-col gap-24 lg:gap-32 lg:px-48 lg:py-64 py-32 p-8 text-14">
+        <h4 className="w-fit g-header-app">Users</h4>
+        <div className="flex flex-col gap-32">
+          <div className="flex items-stretch md:items-center justify-between gap-12  md:flex-row flex-col ">
+            <div className="w-full md:max-w-320">
+              <AppInput
+                value={searchIndex}
+                onChange={setSearchIndex}
+                icon="ic:outline-search"
+                placeholder="Search by name, email and phone number"
+              ></AppInput>
+            </div>
+            <div className="w-full md:max-w-280">
+              <CustomSelect
+                data={sortData}
+                init={sortData[currentSort]}
+                onChange={(selected) => {
+                  setCurrentSort(selected.id);
+                }}
+                mainClass="text-primary-500 dark:text-white border border-secondary-400 dark:border-primary-500 rounded-6 py-12 px-16 cursor-pointer u-text-overflow"
+                padClass="absolute top-full left-0 w-full max-h-[240px] overflow-auto shadow-lg rounded-8 mt-6 bg-secondary-100 dark:bg-primary-900 text-primary-500/80 dark:text-white/70 flex flex-col gap-4 overflow-y-auto  z-10 p-8"
+                listClass=" py-12 px-10 cursor-pointer u-text-overflow rounded-4"
+              />
+            </div>
+          </div>
+          {isLoading ? (
+            <div className="text-primary-200 dark:text-white/70 p-12 text-center">
+              <Icon icon="eos-icons:three-dots-loading" className="w-64 h-64 mx-auto" />
+            </div>
+          ) : (
+            <div className="w-full overflow-x-auto">
+              <table className="w-full table-fixed min-w-800 text-primary-200 dark:text-white/70">
+                <thead>
+                  <tr className="border-b border-primary-200/20 dark:border-white/10">
+                    <th className="px-8 py-16 text-left w-200">Email</th>
+                    <th className="px-8 py-16 text-left w-140">Name</th>
+                    <th className="px-8 py-16 text-left w-160">Phone</th>
+                    <th className="px-8 py-16 text-left w-120">Role</th>
+                    <th className="px-8 py-16 text-left w-120">Join At</th>
+                    <th className="px-8 py-16 text-center w-100">KYC Status</th>
+                    <th className="px-8 py-16 text-center w-100">Email Status</th>
+                    <th className="px-8 py-16 text-right w-100">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {!filteredData.length ? (
+                    <tr>
+                      <td colSpan={8} className="text-error p-24 lg:text-center text-left">
+                        No Users
+                      </td>
+                    </tr>
+                  ) : (
+                    <>
+                      {filteredData.slice(currentPage * 10 - 10, currentPage * 10).map((item, i) => {
+                        return (
+                          <tr key={i} className="even:bg-secondary-100/10 dark:even:bg-[#ffffff04]">
+                            <td className="px-8 py-16">{item.email}</td>
+                            <td className="px-8 py-16">{item.name}</td>
+                            <td className="px-8 py-16">{item.phone}</td>
+                            <td
+                              className={`px-8 py-16 ${
+                                item.role === "Admin"
+                                  ? "text-success"
+                                  : item.role === "Business"
+                                  ? "text-info"
+                                  : "text-secondary-200"
+                              }`}
+                            >
+                              {item.role}
+                            </td>
+                            <td className="px-8 py-16">04/24/2024</td>
+                            <td className={`px-8`}>
+                              {item.isKycVerified ? (
+                                <Icon icon="icon-park-outline:check-one" className="w-16 h-16 text-success mx-auto" />
+                              ) : (
+                                <Icon icon="icon-park-outline:close-one" className="w-16 h-16 text-error mx-auto" />
+                              )}
+                            </td>
+                            <td className={`px-8`}>
+                              {item.isEmailVerified ? (
+                                <Icon icon="icon-park-outline:check-one" className="w-16 h-16 text-success mx-auto" />
+                              ) : (
+                                <Icon icon="icon-park-outline:close-one" className="w-16 h-16 text-error mx-auto" />
+                              )}
+                            </td>
+                            <td className="px-8">
+                              <div className="flex items-center gap-12 justify-end">
+                                <Link
+                                  href={`/app/user/${item.id}`}
+                                  target="_blank"
+                                  className="text-primary-200/30 dark:text-white/60 u-transition-color hover:text-info"
+                                >
+                                  <Icon icon="ph:eye-fill" className="w-20 h-20"></Icon>
+                                </Link>
+                                <button
+                                  onClick={() => {}}
+                                  className="text-primary-200/30 dark:text-white/60 u-transition-color hover:text-error"
+                                >
+                                  <Icon icon="heroicons-solid:ban" className="w-20 h-20"></Icon>
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          )}
+          <div>
+            <Pagination
+              current={currentPage}
+              onChange={setCurrentPage}
+              showSizeChanger={false}
+              total={filteredData.length}
+              hideOnSinglePage={true}
+              className="flex items-center gap-8 text-14"
+              prevIcon={<Icon icon="icon-park-outline:left" />}
+              nextIcon={<Icon icon="icon-park-outline:right" />}
+              showLessItems
+              showTitle={false}
+            />
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default UserPage;

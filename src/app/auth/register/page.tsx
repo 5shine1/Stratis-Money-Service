@@ -83,7 +83,7 @@ const RegisterPage = () => {
           <div className="w-full  max-w-360  flex flex-col gap-24 mt-32">
             <div>
               <h4 className="g-button-text w-fit  mx-auto text-center ">Create Your Account</h4>
-              <p className="text-gray-400 text-14 mt-8 text-center">Setting up an account takes only few minutes.</p>
+              <p className="text-gray-400 text-14 mt-8 text-center">Setting up an account takes only a few minutes.</p>
             </div>
             <div className="flex flex-col gap-24 mt-12">
               <div>
