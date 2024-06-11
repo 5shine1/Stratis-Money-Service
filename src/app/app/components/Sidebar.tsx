@@ -13,7 +13,7 @@ const AppSidebar: React.FC<PropsWithChildren> = ({ children }) => {
   const [isOpenMobileMenu, setIsOpenMobileMenu] = useState(false);
   const pathname = usePathname();
   return (
-    <main className="w-full h-[100vh] flex gap-4 bg-white dark:bg-primary-800">
+    <main id="mainSection" className="w-full h-[100vh] flex gap-4 bg-white dark:bg-primary-800 overflow-auto">
       <aside
         className={`h-full p-8 flex-none dark:text-secondary-100 text-primary-500 fixed z-40 block top-0 transition-all duration-300 ${
           isOpenMobileMenu ? "left-0" : "-left-full lg:left-0"
@@ -146,7 +146,6 @@ const AppSidebar: React.FC<PropsWithChildren> = ({ children }) => {
         </div>
       </header>
       <section
-        id="mainSection"
         className={`p-8 w-full transition-all duration-300 min-h-screen bg-secondary-100/20 dark:bg-primary-800 overflow-auto pt-65 lg:pt-0 ${
           isWrapped ? "lg:pl-256" : "lg:pl-80"
         }`}

@@ -28,6 +28,7 @@ const LoginPage = () => {
     setLoading(true);
     try {
       const result = await apiLogin(email.value, password.value);
+      router.push("/");
       if (result?.isSucceed) {
         dispatch(
           setAuth({
@@ -36,7 +37,6 @@ const LoginPage = () => {
             refreshToken: result?.data?.refreshToken,
           })
         );
-        router.push("/");
         toast.success("Logged in successfully.");
       } else {
         if (result?.messages.email) setEmail({ ...email, error: "Email not found." });
