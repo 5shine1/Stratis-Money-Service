@@ -1,6 +1,6 @@
 export const APP_ROUTES = [
-  { key: "payment", text: "Payment", path: "/app/payment" },
-  { key: "order", text: "Order", path: "/app/order" },
+  { key: "home", text: "Home", path: "/" },
+  { key: "app", text: "Dashboard", path: "/app/order" },
   { key: "help", text: "Help", path: "/help" },
 ];
 
