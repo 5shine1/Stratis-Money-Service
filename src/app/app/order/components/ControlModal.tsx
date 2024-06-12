@@ -118,7 +118,7 @@ const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext, data }) => {
             placeholder="Your description here.."
             error={description.error}
           />
-          <div className="text-20 font-bold text-primary-200 dark:text-white mt-16">Payer Info</div>
+          <div className="text-20 font-bold text-primary-200 dark:text-secondary-200 mt-16">Payer Info</div>
           <div className="flex gap-12 md:gap-24">
             <AppInput
               value={payerEmail.value}

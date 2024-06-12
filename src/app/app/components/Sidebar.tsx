@@ -32,7 +32,7 @@ const AppSidebar: React.FC<PropsWithChildren> = ({ children }) => {
           <div className="mt-36 flex flex-col gap-8 text-14">
             <Link
               href="/app/order"
-              className={`py-10 px-12 flex items-center justify-start gap-12  u-transition-color rounded-8 overflow-hidden ${
+              className={`p-10 flex items-center justify-start gap-12  u-transition-color rounded-8 overflow-hidden ${
                 pathname.includes("/app/order")
                   ? "bg-secondary-400/80 dark:bg-primary-700"
                   : "hover:bg-white/30 dark:hover:bg-primary-700/40"
@@ -43,7 +43,7 @@ const AppSidebar: React.FC<PropsWithChildren> = ({ children }) => {
             </Link>
             <Link
               href="/app/withdraw"
-              className={`py-10 px-12 flex items-center justify-start gap-12  u-transition-color rounded-8 overflow-hidden ${
+              className={`p-10 flex items-center justify-start gap-12  u-transition-color rounded-8 overflow-hidden ${
                 pathname.includes("/app/withdraw")
                   ? "bg-secondary-400/80 dark:bg-primary-700"
                   : "hover:bg-white/30 dark:hover:bg-primary-700/40"
@@ -54,7 +54,7 @@ const AppSidebar: React.FC<PropsWithChildren> = ({ children }) => {
             </Link>
             <Link
               href="/app/user"
-              className={`py-10 px-12 flex items-center justify-start gap-12  u-transition-color rounded-8 overflow-hidden ${
+              className={`p-10 flex items-center justify-start gap-12  u-transition-color rounded-8 overflow-hidden ${
                 pathname.includes("/app/user")
                   ? "bg-secondary-400/80 dark:bg-primary-700"
                   : "hover:bg-white/30 dark:hover:bg-primary-700/40"
@@ -80,9 +80,11 @@ const AppSidebar: React.FC<PropsWithChildren> = ({ children }) => {
             </span>
           </div> */}
             <Link
-              href="/app/profile"
-              className={`p-6 flex items-center justify-start gap-12  u-transition-color hover:bg-white/20 hover:dark:bg-primary-700/30 rounded-8 overflow-hidden ${
-                pathname.includes("/app/profile") ? "bg-primary-700 dark:bg-secondary-400" : ""
+              href="/app/account"
+              className={`p-6 flex items-center justify-start gap-6  u-transition-color  rounded-8 overflow-hidden ${
+                pathname.includes("/app/account")
+                  ? "dark:bg-primary-700 bg-secondary-400"
+                  : "hover:bg-white/20 hover:dark:bg-primary-700/30"
               }`}
             >
               <img
