@@ -20,7 +20,8 @@ const LoginPage = () => {
   const [email, setEmail] = useState({ value: "", error: "" });
   const [password, setPassword] = useState({ value: "", error: "" });
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     if (!email.value) return setEmail({ ...email, error: "Email required." });
     if (!isValidEmail(email.value)) return setEmail({ ...email, error: "Invalid email." });
     if (!password.value) return setPassword({ ...password, error: "Password required." });
@@ -28,8 +29,8 @@ const LoginPage = () => {
     setLoading(true);
     try {
       const result = await apiLogin(email.value, password.value);
-      router.push("/");
       if (result?.isSucceed) {
+        router.push("/");
         dispatch(
           setAuth({
             email: email.value,
@@ -44,6 +45,7 @@ const LoginPage = () => {
         toast.error("Login failed.");
       }
     } catch (error) {
+      console.log(error);
       toast.error("Something went wrong.");
     }
     setLoading(false);
@@ -55,28 +57,26 @@ const LoginPage = () => {
 
       <div className="min-h-screen w-full max-w-1440 mx-auto relative flex flex-row-reverse items-center">
         <div className="w-full p-12 relative hidden lg:block">
+          <div className=" absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/5 rotate-12 aspect-square ">
+            <div className="w-full h-full bg-secondary-200/10 rounded-32 animate-spinSlow"></div>
+          </div>
           <img
-            src="/assets/landing/hero-bg.png"
+            src="/assets/auth/login.png "
             alt=""
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-          />
-          <img
-            src="/assets/landing/hero.png"
-            alt=""
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+            className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 w-2/3"
           />
         </div>
 
-        <div className="w-full h-full flex flex-col items-center justify-center px-16 py-72">
-          <Link href={"/"}>
-            <SvgLogo className="w-50 h-50" />
-          </Link>
-          <div className="w-full  max-w-360  flex flex-col gap-24 mt-32">
+        <div className="w-full h-full flex flex-col items-center justify-center px-16 py-36">
+          <div className="w-full py-40 px-16 md:px-32 max-w-420  bg-white/5 rounded-16 items-center flex flex-col gap-24">
+            <Link href={"/"}>
+              <SvgLogo className="w-50 h-50" />
+            </Link>
             <div>
               <h4 className="g-button-text w-fit mx-auto text-center">Sign In Your Account</h4>
               <p className="text-gray-400 text-14 mt-8 text-center">Welcome to stratis payment. Enjoy now!</p>
             </div>
-            <div className="flex flex-col gap-24 mt-12">
+            <form onSubmit={handleSubmit} className="flex flex-col gap-24 mt-12 w-full">
               <div>
                 <CustomInput
                   value={email.value}
@@ -103,11 +103,8 @@ const LoginPage = () => {
                 </Link>
               </div>
 
-              <AnimatedSlideButton
-                onClick={handleSubmit}
-                className=" text-18 py-14 border border-secondary-300 rounded-full "
-              >
-                Continue with Email
+              <AnimatedSlideButton className=" text-18 py-14 border border-secondary-300 rounded-full" isSubmit={true}>
+                Login with Email
               </AnimatedSlideButton>
               <div className="text-center text-14 text-gray-500">
                 Don&apos;t have your account?{" "}
@@ -118,7 +115,7 @@ const LoginPage = () => {
                   Sign Up
                 </Link>
               </div>
-            </div>
+            </form>
           </div>
         </div>
       </div>

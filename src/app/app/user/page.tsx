@@ -149,7 +149,6 @@ const UserPage = () => {
                               <div className="flex items-center gap-12 justify-end">
                                 <Link
                                   href={`/app/user/${item.id}`}
-                                  target="_blank"
                                   className="text-primary-200/30 dark:text-white/40 u-transition-color hover:text-info"
                                 >
                                   <Icon icon="ph:eye-fill" className="w-20 h-20"></Icon>
