@@ -5,11 +5,13 @@ type Props = {
   className: string;
   onClick?: () => void;
   backClassName?: string;
+  isSubmit?: boolean;
 };
 
-const AnimatedSlideButton = ({ children, className, onClick, backClassName }: Props) => {
+const AnimatedSlideButton = ({ children, className, onClick, backClassName, isSubmit }: Props) => {
   return (
     <button
+      type={isSubmit ? "submit" : "button"}
       className={`font-semibold relative group outline-none rounded-full overflow-hidden ${className}`}
       onClick={onClick}
     >

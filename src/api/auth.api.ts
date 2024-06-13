@@ -47,3 +47,15 @@ export const apiLogout = async () => {
     throw "Something went wrong.";
   }
 };
+
+export const apiResendVerificationEmail = async (email: string) => {
+  try {
+    const result = await axiosInstance.post("/api/Identity/ResendConfirmationEmail", {
+      email,
+    });
+    if (result?.data?.isSucceed === true) return true;
+    return false;
+  } catch (error) {
+    throw "Something went wrong.";
+  }
+};

@@ -8,7 +8,7 @@ import CustomSwitch from "@/components/global/CustomSwitch";
 
 const AccountPage = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [isKycAsk, setisKycAsk] = useState(true);
+  const [isKycAsk, setIsKycAsk] = useState(true);
 
   const handleGetOrders = async () => {
     setIsLoading(true);
@@ -84,7 +84,7 @@ const AccountPage = () => {
                 <CustomSwitch
                   value={isKycAsk}
                   onChange={() => {
-                    setisKycAsk(!isKycAsk);
+                    setIsKycAsk(!isKycAsk);
                   }}
                 />
                 ON
