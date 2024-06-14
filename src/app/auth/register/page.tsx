@@ -21,7 +21,8 @@ const RegisterPage = () => {
     error: "",
   });
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     if (!email.value) return setEmail({ ...email, error: "Email required." });
     if (!isValidEmail(email.value)) return setEmail({ ...email, error: "Invalid email." });
     if (!password.value) return setPassword({ ...password, error: "Password required." });
@@ -41,7 +42,7 @@ const RegisterPage = () => {
       const result = await apiRegister(email.value, password.value);
       if (result === true) {
         toast.success("Registered successfully.");
-        router.push("/auth/login");
+        router.push(`/auth/verify-email/send?email=${email.value}`);
       } else {
         console.log(result);
         if (result?.DuplicateUserName) setEmail({ ...email, error: "Username is already taken." });
@@ -53,6 +54,7 @@ const RegisterPage = () => {
         toast.error("Register failed.");
       }
     } catch (error: any) {
+      console.log(error);
       toast.error("Something went wrong.");
     }
     setLoading(false);
@@ -64,28 +66,26 @@ const RegisterPage = () => {
 
       <div className="min-h-screen w-full  max-w-1440 mx-auto relative flex items-center">
         <div className="w-full p-12 relative hidden lg:block">
-          <img
-            src="/assets/landing/hero-bg.png"
-            alt=""
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-          />
-          <img
-            src="/assets/landing/hero.png"
-            alt=""
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-          />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2/3">
+            <div className=" relative w-full rounded-32 aspect-square bg-primary-200/10 animate-spinSlow"></div>
+            <img
+              src="/assets/auth/register.png "
+              alt=""
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4/5"
+            />
+          </div>
         </div>
 
-        <div className="w-full h-full flex flex-col items-center justify-center px-16 py-72">
-          <Link href={"/"}>
-            <SvgLogo className="w-50 h-50" />
-          </Link>
-          <div className="w-full  max-w-360  flex flex-col gap-24 mt-32">
+        <div className="w-full h-full flex flex-col items-center justify-center px-16 py-36">
+          <div className="w-full py-40 px-16 md:px-32 max-w-420  bg-white/5 rounded-16 flex flex-col gap-24 items-center">
+            <Link href={"/"}>
+              <SvgLogo className="w-50 h-50" />
+            </Link>
             <div>
               <h4 className="g-button-text w-fit  mx-auto text-center ">Create Your Account</h4>
               <p className="text-gray-400 text-14 mt-8 text-center">Setting up an account takes only a few minutes.</p>
             </div>
-            <div className="flex flex-col gap-24 mt-12">
+            <form onSubmit={handleSubmit} className="flex flex-col gap-24 mt-12 w-full">
               <div>
                 <CustomInput
                   value={email.value}
@@ -116,8 +116,8 @@ const RegisterPage = () => {
                 />
               </div>
               <AnimatedSlideButton
-                onClick={handleSubmit}
                 className=" text-18 py-14 border border-secondary-300 rounded-full mt-16"
+                isSubmit={true}
               >
                 Continue with Email
               </AnimatedSlideButton>
@@ -130,7 +130,7 @@ const RegisterPage = () => {
                   Login
                 </Link>
               </div>
-            </div>
+            </form>
           </div>
         </div>
       </div>

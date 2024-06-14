@@ -78,10 +78,13 @@ const Header = () => {
                   : "opacity-0 pointer-events-none top-64"
               }`}
             >
-              <div className="flex items-center gap-6 u-transition-color hover:bg-white/10 cursor-pointer p-6 px-12 rounded-4">
-                <Icon icon="ph:user" className="w-16 h-16" />
-                Profile
-              </div>
+              <Link
+                href={"/app/account"}
+                className="flex items-center gap-6 u-transition-color hover:bg-white/10 cursor-pointer p-6 px-12 rounded-4 whitespace-nowrap"
+              >
+                <Icon icon="ph:user" className="w-16 h-16 flex-none" />
+                My Account
+              </Link>
               <div
                 className="flex items-center gap-6 u-transition-color hover:bg-white/10 cursor-pointer p-6 px-12 rounded-4"
                 onClick={handleLogout}

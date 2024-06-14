@@ -5,7 +5,7 @@ import { Icon } from "@iconify/react";
 
 import { callAPI, mockOrderLinks } from "@/config/mock";
 
-const OrderPage = () => {
+const UserDetailPage = () => {
   const [paymentOrders, setPaymentOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -36,9 +36,9 @@ const OrderPage = () => {
       ) : (
         <div className="flex flex-col gap-32">
           <div className="flex flex-col md:flex-row gap-16">
-            <div className="p-32 rounded-8 bg-secondary-100/20 dark:bg-white/5 w-full md:max-w-420">
+            <div className="p-24 md:p-32 rounded-8 bg-secondary-100/20 dark:bg-white/5 w-full md:max-w-420">
               <div className="text-20 font-bold text-primary-200 dark:text-secondary-200"> User Detail</div>
-              <div className="flex flex-col gap-12 mt-18 text-primary-200 dark:text-white">
+              <div className="flex flex-col gap-16 mt-18 text-primary-200 dark:text-white">
                 <span>
                   <span className="opacity-60">Name: </span>John Doe{" "}
                   <span className="text-success border  px-4 py-2 border-success rounded-4 text-12">Admin</span>
@@ -57,7 +57,7 @@ const OrderPage = () => {
                 </span>
               </div>
             </div>
-            <div className="p-32 rounded-8 bg-secondary-100/20 dark:bg-white/5 w-full md:max-w-420">
+            <div className="p-24 md:p-32 rounded-8 bg-secondary-100/20 dark:bg-white/5 w-full md:max-w-420">
               <div className="text-20 font-bold text-primary-200 dark:text-secondary-200"> Balances</div>
               <div className="flex flex-col gap-16 mt-18 text-primary-200 dark:text-white">
                 <div className="flex  items-center gap-8">
@@ -131,4 +131,4 @@ const OrderPage = () => {
   );
 };
 
-export default OrderPage;
+export default UserDetailPage;
