@@ -148,24 +148,27 @@ const OrderPage = () => {
                             <td className="px-8 py-16">{item.date}</td>
                             <td className="px-8">
                               <div className="flex items-center gap-12 justify-end">
-                                <button className="text-primary-200/30 dark:text-white/60 u-transition-color hover:text-info">
+                                <Link
+                                  href={`/app/order/${item.id}`}
+                                  className="text-primary-200/30 dark:text-white/40 u-transition-color hover:text-info"
+                                >
                                   <Icon icon="ph:eye-fill" className="w-20 h-20"></Icon>
-                                </button>
+                                </Link>
                                 <button
                                   onClick={() => setControlModalOpen(item.id)}
-                                  className="text-primary-200/30 dark:text-white/60 u-transition-color hover:text-success"
+                                  className="text-primary-200/30 dark:text-white/40 u-transition-color hover:text-success"
                                 >
                                   <Icon icon="fluent:edit-48-filled" className="w-20 h-20"></Icon>
                                 </button>
                                 <button
                                   onClick={() => setDeleteModalOpen(true)}
-                                  className="text-primary-200/30 dark:text-white/60 u-transition-color hover:text-error"
+                                  className="text-primary-200/30 dark:text-white/40 u-transition-color hover:text-error"
                                 >
                                   <Icon icon="bxs:trash" className="w-20 h-20"></Icon>
                                 </button>
                                 <Link
                                   href={`/payment/${item.id}`}
-                                  className="text-primary-200/30 dark:text-white/60 u-transition-color hover:text-success"
+                                  className="text-primary-200/30 dark:text-white/40 u-transition-color hover:text-success"
                                 >
                                   <Icon icon="ion:play" className="w-20 h-20"></Icon>
                                 </Link>
