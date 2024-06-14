@@ -59,3 +59,13 @@ export const apiResendVerificationEmail = async (email: string) => {
     throw "Something went wrong.";
   }
 };
+
+export const apiConfirmEmail = async (userId: string, code: string) => {
+  try {
+    const result = await axiosInstance.get(`/api/Identity/ConfirmEmail?userId=${userId}&code=${code}`);
+    if (result?.data?.isSucceed === true) return true;
+    return false;
+  } catch (error) {
+    throw error;
+  }
+};
