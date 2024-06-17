@@ -1,28 +1,51 @@
 "use client";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import toast from "react-hot-toast";
 
 import SvgLogo from "@/assets/SvgLogo";
+import { LoadingContext } from "@/components/providers/LoadingProvider";
 import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
 import CustomInput from "@/components/global/CustomInput";
+import { apiResetPassword } from "@/api/auth.api";
+import { isValidPassword } from "@/utils/string.utils";
 
 const ResetPasswordPage = () => {
   const router = useRouter();
+  const { setLoading } = useContext(LoadingContext);
+  const searchParams = useSearchParams();
+  const userId = searchParams.get("userId");
+  const code = searchParams.get("code");
   const [password, setPassword] = useState({ value: "", error: "" });
   const [passwordConfirm, setPasswordConfirm] = useState({
     value: "",
     error: "",
   });
 
-  const handleSubmit = () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     if (!password.value) return setPassword({ ...password, error: "Password required" });
+    if (isValidPassword(password.value))
+      return setPassword({
+        ...password,
+        error: isValidPassword(password.value),
+      });
     if (passwordConfirm.value !== password.value)
       return setPasswordConfirm({
         ...passwordConfirm,
         error: "Password confirmation does not match",
       });
-    router.push("/auth/verify-email");
+    try {
+      setLoading(true);
+      const result = await apiResetPassword(code, password.value, "johndoe@company.test");
+      if (result) toast.success("Password reset email sent.");
+      else toast.error("Something went wrong.");
+      router.push("/login");
+    } catch (error) {
+      toast.error("Something went wrong.");
+    }
+    setLoading(false);
   };
 
   return (
@@ -31,28 +54,32 @@ const ResetPasswordPage = () => {
 
       <div className="min-h-screen w-full  max-w-1440 mx-auto relative flex items-center">
         <div className="w-full p-12 relative hidden lg:block">
+          <div className=" absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/5 rotate-12 aspect-square ">
+            <div className="w-full h-full bg-primary-200/10 rounded-32 animate-spinSlow"></div>
+          </div>
+          <div className=" absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1/2 rotate-12 aspect-square ">
+            <div
+              className="w-full h-full bg-primary-400/10 rounded-32 animate-spinSlow"
+              style={{ animationDirection: "reverse" }}
+            ></div>
+          </div>
           <img
-            src="/assets/landing/hero-bg.png"
+            src="/assets/auth/forgot.png "
             alt=""
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-          />
-          <img
-            src="/assets/landing/hero.png"
-            alt=""
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+            className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 w-1/2"
           />
         </div>
 
-        <div className="w-full h-full flex flex-col items-center justify-center px-16 py-72">
-          <Link href={"/"}>
-            <SvgLogo className="w-50 h-50" />
-          </Link>
-          <div className="w-full  max-w-360  flex flex-col gap-24 mt-32">
-            <div>
+        <div className="w-full h-full flex flex-col items-center justify-center px-16 py-40">
+          <div className="w-full bg-white/5 rounded-16  max-w-420  flex flex-col items-center gap-32  px-16 md:px-32  py-40">
+            <Link href={"/"}>
+              <SvgLogo className="w-50 h-50" />
+            </Link>
+            <div className="w-full">
               <h4 className="g-button-text w-fit  mx-auto text-center">Reset Your Password</h4>
-              <p className="text-gray-400 text-14 mt-8 text-center">Reset your password of Test@test.com account</p>
+              <p className="text-gray-400 text-14 mt-8 text-center">Reset your password of Test@test.com account.</p>
             </div>
-            <div className="flex flex-col gap-24 mt-12">
+            <form onSubmit={handleSubmit} className="w-full flex flex-col gap-24 mt-12">
               <div>
                 <CustomInput
                   value={password.value}
@@ -74,12 +101,12 @@ const ResetPasswordPage = () => {
                 />
               </div>
               <AnimatedSlideButton
-                onClick={handleSubmit}
+                isSubmit={true}
                 className=" text-18 py-14 border border-secondary-300 rounded-full mt-16"
               >
                 Reset Password
               </AnimatedSlideButton>
-            </div>
+            </form>
           </div>
         </div>
       </div>

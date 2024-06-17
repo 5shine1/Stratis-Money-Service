@@ -69,3 +69,23 @@ export const apiConfirmEmail = async (userId: string, code: string) => {
     throw error;
   }
 };
+
+export const apiForgotPassword = async (email: string) => {
+  try {
+    const result = await axiosInstance.post("/api/Identity/ForgotPassword", { email });
+    if (result?.data?.isSucceed === true) return true;
+    return false;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const apiResetPassword = async (resetCode: string, newPassword: string, email: string) => {
+  try {
+    const result = await axiosInstance.post("/api/Identity/ResetPassword", { email, resetCode, newPassword });
+    if (result?.data?.isSucceed === true) return true;
+    return false;
+  } catch (error) {
+    throw error;
+  }
+};
