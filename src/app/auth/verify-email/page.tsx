@@ -12,12 +12,10 @@ const VerifyEmailPage = () => {
   const searchParams = useSearchParams();
   const userId = searchParams.get("userId");
   const code = searchParams.get("code");
-  console.log(userId, code);
   const [isChecking, setIsChecking] = useState(true);
   const [isSuccess, setIsSuccess] = useState(false);
 
   const handleCheckEmail = async (userId, code) => {
-    if (!userId || !code) return;
     try {
       const result = await apiConfirmEmail(userId, code);
       setIsChecking(false);
