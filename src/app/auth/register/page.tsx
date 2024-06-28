@@ -15,6 +15,9 @@ const RegisterPage = () => {
   const router = useRouter();
   const { setLoading } = useContext(LoadingContext);
   const [email, setEmail] = useState({ value: "", error: "" });
+  const [name, setName] = useState({ value: "", error: "" });
+  const [country, setCountry] = useState({ value: "", error: "" });
+  const [phone, setPhone] = useState({ value: "", error: "" });
   const [password, setPassword] = useState({ value: "", error: "" });
   const [passwordConfirm, setPasswordConfirm] = useState({
     value: "",
@@ -25,6 +28,9 @@ const RegisterPage = () => {
     e.preventDefault();
     if (!email.value) return setEmail({ ...email, error: "Email required." });
     if (!isValidEmail(email.value)) return setEmail({ ...email, error: "Invalid email." });
+    if (!name.value) return setName({ ...name, error: "Name required." });
+    if (!country.value) return setCountry({ ...country, error: "Country required." });
+    if (!phone.value) return setPhone({ ...phone, error: "Mobile phone required." });
     if (!password.value) return setPassword({ ...password, error: "Password required." });
     if (isValidPassword(password.value))
       return setPassword({
@@ -39,12 +45,11 @@ const RegisterPage = () => {
 
     setLoading(true);
     try {
-      const result = await apiRegister(email.value, password.value);
+      const result = await apiRegister(email.value, password.value, name.value, country.value, phone.value);
       if (result === true) {
         toast.success("Registered successfully.");
         router.push(`/auth/verify-email/send?email=${email.value}`);
       } else {
-        console.log(result);
         if (result?.DuplicateUserName) setEmail({ ...email, error: "Username is already taken." });
         else
           setPassword({
@@ -77,7 +82,7 @@ const RegisterPage = () => {
         </div>
 
         <div className="w-full h-full flex flex-col items-center justify-center px-16 py-36">
-          <div className="w-full py-40 px-16 md:px-32 max-w-420  bg-white/5 rounded-16 flex flex-col gap-24 items-center">
+          <div className="w-full py-40 px-16 md:px-32 max-w-480  bg-white/5 rounded-16 flex flex-col gap-24 items-center">
             <Link href={"/"}>
               <SvgLogo className="w-50 h-50" />
             </Link>
@@ -86,35 +91,50 @@ const RegisterPage = () => {
               <p className="text-gray-400 text-14 mt-8 text-center">Setting up an account takes only a few minutes.</p>
             </div>
             <form onSubmit={handleSubmit} className="flex flex-col gap-24 mt-12 w-full">
-              <div>
-                <CustomInput
-                  value={email.value}
-                  onChange={(e) => setEmail({ error: "", value: e })}
-                  icon="ic:round-alternate-email"
-                  placeholder="Email Address"
-                  error={email.error}
-                />
-              </div>
-              <div>
-                <CustomInput
-                  value={password.value}
-                  onChange={(e) => setPassword({ error: "", value: e })}
-                  type="password"
-                  icon="solar:shield-keyhole-outline"
-                  placeholder="Password"
-                  error={password.error}
-                />
-              </div>
-              <div>
-                <CustomInput
-                  value={passwordConfirm.value}
-                  onChange={(e) => setPasswordConfirm({ error: "", value: e })}
-                  type="password"
-                  icon="solar:shield-keyhole-outline"
-                  placeholder="Confirm Password"
-                  error={passwordConfirm.error}
-                />
-              </div>
+              <CustomInput
+                value={email.value}
+                onChange={(e) => setEmail({ error: "", value: e })}
+                icon="ic:round-alternate-email"
+                placeholder="Email Address"
+                error={email.error}
+              />
+              <CustomInput
+                value={name.value}
+                onChange={(e) => setName({ error: "", value: e })}
+                icon="solar:user-outline"
+                placeholder="User Name"
+                error={name.error}
+              />
+              <CustomInput
+                value={country.value}
+                onChange={(e) => setCountry({ error: "", value: e })}
+                icon="carbon:location"
+                placeholder="Country"
+                error={country.error}
+              />
+              <CustomInput
+                value={phone.value}
+                onChange={(e) => setPhone({ error: "", value: e })}
+                icon="radix-icons:mobile"
+                placeholder="Mobile Number"
+                error={phone.error}
+              />
+              <CustomInput
+                value={password.value}
+                onChange={(e) => setPassword({ error: "", value: e })}
+                type="password"
+                icon="solar:shield-keyhole-outline"
+                placeholder="Password"
+                error={password.error}
+              />
+              <CustomInput
+                value={passwordConfirm.value}
+                onChange={(e) => setPasswordConfirm({ error: "", value: e })}
+                type="password"
+                icon="solar:shield-keyhole-outline"
+                placeholder="Confirm Password"
+                error={passwordConfirm.error}
+              />
               <AnimatedSlideButton
                 className=" text-18 py-14 border border-secondary-300 rounded-full mt-16"
                 isSubmit={true}

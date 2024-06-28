@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import toast from "react-hot-toast";
@@ -26,6 +26,12 @@ const VerifyEmailSendPage = () => {
     }
     setLoading(false);
   };
+  useEffect(() => {
+    handleResendEmail();
+
+    return () => {};
+  }, [email]);
+
   return (
     <main className="relative w-full overflow-x-hidden">
       <div className="g-effect absolute -top-[300px] -right-[300px] w-[1000px] h-[1000px] scale-50 lg:scale-100"></div>
