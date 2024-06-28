@@ -15,7 +15,7 @@ const ResetPasswordPage = () => {
   const router = useRouter();
   const { setLoading } = useContext(LoadingContext);
   const searchParams = useSearchParams();
-  const userId = searchParams.get("userId");
+  const email = searchParams.get("email");
   const code = searchParams.get("code");
   const [password, setPassword] = useState({ value: "", error: "" });
   const [passwordConfirm, setPasswordConfirm] = useState({
@@ -38,10 +38,12 @@ const ResetPasswordPage = () => {
       });
     try {
       setLoading(true);
-      const result = await apiResetPassword(code, password.value, "johndoe@company.test");
-      if (result) toast.success("Password reset email sent.");
-      else toast.error("Something went wrong.");
-      router.push("/auth/login");
+      const result = await apiResetPassword(code, password.value, email);
+      console.log(result);
+      if (result) {
+        toast.success("Password reset completed successfully.");
+        router.push("/auth/login");
+      } else toast.error("Something went wrong.");
     } catch (error) {
       toast.error("Something went wrong.");
     }
@@ -77,7 +79,9 @@ const ResetPasswordPage = () => {
             </Link>
             <div className="w-full">
               <h4 className="g-button-text w-fit  mx-auto text-center">Reset Your Password</h4>
-              <p className="text-gray-400 text-14 mt-8 text-center">Reset your password of Test@test.com account.</p>
+              <p className="text-gray-400 text-14 mt-8 text-center">
+                Reset your password of <span className="text-white">{email}</span> account.
+              </p>
             </div>
             <form onSubmit={handleSubmit} className="w-full flex flex-col gap-24 mt-12">
               <div>

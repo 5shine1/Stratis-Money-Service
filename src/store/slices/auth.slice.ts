@@ -6,6 +6,7 @@ const initialState: IAuth = {
   accessToken: "",
   refreshToken: "",
   isAuthLoading: true,
+  isVerifiedEmail: false,
 };
 
 export const authSlice = createSlice({

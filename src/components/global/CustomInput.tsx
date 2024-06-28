@@ -12,7 +12,7 @@ type Props = {
 };
 const CustomInput: React.FC<Props> = ({ value, onChange, type = "text", error = "", icon = "", placeholder }) => {
   return (
-    <>
+    <div className="w-full">
       <div
         className={`w-full border-b-2 flex items-center px-12 gap-12  u-transition-color group ${
           error ? "border-error" : "border-primary-300/80 focus-within:border-primary-400"
@@ -35,7 +35,7 @@ const CustomInput: React.FC<Props> = ({ value, onChange, type = "text", error = 
         />
       </div>
       {error && <span className="text-error mt-4 text-12 mx-12">{error}</span>}
-    </>
+    </div>
   );
 };
 
