@@ -12,11 +12,20 @@ export const apiLogin = async (email: string, password: string) => {
   }
 };
 
-export const apiRegister = async (email: string, password: string) => {
+export const apiRegister = async (
+  email: string,
+  password: string,
+  name: string,
+  country: string,
+  mobileNumber: string
+) => {
   try {
     const result = await axiosInstance.post("/api/Identity/Register", {
       email,
       password,
+      name,
+      country,
+      mobileNumber,
     });
 
     if (result?.data?.isSucceed) {
