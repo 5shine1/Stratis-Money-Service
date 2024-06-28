@@ -12,4 +12,5 @@ export interface IAuth {
   refreshToken: string;
   email: string;
   isAuthLoading: boolean;
+  isVerifiedEmail: boolean;
 }

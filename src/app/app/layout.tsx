@@ -6,11 +6,14 @@ import { useRouter } from "next/navigation";
 
 const AppLayout: React.FC<PropsWithChildren> = ({ children }) => {
   const router = useRouter();
-  const { email, isAuthLoading } = useAppSelector((state) => state.auth);
+  const { email, isAuthLoading, isVerifiedEmail } = useAppSelector((state) => state.auth);
   if (isAuthLoading) return;
   if (!email) {
     router.push("/auth/login");
     return;
+  }
+  if (email && !isVerifiedEmail) {
+    router.push(`/auth/verify-email/send?email=${email}`);
   }
   return <AppSidebar>{children}</AppSidebar>;
 };
