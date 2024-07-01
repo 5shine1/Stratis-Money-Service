@@ -12,10 +12,10 @@ const AppLayout: React.FC<PropsWithChildren> = ({ children }) => {
     router.push("/auth/login");
     return;
   }
-  // if (email && !isVerifiedEmail) {
-  //   router.push(`/auth/verify-email/send?email=${email}`);
-  // return;
-  // }
+  if (email && !isVerifiedEmail) {
+    router.push(`/auth/verify-email/send?email=${email}`);
+    return;
+  }
   return <AppSidebar>{children}</AppSidebar>;
 };
 
