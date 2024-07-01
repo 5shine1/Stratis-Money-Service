@@ -49,7 +49,6 @@ const RegisterPage = () => {
       if (result === true) {
         toast.success("Registered successfully.");
         router.push(`/auth/verify-email/send?email=${email.value}`);
-        return;
       } else {
         if (result?.DuplicateUserName) setEmail({ ...email, error: "Username is already taken." });
         else

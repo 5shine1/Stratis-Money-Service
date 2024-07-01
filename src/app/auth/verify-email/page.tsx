@@ -7,6 +7,8 @@ import toast from "react-hot-toast";
 
 import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
 import { apiConfirmEmail } from "@/api/auth.api";
+import useAppDispatch from "@/hooks/global/useAppDispatch";
+import { setIsVerifiedEmail } from "@/store/slices/auth.slice";
 
 const VerifyEmailPage = () => {
   const searchParams = useSearchParams();
@@ -14,6 +16,7 @@ const VerifyEmailPage = () => {
   const code = searchParams.get("code");
   const [isChecking, setIsChecking] = useState(true);
   const [isSuccess, setIsSuccess] = useState(false);
+  const dispatch = useAppDispatch();
 
   const handleCheckEmail = async (userId, code) => {
     try {
@@ -22,6 +25,7 @@ const VerifyEmailPage = () => {
       if (result) {
         toast.success("Email has been verified.");
         setIsSuccess(true);
+        dispatch(setIsVerifiedEmail(true));
       } else {
         toast.error("Email verification failed.");
       }

@@ -43,10 +43,8 @@ const LoginPage = () => {
         toast.success("Logged in successfully.");
         if (result?.data?.isVerifiedEmail) {
           router.push("/app/order");
-          return;
         } else {
           router.push(`/auth/verify-email/send?email=${email.value}`);
-          return;
         }
       } else {
         if (result?.messages.email) setEmail({ ...email, error: "Email not found." });
