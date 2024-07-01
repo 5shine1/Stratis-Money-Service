@@ -43,6 +43,7 @@ const ResetPasswordPage = () => {
       if (result) {
         toast.success("Password reset completed successfully.");
         router.push("/auth/login");
+        return;
       } else toast.error("Something went wrong.");
     } catch (error) {
       toast.error("Something went wrong.");
