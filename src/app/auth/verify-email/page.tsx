@@ -57,9 +57,9 @@ const VerifyEmailPage = () => {
                 <h4 className="g-button-text w-fit  mx-auto text-center ">
                   Your email has been verified successfully.
                 </h4>
-                <Link href={"/"}>
+                <Link href={"/app/order"}>
                   <AnimatedSlideButton className=" text-18 py-14 px-32 border border-secondary-300 rounded-full mt-16">
-                    Go To Home
+                    Go To Dashboard
                   </AnimatedSlideButton>
                 </Link>
               </div>
