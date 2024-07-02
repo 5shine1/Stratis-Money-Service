@@ -21,7 +21,7 @@ export interface IAuth {
 }
 
 export enum ROLES {
-  ADMIN = "admin",
-  BUSINESS = "business",
-  GUEST = "guest",
+  ADMIN = "Admin",
+  BUSINESS = "Business",
+  GUEST = "Guest",
 }
