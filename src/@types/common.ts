@@ -3,8 +3,10 @@ export interface IIcon {
 }
 
 export interface ICurrency {
-  img?: string;
-  id: string;
+  currencyId: number;
+  name: string;
+  symbole: string;
+  isFiat: boolean;
 }
 
 export interface IAuth {
