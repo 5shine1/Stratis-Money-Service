@@ -1,17 +1,36 @@
 "use client";
 import Link from "next/link";
+import React, { PropsWithChildren, useContext, useState } from "react";
 import { usePathname } from "next/navigation";
-import React, { PropsWithChildren, useState } from "react";
+import toast from "react-hot-toast";
 import { Icon } from "@iconify/react";
 
 import SvgLogoApp from "@/assets/SvgLogoApp";
+import { LoadingContext } from "@/components/providers/LoadingProvider";
+import useAppDispatch from "@/hooks/global/useAppDispatch";
+import useAppSelector from "@/hooks/global/useAppSelector";
+import { logout } from "@/store/slices/auth.slice";
+import { apiLogout } from "@/api/auth.api";
 
 import SwitchDarkmode from "./SwitchDarkmode";
 
 const AppSidebar: React.FC<PropsWithChildren> = ({ children }) => {
   const [isWrapped, setIsWrapped] = useState(true);
   const [isOpenMobileMenu, setIsOpenMobileMenu] = useState(false);
+  const { setLoading } = useContext(LoadingContext);
   const pathname = usePathname();
+  const { name, role } = useAppSelector((state) => state.auth);
+  const dispatch = useAppDispatch();
+
+  const handleLogout = async () => {
+    setLoading(true);
+    try {
+      await apiLogout();
+      toast.success("Logout successfully");
+    } catch (error) {}
+    dispatch(logout());
+    setLoading(false);
+  };
   return (
     <main id="mainSection" className="w-full h-[100vh] flex gap-4 bg-white dark:bg-primary-800 overflow-auto">
       <aside
@@ -32,7 +51,7 @@ const AppSidebar: React.FC<PropsWithChildren> = ({ children }) => {
           <div className="mt-36 flex flex-col gap-8 text-14">
             <Link
               href="/app/order"
-              className={`p-10 flex items-center justify-start gap-12  u-transition-color rounded-8 overflow-hidden ${
+              className={`p-9 flex items-center justify-start gap-12  u-transition-color rounded-8 overflow-hidden ${
                 pathname.includes("/app/order")
                   ? "bg-secondary-400/80 dark:bg-primary-700"
                   : "hover:bg-white/30 dark:hover:bg-primary-700/40"
@@ -43,7 +62,7 @@ const AppSidebar: React.FC<PropsWithChildren> = ({ children }) => {
             </Link>
             <Link
               href="/app/withdraw"
-              className={`p-10 flex items-center justify-start gap-12  u-transition-color rounded-8 overflow-hidden ${
+              className={`p-9 flex items-center justify-start gap-12  u-transition-color rounded-8 overflow-hidden ${
                 pathname.includes("/app/withdraw")
                   ? "bg-secondary-400/80 dark:bg-primary-700"
                   : "hover:bg-white/30 dark:hover:bg-primary-700/40"
@@ -54,7 +73,7 @@ const AppSidebar: React.FC<PropsWithChildren> = ({ children }) => {
             </Link>
             <Link
               href="/app/user"
-              className={`p-10 flex items-center justify-start gap-12  u-transition-color rounded-8 overflow-hidden ${
+              className={`p-9 flex items-center justify-start gap-12  u-transition-color rounded-8 overflow-hidden ${
                 pathname.includes("/app/user")
                   ? "bg-secondary-400/80 dark:bg-primary-700"
                   : "hover:bg-white/30 dark:hover:bg-primary-700/40"
@@ -66,35 +85,23 @@ const AppSidebar: React.FC<PropsWithChildren> = ({ children }) => {
           </div>
 
           <div className="mt-auto flex flex-col gap-12">
-            {/* <div className="text-12 flex items-center justify-between overflow-hidden">
-            <span
-              className={` whitespace-nowrap ${isWrapped ? "block" : "hidden"}`}
-            >
-              Your Balance:
-            </span>
-            <span className="whitespace-nowrap">
-              $
-              {isWrapped
-                ? (123456789.1234).toLocaleString()
-                : optimizedBalance(123456789.1234)}
-            </span>
-          </div> */}
             <Link
               href="/app/account"
-              className={`p-6 flex items-center justify-start gap-6  u-transition-color  rounded-8 overflow-hidden ${
+              className={`p-9 flex items-center justify-start gap-6  u-transition-color  rounded-8 overflow-hidden ${
                 pathname.includes("/app/account")
                   ? "dark:bg-primary-700 bg-secondary-400"
-                  : "hover:bg-white/20 hover:dark:bg-primary-700/30"
+                  : "bg-white/20 dark:bg-primary-700/30"
               }`}
             >
-              <img
-                src="https://avatars.githubusercontent.com/u/162055292?v=4"
-                alt="avatar"
-                className=" w-36 h-36 flex-none rounded-full"
-              />
-              <div className={`text-14 u-text-overflow ${isWrapped ? "block" : "hidden"}`}>Harry Donato Name Here</div>
-              <div className="text-10  border border-primary-500 text-primary-500 dark:border-secondary-400 dark:text-secondary-400 rounded-4 px-4 py-2 ml-auto">
-                Customer
+              <img src="/assets/global/avatar.png" alt="avatar" className=" w-30 h-30 flex-none rounded-full" />
+
+              <div className={`text-14 u-text-overflow ${isWrapped ? "block" : "hidden"}`}>{name}</div>
+              <div
+                className={`text-10  border border-primary-500 text-primary-500 dark:border-secondary-400 dark:text-secondary-400 rounded-4 px-4 py-2 ml-auto ${
+                  isWrapped ? "block" : "hidden"
+                }`}
+              >
+                {role}
               </div>
             </Link>
             <div
@@ -102,6 +109,7 @@ const AppSidebar: React.FC<PropsWithChildren> = ({ children }) => {
             >
               <SwitchDarkmode isWrapped={isWrapped} />
               <div
+                onClick={handleLogout}
                 className={`cursor-pointer p-4 rounded-6 hover:bg-white/20 dark:hover:bg-primary-700/30 u-transition-color ${
                   isWrapped ? "block" : "hidden"
                 }`}

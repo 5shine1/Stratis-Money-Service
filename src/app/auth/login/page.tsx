@@ -12,6 +12,7 @@ import useAppDispatch from "@/hooks/global/useAppDispatch";
 import { setAuth } from "@/store/slices/auth.slice";
 import { isValidEmail } from "@/utils/string.utils";
 import { apiLogin } from "@/api/auth.api";
+import { ROLES } from "@/@types/common";
 
 const LoginPage = () => {
   const router = useRouter();
@@ -29,20 +30,26 @@ const LoginPage = () => {
     setLoading(true);
     try {
       const result = await apiLogin(email.value, password.value);
-      console.log(result);
       if (result?.isSucceed) {
         dispatch(
           setAuth({
             email: email.value,
+            userId: result?.data?.userId,
             accessToken: result?.data?.accessToken,
             refreshToken: result?.data?.refreshToken,
             isVerifiedEmail: result?.data?.isVerifiedEmail,
+            role:
+              result?.data && result?.data.isBusiness
+                ? result.data.isBusiness === true
+                  ? ROLES.BUSINESS
+                  : ROLES.ADMIN
+                : ROLES.GUEST,
           })
         );
 
         toast.success("Logged in successfully.");
         if (result?.data?.isVerifiedEmail) {
-          router.push("/app/order");
+          router.push("/");
         } else {
           router.push(`/auth/verify-email/send?email=${email.value}`);
         }

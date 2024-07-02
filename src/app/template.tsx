@@ -9,6 +9,8 @@ import LoadingProvider from "@/components/providers/LoadingProvider";
 import useAppDispatch from "@/hooks/global/useAppDispatch";
 import { setAuth, setAuthLoading } from "@/store/slices/auth.slice";
 import useAppSelector from "@/hooks/global/useAppSelector";
+import { apiUserInfo } from "@/api/auth.api";
+import { ROLES } from "@/@types/common";
 
 const RootTemplate = ({ children }: PropsWithChildren) => {
   Modal.setAppElement("body");
@@ -36,16 +38,19 @@ export default RootTemplate;
 
 const MainComponent = () => {
   const dispatch = useAppDispatch();
-  const { email } = useAppSelector((state) => state.auth);
 
   const handleGetAuth = async () => {
     try {
-      if (email) return dispatch(setAuthLoading());
-      const session = localStorage.getItem("stratis-auth");
-      if (session === null) return dispatch(setAuthLoading());
-      const auth = JSON.parse(session);
-      if (!auth || !auth.accessToken || !auth.refreshToken) return;
-      dispatch(setAuth(auth));
+      const token = localStorage.getItem("stratis-auth-token");
+      if (!token) return dispatch(setAuthLoading());
+      const result = await apiUserInfo();
+      dispatch(
+        setAuth({
+          ...result,
+          accessToken: token,
+          role: result && result.isBusiness ? (result.isBusiness === true ? ROLES.BUSINESS : ROLES.ADMIN) : ROLES.GUEST,
+        })
+      );
     } catch (error) {
       console.log(error);
     }
