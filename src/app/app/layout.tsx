@@ -1,5 +1,5 @@
 "use client";
-import React, { PropsWithChildren } from "react";
+import React, { PropsWithChildren, useEffect } from "react";
 import useAppSelector from "@/hooks/global/useAppSelector";
 import AppSidebar from "./components/Sidebar";
 import { useRouter } from "next/navigation";
@@ -7,6 +7,10 @@ import { useRouter } from "next/navigation";
 const AppLayout: React.FC<PropsWithChildren> = ({ children }) => {
   const router = useRouter();
   const { email, isAuthLoading, isVerifiedEmail } = useAppSelector((state) => state.auth);
+  useEffect(() => {
+    console.log("x");
+  }, []);
+
   if (isAuthLoading) return;
   if (!email) {
     router.push("/auth/login");

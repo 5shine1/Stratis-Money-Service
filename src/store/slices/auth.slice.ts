@@ -1,12 +1,15 @@
-import { IAuth } from "@/@types/common";
+import { IAuth, ROLES } from "@/@types/common";
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState: IAuth = {
+  userId: "",
   email: "",
+  name: "",
   accessToken: "",
   refreshToken: "",
   isAuthLoading: true,
   isVerifiedEmail: false,
+  role: ROLES.GUEST,
 };
 
 export const authSlice = createSlice({
@@ -15,25 +18,16 @@ export const authSlice = createSlice({
   reducers: {
     setAuth: (state, action) => {
       state = { ...action.payload, isAuthLoading: false };
-      localStorage.setItem("stratis-auth", JSON.stringify(action.payload));
+      localStorage.setItem("stratis-auth-token", state.accessToken);
       return state;
     },
     setIsVerifiedEmail: (state, action) => {
       state = { ...state, isVerifiedEmail: action.payload };
-      localStorage.setItem(
-        "stratis-auth",
-        JSON.stringify({
-          email: state.email,
-          accessToken: state.accessToken,
-          refreshToken: state.refreshToken,
-          isVerifiedEmail: action.payload,
-        })
-      );
       return state;
     },
     logout: (state) => {
       state = { ...initialState, isAuthLoading: false };
-      localStorage.removeItem("stratis-auth");
+      localStorage.removeItem("stratis-auth-token");
       return state;
     },
     setAuthLoading: (state) => {
