@@ -8,11 +8,11 @@ import { Icon } from "@iconify/react";
 import AppInput from "@/components/global/AppInput";
 import { LoadingContext } from "@/components/providers/LoadingProvider";
 import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
-import { callAPI, mockOrderLinks } from "@/config/mock";
+import { callAPI } from "@/config/mock";
 
 import ControlModal from "./components/ControlModal";
 import DeleteModal from "./components/DeleteModal";
-import { apiGenerate } from "@/api/payment.api";
+import { apiGenerate, apiPaymentHistory } from "@/api/payment.api";
 import { ICurrency } from "@/@types/common";
 
 const OrderPage = () => {
@@ -35,8 +35,8 @@ const OrderPage = () => {
   const handleGetOrders = async () => {
     setIsLoading(true);
     try {
-      await callAPI();
-      setPaymentOrders(mockOrderLinks);
+      const result = await apiPaymentHistory();
+      setPaymentOrders(result);
     } catch (error) {
       toast.error("Server error.");
     }

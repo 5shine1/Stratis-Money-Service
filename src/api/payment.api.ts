@@ -19,3 +19,12 @@ export const apiGenerate = async (amount: number, currency: ICurrency, descripti
     throw error;
   }
 };
+
+export const apiPaymentHistory = async () => {
+  try {
+    const result = await axiosInstance.get("/api/Payment/History");
+    return result.data;
+  } catch (error) {
+    throw error;
+  }
+};
