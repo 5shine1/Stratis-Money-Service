@@ -13,6 +13,11 @@ export const isValidPassword = (password: string) => {
   return "";
 };
 
+export const isValidPhoneNumber = (number: string) => {
+  if (/^\+?[1-9]\d{1,14}$/.test(number)) return true;
+  return false;
+};
+
 export const formattedUsername = (username: string) => {
   if (username.length < 12) return username;
   return username.slice(0, 6) + "..." + username.slice(-3);

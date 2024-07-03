@@ -9,12 +9,8 @@ const axiosInstance = axios.create({
   },
 });
 
-let token;
-if (typeof window !== "undefined") {
-  token = localStorage.getItem("stratis-auth-token");
-}
-
 axiosInstance.interceptors.request.use((config) => {
+  const token = localStorage.getItem("stratis-auth-token");
   config.headers["Authorization"] = "Bearer " + token;
   return config;
 });
