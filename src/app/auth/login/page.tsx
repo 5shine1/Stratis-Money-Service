@@ -35,6 +35,7 @@ const LoginPage = () => {
           setAuth({
             email: email.value,
             userId: result?.data?.userId,
+            name: result?.data?.name,
             accessToken: result?.data?.accessToken,
             refreshToken: result?.data?.refreshToken,
             isVerifiedEmail: result?.data?.isVerifiedEmail,

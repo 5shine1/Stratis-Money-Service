@@ -5,7 +5,7 @@ export interface IIcon {
 export interface ICurrency {
   currencyId: number;
   name: string;
-  symbole: string;
+  symbol: string;
   isFiat: boolean;
 }
 

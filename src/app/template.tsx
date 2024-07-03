@@ -8,9 +8,9 @@ import { ScrollProvider } from "@/components/providers/ScrollProvider";
 import LoadingProvider from "@/components/providers/LoadingProvider";
 import useAppDispatch from "@/hooks/global/useAppDispatch";
 import { setAuth, setAuthLoading } from "@/store/slices/auth.slice";
-import useAppSelector from "@/hooks/global/useAppSelector";
 import { apiUserInfo } from "@/api/auth.api";
 import { ROLES } from "@/@types/common";
+import useAppSelector from "@/hooks/global/useAppSelector";
 
 const RootTemplate = ({ children }: PropsWithChildren) => {
   Modal.setAppElement("body");
@@ -37,12 +37,13 @@ const RootTemplate = ({ children }: PropsWithChildren) => {
 export default RootTemplate;
 
 const MainComponent = () => {
+  const { email } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
 
   const handleGetAuth = async () => {
     try {
       const token = localStorage.getItem("stratis-auth-token");
-      if (!token) return dispatch(setAuthLoading());
+      if (!token || (token && email)) return dispatch(setAuthLoading());
       const result = await apiUserInfo();
       dispatch(
         setAuth({
