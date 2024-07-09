@@ -41,7 +41,7 @@ const ResetPasswordPage = () => {
       const result = await apiResetPassword(code, password.value, email);
       console.log(result);
       if (result) {
-        toast.success("Password reset completed successfully.");
+        toast.success("Password reset completed.");
         router.push("/auth/login");
       } else toast.error("Something went wrong.");
     } catch (error) {

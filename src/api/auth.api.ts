@@ -98,3 +98,13 @@ export const apiResetPassword = async (resetCode: string, newPassword: string, e
     throw error;
   }
 };
+
+export const apiUserInfo = async () => {
+  try {
+    const result = await axiosInstance.post("/api/Identity/Info");
+    if (result?.data?.isSucceed === false) throw "Something went wrong";
+    return result?.data?.data;
+  } catch (error) {
+    throw error;
+  }
+};

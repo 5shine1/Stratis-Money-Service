@@ -8,10 +8,12 @@ import { Icon } from "@iconify/react";
 import AppInput from "@/components/global/AppInput";
 import { LoadingContext } from "@/components/providers/LoadingProvider";
 import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
-import { callAPI, mockOrderLinks } from "@/config/mock";
+import { callAPI } from "@/config/mock";
 
 import ControlModal from "./components/ControlModal";
 import DeleteModal from "./components/DeleteModal";
+import { apiGenerate, apiPaymentHistory } from "@/api/payment.api";
+import { ICurrency } from "@/@types/common";
 
 const OrderPage = () => {
   const { setLoading } = useContext(LoadingContext);
@@ -33,18 +35,18 @@ const OrderPage = () => {
   const handleGetOrders = async () => {
     setIsLoading(true);
     try {
-      await callAPI();
-      setPaymentOrders(mockOrderLinks);
+      const result = await apiPaymentHistory();
+      setPaymentOrders(result);
     } catch (error) {
       toast.error("Server error.");
     }
     setIsLoading(false);
   };
-  const handleCreateOrder = async () => {
+  const handleCreateOrder = async (amount: number, currency: ICurrency, description: string, payer: string) => {
     setLoading(true);
     try {
-      await callAPI();
-      setPaymentOrders([mockOrderLinks[8], ...mockOrderLinks]);
+      const result = await apiGenerate(amount, currency, description, payer);
+      // setPaymentOrders([mockOrderLinks[8], ...mockOrderLinks]);
       toast.success("Generated new link successfully.");
       setControlModalOpen(null);
     } catch (error) {
@@ -113,20 +115,17 @@ const OrderPage = () => {
               <table className="w-full table-fixed min-w-800 text-primary-200 dark:text-white/70">
                 <thead>
                   <tr className="border-b border-primary-200/20 dark:border-white/10">
-                    <th className="px-8 py-16 text-left w-160">Payment ID</th>
-                    <th className="px-8 py-16 text-left w-160">Payment Link</th>
-                    <th className="px-8 py-16 text-left w-120">From</th>
-                    <th className="px-8 py-16 text-left w-120">To</th>
-                    <th className="px-8 py-16 text-left w-120">Amount</th>
-                    <th className="px-8 py-16 text-left w-120">Status</th>
-                    <th className="px-8 py-16 text-left w-160">Date</th>
-                    <th className="px-8 py-16 text-right w-120">Actions</th>
+                    <th className="px-8 py-16 text-left">Payer</th>
+                    <th className="px-8 py-16 text-left">Amount</th>
+                    <th className="px-8 py-16 text-left">State</th>
+                    <th className="px-8 py-16 text-left">Date</th>
+                    <th className="px-8 py-16 text-right">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   {!filteredData.length ? (
                     <tr>
-                      <td colSpan={8} className="text-error p-24 lg:text-center text-left">
+                      <td colSpan={5} className="text-error p-24 lg:text-center text-left">
                         No Order Links
                       </td>
                     </tr>
@@ -135,9 +134,6 @@ const OrderPage = () => {
                       {filteredData.slice(currentPage * 10 - 10, currentPage * 10).map((item, i) => {
                         return (
                           <tr key={i} className="even:bg-secondary-100/10 dark:even:bg-[#ffffff04]">
-                            <td className="px-8 py-16">{item.id}</td>
-                            <td className="px-8 py-16">{item.link}</td>
-                            <td className="px-8 py-16">{item.from}</td>
                             <td className="px-8 py-16">{item.to}</td>
                             <td className="px-8 py-16">
                               {item.amount} <span className="opacity-50">{item.currency.name}</span>
@@ -166,12 +162,6 @@ const OrderPage = () => {
                                 >
                                   <Icon icon="bxs:trash" className="w-20 h-20"></Icon>
                                 </button>
-                                <Link
-                                  href={`/payment/${item.id}`}
-                                  className="text-primary-200/30 dark:text-white/40 u-transition-color hover:text-success"
-                                >
-                                  <Icon icon="ion:play" className="w-20 h-20"></Icon>
-                                </Link>
                               </div>
                             </td>
                           </tr>
@@ -203,7 +193,7 @@ const OrderPage = () => {
         isOpen={controlModalOpen !== null}
         onClose={() => setControlModalOpen(null)}
         data={paymentOrders.find((item) => item.id === controlModalOpen)}
-        onNext={controlModalOpen === null ? handleCreateOrder : handleEditOrder}
+        onNext={controlModalOpen === "" ? handleCreateOrder : handleEditOrder}
       />
       <DeleteModal isOpen={deleteModalOpen} onClose={() => setDeleteModalOpen(false)} onNext={handleDeleteOrder} />
     </>

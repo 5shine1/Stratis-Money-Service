@@ -8,6 +8,8 @@ import { ScrollProvider } from "@/components/providers/ScrollProvider";
 import LoadingProvider from "@/components/providers/LoadingProvider";
 import useAppDispatch from "@/hooks/global/useAppDispatch";
 import { setAuth, setAuthLoading } from "@/store/slices/auth.slice";
+import { apiUserInfo } from "@/api/auth.api";
+import { ROLES } from "@/@types/common";
 import useAppSelector from "@/hooks/global/useAppSelector";
 
 const RootTemplate = ({ children }: PropsWithChildren) => {
@@ -35,17 +37,21 @@ const RootTemplate = ({ children }: PropsWithChildren) => {
 export default RootTemplate;
 
 const MainComponent = () => {
-  const dispatch = useAppDispatch();
   const { email } = useAppSelector((state) => state.auth);
+  const dispatch = useAppDispatch();
 
   const handleGetAuth = async () => {
     try {
-      if (email) return dispatch(setAuthLoading());
-      const session = localStorage.getItem("stratis-auth");
-      if (session === null) return dispatch(setAuthLoading());
-      const auth = JSON.parse(session);
-      if (!auth || !auth.accessToken || !auth.refreshToken) return;
-      dispatch(setAuth(auth));
+      const token = localStorage.getItem("stratis-auth-token");
+      if (!token || (token && email)) return dispatch(setAuthLoading());
+      const result = await apiUserInfo();
+      dispatch(
+        setAuth({
+          ...result,
+          accessToken: token,
+          role: result && result.isBusiness ? (result.isBusiness === true ? ROLES.BUSINESS : ROLES.ADMIN) : ROLES.GUEST,
+        })
+      );
     } catch (error) {
       console.log(error);
     }

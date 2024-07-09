@@ -3,14 +3,25 @@ export interface IIcon {
 }
 
 export interface ICurrency {
-  img?: string;
-  id: string;
+  currencyId: number;
+  name: string;
+  symbol: string;
+  isFiat: boolean;
 }
 
 export interface IAuth {
+  userId: string;
   accessToken: string;
   refreshToken: string;
   email: string;
+  name: string;
   isAuthLoading: boolean;
   isVerifiedEmail: boolean;
+  role: ROLES;
+}
+
+export enum ROLES {
+  ADMIN = "Admin",
+  BUSINESS = "Business",
+  GUEST = "Guest",
 }
