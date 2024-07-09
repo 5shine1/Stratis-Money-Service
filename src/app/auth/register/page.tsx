@@ -48,9 +48,10 @@ const RegisterPage = () => {
       const result = await apiRegister(email.value, password.value, name.value, country.value, phone.value);
       if (result === true) {
         toast.success("Registered successfully.");
-        router.push(`/auth/verify-email/send?email=${email.value}`);
+        router.push(`/auth/login`);
       } else {
-        if (result?.DuplicateUserName) setEmail({ ...email, error: "Username is already taken." });
+        console.log(result);
+        if (result?.duplicate) setEmail({ ...email, error: "User is already exist." });
         else
           setPassword({
             ...password,

@@ -24,6 +24,20 @@
   cursor: pointer;
   background: #031521;
 }
+.ReactModal__Overlay::-webkit-scrollbar-track {
+  cursor: pointer;
+  background: #fdf6e9;
+}
+
+.dark .ReactModal__Overlay ::-webkit-scrollbar-track {
+  cursor: pointer;
+  background: #031521;
+}
+
+*::-webkit-scrollbar-track {
+  background: inherit;
+}
+
 /* Handle */
 ::-webkit-scrollbar-thumb {
   cursor: pointer;

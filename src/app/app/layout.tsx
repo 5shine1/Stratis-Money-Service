@@ -1,12 +1,26 @@
 "use client";
-import React, { PropsWithChildren } from "react";
-import useAppSelector from "@/hooks/global/useAppSelector";
-import AppSidebar from "./components/Sidebar";
+import React, { PropsWithChildren, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import useAppSelector from "@/hooks/global/useAppSelector";
+import useAppDispatch from "@/hooks/global/useAppDispatch";
+import { setCurrency } from "@/store/slices/payment.slice";
+import { apiGetCurrencies } from "@/api/payment.api";
+import AppSidebar from "./components/Sidebar";
 
 const AppLayout: React.FC<PropsWithChildren> = ({ children }) => {
   const router = useRouter();
   const { email, isAuthLoading, isVerifiedEmail } = useAppSelector((state) => state.auth);
+  const dispatch = useAppDispatch();
+
+  const handleGetCurrencies = async () => {
+    const result = await apiGetCurrencies();
+    if (result) dispatch(setCurrency(result));
+  };
+
+  useEffect(() => {
+    handleGetCurrencies();
+  }, []);
+
   if (isAuthLoading) return;
   if (!email) {
     router.push("/auth/login");
@@ -14,6 +28,7 @@ const AppLayout: React.FC<PropsWithChildren> = ({ children }) => {
   }
   if (email && !isVerifiedEmail) {
     router.push(`/auth/verify-email/send?email=${email}`);
+    return;
   }
   return <AppSidebar>{children}</AppSidebar>;
 };

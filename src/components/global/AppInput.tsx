@@ -10,6 +10,8 @@ type Props = {
   icon?: string;
   error?: string;
   label?: string;
+  pattern?: string;
+  inputMode?: "text" | "email" | "search" | "tel" | "url" | "none" | "numeric" | "decimal";
 };
 const AppInput: React.FC<Props> = ({
   value,
@@ -19,6 +21,8 @@ const AppInput: React.FC<Props> = ({
   icon = "",
   placeholder,
   label = "",
+  pattern,
+  inputMode = "text",
 }) => {
   return (
     <div className="w-full flex flex-col gap-4">
@@ -43,9 +47,16 @@ const AppInput: React.FC<Props> = ({
         <input
           value={value}
           type={type}
-          onChange={(e) => onChange(e.target.value)}
+          onChange={(e) => {
+            if (!e.target.validity.valid) {
+              return;
+            }
+            onChange(e.target.value);
+          }}
           className="text-14 placeholder:text-primary-500/70 dark:placeholder:text-white/40 py-12 w-full text-primary-500 dark:text-gray-200 outline-none bg-transparent "
           placeholder={placeholder}
+          pattern={pattern}
+          inputMode={inputMode}
         />
       </div>
       {error && <span className="text-error text-12 mx-6">{error}</span>}
