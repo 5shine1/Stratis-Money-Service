@@ -36,7 +36,6 @@ const CurrencyInput: React.FC<Props> = ({
         <input className="text-24 text-white outline-none w-full  bg-transparent" placeholder="0.0" />
       </div>
       <div className="flex items-center gap-4">
-        <img src={currentCurrency.img} alt={currentCurrency.id} className="w-40 h-40 rounded-full" />
         <div
           className="cursor-pointer  text-secondary-200 hover:text-secondary-400 u-transition-color"
           onClick={() => setOpen(!open)}
@@ -55,19 +54,16 @@ const CurrencyInput: React.FC<Props> = ({
         {currencies.map((item) => {
           return (
             <div
-              key={item.id}
+              key={item.currencyId}
               className={`p-8 cursor-pointer  u-transition-color rounded-4 ${
-                currentCurrency.id === item.id ? "bg-secondary-200/20" : "hover:bg-white/10"
+                currentCurrency.currencyId === item.currencyId ? "bg-secondary-200/20" : "hover:bg-white/10"
               }`}
               onClick={() => {
                 setCurrentCurrency(item);
                 setOpen(false);
               }}
             >
-              <div className="w-full flex items-center gap-16">
-                <img className="w-32 h-32 rounded-full" src={item.img} alt={item.id} />
-                {item.id}
-              </div>
+              <div className="w-full flex items-center gap-16">{item.currencyId}</div>
             </div>
           );
         })}
