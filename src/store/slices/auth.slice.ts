@@ -5,8 +5,6 @@ const initialState: IAuth = {
   userId: "",
   email: "",
   name: "",
-  accessToken: "",
-  refreshToken: "",
   isAuthLoading: true,
   isVerifiedEmail: false,
   role: ROLES.GUEST,
@@ -18,7 +16,6 @@ export const authSlice = createSlice({
   reducers: {
     setAuth: (state, action) => {
       state = { ...action.payload, isAuthLoading: false };
-      localStorage.setItem("stratis-auth-token", state.accessToken);
       return state;
     },
     setIsVerifiedEmail: (state, action) => {
@@ -28,6 +25,7 @@ export const authSlice = createSlice({
     logout: (state) => {
       state = { ...initialState, isAuthLoading: false };
       localStorage.removeItem("stratis-auth-token");
+      localStorage.removeItem("stratis-auth-refresh");
       return state;
     },
     setAuthLoading: (state) => {
