@@ -48,7 +48,6 @@ const MainComponent = () => {
       dispatch(
         setAuth({
           ...result,
-          accessToken: token,
           role: result && result.isBusiness ? (result.isBusiness === true ? ROLES.BUSINESS : ROLES.ADMIN) : ROLES.GUEST,
         })
       );

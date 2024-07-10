@@ -31,13 +31,13 @@ const LoginPage = () => {
     try {
       const result = await apiLogin(email.value, password.value);
       if (result?.isSucceed) {
+        localStorage.setItem("stratis-auth-token", result?.data?.accessToken);
+        localStorage.setItem("stratis-auth-refresh", result?.data?.refreshToken);
         dispatch(
           setAuth({
             email: email.value,
             userId: result?.data?.userId,
             name: result?.data?.name,
-            accessToken: result?.data?.accessToken,
-            refreshToken: result?.data?.refreshToken,
             isVerifiedEmail: result?.data?.isVerifiedEmail,
             role:
               result?.data && result?.data.isBusiness

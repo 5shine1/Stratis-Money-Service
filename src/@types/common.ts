@@ -11,8 +11,6 @@ export interface ICurrency {
 
 export interface IAuth {
   userId: string;
-  accessToken: string;
-  refreshToken: string;
   email: string;
   name: string;
   isAuthLoading: boolean;
