@@ -8,7 +8,7 @@ import SvgLogo from "@/assets/SvgLogo";
 import { LoadingContext } from "@/components/providers/LoadingProvider";
 import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
 import CustomInput from "@/components/global/CustomInput";
-import { isValidPassword, isValidEmail } from "@/utils/string.utils";
+import { isValidPassword, isValidEmail, isValidPhoneNumber } from "@/utils/string.utils";
 import { apiRegister } from "@/api/auth.api";
 
 const RegisterPage = () => {
@@ -31,6 +31,7 @@ const RegisterPage = () => {
     if (!name.value) return setName({ ...name, error: "Name required." });
     if (!country.value) return setCountry({ ...country, error: "Country required." });
     if (!phone.value) return setPhone({ ...phone, error: "Mobile phone required." });
+    if (!isValidPhoneNumber(phone.value)) return setPhone({ ...phone, error: "Incorrect phone number" });
     if (!password.value) return setPassword({ ...password, error: "Password required." });
     if (isValidPassword(password.value))
       return setPassword({
