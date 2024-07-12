@@ -56,6 +56,8 @@ axiosInstance.interceptors.response.use(
         axios
           .post(`${BACKEND_URL}/api/Identity/Refresh`, { accessToken, refreshToken })
           .then(({ data }) => {
+            console.log("result:", data);
+            if (!data?.isSucceed) throw "Server error";
             localStorage.setItem("stratis-auth-token", data?.data?.accessToken);
             localStorage.setItem("stratis-auth-refresh", data?.data?.refreshToken);
             axiosInstance.defaults.headers.common["Authorization"] = "Bearer " + data.accessToken;
@@ -64,6 +66,9 @@ axiosInstance.interceptors.response.use(
             resolve(axiosInstance(originalRequest));
           })
           .catch((err) => {
+            localStorage.removeItem("stratis-auth-token");
+            localStorage.removeItem("stratis-auth-refresh");
+            console.log("error:", err);
             processQueue(err, null);
             reject(err);
           })
