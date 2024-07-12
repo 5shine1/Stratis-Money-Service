@@ -1,4 +1,3 @@
-import { ICurrency } from "@/@types/common";
 import axiosInstance from "@/config/axios";
 
 export const apiGetCurrencies = async () => {
@@ -10,10 +9,9 @@ export const apiGetCurrencies = async () => {
   }
 };
 
-export const apiGenerate = async (amount: number, currency: ICurrency, description: string, payer: string) => {
+export const apiGenerate = async (amount: number, currencySymbol: string, description: string, payer: string) => {
   try {
-    const result = await axiosInstance.post("/api/Payment/Generate", { amount, currency, description, payer });
-    console.log("generate: ", result);
+    const result = await axiosInstance.post("/api/Payment/Generate", { amount, currencySymbol, description, payer });
     return result?.data;
   } catch (error) {
     throw error;
