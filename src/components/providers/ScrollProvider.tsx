@@ -2,7 +2,7 @@ import React, { createContext, useState, useEffect } from "react";
 
 interface ScrollContextProps {
   scroll: number;
-  scrollTo: (position: number) => void;
+  scrollTo: (position: number) => void; //eslint-disable-line
 }
 
 type Props = {

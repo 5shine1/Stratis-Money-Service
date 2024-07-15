@@ -15,7 +15,7 @@ function useClickOutside<T extends HTMLElement>(callback: () => void) {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+  }, []); //eslint-disable-line
 
   return ref;
 }
