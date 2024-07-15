@@ -30,8 +30,8 @@ const OrderPage = () => {
       paymentOrders
         .filter((item) => {
           return (
-            item.payer.toUpperCase().includes(searchIndex.toUpperCase()) ||
-            item.paymentId.toUpperCase().includes(searchIndex.toUpperCase())
+            item?.payer?.toUpperCase().includes(searchIndex.toUpperCase()) ||
+            item?.paymentId?.toUpperCase().includes(searchIndex.toUpperCase())
           );
         })
         .sort((a, b) => new Date(b.requested).getTime() - new Date(a.requested).getTime()),
