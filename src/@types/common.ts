@@ -19,9 +19,9 @@ export interface IAuth {
 }
 
 export enum ROLES {
-  ADMIN = "Admin",
-  BUSINESS = "Business",
-  GUEST = "Guest",
+  ADMIN = "Admin", //eslint-disable-line
+  BUSINESS = "Business", //eslint-disable-line
+  GUEST = "Guest", //eslint-disable-line
 }
 
 export const PAYMENT_STATE = {

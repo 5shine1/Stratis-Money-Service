@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Icon } from "@iconify/react";
 
 import useDarkMode from "@/hooks/global/useDarkmode";

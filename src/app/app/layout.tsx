@@ -19,7 +19,7 @@ const AppLayout: React.FC<PropsWithChildren> = ({ children }) => {
 
   useEffect(() => {
     handleGetCurrencies();
-  }, []);
+  }, []); //eslint-disable-line
 
   if (isAuthLoading) return;
   if (!email) {

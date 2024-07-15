@@ -37,7 +37,7 @@ const VerifyEmailPage = () => {
   useEffect(() => {
     handleCheckEmail(userId, code);
     return () => {};
-  }, [userId, code]);
+  }, [userId, code]); //eslint-disable-line
 
   return (
     <main className="relative w-full overflow-x-hidden">

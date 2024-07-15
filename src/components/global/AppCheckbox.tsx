@@ -3,7 +3,7 @@ import React from "react";
 
 type Props = {
   value: boolean;
-  onChange: (value: boolean) => void;
+  onChange: (value: boolean) => void; // eslint-disable-line
   label?: string;
 };
 
@@ -22,7 +22,7 @@ const AppCheckbox: React.FC<Props> = ({ value, onChange, label }) => {
           <Icon icon="mdi:checkbox-blank-outline" className="w-24 h-24 text-primary-200" />
         )}
       </div>
-      <div className={`${value?'text-white/90':'text-white/50'}`}>{label}</div>
+      <div className={`${value ? "text-white/90" : "text-white/50"}`}>{label}</div>
     </div>
   );
 };

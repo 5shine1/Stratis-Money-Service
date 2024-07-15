@@ -2,7 +2,7 @@ import React from "react";
 
 type Props = {
   value: string;
-  onChange: (value: string) => void;
+  onChange: (value: string) => void; // eslint-disable-line
   placeholder?: string;
   error?: string;
   label?: string;
