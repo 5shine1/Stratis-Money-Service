@@ -19,7 +19,7 @@ const VerifyEmailSendPage = () => {
     setLoading(true);
     try {
       const result = await apiResendVerificationEmail(email);
-      if (result) toast.success("Resent email successfully.");
+      if (result) toast.success("Sent an email successfully.");
       else toast.error("Something went wrong.");
     } catch (error) {
       toast.error("Something went wrong.");

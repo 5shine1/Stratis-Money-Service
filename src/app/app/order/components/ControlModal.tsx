@@ -13,7 +13,7 @@ import { isValidEmail, isValidPhoneNumber } from "@/utils/string.utils";
 type Props = {
   isOpen: boolean;
   onClose: () => void;
-  onNext: (amount: number, currency: ICurrency, description: string, payer: string) => void;
+  onNext: (amount: number, currencySymbol: string, description: string, payer: string) => void;
   data: any;
 };
 const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext, data }) => {
@@ -46,7 +46,7 @@ const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext, data }) => {
       setPayerInfo({ ...payerInfo, error: "Payer info required." });
     }
     if (temp > 0) return;
-    onNext(parseFloat(amount.value), currency.value, description.value, payerInfo.value);
+    onNext(parseFloat(amount.value), currency.value.symbol, description.value, payerInfo.value);
   };
 
   useEffect(() => {
