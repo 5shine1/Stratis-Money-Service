@@ -39,3 +39,24 @@ export const PAYMENT_STATE = {
   120: "InitiateFiatTransfer",
   130: "FiatTransferComplete",
 };
+
+export const FIAT_CURRENCIES = [
+  {
+    currencyId: 0,
+    name: "US DOLLAR",
+    symbol: "USD",
+    isFiat: true,
+  },
+  {
+    currencyId: 1,
+    name: "EURO",
+    symbol: "EUR",
+    isFiat: true,
+  },
+  {
+    currencyId: 2,
+    name: "GB POUND",
+    symbol: "GBP",
+    isFiat: true,
+  },
+];
