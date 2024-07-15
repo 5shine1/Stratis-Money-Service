@@ -8,16 +8,16 @@ import useClickOutside from "@/hooks/global/useClickOutside";
 type Props = {
   label: string;
   value?: number;
-  setValue?: (value: number) => void;
+  setValue?: (value: number) => void; // eslint-disable-line
   currencies: ICurrency[];
   currentCurrency: ICurrency;
-  setCurrentCurrency: (currency: ICurrency) => void;
+  setCurrentCurrency: (currency: ICurrency) => void; // eslint-disable-line
 };
 
 const CurrencyInput: React.FC<Props> = ({
   label,
-  value,
-  setValue,
+  value, // eslint-disable-line
+  setValue, // eslint-disable-line
   currencies,
   currentCurrency,
   setCurrentCurrency,

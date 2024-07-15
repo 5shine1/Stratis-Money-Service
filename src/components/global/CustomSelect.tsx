@@ -18,7 +18,7 @@ interface Props {
   parentClass?: string;
   isIcon?: boolean;
   isSearch?: boolean;
-  onChange: (selected: ISelect) => void;
+  onChange: (selected: ISelect) => void; // eslint-disable-line
 }
 
 export default function CustomSelect({
@@ -48,7 +48,7 @@ export default function CustomSelect({
       onChange(selected);
     }
     setSearchIndex("");
-  }, [selected]);
+  }, [selected]); // eslint-disable-line
 
   useEffect(() => {
     document.addEventListener("click", handleClickOutside);

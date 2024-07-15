@@ -13,7 +13,7 @@ const PaymentPage = () => {
   ];
   const [isCurrencySelected, setIsCurrencySelected] = useState(false);
   const [isStarted, setIsStarted] = useState(false);
-  const [isFinished, setIsFinished] = useState(false);
+  const [isFinished] = useState(false);
   const [currency, setCurrency] = useState(0);
   return (
     <>

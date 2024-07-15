@@ -13,7 +13,7 @@ import { isValidEmail, isValidPhoneNumber } from "@/utils/string.utils";
 type Props = {
   isOpen: boolean;
   onClose: () => void;
-  onNext: (amount: number, currencySymbol: string, description: string, payer: string) => void;
+  onNext: (amount: number, currencySymbol: string, description: string, payer: string) => void; //eslint-disable-line
   data: any;
 };
 const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext, data }) => {
