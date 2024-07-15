@@ -4,24 +4,25 @@ import SvgLogoApp from "@/assets/SvgLogoApp";
 import { Icon } from "@iconify/react";
 import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
 import CustomSelect from "@/components/global/CustomSelect";
+import Link from "next/link";
 
 const PaymentPage = () => {
   const currencies = [
     { id: 0, key: "usdt", text: "USDT" },
     { id: 1, key: "strx", text: "STRX" },
   ];
-  const [isKycVerified, setIsKycVerified] = useState(false);
+  const [isCurrencySelected, setIsCurrencySelected] = useState(false);
   const [isStarted, setIsStarted] = useState(false);
   const [isFinished, setIsFinished] = useState(false);
   const [currency, setCurrency] = useState(0);
   return (
     <>
-      {!isStarted ? (
+      {!isCurrencySelected ? (
         <div className="bg-white/5 rounded-12 px-16 md:px-40 py-32 md:py-48 flex flex-col gap-32 w-full max-w-500">
-          <div className="flex items-center gap-16 justify-center">
+          <Link href={"/"} className="flex items-center gap-16 justify-center">
             <SvgLogoApp className="w-48 h-48 !fill-secondary-200" />{" "}
             <h4 className="hidden sm:block">Stratis Payment</h4>
-          </div>
+          </Link>
           {isFinished && (
             <div className="border border-success text-success bg-success/5 rounded-6 p-12 text-center w-fit mx-auto">
               This transaction already processed.
@@ -44,16 +45,15 @@ const PaymentPage = () => {
             English to design elements over content. It is also called placeholder (or filler) text...
           </div>
           {!isFinished &&
-            (!isKycVerified ? (
+            (!isStarted ? (
               <div className="flex flex-col gap-16">
-                <span className="text-center text-error text-14">You have to pass KYC verification first.</span>
                 <AnimatedSlideButton
                   onClick={() => {
-                    setIsKycVerified(true);
+                    setIsStarted(true);
                   }}
                   className=" text-20 border border-secondary-300 rounded-full py-16 px-48"
                 >
-                  Start KYC
+                  Start Payment
                 </AnimatedSlideButton>
               </div>
             ) : (
@@ -69,14 +69,13 @@ const PaymentPage = () => {
                   listClass=" py-12 px-10 cursor-pointer u-text-overflow rounded-4"
                 ></CustomSelect>
                 <div className="flex flex-col gap-16">
-                  <span className="text-center text-success text-14">KYC verification passed.</span>{" "}
                   <AnimatedSlideButton
                     onClick={() => {
-                      setIsStarted(true);
+                      setIsCurrencySelected(true);
                     }}
                     className=" text-20 border border-secondary-300 rounded-full py-16 px-48"
                   >
-                    Start Payment
+                    Continue
                   </AnimatedSlideButton>
                 </div>
               </>
@@ -84,10 +83,10 @@ const PaymentPage = () => {
         </div>
       ) : (
         <div className="bg-white/5 rounded-12 px-16 md:px-40 py-32 md:py-48 flex flex-col gap-32 w-full max-w-500">
-          <div className="flex items-center gap-16 justify-center">
+          <Link href={"/"} className="flex items-center gap-16 justify-center">
             <SvgLogoApp className="w-48 h-48 !fill-secondary-200" />{" "}
             <h4 className="hidden sm:block">Stratis Payment</h4>
-          </div>
+          </Link>
           <div className="flex flex-col gap-24">
             <div className="flex flex-col gap-32">
               <div className="flex flex-col gap-8">
