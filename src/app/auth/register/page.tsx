@@ -94,13 +94,6 @@ const RegisterPage = () => {
             </div>
             <form onSubmit={handleSubmit} className="flex flex-col gap-24 mt-12 w-full">
               <CustomInput
-                value={email.value}
-                onChange={(e) => setEmail({ error: "", value: e })}
-                icon="ic:round-alternate-email"
-                placeholder="Email Address"
-                error={email.error}
-              />
-              <CustomInput
                 value={name.value}
                 onChange={(e) => setName({ error: "", value: e })}
                 icon="solar:user-outline"
@@ -120,6 +113,14 @@ const RegisterPage = () => {
                 icon="radix-icons:mobile"
                 placeholder="Mobile Number"
                 error={phone.error}
+              />
+              <CustomInput
+                value={email.value}
+                onChange={(e) => setEmail({ error: "", value: e })}
+                type="email"
+                icon="ic:round-alternate-email"
+                placeholder="Email Address"
+                error={email.error}
               />
               <CustomInput
                 value={password.value}
