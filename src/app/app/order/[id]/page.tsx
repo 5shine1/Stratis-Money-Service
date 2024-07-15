@@ -53,7 +53,7 @@ const OrderDetailPage: React.FC<Props> = ({ params }) => {
               </div>
               <div className="flex gap-4 flex-col sm:flex-row break-all">
                 <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Payment Link</span>
-                https://stratisplatform.payment.com/payment/{payment?.paymentId}
+                {window.location.origin}/payment/{payment?.paymentId}
               </div>
               <div className="flex gap-4 flex-col sm:flex-row break-all">
                 <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Status</span>
