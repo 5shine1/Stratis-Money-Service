@@ -2,7 +2,7 @@ import React from "react";
 
 type Props = {
   value: boolean;
-  onChange: (value: boolean) => void;
+  onChange: (value: boolean) => void; // eslint-disable-line
   className?: string;
   activeClassName?: string;
   passiveClassName?: string;

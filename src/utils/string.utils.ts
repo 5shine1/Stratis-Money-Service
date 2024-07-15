@@ -48,3 +48,8 @@ export const formattedTime = (timestamp: string) => {
 
   return seconds + " second" + (seconds > 1 ? "s" : "") + " ago";
 };
+
+export const isValidReference = (link: string) => {
+  const pattern = /^[a-zA-Z0-9-]+$/;
+  return pattern.test(link);
+};
