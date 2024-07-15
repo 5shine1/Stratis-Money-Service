@@ -83,9 +83,6 @@ img {
   @apply max-w-none;
 }
 
-table {
-}
-
 th {
   @apply font-bold;
 }
@@ -100,23 +97,27 @@ td {
 
 .g-header {
   background: linear-gradient(40deg, #c0d4c9, #db9b1e);
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .g-header-app {
   background: linear-gradient(40deg, #004d20, #ffd51a);
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 .dark .g-header-app {
   background: linear-gradient(40deg, #c0d4c9, #db9b1e);
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .g-button-text {
   background: linear-gradient(40deg, #2589ac, #db9b1e);
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }

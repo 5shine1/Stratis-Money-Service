@@ -4,7 +4,7 @@ import { Icon } from "@iconify/react";
 
 type Props = {
   value: string;
-  onChange: (value: string) => void;
+  onChange: (value: string) => void; //eslint-disable-line
   placeholder?: string;
   type?: string;
   error?: string;

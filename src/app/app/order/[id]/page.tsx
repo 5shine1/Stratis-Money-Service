@@ -32,8 +32,7 @@ const OrderDetailPage: React.FC<Props> = ({ params }) => {
   useEffect(() => {
     handleGetOrders();
     return () => {};
-  }, [id]);
-
+  }, [id]); // eslint-disable-line
   return (
     <div className="flex flex-col gap-24 lg:gap-32 lg:px-48 lg:py-64 py-32 p-8 text-14">
       <h4 className="w-fit g-header-app">Transaction Detail</h4>
