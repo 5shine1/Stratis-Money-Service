@@ -26,3 +26,12 @@ export const apiPaymentHistory = async () => {
     throw error;
   }
 };
+
+export const apiPaymentHistoryDetail = async (id: string) => {
+  try {
+    const result = await axiosInstance.get(`/api/Payment/History/${id}`);
+    return result.data;
+  } catch (error) {
+    throw error;
+  }
+};
