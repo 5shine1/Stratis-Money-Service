@@ -13,6 +13,7 @@ import { logout } from "@/store/slices/auth.slice";
 import { apiLogout } from "@/api/auth.api";
 
 import SwitchDarkmode from "./SwitchDarkmode";
+import { ROLES } from "@/@types/common";
 
 const AppSidebar: React.FC<PropsWithChildren> = ({ children }) => {
   const [isWrapped, setIsWrapped] = useState(true);
@@ -71,17 +72,19 @@ const AppSidebar: React.FC<PropsWithChildren> = ({ children }) => {
               <Icon icon="ph:hand-withdraw-thin" className="w-30 h-30 flex-none" />
               <div className={` ${isWrapped ? "block" : "hidden"}`}>Withdraw</div>
             </Link>
-            <Link
-              href="/app/user"
-              className={`p-9 flex items-center justify-start gap-12  u-transition-color rounded-8 overflow-hidden ${
-                pathname.includes("/app/user")
-                  ? "bg-secondary-400/80 dark:bg-primary-700"
-                  : "hover:bg-white/30 dark:hover:bg-primary-700/40"
-              }`}
-            >
-              <Icon icon="ph:user-list-thin" className="w-30 h-30 flex-none" />
-              <div className={` ${isWrapped ? "block" : "hidden"}`}>User</div>
-            </Link>
+            {role === ROLES.ADMIN && (
+              <Link
+                href="/app/user"
+                className={`p-9 flex items-center justify-start gap-12  u-transition-color rounded-8 overflow-hidden ${
+                  pathname.includes("/app/user")
+                    ? "bg-secondary-400/80 dark:bg-primary-700"
+                    : "hover:bg-white/30 dark:hover:bg-primary-700/40"
+                }`}
+              >
+                <Icon icon="ph:user-list-thin" className="w-30 h-30 flex-none" />
+                <div className={` ${isWrapped ? "block" : "hidden"}`}>User</div>
+              </Link>
+            )}
           </div>
 
           <div className="mt-auto flex flex-col gap-12">
