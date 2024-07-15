@@ -14,14 +14,14 @@ const CustomInput: React.FC<Props> = ({ value, onChange, type = "text", error = 
   return (
     <div className="w-full">
       <div
-        className={`w-full border-b-2 flex items-center px-12 gap-12  u-transition-color group ${
+        className={`w-full border-b-2 flex items-center gap-12  u-transition-color group relative ${
           error ? "border-error" : "border-primary-300/80 focus-within:border-primary-400"
         }`}
       >
         {icon && (
           <Icon
             icon={icon}
-            className={`w-25 h-25 u-transition-color ${
+            className={`absolute w-25 h-25 u-transition-color left-8 ${
               error ? "text-error" : "text-primary-300/80 group-focus-within:text-primary-400"
             }`}
           />
@@ -30,7 +30,9 @@ const CustomInput: React.FC<Props> = ({ value, onChange, type = "text", error = 
           value={value}
           type={type}
           onChange={(e) => onChange(e.target.value)}
-          className="text-16 placeholder:text-gray-500 py-12 w-full text-gray-200 outline-none bg-transparent "
+          className={`text-16 placeholder:text-gray-500 p-12 w-full text-gray-200 outline-none bg-transparent ${
+            icon ? "pl-40" : ""
+          }`}
           placeholder={placeholder}
         />
       </div>
