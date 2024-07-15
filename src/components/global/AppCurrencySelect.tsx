@@ -10,7 +10,7 @@ interface Props {
   placeholder?: string;
   label?: string;
   error?: string;
-  onChange: (selected: ICurrency) => void;
+  onChange: (selected: ICurrency) => void; //eslint-disable-line
 }
 
 export default function AppCurrencySelect({
