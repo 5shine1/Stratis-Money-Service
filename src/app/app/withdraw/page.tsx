@@ -4,13 +4,12 @@ import Pagination from "rc-pagination";
 import toast from "react-hot-toast";
 import { Icon } from "@iconify/react";
 
-import AppInput from "@/components/global/AppInput";
 import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
 import { callAPI, mockOrderLinks } from "@/config/mock";
 
 const WithdrawPage = () => {
   const [withdrawHistory, setWithdrawHistory] = useState([]);
-  const [searchIndex, setSearchIndex] = useState("");
+  const [searchIndex] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
 

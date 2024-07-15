@@ -7,7 +7,7 @@ type Props = {
 };
 
 type ContextProps = {
-  setLoading: (value: boolean) => void;
+  setLoading: (value: boolean) => void; // eslint-disable-line
 };
 
 export const LoadingContext = React.createContext<ContextProps>({
