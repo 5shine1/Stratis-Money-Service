@@ -1,21 +1,10 @@
 export interface IPayment {
-  status: {
-    paymentId: string;
-    state: number;
-    amount: number;
-    currency: {
-      currencyId: number;
-      name: string;
-      symbol: string;
-      isFiat: boolean;
-    };
-  };
+  paymentId: string;
+  state: number;
+  requested: string;
+  amount: number;
+  currency: string;
   payer: string;
-  paidCurrency: {
-    currencyId: number;
-    name: string;
-    symbol: string;
-    isFiat: boolean;
-  };
-  paidAmount: number;
+  payee: string;
+  description: string;
 }

@@ -3,15 +3,26 @@ import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Icon } from "@iconify/react";
 
-import { callAPI } from "@/config/mock";
+import { IPayment } from "@/@types/data";
+import { apiPaymentHistoryDetail } from "@/api/payment.api";
+import { PAYMENT_STATE } from "@/@types/common";
+import { formattedTime } from "@/utils/string.utils";
 
-const OrderDetailPage = () => {
+type Props = {
+  params: {
+    id: string;
+  };
+};
+const OrderDetailPage: React.FC<Props> = ({ params }) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [payment, setPayment] = useState<IPayment | null>(null);
+  const id = params.id;
 
   const handleGetOrders = async () => {
     setIsLoading(true);
     try {
-      await callAPI();
+      const result = await apiPaymentHistoryDetail(id);
+      setPayment(result);
     } catch (error) {
       toast.error("Server error.");
     }
@@ -21,7 +32,7 @@ const OrderDetailPage = () => {
   useEffect(() => {
     handleGetOrders();
     return () => {};
-  }, []);
+  }, [id]);
 
   return (
     <div className="flex flex-col gap-24 lg:gap-32 lg:px-48 lg:py-64 py-32 p-8 text-14">
@@ -31,34 +42,49 @@ const OrderDetailPage = () => {
         <div className="text-primary-200 dark:text-white/70 p-12 text-center">
           <Icon icon="eos-icons:three-dots-loading" className="w-64 h-64 mx-auto" />
         </div>
-      ) : (
+      ) : payment ? (
         <div className="flex flex-col gap-16">
           <div className="p-24 md:p-32 rounded-8 bg-secondary-100/20 dark:bg-white/5 w-full">
             <div className="text-20 font-bold text-primary-200 dark:text-secondary-200"> Summary</div>
             <div className="flex flex-col gap-16 mt-18 text-primary-200 dark:text-white">
               <div className="flex gap-4 flex-col sm:flex-row break-all">
                 <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Transaction ID</span>
-                3fa85f64-5717-4562-b3fc-2c963f66afa6
+                {payment?.paymentId}
               </div>
               <div className="flex gap-4 flex-col sm:flex-row break-all">
                 <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Payment Link</span>
-                https://stratisplatform.payment.com/detail/3fa85f64-5717-4562-b3fc-2c963f66afa6
+                https://stratisplatform.payment.com/payment/{payment?.paymentId}
               </div>
               <div className="flex gap-4 flex-col sm:flex-row break-all">
-                <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Status</span>In Prograss
+                <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Status</span>
+                {PAYMENT_STATE[payment?.state] || "Error"}
+              </div>
+              <div className="flex gap-4 flex-col sm:flex-row break-all">
+                <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Payer</span>
+                {payment?.payer}
+              </div>
+              <div className="flex gap-4 flex-col sm:flex-row break-all">
+                <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Amount</span>
+                <span>
+                  {payment?.amount} <span className="opacity-60">{payment?.currency}</span>
+                </span>
               </div>
               <div className="flex gap-4 flex-col sm:flex-row break-all">
                 <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Created At</span>
-                05/24/2024 12:00:32
+                <span>
+                  {payment?.requested?.replace("T", " ").split(".")[0]}
+                  &nbsp;&nbsp;&nbsp;
+                  <span className="opacity-60">{formattedTime(payment?.requested)}</span>
+                </span>
               </div>
-              <div className="flex gap-4 flex-col sm:flex-row break-all text-error">
+              {/* <div className="flex gap-4 flex-col sm:flex-row break-all text-error">
                 <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200 ">Completed At</span>
                 N/A
-              </div>
+              </div> */}
             </div>
           </div>
 
-          <div className="flex gap-16 flex-col xl:flex-row">
+          {/* <div className="flex gap-16 flex-col xl:flex-row">
             <div className="p-24 md:p-32 rounded-8 bg-secondary-100/20 dark:bg-white/5 w-full">
               <div className="text-20 font-bold text-primary-200 dark:text-secondary-200"> From</div>
               <div className="flex flex-col gap-16 mt-18 text-primary-200 dark:text-white">
@@ -109,17 +135,15 @@ const OrderDetailPage = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
 
           <div className="p-24 md:p-32 rounded-8 bg-secondary-100/20 dark:bg-white/5 w-full">
             <div className="text-20 font-bold text-primary-200 dark:text-secondary-200"> Description</div>
-            <div className=" mt-18 text-primary-200 dark:text-white">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Id ex, laborum explicabo placeat deleniti unde
-              saepe nam delectus quod aliquam vero neque fugit? Facere corporis dolores optio, deserunt repellendus
-              eius.
-            </div>
+            <div className=" mt-18 text-primary-200 dark:text-white">{payment?.description}</div>
           </div>
         </div>
+      ) : (
+        <div className="text-primary-200 dark:text-white/70">Something went wrong. Please check the link again.</div>
       )}
     </div>
   );

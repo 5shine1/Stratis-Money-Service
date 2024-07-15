@@ -15,10 +15,11 @@ import { formattedTime } from "@/utils/string.utils";
 
 import ControlModal from "./components/ControlModal";
 import DeleteModal from "./components/DeleteModal";
+import { IPayment } from "@/@types/data";
 
 const OrderPage = () => {
   const { setLoading } = useContext(LoadingContext);
-  const [paymentOrders, setPaymentOrders] = useState([]);
+  const [paymentOrders, setPaymentOrders] = useState<IPayment[]>([]);
   const [searchIndex, setSearchIndex] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [controlModalOpen, setControlModalOpen] = useState<string | null>(null);
@@ -30,8 +31,8 @@ const OrderPage = () => {
       paymentOrders
         .filter((item) => {
           return (
-            item.payer.toUpperCase().includes(searchIndex.toUpperCase()) ||
-            item.paymentId.toUpperCase().includes(searchIndex.toUpperCase())
+            item?.payer?.toUpperCase().includes(searchIndex.toUpperCase()) ||
+            item?.paymentId?.toUpperCase().includes(searchIndex.toUpperCase())
           );
         })
         .sort((a, b) => new Date(b.requested).getTime() - new Date(a.requested).getTime()),
@@ -157,14 +158,13 @@ const OrderPage = () => {
                               <td className="px-8 py-16">
                                 {item.amount} <span className="opacity-50">{item.currency}</span>
                               </td>
-                              <td className={`px-8 py-16 ${item.status === "Completed" ? "text-success" : ""}`}>
-                                {PAYMENT_STATE[item.state] || "Error"}
-                              </td>
+                              <td className={`px-8 py-16`}>{PAYMENT_STATE[item.state] || "Error"}</td>
                               <td className="px-8 py-16">{formattedTime(item.requested)}</td>
                               <td className="px-8">
                                 <div className="flex items-center gap-16 justify-end">
                                   <Link
                                     href={`/app/order/${item.paymentId}`}
+                                    target="_blank"
                                     className="text-primary-200/30 dark:text-white/40 u-transition-color hover:text-info"
                                   >
                                     <Icon icon="ph:eye-fill" className="w-18 h-18"></Icon>
@@ -225,6 +225,7 @@ const OrderPage = () => {
                             <div className="flex items-center gap-16 justify-end">
                               <Link
                                 href={`/app/order/${item.paymentId}`}
+                                target="_blank"
                                 className="text-primary-200/30 dark:text-white/40 u-transition-color hover:text-info"
                               >
                                 <Icon icon="ph:eye-fill" className="w-18 h-18"></Icon>
