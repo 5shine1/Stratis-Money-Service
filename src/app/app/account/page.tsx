@@ -5,10 +5,13 @@ import { Icon } from "@iconify/react";
 
 import { callAPI } from "@/config/mock";
 import CustomSwitch from "@/components/global/CustomSwitch";
+import useAppSelector from "@/hooks/global/useAppSelector";
+import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
 
 const AccountPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isKycAsk, setIsKycAsk] = useState(true);
+  const { userId, name, role, email } = useAppSelector((state) => state.auth);
 
   const handleGetOrders = async () => {
     setIsLoading(true);
@@ -40,22 +43,22 @@ const AccountPage = () => {
             <div className="flex flex-col gap-16 mt-18 text-primary-200 dark:text-white">
               <div className="flex gap-4 flex-col sm:flex-row break-all">
                 <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">User ID</span>
-                3fa85f64-5717-4562-b3fc-2c963f66afa6
+                {userId}
               </div>
               <div className="flex gap-4 flex-col sm:flex-row break-all">
                 <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Email</span>
-                johndoe@stratis.com
-              </div>
-              <div className="flex gap-4 flex-col sm:flex-row break-all text-success">
-                <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Role</span>
-                Admin
+                {email}
               </div>
               <div className="flex gap-4 flex-col sm:flex-row break-all">
                 <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Name</span>
-                John Doe{" "}
+                {name}
+              </div>
+              <div className="flex gap-4 flex-col sm:flex-row break-all text-success">
+                <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Role</span>
+                {role}
               </div>
 
-              <div className="flex gap-4 flex-col sm:flex-row break-all">
+              {/* <div className="flex gap-4 flex-col sm:flex-row break-all">
                 <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Phone number</span>
                 +12737713322
               </div>
@@ -66,18 +69,39 @@ const AccountPage = () => {
               <div className="flex gap-4 flex-col sm:flex-row break-all">
                 <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Member from</span>
                 05/09/2024
-              </div>
+              </div> */}
             </div>
           </div>
 
           <div className="p-24 md:p-32 rounded-8 bg-secondary-100/20 dark:bg-white/5 w-full">
+            <div className="text-20 font-bold text-primary-200 dark:text-secondary-200"> KYB Status</div>
+            <div className="mt-18 flex items-center gap-12">
+              <div className="flex items-center gap-4 border border-success text-success rounded-4 px-8 py-4">
+                <Icon icon="ph:seal-check-bold" className="w-20 h-20" />
+                Verified
+              </div>
+              <div className="flex items-center gap-4 border border-info text-info rounded-4 px-8 py-4">
+                <Icon icon="bi:hourglass" className="w-20 h-20" />
+                Pending
+              </div>
+              <div className="flex items-center gap-4 border border-error text-error rounded-4 px-8 py-4">
+                <Icon icon="jam:close-circle" className="w-18 h-18" />
+                Not Verified
+              </div>
+              <AnimatedSlideButton
+                className=" text-primary-200 dark:text-white text-14 py-8 px-16 border border-primary-200 dark:border-secondary-300 rounded-full "
+                backClassName="from-primary-100 to-secondary-100 dark:from-primary-400 dark:to-secondary-300 "
+              >
+                Start KYB
+              </AnimatedSlideButton>
+            </div>
+          </div>
+          <div className="p-24 md:p-32 rounded-8 bg-secondary-100/20 dark:bg-white/5 w-full">
             <div className="text-20 font-bold text-primary-200 dark:text-secondary-200"> Setting</div>
             <div className="flex md:items-center gap-12 md:gap-32 mt-18 flex-col md:flex-row items-start">
-              <div className=" text-primary-200 dark:text-white flex gap-4 items-center">
-                <div>Ask KYC verification</div>
-                <div>
-                  <Icon icon="fe:question" className="text-info w-17 h-17 cursor-pointer" />
-                </div>
+              <div className=" text-primary-200 dark:text-white">
+                <span>Accept non-stable coin for payment </span>
+                <Icon icon="fe:question" className="text-info w-17 h-17 mb-1 cursor-pointer inline" />
               </div>
               <div className="flex items-center gap-6 text-12 dark:text-white text-primary-200">
                 OFF
