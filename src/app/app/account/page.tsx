@@ -6,6 +6,7 @@ import { Icon } from "@iconify/react";
 import { callAPI } from "@/config/mock";
 import CustomSwitch from "@/components/global/CustomSwitch";
 import useAppSelector from "@/hooks/global/useAppSelector";
+import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
 
 const AccountPage = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -48,16 +49,16 @@ const AccountPage = () => {
                 <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Email</span>
                 {email}
               </div>
-              <div className="flex gap-4 flex-col sm:flex-row break-all text-success">
-                <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Role</span>
-                {role}
-              </div>
               <div className="flex gap-4 flex-col sm:flex-row break-all">
                 <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Name</span>
                 {name}
               </div>
+              <div className="flex gap-4 flex-col sm:flex-row break-all text-success">
+                <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Role</span>
+                {role}
+              </div>
 
-              <div className="flex gap-4 flex-col sm:flex-row break-all">
+              {/* <div className="flex gap-4 flex-col sm:flex-row break-all">
                 <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Phone number</span>
                 +12737713322
               </div>
@@ -68,10 +69,33 @@ const AccountPage = () => {
               <div className="flex gap-4 flex-col sm:flex-row break-all">
                 <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Member from</span>
                 05/09/2024
-              </div>
+              </div> */}
             </div>
           </div>
 
+          <div className="p-24 md:p-32 rounded-8 bg-secondary-100/20 dark:bg-white/5 w-full">
+            <div className="text-20 font-bold text-primary-200 dark:text-secondary-200"> KYB Status</div>
+            <div className="mt-18 flex items-center gap-12">
+              <div className="flex items-center gap-4 border border-success text-success rounded-4 px-8 py-4">
+                <Icon icon="ph:seal-check-bold" className="w-20 h-20" />
+                Verified
+              </div>
+              <div className="flex items-center gap-4 border border-success text-success rounded-4 px-8 py-4">
+                <Icon icon="material-symbols:pending-outline" className="w-20 h-20" />
+                Pending
+              </div>
+              <div className="flex items-center gap-4 border border-error text-error rounded-4 px-8 py-4">
+                <Icon icon="iconamoon:close-circle-1" className="w-20 h-20" />
+                Not Verified
+              </div>
+              <AnimatedSlideButton
+                className=" text-primary-200 dark:text-white text-14 py-8 px-16 border border-primary-200 dark:border-secondary-300 rounded-full "
+                backClassName="from-primary-100 to-secondary-100 dark:from-primary-400 dark:to-secondary-300 "
+              >
+                Start KYB
+              </AnimatedSlideButton>
+            </div>
+          </div>
           <div className="p-24 md:p-32 rounded-8 bg-secondary-100/20 dark:bg-white/5 w-full">
             <div className="text-20 font-bold text-primary-200 dark:text-secondary-200"> Setting</div>
             <div className="flex md:items-center gap-12 md:gap-32 mt-18 flex-col md:flex-row items-start">
