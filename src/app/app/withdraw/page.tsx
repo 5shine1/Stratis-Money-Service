@@ -116,20 +116,18 @@ const WithdrawPage = () => {
             </table>
           </div>
         )}
-        <div>
-          <Pagination
-            current={currentPage}
-            onChange={setCurrentPage}
-            showSizeChanger={false}
-            total={filteredData.length}
-            hideOnSinglePage={true}
-            className="flex items-center gap-8 text-14"
-            prevIcon={<Icon icon="icon-park-outline:left" />}
-            nextIcon={<Icon icon="icon-park-outline:right" />}
-            showLessItems
-            showTitle={false}
-          />
-        </div>
+        <Pagination
+          current={currentPage}
+          onChange={setCurrentPage}
+          showSizeChanger={false}
+          total={filteredData.length}
+          hideOnSinglePage={true}
+          className="flex items-center gap-8 text-14"
+          prevIcon={<Icon icon="icon-park-outline:left" />}
+          nextIcon={<Icon icon="icon-park-outline:right" />}
+          showLessItems
+          showTitle={false}
+        />
       </div>
     </div>
   );
