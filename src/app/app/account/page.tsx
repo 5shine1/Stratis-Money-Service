@@ -1,14 +1,16 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useId, useState } from "react";
 import toast from "react-hot-toast";
 import { Icon } from "@iconify/react";
 
 import { callAPI } from "@/config/mock";
 import CustomSwitch from "@/components/global/CustomSwitch";
+import useAppSelector from "@/hooks/global/useAppSelector";
 
 const AccountPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isKycAsk, setIsKycAsk] = useState(true);
+  const { userId, name, role, email } = useAppSelector((state) => state.auth);
 
   const handleGetOrders = async () => {
     setIsLoading(true);
@@ -40,19 +42,19 @@ const AccountPage = () => {
             <div className="flex flex-col gap-16 mt-18 text-primary-200 dark:text-white">
               <div className="flex gap-4 flex-col sm:flex-row break-all">
                 <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">User ID</span>
-                3fa85f64-5717-4562-b3fc-2c963f66afa6
+                {userId}
               </div>
               <div className="flex gap-4 flex-col sm:flex-row break-all">
                 <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Email</span>
-                johndoe@stratis.com
+                {email}
               </div>
               <div className="flex gap-4 flex-col sm:flex-row break-all text-success">
                 <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Role</span>
-                Admin
+                {role}
               </div>
               <div className="flex gap-4 flex-col sm:flex-row break-all">
                 <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Name</span>
-                John Doe{" "}
+                {name}
               </div>
 
               <div className="flex gap-4 flex-col sm:flex-row break-all">
@@ -73,11 +75,9 @@ const AccountPage = () => {
           <div className="p-24 md:p-32 rounded-8 bg-secondary-100/20 dark:bg-white/5 w-full">
             <div className="text-20 font-bold text-primary-200 dark:text-secondary-200"> Setting</div>
             <div className="flex md:items-center gap-12 md:gap-32 mt-18 flex-col md:flex-row items-start">
-              <div className=" text-primary-200 dark:text-white flex gap-4 items-center">
-                <div>Ask KYC verification</div>
-                <div>
-                  <Icon icon="fe:question" className="text-info w-17 h-17 cursor-pointer" />
-                </div>
+              <div className=" text-primary-200 dark:text-white">
+                <span>Accept non-stable coin for payment </span>
+                <Icon icon="fe:question" className="text-info w-17 h-17 mb-1 cursor-pointer inline" />
               </div>
               <div className="flex items-center gap-6 text-12 dark:text-white text-primary-200">
                 OFF
