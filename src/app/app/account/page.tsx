@@ -80,12 +80,12 @@ const AccountPage = () => {
                 <Icon icon="ph:seal-check-bold" className="w-20 h-20" />
                 Verified
               </div>
-              <div className="flex items-center gap-4 border border-success text-success rounded-4 px-8 py-4">
-                <Icon icon="material-symbols:pending-outline" className="w-20 h-20" />
+              <div className="flex items-center gap-4 border border-info text-info rounded-4 px-8 py-4">
+                <Icon icon="bi:hourglass" className="w-20 h-20" />
                 Pending
               </div>
               <div className="flex items-center gap-4 border border-error text-error rounded-4 px-8 py-4">
-                <Icon icon="iconamoon:close-circle-1" className="w-20 h-20" />
+                <Icon icon="jam:close-circle" className="w-18 h-18" />
                 Not Verified
               </div>
               <AnimatedSlideButton
