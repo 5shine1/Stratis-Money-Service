@@ -5,10 +5,9 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import { FIAT_CURRENCIES, ICurrency } from "@/@types/common";
 // import useAppSelector from "@/hooks/global/useAppSelector";
 import AppInput from "@/components/global/AppInput";
-import AppTextArea from "@/components/global/AppTextArea";
 import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
 import AppCurrencySelect from "@/components/global/AppCurrencySelect";
-import { isValidEmail, isValidPhoneNumber, isValidReference } from "@/utils/string.utils";
+import { isValidEmail, isValidReference } from "@/utils/string.utils";
 
 type Props = {
   isOpen: boolean;
