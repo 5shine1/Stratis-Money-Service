@@ -71,17 +71,6 @@ const LoginPage = () => {
       <div className="g-effect absolute -top-[300px] -right-[300px] w-[1000px] h-[1000px] scale-50 lg:scale-100"></div>
 
       <div className="min-h-screen w-full max-w-1440 mx-auto relative flex flex-row-reverse items-center">
-        <div className="w-full p-12 relative hidden lg:block">
-          <div className=" absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/5 rotate-12 aspect-square ">
-            <div className="w-full h-full bg-secondary-200/10 rounded-32 animate-spinSlow"></div>
-          </div>
-          <img
-            src="/assets/auth/login.png "
-            alt=""
-            className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 w-2/3"
-          />
-        </div>
-
         <div className="w-full h-full flex flex-col items-center justify-center px-16 py-36">
           <div className="w-full py-40 px-16 md:px-32 max-w-420  bg-white/5 rounded-16 items-center flex flex-col gap-24">
             <Link href={"/"}>
