@@ -59,7 +59,7 @@ const MainComponent = () => {
   useEffect(() => {
     handleGetAuth();
     return () => {};
-  }, []);
+  }, []); //eslint-disable-line
 
   return <></>;
 };
