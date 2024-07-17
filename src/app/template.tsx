@@ -53,6 +53,7 @@ const MainComponent = () => {
       );
     } catch (error) {
       console.log(error);
+      dispatch(setAuthLoading());
     }
   };
 
