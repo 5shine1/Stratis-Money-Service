@@ -39,6 +39,8 @@ const LoginPage = () => {
             userId: result?.data?.userId,
             name: result?.data?.name,
             isVerifiedEmail: result?.data?.isVerifiedEmail,
+            isKnowYourBusinessCompleted: result?.data?.isKnowYourBusinessCompleted,
+            isKnowYourBusinessPassed: result?.data?.isKnowYourBusinessPassed,
             role:
               result?.data && result?.data.isBusiness
                 ? result.data.isBusiness === true

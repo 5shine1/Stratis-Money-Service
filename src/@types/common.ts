@@ -15,6 +15,8 @@ export interface IAuth {
   name: string;
   isAuthLoading: boolean;
   isVerifiedEmail: boolean;
+  isKnowYourBusinessCompleted: boolean;
+  isKnowYourBusinessPassed: boolean;
   role: ROLES;
 }
 
