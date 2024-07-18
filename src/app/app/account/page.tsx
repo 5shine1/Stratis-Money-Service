@@ -1,12 +1,11 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { Icon } from "@iconify/react";
 
-import { callAPI } from "@/config/mock";
 import CustomSwitch from "@/components/global/CustomSwitch";
 import useAppSelector from "@/hooks/global/useAppSelector";
-import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
+import { apiStartKYB } from "@/api/compliance.api";
 
 const AccountPage = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -15,20 +14,16 @@ const AccountPage = () => {
     (state) => state.auth
   );
 
-  const handleGetOrders = async () => {
+  const handleStartKYB = async () => {
     setIsLoading(true);
     try {
-      await callAPI();
+      await apiStartKYB();
     } catch (error) {
+      console.log(error);
       toast.error("Server error.");
     }
     setIsLoading(false);
   };
-
-  useEffect(() => {
-    handleGetOrders();
-    return () => {};
-  }, []);
 
   return (
     <div className="flex flex-col gap-24 lg:gap-32 lg:px-48 lg:py-64 py-32 p-8 text-14">
@@ -94,7 +89,10 @@ const AccountPage = () => {
                     <Icon icon="jam:close-circle" className="w-18 h-18" />
                     Not Verified
                   </div>
-                  <div className=" text-primary-200 dark:text-white text-1 flex items-center gap-2 cursor-pointer u-transition-color hover:text-info">
+                  <div
+                    onClick={handleStartKYB}
+                    className=" text-primary-200 dark:text-white text-1 flex items-center gap-2 cursor-pointer u-transition-color hover:text-info"
+                  >
                     Start KYB
                     <Icon icon={"ep:right"}></Icon>
                   </div>
