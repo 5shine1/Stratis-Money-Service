@@ -7,6 +7,8 @@ const initialState: IAuth = {
   name: "",
   isAuthLoading: true,
   isVerifiedEmail: false,
+  isKnowYourBusinessCompleted: false,
+  isKnowYourBusinessPassed: false,
   role: ROLES.GUEST,
 };
 

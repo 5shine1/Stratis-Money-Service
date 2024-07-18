@@ -13,9 +13,8 @@ import { logout } from "@/store/slices/auth.slice";
 
 const AppLayout: React.FC<PropsWithChildren> = ({ children }) => {
   const router = useRouter();
-  const { email, isAuthLoading, isVerifiedEmail } = useAppSelector((state) => state.auth);
+  const { email, isAuthLoading, isVerifiedEmail, isKnowYourBusinessPassed } = useAppSelector((state) => state.auth);
   const { setLoading } = useContext(LoadingContext);
-  const [isKYB, setIsKYB] = useState(false);
   const dispatch = useAppDispatch();
 
   const handleLogout = async () => {
@@ -39,13 +38,8 @@ const AppLayout: React.FC<PropsWithChildren> = ({ children }) => {
   }
   return (
     <>
-      {!isKYB && (
-        <div
-          className="bg-black/50 fixed top-0 left-0 w-full h-full z-50 flex items-center justify-center p-16 backdrop-blur-lg"
-          onClick={() => {
-            setIsKYB(true);
-          }}
-        >
+      {!isKnowYourBusinessPassed && (
+        <div className="bg-black/50 fixed top-0 left-0 w-full h-full z-50 flex items-center justify-center p-16 backdrop-blur-lg">
           <div className="bg-white rounded-8 overflow-hidden">
             <div className=" dark:bg-primary-800 bg-secondary-100/20 p-24 w-full max-w-480">
               <div className="text-error flex items-center gap-8 text-16 pb-12 border-b border-primary-800/5 dark:border-white/5">
