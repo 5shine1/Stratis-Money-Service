@@ -77,7 +77,7 @@ module.exports = {
           DEFAULT: "#45c931",
         },
         info: {
-          DEFAULT: "#2BCCFF",
+          DEFAULT: "#00b2f9",
         },
       },
     },
