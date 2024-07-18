@@ -72,17 +72,6 @@ const RegisterPage = () => {
       <div className="g-effect absolute -top-[300px] -right-[300px] w-[1000px] h-[1000px] scale-50 lg:scale-100"></div>
 
       <div className="min-h-screen w-full  max-w-1440 mx-auto relative flex items-center">
-        <div className="w-full p-12 relative hidden lg:block">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2/3">
-            <div className=" relative w-full rounded-32 aspect-square bg-primary-200/10 animate-spinSlow"></div>
-            <img
-              src="/assets/auth/register.png "
-              alt=""
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4/5"
-            />
-          </div>
-        </div>
-
         <div className="w-full h-full flex flex-col items-center justify-center px-16 py-36">
           <div className="w-full py-40 px-16 md:px-32 max-w-480  bg-white/5 rounded-16 flex flex-col gap-24 items-center">
             <Link href={"/"}>
