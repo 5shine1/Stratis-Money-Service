@@ -11,7 +11,9 @@ import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
 const AccountPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isKycAsk, setIsKycAsk] = useState(true);
-  const { userId, name, role, email } = useAppSelector((state) => state.auth);
+  const { userId, name, role, email, isKnowYourBusinessCompleted, isKnowYourBusinessPassed } = useAppSelector(
+    (state) => state.auth
+  );
 
   const handleGetOrders = async () => {
     setIsLoading(true);
@@ -58,7 +60,7 @@ const AccountPage = () => {
                 {role}
               </div>
 
-              {/* <div className="flex gap-4 flex-col sm:flex-row break-all">
+              <div className="flex gap-4 flex-col sm:flex-row break-all">
                 <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Phone number</span>
                 +12737713322
               </div>
@@ -66,7 +68,7 @@ const AccountPage = () => {
                 <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Address</span>
                 United States
               </div>
-              <div className="flex gap-4 flex-col sm:flex-row break-all">
+              {/*<div className="flex gap-4 flex-col sm:flex-row break-all">
                 <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Member from</span>
                 05/09/2024
               </div> */}
@@ -76,24 +78,28 @@ const AccountPage = () => {
           <div className="p-24 md:p-32 rounded-8 bg-secondary-100/20 dark:bg-white/5 w-full">
             <div className="text-20 font-bold text-primary-200 dark:text-secondary-200"> KYB Status</div>
             <div className="mt-18 flex items-center gap-12">
-              <div className="flex items-center gap-4 border border-success text-success rounded-4 px-8 py-4">
-                <Icon icon="ph:seal-check-bold" className="w-20 h-20" />
-                Verified
-              </div>
-              <div className="flex items-center gap-4 border border-info text-info rounded-4 px-8 py-4">
-                <Icon icon="bi:hourglass" className="w-20 h-20" />
-                Pending
-              </div>
-              <div className="flex items-center gap-4 border border-error text-error rounded-4 px-8 py-4">
-                <Icon icon="jam:close-circle" className="w-18 h-18" />
-                Not Verified
-              </div>
-              <AnimatedSlideButton
-                className=" text-primary-200 dark:text-white text-14 py-8 px-16 border border-primary-200 dark:border-secondary-300 rounded-full "
-                backClassName="from-primary-100 to-secondary-100 dark:from-primary-400 dark:to-secondary-300 "
-              >
-                Start KYB
-              </AnimatedSlideButton>
+              {isKnowYourBusinessPassed ? (
+                <div className="flex items-center gap-4 border border-success text-success rounded-4 px-8 py-4">
+                  <Icon icon="ph:seal-check-bold" className="w-20 h-20" />
+                  Verified
+                </div>
+              ) : isKnowYourBusinessCompleted ? (
+                <div className="flex items-center gap-4 border border-info text-info rounded-4 px-8 py-4">
+                  <Icon icon="bi:hourglass" className="w-20 h-20" />
+                  Pending
+                </div>
+              ) : (
+                <>
+                  <div className="flex items-center gap-4 border border-error text-error rounded-4 px-8 py-4">
+                    <Icon icon="jam:close-circle" className="w-18 h-18" />
+                    Not Verified
+                  </div>
+                  <div className=" text-primary-200 dark:text-white text-1 flex items-center gap-2 cursor-pointer u-transition-color hover:text-info">
+                    Start KYB
+                    <Icon icon={"ep:right"}></Icon>
+                  </div>
+                </>
+              )}
             </div>
           </div>
           <div className="p-24 md:p-32 rounded-8 bg-secondary-100/20 dark:bg-white/5 w-full">
