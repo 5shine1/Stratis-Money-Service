@@ -1,126 +1,122 @@
 "use client";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import toast from "react-hot-toast";
 import { Icon } from "@iconify/react";
 
 import CustomSwitch from "@/components/global/CustomSwitch";
+import { LoadingContext } from "@/components/providers/LoadingProvider";
 import useAppSelector from "@/hooks/global/useAppSelector";
 import { apiStartKYB } from "@/api/compliance.api";
+import { ROLES } from "@/@types/common";
 
 const AccountPage = () => {
-  const [isLoading, setIsLoading] = useState(false);
+  const { setLoading } = useContext(LoadingContext);
   const [isKycAsk, setIsKycAsk] = useState(true);
   const { userId, name, role, email, isKnowYourBusinessCompleted, isKnowYourBusinessPassed } = useAppSelector(
     (state) => state.auth
   );
 
   const handleStartKYB = async () => {
-    setIsLoading(true);
+    setLoading(true);
     try {
       await apiStartKYB();
     } catch (error) {
       console.log(error);
       toast.error("Server error.");
     }
-    setIsLoading(false);
+    setLoading(false);
   };
 
   return (
     <div className="flex flex-col gap-24 lg:gap-32 lg:px-48 lg:py-64 py-32 p-8 text-14">
       <h4 className="w-fit g-header-app">My Account</h4>
 
-      {isLoading ? (
-        <div className="text-primary-200 dark:text-white/70 p-12 text-center">
-          <Icon icon="eos-icons:three-dots-loading" className="w-64 h-64 mx-auto" />
-        </div>
-      ) : (
-        <div className="flex flex-col gap-16">
-          <div className="p-24 md:p-32 rounded-8 bg-secondary-100/20 dark:bg-white/5 w-full">
-            <div className="text-20 font-bold text-primary-200 dark:text-secondary-200"> Profile</div>
-            <div className="flex flex-col gap-16 mt-18 text-primary-200 dark:text-white">
-              <div className="flex gap-4 flex-col sm:flex-row break-all">
-                <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">User ID</span>
-                {userId}
-              </div>
-              <div className="flex gap-4 flex-col sm:flex-row break-all">
-                <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Email</span>
-                {email}
-              </div>
-              <div className="flex gap-4 flex-col sm:flex-row break-all">
-                <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Name</span>
-                {name}
-              </div>
-              <div className="flex gap-4 flex-col sm:flex-row break-all text-success">
-                <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Role</span>
-                {role}
-              </div>
+      <div className="flex flex-col gap-16">
+        <div className="p-24 md:p-32 rounded-8 bg-secondary-100/20 dark:bg-white/5 w-full">
+          <div className="text-20 font-bold text-primary-200 dark:text-secondary-200"> Profile</div>
+          <div className="flex flex-col gap-16 mt-18 text-primary-200 dark:text-white">
+            <div className="flex gap-4 flex-col sm:flex-row break-all">
+              <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">User ID</span>
+              {userId}
+            </div>
+            <div className="flex gap-4 flex-col sm:flex-row break-all">
+              <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Email</span>
+              {email}
+            </div>
+            <div className="flex gap-4 flex-col sm:flex-row break-all">
+              <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Name</span>
+              {name}
+            </div>
+            <div className={`flex gap-4 flex-col sm:flex-row break-all ${role === ROLES.ADMIN ? "text-info" : ""}`}>
+              <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Role</span>
+              {role}
+            </div>
 
-              <div className="flex gap-4 flex-col sm:flex-row break-all">
-                <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Phone number</span>
-                +12737713322
-              </div>
-              <div className="flex gap-4 flex-col sm:flex-row break-all">
-                <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Address</span>
-                United States
-              </div>
-              {/*<div className="flex gap-4 flex-col sm:flex-row break-all">
+            <div className="flex gap-4 flex-col sm:flex-row break-all">
+              <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Phone number</span>
+              +12737713322
+            </div>
+            <div className="flex gap-4 flex-col sm:flex-row break-all">
+              <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Address</span>
+              United States
+            </div>
+            {/*<div className="flex gap-4 flex-col sm:flex-row break-all">
                 <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Member from</span>
                 05/09/2024
               </div> */}
-            </div>
           </div>
+        </div>
 
-          <div className="p-24 md:p-32 rounded-8 bg-secondary-100/20 dark:bg-white/5 w-full">
-            <div className="text-20 font-bold text-primary-200 dark:text-secondary-200"> KYB Status</div>
-            <div className="mt-18 flex items-center gap-12">
-              {isKnowYourBusinessPassed ? (
-                <div className="flex items-center gap-4 border border-success text-success rounded-4 px-8 py-4">
-                  <Icon icon="ph:seal-check-bold" className="w-20 h-20" />
-                  Verified
+        <div className="p-24 md:p-32 rounded-8 bg-secondary-100/20 dark:bg-white/5 w-full">
+          <div className="text-20 font-bold text-primary-200 dark:text-secondary-200"> KYB Status</div>
+          <div className="mt-18 flex items-center gap-12">
+            {isKnowYourBusinessPassed ? (
+              <div className="flex items-center gap-4 border border-success text-success rounded-4 px-8 py-4">
+                <Icon icon="ph:seal-check-bold" className="w-20 h-20" />
+                Verified
+              </div>
+            ) : isKnowYourBusinessCompleted ? (
+              <div className="flex items-center gap-4 border border-info text-info rounded-4 px-8 py-4">
+                <Icon icon="bi:hourglass" className="w-20 h-20" />
+                Pending
+              </div>
+            ) : (
+              <>
+                <div className="flex items-center gap-4 border border-error text-error rounded-4 px-8 py-4">
+                  <Icon icon="jam:close-circle" className="w-18 h-18" />
+                  Not Verified
                 </div>
-              ) : isKnowYourBusinessCompleted ? (
-                <div className="flex items-center gap-4 border border-info text-info rounded-4 px-8 py-4">
-                  <Icon icon="bi:hourglass" className="w-20 h-20" />
-                  Pending
+                <div
+                  onClick={handleStartKYB}
+                  className=" text-primary-200 dark:text-white text-1 flex items-center gap-2 cursor-pointer u-transition-color hover:text-info"
+                >
+                  Start KYB
+                  <Icon icon={"ep:right"}></Icon>
                 </div>
-              ) : (
-                <>
-                  <div className="flex items-center gap-4 border border-error text-error rounded-4 px-8 py-4">
-                    <Icon icon="jam:close-circle" className="w-18 h-18" />
-                    Not Verified
-                  </div>
-                  <div
-                    onClick={handleStartKYB}
-                    className=" text-primary-200 dark:text-white text-1 flex items-center gap-2 cursor-pointer u-transition-color hover:text-info"
-                  >
-                    Start KYB
-                    <Icon icon={"ep:right"}></Icon>
-                  </div>
-                </>
-              )}
-            </div>
+              </>
+            )}
           </div>
-          <div className="p-24 md:p-32 rounded-8 bg-secondary-100/20 dark:bg-white/5 w-full">
-            <div className="text-20 font-bold text-primary-200 dark:text-secondary-200"> Setting</div>
-            <div className="flex md:items-center gap-12 md:gap-32 mt-18 flex-col md:flex-row items-start">
-              <div className=" text-primary-200 dark:text-white">
-                <span>Accept non-stable coin for payment </span>
-                <Icon icon="fe:question" className="text-info w-17 h-17 mb-1 cursor-pointer inline" />
-              </div>
-              <div className="flex items-center gap-6 text-12 dark:text-white text-primary-200">
-                OFF
-                <CustomSwitch
-                  value={isKycAsk}
-                  onChange={() => {
-                    setIsKycAsk(!isKycAsk);
-                  }}
-                />
-                ON
-              </div>
+        </div>
+        <div className="p-24 md:p-32 rounded-8 bg-secondary-100/20 dark:bg-white/5 w-full">
+          <div className="text-20 font-bold text-primary-200 dark:text-secondary-200"> Setting</div>
+          <div className="flex md:items-center gap-12 md:gap-32 mt-18 flex-col md:flex-row items-start">
+            <div className=" text-primary-200 dark:text-white">
+              <span>Accept non-stable coin for payment </span>
+              <Icon icon="fe:question" className="text-info w-17 h-17 mb-1 cursor-pointer inline" />
+            </div>
+            <div className="flex items-center gap-6 text-12 dark:text-white text-primary-200">
+              OFF
+              <CustomSwitch
+                value={isKycAsk}
+                onChange={() => {
+                  setIsKycAsk(!isKycAsk);
+                }}
+              />
+              ON
             </div>
           </div>
         </div>
-      )}
+      </div>
     </div>
   );
 };
