@@ -7,6 +7,7 @@ import CustomSwitch from "@/components/global/CustomSwitch";
 import { LoadingContext } from "@/components/providers/LoadingProvider";
 import useAppSelector from "@/hooks/global/useAppSelector";
 import { apiStartKYB } from "@/api/compliance.api";
+import { ROLES } from "@/@types/common";
 
 const AccountPage = () => {
   const { setLoading } = useContext(LoadingContext);
@@ -46,7 +47,7 @@ const AccountPage = () => {
               <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Name</span>
               {name}
             </div>
-            <div className="flex gap-4 flex-col sm:flex-row break-all text-success">
+            <div className={`flex gap-4 flex-col sm:flex-row break-all ${role === ROLES.ADMIN ? "text-info" : ""}`}>
               <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Role</span>
               {role}
             </div>

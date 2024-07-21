@@ -48,7 +48,7 @@ const MainComponent = () => {
       dispatch(
         setAuth({
           ...result,
-          role: result && result.isBusiness ? (result.isBusiness === true ? ROLES.BUSINESS : ROLES.ADMIN) : ROLES.GUEST,
+          role: result?.isAdmin ? ROLES.ADMIN : result?.isBusiness ? ROLES.BUSINESS : ROLES.GUEST,
         })
       );
     } catch (error) {
