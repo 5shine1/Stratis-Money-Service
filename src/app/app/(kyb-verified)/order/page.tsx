@@ -5,8 +5,8 @@ import Pagination from "rc-pagination";
 import toast from "react-hot-toast";
 import { Icon } from "@iconify/react";
 
-import { apiGenerate, apiPaymentHistory } from "@/api/payment.api";
-import { PAYMENT_STATE } from "@/@types/common";
+import { apiAdminPaymentHistory, apiGenerate, apiPaymentHistory } from "@/api/payment.api";
+import { PAYMENT_STATE, ROLES } from "@/@types/common";
 import AppInput from "@/components/global/AppInput";
 import { LoadingContext } from "@/components/providers/LoadingProvider";
 import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
@@ -16,6 +16,7 @@ import { formattedTime } from "@/utils/string.utils";
 import ControlModal from "./components/ControlModal";
 import DeleteModal from "./components/DeleteModal";
 import { IPayment } from "@/@types/data";
+import useAppSelector from "@/hooks/global/useAppSelector";
 
 const OrderPage = () => {
   const { setLoading } = useContext(LoadingContext);
@@ -25,6 +26,7 @@ const OrderPage = () => {
   const [controlModalOpen, setControlModalOpen] = useState<string | null>(null);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const { role } = useAppSelector((state) => state.auth);
 
   const filteredData = useMemo(
     () =>
@@ -42,7 +44,11 @@ const OrderPage = () => {
   const handleGetOrders = async () => {
     setIsLoading(true);
     try {
-      const result = await apiPaymentHistory();
+      if (role === ROLES.ADMIN) {
+        const result = await apiPaymentHistory();
+        setPaymentOrders(result);
+      }
+      const result = await apiAdminPaymentHistory();
       setPaymentOrders(result);
     } catch (error) {
       toast.error("Server error.");
