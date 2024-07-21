@@ -41,12 +41,7 @@ const LoginPage = () => {
             isVerifiedEmail: result?.data?.isVerifiedEmail,
             isKnowYourBusinessCompleted: result?.data?.isKnowYourBusinessCompleted,
             isKnowYourBusinessPassed: result?.data?.isKnowYourBusinessPassed,
-            role:
-              result?.data && result?.data.isBusiness
-                ? result.data.isBusiness === true
-                  ? ROLES.BUSINESS
-                  : ROLES.ADMIN
-                : ROLES.GUEST,
+            role: result?.data?.isAdmin ? ROLES.ADMIN : result?.data?.isBusiness ? ROLES.BUSINESS : ROLES.GUEST,
           })
         );
 
