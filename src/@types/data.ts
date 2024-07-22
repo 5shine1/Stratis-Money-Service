@@ -8,3 +8,17 @@ export interface IPayment {
   payee: string;
   description: string;
 }
+
+export interface IUser {
+  userId: string;
+  country: string;
+  email: string;
+  isAdmin: boolean;
+  isBusiness: boolean;
+  isKnowYourBusinessCompleted: boolean;
+  isKnowYourBusinessPassed: boolean;
+  isVerifiedEmail: boolean;
+  knowYourBusinessLink: null | string;
+  mobileNumber: string;
+  name: string;
+}

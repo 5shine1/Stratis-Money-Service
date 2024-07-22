@@ -41,12 +41,3 @@ export const apiPaymentHistoryDetail = async (id: string) => {
 // }
 
 // ----------------------------   admin   ------------------------
-
-export const apiAdminPaymentHistory = async () => {
-  try {
-    const result = await axiosInstance.get("/api/Admin/PaymentHistory");
-    return result.data;
-  } catch (error) {
-    throw error;
-  }
-};
