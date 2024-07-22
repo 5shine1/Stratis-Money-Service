@@ -5,7 +5,7 @@ import Pagination from "rc-pagination";
 import toast from "react-hot-toast";
 import { Icon } from "@iconify/react";
 
-import { apiAdminPaymentHistory, apiGenerate, apiPaymentHistory } from "@/api/payment.api";
+import { apiGenerate, apiPaymentHistory } from "@/api/payment.api";
 import { PAYMENT_STATE, ROLES } from "@/@types/common";
 import AppInput from "@/components/global/AppInput";
 import { LoadingContext } from "@/components/providers/LoadingProvider";
@@ -17,6 +17,7 @@ import ControlModal from "./components/ControlModal";
 import DeleteModal from "./components/DeleteModal";
 import { IPayment } from "@/@types/data";
 import useAppSelector from "@/hooks/global/useAppSelector";
+import { apiAdminPaymentHistory } from "@/api/admin.api";
 
 const OrderPage = () => {
   const { setLoading } = useContext(LoadingContext);
