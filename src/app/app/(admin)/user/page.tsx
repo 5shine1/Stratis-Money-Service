@@ -1,23 +1,25 @@
 "use client";
 import React, { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
 import Pagination from "rc-pagination";
 import toast from "react-hot-toast";
 import { Icon } from "@iconify/react";
 
 import AppInput from "@/components/global/AppInput";
-import { callAPI, mockUsers } from "@/config/mock";
 import CustomSelect from "@/components/global/CustomSelect";
-import Link from "next/link";
+import { apiAdminUsers } from "@/api/admin.api";
+import { IUser } from "@/@types/data";
+import { ROLES } from "@/@types/common";
 
 const UserPage = () => {
   const sortData = [
     { id: 0, key: "date", text: "Sort By Date" },
     { id: 1, key: "name", text: "Sort By Name" },
     { id: 2, key: "email", text: "Sort By Email" },
-    { id: 3, key: "role", text: "Sort By Role" },
+    { id: 3, key: "role", text: "Sort By Country" },
   ];
 
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState<IUser[]>([]);
   const [searchIndex, setSearchIndex] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [currentSort, setCurrentSort] = useState(0);
@@ -30,13 +32,13 @@ const UserPage = () => {
           return (
             item.email.toUpperCase().includes(searchIndex.toUpperCase()) ||
             item.name.toUpperCase().includes(searchIndex.toUpperCase()) ||
-            item.phone.toUpperCase().includes(searchIndex.toUpperCase())
+            item.mobileNumber.toUpperCase().includes(searchIndex.toUpperCase())
           );
         })
         .sort((a, b) => {
           if (currentSort === 1) return a.name.localeCompare(b.name);
           if (currentSort === 2) return a.email.localeCompare(b.email);
-          if (currentSort === 3) return a.role.localeCompare(b.role);
+          if (currentSort === 3) return a.country.localeCompare(b.country);
           return 0;
         }),
     [users, searchIndex, currentSort]
@@ -45,8 +47,8 @@ const UserPage = () => {
   const handleGetOrders = async () => {
     setIsLoading(true);
     try {
-      await callAPI();
-      setUsers(mockUsers);
+      const result = await apiAdminUsers();
+      setUsers(result);
     } catch (error) {
       toast.error("Server error.");
     }
@@ -97,8 +99,8 @@ const UserPage = () => {
                     <th className="px-8 py-16 text-left w-200">Email</th>
                     <th className="px-8 py-16 text-left w-140">Name</th>
                     <th className="px-8 py-16 text-left w-160">Phone</th>
+                    <th className="px-8 py-16 text-left w-120">Location</th>
                     <th className="px-8 py-16 text-left w-120">Role</th>
-                    <th className="px-8 py-16 text-left w-120">Join At</th>
                     <th className="px-8 py-16 text-center w-100">KYC Status</th>
                     <th className="px-8 py-16 text-center w-100">Email Status</th>
                     <th className="px-8 py-16 text-right w-100">Action</th>
@@ -118,28 +120,20 @@ const UserPage = () => {
                           <tr key={i} className="even:bg-secondary-100/10 dark:even:bg-[#ffffff04]">
                             <td className="px-8 py-16">{item.email}</td>
                             <td className="px-8 py-16">{item.name}</td>
-                            <td className="px-8 py-16">{item.phone}</td>
-                            <td
-                              className={`px-8 py-16 ${
-                                item.role === "Admin"
-                                  ? "text-success"
-                                  : item.role === "Business"
-                                  ? "text-info"
-                                  : "text-secondary-200"
-                              }`}
-                            >
-                              {item.role}
+                            <td className="px-8 py-16">{item.mobileNumber}</td>
+                            <td className="px-8 py-16">{item.country}</td>
+                            <td className={`px-8 py-16 ${item.isAdmin ? "text-info" : ""}`}>
+                              {item.isAdmin ? ROLES.ADMIN : ROLES.BUSINESS}
                             </td>
-                            <td className="px-8 py-16">04/24/2024</td>
                             <td className={`px-8`}>
-                              {item.isKycVerified ? (
+                              {item.isKnowYourBusinessPassed ? (
                                 <Icon icon="icon-park-outline:check-one" className="w-16 h-16 text-success mx-auto" />
                               ) : (
                                 <Icon icon="icon-park-outline:close-one" className="w-16 h-16 text-error mx-auto" />
                               )}
                             </td>
                             <td className={`px-8`}>
-                              {item.isEmailVerified ? (
+                              {item.isVerifiedEmail ? (
                                 <Icon icon="icon-park-outline:check-one" className="w-16 h-16 text-success mx-auto" />
                               ) : (
                                 <Icon icon="icon-park-outline:close-one" className="w-16 h-16 text-error mx-auto" />
@@ -148,7 +142,7 @@ const UserPage = () => {
                             <td className="px-8">
                               <div className="flex items-center gap-12 justify-end">
                                 <Link
-                                  href={`/app/user/${item.id}`}
+                                  href={`/app/user/${item.userId}`}
                                   className="text-primary-200/30 dark:text-white/40 u-transition-color hover:text-info"
                                 >
                                   <Icon icon="ph:eye-fill" className="w-20 h-20"></Icon>

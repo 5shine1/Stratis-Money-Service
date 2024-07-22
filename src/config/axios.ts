@@ -56,7 +56,6 @@ axiosInstance.interceptors.response.use(
         axios
           .post(`${BACKEND_URL}/api/Identity/Refresh`, { accessToken, refreshToken })
           .then(({ data }) => {
-            console.log(data);
             if (!data?.isSucceed) throw "Server error";
             localStorage.setItem("stratis-auth-token", data?.data?.accessToken);
             localStorage.setItem("stratis-auth-refresh", data?.data?.refreshToken);
