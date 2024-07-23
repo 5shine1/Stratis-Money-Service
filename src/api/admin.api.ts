@@ -26,3 +26,12 @@ export const apiAdminPaymentHistoryDetail = async (userId: string) => {
     throw error;
   }
 };
+
+export const apiAdminUserDetail = async (userId: string) => {
+  try {
+    const result = await axiosInstance.post(`/api/Admin/UserInfo/${userId}`);
+    return result.data;
+  } catch (error) {
+    throw error;
+  }
+};
