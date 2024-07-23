@@ -19,7 +19,8 @@ const AccountPage = () => {
   const handleStartKYB = async () => {
     setLoading(true);
     try {
-      await apiStartKYB();
+      const result = await apiStartKYB();
+      window.open(result.link, "_blank", "noopener,noreferrer");
     } catch (error) {
       console.log(error);
       toast.error("Server error.");
