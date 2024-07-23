@@ -3,27 +3,37 @@ import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Icon } from "@iconify/react";
 
-import { callAPI, mockOrderLinks } from "@/config/mock";
+import { apiAdminUserDetail } from "@/api/admin.api";
+import { IUser } from "@/@types/data";
 
-const UserDetailPage = () => {
+type Props = {
+  params: {
+    id: string;
+  };
+};
+
+const UserDetailPage: React.FC<Props> = ({ params }) => {
+  const [userInfo, setUserInfo] = useState<IUser | null>(null);
   const [paymentOrders, setPaymentOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const id = params.id;
 
-  const handleGetOrders = async () => {
+  const handleGetUser = async () => {
     setIsLoading(true);
     try {
-      await callAPI();
-      setPaymentOrders(mockOrderLinks);
+      const result = await apiAdminUserDetail(id);
+      setUserInfo(result);
     } catch (error) {
+      console.log(error);
       toast.error("Server error.");
     }
     setIsLoading(false);
   };
 
   useEffect(() => {
-    handleGetOrders();
+    handleGetUser();
     return () => {};
-  }, []);
+  }, [id]); // eslint-disable-line
 
   return (
     <div className="flex flex-col gap-24 lg:gap-32 lg:px-48 lg:py-64 py-32 p-8 text-14">
@@ -33,31 +43,41 @@ const UserDetailPage = () => {
         <div className="text-primary-200 dark:text-white/70 p-12 text-center">
           <Icon icon="eos-icons:three-dots-loading" className="w-64 h-64 mx-auto" />
         </div>
-      ) : (
+      ) : userInfo ? (
         <div className="flex flex-col gap-32">
           <div className="flex flex-col md:flex-row gap-16">
-            <div className="p-24 md:p-32 rounded-8 bg-secondary-100/20 dark:bg-white/5 w-full md:max-w-420">
+            <div className="p-24 md:p-32 rounded-8 bg-secondary-100/20 dark:bg-white/5 w-full">
               <div className="text-20 font-bold text-primary-200 dark:text-secondary-200"> User Detail</div>
               <div className="flex flex-col gap-16 mt-18 text-primary-200 dark:text-white">
                 <span>
-                  <span className="opacity-60">Name: </span>John Doe{" "}
-                  <span className="text-success border  px-4 py-2 border-success rounded-4 text-12">Admin</span>
+                  <span className="opacity-60">Name: </span>
+                  {userInfo.name}{" "}
+                  <span
+                    className={`border  px-4 py-2  rounded-4 text-12 ${
+                      userInfo.isAdmin ? "text-info border-info" : "border-success text-success"
+                    }`}
+                  >
+                    {userInfo.isAdmin ? "Admin" : "Business"}
+                  </span>
                 </span>
                 <span>
-                  <span className="opacity-60">Email: </span>johndoe@stratis.com
+                  <span className="opacity-60">Email: </span>
+                  {userInfo.email}
                 </span>
                 <span>
-                  <span className="opacity-60">Phone: </span>+12737713322
+                  <span className="opacity-60">Phone: </span>
+                  {userInfo.mobileNumber}
                 </span>
                 <span>
-                  <span className="opacity-60">Location: </span>United States
+                  <span className="opacity-60">Location: </span>
+                  {userInfo.country}
                 </span>
-                <span>
+                {/* <span>
                   <span className="opacity-60">Member from: </span>02/23/2024
-                </span>
+                </span> */}
               </div>
             </div>
-            <div className="p-24 md:p-32 rounded-8 bg-secondary-100/20 dark:bg-white/5 w-full md:max-w-420">
+            <div className="p-24 md:p-32 rounded-8 bg-secondary-100/20 dark:bg-white/5 w-full">
               <div className="text-20 font-bold text-primary-200 dark:text-secondary-200"> Balances</div>
               <div className="flex flex-col gap-16 mt-18 text-primary-200 dark:text-white">
                 <div className="flex  items-center gap-8">
@@ -80,8 +100,31 @@ const UserDetailPage = () => {
                 </div>
               </div>
             </div>
+            <div className="p-24 md:p-32 rounded-8 bg-secondary-100/20 dark:bg-white/5 w-full">
+              <div className="text-20 font-bold text-primary-200 dark:text-secondary-200"> Verification</div>
+              <div className="flex flex-col gap-16 mt-18 text-primary-200 dark:text-white">
+                <span>
+                  <span className="opacity-60">Email Verification: </span>
+                  <span className={`${userInfo.isVerifiedEmail ? "text-success" : "text-error"}`}>
+                    {userInfo.isVerifiedEmail ? "Verified" : "Not Verified"}
+                  </span>
+                </span>
+                <span>
+                  <span className="opacity-60">Shufti Pro KYB: </span>
+                  <span className={`${userInfo.isKnowYourBusinessCompleted ? "text-success" : "text-error"}`}>
+                    {userInfo.isKnowYourBusinessCompleted ? "Verified" : "Not Verified"}
+                  </span>
+                </span>
+                <span>
+                  <span className="opacity-60">Manual KYB Check: </span>
+                  <span className={`${userInfo.isKnowYourBusinessPassed ? "text-success" : "text-error"}`}>
+                    {userInfo.isKnowYourBusinessPassed ? "Verified" : "Not Verified"}
+                  </span>
+                </span>
+              </div>
+            </div>
           </div>
-          <div className="w-full overflow-x-auto">
+          {/* <div className="w-full overflow-x-auto">
             <table className="w-full table-fixed min-w-800 text-primary-200 dark:text-white/70">
               <thead>
                 <tr className="border-b border-primary-200/20 dark:border-white/10">
@@ -124,8 +167,10 @@ const UserDetailPage = () => {
                 )}
               </tbody>
             </table>
-          </div>
+          </div> */}
         </div>
+      ) : (
+        <div className="text-primary-200 dark:text-white/70">Something went wrong. Please check the link again.</div>
       )}
     </div>
   );
