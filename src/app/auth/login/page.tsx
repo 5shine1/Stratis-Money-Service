@@ -47,7 +47,7 @@ const LoginPage = () => {
 
         toast.success("Logged in successfully.");
         if (result?.data?.isVerifiedEmail) {
-          router.push("/");
+          router.push("/app/order");
         } else {
           router.push(`/auth/verify-email/send?email=${email.value}`);
         }
