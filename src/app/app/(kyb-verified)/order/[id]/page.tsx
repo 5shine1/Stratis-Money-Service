@@ -5,8 +5,10 @@ import { Icon } from "@iconify/react";
 
 import { IPayment } from "@/@types/data";
 import { apiPaymentHistoryDetail } from "@/api/payment.api";
-import { PAYMENT_STATE } from "@/@types/common";
+import { PAYMENT_STATE, ROLES } from "@/@types/common";
 import { formattedTime } from "@/utils/string.utils";
+import useAppSelector from "@/hooks/global/useAppSelector";
+import { apiAdminPaymentHistoryDetail } from "@/api/admin.api";
 
 type Props = {
   params: {
@@ -16,11 +18,16 @@ type Props = {
 const OrderDetailPage: React.FC<Props> = ({ params }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [payment, setPayment] = useState<IPayment | null>(null);
+  const { role } = useAppSelector((state) => state.auth);
   const id = params.id;
 
   const handleGetOrders = async () => {
     setIsLoading(true);
     try {
+      if (role === ROLES.ADMIN) {
+        const result = await apiAdminPaymentHistoryDetail(id);
+        setPayment(result);
+      }
       const result = await apiPaymentHistoryDetail(id);
       setPayment(result);
     } catch (error) {
