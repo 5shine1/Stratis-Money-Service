@@ -17,3 +17,21 @@ export const apiAdminUsers = async () => {
     throw error;
   }
 };
+
+export const apiAdminPaymentHistoryDetail = async (userId: string) => {
+  try {
+    const result = await axiosInstance.get(`/api/Admin/PaymentHistory/${userId}`);
+    return result.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const apiAdminUserDetail = async (userId: string) => {
+  try {
+    const result = await axiosInstance.post(`/api/Admin/UserInfo/${userId}`);
+    return result.data;
+  } catch (error) {
+    throw error;
+  }
+};
