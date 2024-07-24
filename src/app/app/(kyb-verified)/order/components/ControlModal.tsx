@@ -7,7 +7,7 @@ import { FIAT_CURRENCIES, ICurrency } from "@/@types/common";
 import AppInput from "@/components/global/AppInput";
 import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
 import AppCurrencySelect from "@/components/global/AppCurrencySelect";
-import { isValidEmail, isValidReference } from "@/utils/string.utils";
+import { isValidEmail } from "@/utils/string.utils";
 
 type Props = {
   isOpen: boolean;
@@ -32,10 +32,6 @@ const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext, data }) => {
       temp++;
       setCurrency({ ...currency, error: "Currency required." });
     }
-    if (!isValidReference(reference.value)) {
-      temp++;
-      setReference({ ...reference, error: "Invalid reference." });
-    }
     if (!reference.value) {
       temp++;
       setReference({ ...reference, error: "Link reference required." });
@@ -51,7 +47,7 @@ const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext, data }) => {
     }
 
     if (temp > 0) return;
-    onNext(parseFloat(amount.value), currency.value.symbol, "", payerEmail.value);
+    onNext(parseFloat(amount.value), currency.value.symbol, reference.value, payerEmail.value);
   };
 
   useEffect(() => {
@@ -111,7 +107,7 @@ const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext, data }) => {
             onChange={(e) => {
               setReference({ error: "", value: e });
             }}
-            placeholder="Only numbers, letters and '-' symbol can be used"
+            placeholder="Reference"
             label="Link reference"
             error={reference.error}
             pattern="^[a-zA-Z0-9-]+$"
