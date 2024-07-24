@@ -144,6 +144,7 @@ const OrderPage = () => {
                     <tr className="border-b border-primary-200/20 dark:border-white/10">
                       <th className="px-8 py-16 text-left w-200">Payer</th>
                       <th className="px-8 py-16 text-left w-160">Amount</th>
+                      <th className="px-8 py-16 text-left w-160">Reference</th>
                       <th className="px-8 py-16 text-left w-160">State</th>
                       <th className="px-8 py-16 text-left w-120">Date</th>
                       <th className="px-8 py-16 text-right w-120">Actions</th>
@@ -165,6 +166,7 @@ const OrderPage = () => {
                               <td className="px-8 py-16">
                                 {item.amount} <span className="opacity-50">{item.currency}</span>
                               </td>
+                              <td className="px-8 py-16">{item.description}</td>
                               <td className={`px-8 py-16`}>{PAYMENT_STATE[item.state] || "Error"}</td>
                               <td className="px-8 py-16">{formattedTime(item.requested)}</td>
                               <td className="px-8">
@@ -218,6 +220,10 @@ const OrderPage = () => {
                             <div className="u-text-overflow">
                               {item.amount} <span className="opacity-50">{item.currency}</span>
                             </div>
+                          </div>
+                          <div className="flex justify-between items-center gap-72 overflow-hidden">
+                            <div className="flex-none opacity-70">Reference</div>
+                            <div className="u-text-overflow">{item.description}</div>
                           </div>
                           <div className="flex justify-between items-center gap-72 overflow-hidden">
                             <div className="flex-none opacity-70">State</div>

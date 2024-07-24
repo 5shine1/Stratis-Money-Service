@@ -27,9 +27,10 @@ const OrderDetailPage: React.FC<Props> = ({ params }) => {
       if (role === ROLES.ADMIN) {
         const result = await apiAdminPaymentHistoryDetail(id);
         setPayment(result);
+      } else {
+        const result = await apiPaymentHistoryDetail(id);
+        setPayment(result);
       }
-      const result = await apiPaymentHistoryDetail(id);
-      setPayment(result);
     } catch (error) {
       toast.error("Server error.");
     }
@@ -40,6 +41,7 @@ const OrderDetailPage: React.FC<Props> = ({ params }) => {
     handleGetOrders();
     return () => {};
   }, [id]); // eslint-disable-line
+
   return (
     <div className="flex flex-col gap-24 lg:gap-32 lg:px-48 lg:py-64 py-32 p-8 text-14">
       <h4 className="w-fit g-header-app">Transaction Detail</h4>
