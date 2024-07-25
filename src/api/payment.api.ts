@@ -1,8 +1,8 @@
 import axiosInstance from "@/config/axios";
 
-export const apiGetCurrencies = async () => {
+export const apiGetCurrencies = async (isFiat = true) => {
   try {
-    const result = await axiosInstance.get("/api/Payment/Currencies");
+    const result = await axiosInstance.get(`/api/Payment/Currencies?fiat=${isFiat}`);
     return result?.data;
   } catch (error) {
     throw error;
