@@ -106,7 +106,7 @@ const OrderPage = () => {
   useEffect(() => {
     handleGetOrders();
     return () => {};
-  }, []);
+  }, []); // eslint-disable-line
 
   return (
     <>
