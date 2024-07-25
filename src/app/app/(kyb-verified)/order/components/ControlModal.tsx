@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import { Icon } from "@iconify/react/dist/iconify.js";
 
-import { FIAT_CURRENCIES, ICurrency } from "@/@types/common";
-// import useAppSelector from "@/hooks/global/useAppSelector";
+import { ICurrency } from "@/@types/common";
+import useAppSelector from "@/hooks/global/useAppSelector";
 import AppInput from "@/components/global/AppInput";
 import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
 import AppCurrencySelect from "@/components/global/AppCurrencySelect";
@@ -20,7 +20,7 @@ const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext, data }) => {
   const [currency, setCurrency] = useState<{ value: ICurrency | null; error: string }>({ value: null, error: "" });
   const [reference, setReference] = useState({ value: "", error: "" });
   const [payerEmail, setPayerEmail] = useState({ value: "", error: "" });
-  // const { currencies } = useAppSelector((state) => state.payment);
+  const { currencies } = useAppSelector((state) => state.payment);
 
   const handleClick = () => {
     let temp = 0;
@@ -92,7 +92,7 @@ const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext, data }) => {
               inputMode="decimal"
             />
             <AppCurrencySelect
-              data={FIAT_CURRENCIES}
+              data={currencies}
               value={currency.value}
               placeholder="Select Currency"
               label="Currency"
