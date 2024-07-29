@@ -119,7 +119,7 @@ const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext, data }) => {
               setPayerEmail({ error: "", value: e });
             }}
             placeholder="Email address"
-            label="Payer email"
+            label="Customer email"
             error={payerEmail.error}
           />
           <AnimatedSlideButton
