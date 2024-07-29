@@ -36,8 +36,11 @@ export const apiPaymentHistoryDetail = async (id: string) => {
   }
 };
 
-// export const apiPaymentStart = async(paymentId:string, payer:string)=> {
-
-// }
-
-// ----------------------------   admin   ------------------------
+export const apiPaymentStart = async (paymentId: string) => {
+  try {
+    const result = await axiosInstance.post(`api/Payment/Start`, { paymentId });
+    return result.data;
+  } catch (error) {
+    throw error;
+  }
+};
