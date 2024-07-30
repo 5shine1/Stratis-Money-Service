@@ -44,3 +44,12 @@ export const apiPaymentStart = async (paymentId: string) => {
     throw error;
   }
 };
+
+export const apiMakePayment = async (paymentId: string, paymentCurrencySymbol: string) => {
+  try {
+    const result = await axiosInstance.post(`api/Payment/MakePayment`, { paymentId, paymentCurrencySymbol });
+    return result.data;
+  } catch (error) {
+    throw error;
+  }
+};
