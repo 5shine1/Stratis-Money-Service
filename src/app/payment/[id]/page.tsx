@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import QRCode from "react-qr-code";
 import Link from "next/link";
 import toast from "react-hot-toast";
@@ -8,8 +8,10 @@ import { Icon } from "@iconify/react";
 import SvgLogoApp from "@/assets/SvgLogoApp";
 import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
 import CustomSelect from "@/components/global/CustomSelect";
-import { apiPaymentStart } from "@/api/payment.api";
+import { apiMakePayment, apiPaymentStart } from "@/api/payment.api";
 import Error404Page from "@/app/not-found";
+import { LoadingContext } from "@/components/providers/LoadingProvider";
+import { shortenAddress } from "@/utils/string.utils";
 
 type Props = {
   params: {
@@ -18,10 +20,11 @@ type Props = {
 };
 
 const PaymentPage: React.FC<Props> = ({ params }) => {
+  const { setLoading } = useContext(LoadingContext);
   const [isCurrencySelected, setIsCurrencySelected] = useState(false);
-  const [isFinished] = useState(false);
   const [currency, setCurrency] = useState(0);
   const [paymentInfo, setPaymentInfo] = useState<any>();
+  const [depositInfo, setDepositInfo] = useState<any>();
   const [isLoading, setIsLoading] = useState(true);
   const id = params.id;
   const currencies = paymentInfo?.acceptableCurrencies?.map((item, i) => {
@@ -38,6 +41,19 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
       toast.error("Server error.");
     }
     setIsLoading(false);
+  };
+  const handleMakePayment = async () => {
+    setLoading(true);
+    try {
+      const result = await apiMakePayment(id, currencies[currency].text);
+      setDepositInfo(result);
+      console.log(result);
+      setIsCurrencySelected(true);
+    } catch (error) {
+      console.log(error);
+      toast.error("Server error.");
+    }
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -57,14 +73,14 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
             {!isCurrencySelected ? (
               <div className="bg-white/5 rounded-12 px-16 md:px-40 py-32 md:py-48 flex flex-col md:flex-row gap-32 w-full max-w-1000">
                 <div className="flex flex-col items-start gap-24">
-                  {!isFinished && (
+                  {paymentInfo?.state !== 10 && (
                     <div className="border border-success text-success bg-success/5 rounded-6 p-12 text-center w-fit">
                       This transaction already processed.
                     </div>
                   )}
 
                   <div className="text-24">
-                    {paymentInfo?.payeeName} <span className="text-white/50">has requested</span> jahndoe@gmail.com{" "}
+                    {paymentInfo?.payeeName} <span className="text-white/50">has requested</span> {paymentInfo?.payer}{" "}
                     <span className="text-white/50">to pay</span> {paymentInfo?.amount} {paymentInfo?.currencySymbol}.
                   </div>
                   <div className=" text-16 text-white/60">{paymentInfo?.description}</div>
@@ -86,7 +102,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
                   <div className="flex flex-col gap-16">
                     <AnimatedSlideButton
                       onClick={() => {
-                        setIsCurrencySelected(true);
+                        handleMakePayment();
                       }}
                       className=" text-20 border border-secondary-300 rounded-full py-16 px-48"
                     >
@@ -101,24 +117,26 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
                   <div className="flex flex-col gap-16">
                     <div className="flex flex-col gap-4">
                       <span className="text-white/70">Amount</span>
-                      <span className="text-24 font-bold">100 USDT</span>
+                      <span className="text-24 font-bold">
+                        {depositInfo?.paymentAmount} {currencies[currency].text}
+                      </span>
                     </div>
                     <div className="flex flex-col gap-8">
                       <span className="text-white/70">Deposit Address</span>
-                      <span className="text-18 font-bold hidden md:block">
-                        0xb2f6f45017D12cA08A4E5EcddEd4b72ACdab79FE
+                      <span className="text-18 font-bold hidden md:block">{depositInfo?.paymentDestination}</span>
+                      <span className="text-18 font-bold md:hidden">
+                        {shortenAddress(depositInfo?.paymentDestination || "")}
                       </span>
-                      <span className="text-18 font-bold md:hidden">0xb2f6...79FE</span>
                     </div>
                     <p className="text-error mt-12 text-14">
                       Be careful when choosing a network and currency when sending cryptocurrency. If you send
-                      cryptocurrency over the wrong network or wrong curreyncy, then your money will not be credited or
+                      cryptocurrency over the wrong network or wrong currency, then your money will not be credited or
                       returned.
                     </p>
                   </div>
                   <div className="w-full max-w-300 border-4 border-secondary-200 ">
                     <QRCode
-                      value={`ethereum:0x1231232123213?value=100`}
+                      value={`ethereum:${depositInfo?.paymentDestination}?value=${depositInfo?.paymentAmount}`}
                       style={{ height: "auto", maxWidth: "100%", width: "100%" }}
                     />
                   </div>

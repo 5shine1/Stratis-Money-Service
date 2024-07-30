@@ -53,3 +53,8 @@ export const isValidReference = (link: string) => {
   const pattern = /^[a-zA-Z0-9-]+$/;
   return pattern.test(link);
 };
+
+export const shortenAddress = (address: string) => {
+  if (address.length < 8) return address;
+  return address.slice(0, 4) + "..." + address.slice(-4);
+};
