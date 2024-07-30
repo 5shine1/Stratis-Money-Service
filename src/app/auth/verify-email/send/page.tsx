@@ -30,7 +30,7 @@ const VerifyEmailSendPage = () => {
     handleResendEmail();
 
     return () => {};
-  }, [email]);
+  }, [email]); // eslint-disable-line
 
   return (
     <main className="relative w-full overflow-x-hidden">
