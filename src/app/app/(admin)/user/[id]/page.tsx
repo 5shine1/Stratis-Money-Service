@@ -14,7 +14,7 @@ type Props = {
 
 const UserDetailPage: React.FC<Props> = ({ params }) => {
   const [userInfo, setUserInfo] = useState<IUser | null>(null);
-  const [paymentOrders, setPaymentOrders] = useState([]);
+  // const [paymentOrders, setPaymentOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const id = params.id;
 
