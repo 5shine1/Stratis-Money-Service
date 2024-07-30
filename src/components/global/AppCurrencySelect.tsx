@@ -37,7 +37,7 @@ export default function AppCurrencySelect({
       onChange(selected);
     }
     setSearchIndex("");
-  }, [selected]);
+  }, [selected]); //eslint-disable-line
 
   useEffect(() => {
     document.addEventListener("click", handleClickOutside);
