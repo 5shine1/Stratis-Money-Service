@@ -8,7 +8,7 @@ import { Icon } from "@iconify/react";
 import SvgLogoApp from "@/assets/SvgLogoApp";
 import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
 import CustomSelect from "@/components/global/CustomSelect";
-import { apiMakePayment, apiPaymentStart } from "@/api/payment.api";
+import { apiMakePayment, apiPaymentStart, apiPaymentStatus } from "@/api/payment.api";
 import Error404Page from "@/app/not-found";
 import { LoadingContext } from "@/components/providers/LoadingProvider";
 import { shortenAddress } from "@/utils/string.utils";
@@ -47,7 +47,6 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
     try {
       const result = await apiMakePayment(id, currencies[currency].text);
       setDepositInfo(result);
-      console.log(result);
       setIsCurrencySelected(true);
     } catch (error) {
       console.log(error);
@@ -55,10 +54,26 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
     }
     setLoading(false);
   };
+  const handleGetStatus = async () => {
+    if (isCurrencySelected) {
+      const result = await apiPaymentStatus(id);
+      console.log("state:", result?.state);
+    }
+  };
 
   useEffect(() => {
     handleGetInfo();
   }, [id]); // eslint-disable-line
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      handleGetStatus();
+    }, 1000);
+
+    return () => {
+      clearInterval(timer);
+    };
+  }, [isCurrencySelected]); //eslint-disable-line
 
   return (
     <>
