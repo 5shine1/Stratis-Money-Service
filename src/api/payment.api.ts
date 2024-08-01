@@ -53,3 +53,12 @@ export const apiMakePayment = async (paymentId: string, paymentCurrencySymbol: s
     throw error;
   }
 };
+
+export const apiPaymentStatus = async (paymentId: string) => {
+  try {
+    const result = await axiosInstance.get(`api/Payment/Status?paymentId=${paymentId}`);
+    return result.data;
+  } catch (error) {
+    throw error;
+  }
+};
