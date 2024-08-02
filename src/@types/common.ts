@@ -32,6 +32,7 @@ export const PAYMENT_STATE = {
   30: "KycNewUser",
   40: "KycExistingUser",
   50: "RequireDepositAddress",
+  55: "Expired",
   60: "AwaitingDeposit",
   70: "AddressComplianceCheck",
   80: "ReferComplianceTeam",
