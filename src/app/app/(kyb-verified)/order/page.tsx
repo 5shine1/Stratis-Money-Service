@@ -46,11 +46,12 @@ const OrderPage = () => {
     setIsLoading(true);
     try {
       if (role === ROLES.ADMIN) {
+        const result = await apiAdminPaymentHistory();
+        setPaymentOrders(result);
+      } else {
         const result = await apiPaymentHistory();
         setPaymentOrders(result);
       }
-      const result = await apiAdminPaymentHistory();
-      setPaymentOrders(result);
     } catch (error) {
       toast.error("Server error.");
     }

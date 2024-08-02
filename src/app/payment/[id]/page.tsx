@@ -142,16 +142,39 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
                   <div className="flex flex-col gap-16">
                     <div className="flex flex-col gap-4">
                       <span className="text-white/70">Amount</span>
-                      <span className="text-24 font-bold">
-                        {depositInfo?.paymentAmount} {currencies[currency].text}
-                      </span>
+                      <div className="flex items-center gap-8">
+                        <span className="text-24 font-bold">
+                          {depositInfo?.paymentAmount} {currencies[currency].text}
+                        </span>
+                        <span
+                          className="cursor-pointer"
+                          onClick={() => {
+                            navigator.clipboard.writeText(depositInfo?.paymentAmount);
+
+                            toast.success("Copied amount.");
+                          }}
+                        >
+                          <Icon icon={"fluent-mdl2:copy"} className="w-16 h-16" />
+                        </span>
+                      </div>
                     </div>
                     <div className="flex flex-col gap-8">
                       <span className="text-white/70">Deposit Address</span>
-                      <span className="text-18 font-bold hidden md:block">{depositInfo?.paymentDestination}</span>
-                      <span className="text-18 font-bold md:hidden">
-                        {shortenAddress(depositInfo?.paymentDestination || "")}
-                      </span>
+                      <div className="flex gap-8 items-center">
+                        <span className="text-18 font-bold hidden md:block">{depositInfo?.paymentDestination}</span>
+                        <span className="text-18 font-bold md:hidden">
+                          {shortenAddress(depositInfo?.paymentDestination || "")}
+                        </span>
+                        <span
+                          className="cursor-pointer"
+                          onClick={() => {
+                            navigator.clipboard.writeText(depositInfo?.paymentDestination);
+                            toast.success("Copied deposit address.");
+                          }}
+                        >
+                          <Icon icon={"fluent-mdl2:copy"} className="w-16 h-16" />
+                        </span>
+                      </div>
                     </div>
                     <p className="text-error mt-12 text-14">
                       Be careful when choosing a network and currency when sending cryptocurrency. If you send
