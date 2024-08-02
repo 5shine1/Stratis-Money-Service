@@ -88,12 +88,16 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
             {!isCurrencySelected ? (
               <div className="bg-white/5 rounded-12 px-16 md:px-40 py-32 md:py-48 flex flex-col md:flex-row gap-32 w-full max-w-1000">
                 <div className="flex flex-col items-start gap-24">
-                  {paymentInfo?.state !== 10 && (
+                  {paymentInfo?.state > 60 && (
                     <div className="border border-success text-success bg-success/5 rounded-6 p-12 text-center w-fit">
                       This transaction already processed.
                     </div>
                   )}
-
+                  {paymentInfo?.state == 55 && (
+                    <div className="border border-error text-error bg-error/5 rounded-6 p-12 text-center w-fit">
+                      This transaction was expired.
+                    </div>
+                  )}
                   <div className="text-24">
                     {paymentInfo?.payeeName} <span className="text-white/50">has requested</span> {paymentInfo?.payer}{" "}
                     <span className="text-white/50">to pay</span> {paymentInfo?.amount} {paymentInfo?.currencySymbol}.
@@ -115,14 +119,20 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
                     ></CustomSelect>
                   </div>
                   <div className="flex flex-col gap-16">
-                    <AnimatedSlideButton
-                      onClick={() => {
-                        handleMakePayment();
-                      }}
-                      className=" text-20 border border-secondary-300 rounded-full py-16 px-48"
-                    >
-                      Continue
-                    </AnimatedSlideButton>
+                    {paymentInfo?.state > 50 ? (
+                      <div className=" text-20 border border-white/50 text-white/50 text-center rounded-full py-16 px-48 cursor-not-allowed">
+                        Continue
+                      </div>
+                    ) : (
+                      <AnimatedSlideButton
+                        onClick={() => {
+                          handleMakePayment();
+                        }}
+                        className=" text-20 border border-secondary-300 rounded-full py-16 px-48"
+                      >
+                        Continue
+                      </AnimatedSlideButton>
+                    )}
                   </div>
                 </div>
               </div>
@@ -132,16 +142,39 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
                   <div className="flex flex-col gap-16">
                     <div className="flex flex-col gap-4">
                       <span className="text-white/70">Amount</span>
-                      <span className="text-24 font-bold">
-                        {depositInfo?.paymentAmount} {currencies[currency].text}
-                      </span>
+                      <div className="flex items-center gap-8">
+                        <span className="text-24 font-bold">
+                          {depositInfo?.paymentAmount} {currencies[currency].text}
+                        </span>
+                        <span
+                          className="cursor-pointer"
+                          onClick={() => {
+                            navigator.clipboard.writeText(depositInfo?.paymentAmount);
+
+                            toast.success("Copied amount.");
+                          }}
+                        >
+                          <Icon icon={"fluent-mdl2:copy"} className="w-16 h-16" />
+                        </span>
+                      </div>
                     </div>
                     <div className="flex flex-col gap-8">
                       <span className="text-white/70">Deposit Address</span>
-                      <span className="text-18 font-bold hidden md:block">{depositInfo?.paymentDestination}</span>
-                      <span className="text-18 font-bold md:hidden">
-                        {shortenAddress(depositInfo?.paymentDestination || "")}
-                      </span>
+                      <div className="flex gap-8 items-center">
+                        <span className="text-18 font-bold hidden md:block">{depositInfo?.paymentDestination}</span>
+                        <span className="text-18 font-bold md:hidden">
+                          {shortenAddress(depositInfo?.paymentDestination || "")}
+                        </span>
+                        <span
+                          className="cursor-pointer"
+                          onClick={() => {
+                            navigator.clipboard.writeText(depositInfo?.paymentDestination);
+                            toast.success("Copied deposit address.");
+                          }}
+                        >
+                          <Icon icon={"fluent-mdl2:copy"} className="w-16 h-16" />
+                        </span>
+                      </div>
                     </div>
                     <p className="text-error mt-12 text-14">
                       Be careful when choosing a network and currency when sending cryptocurrency. If you send
