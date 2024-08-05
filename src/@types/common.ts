@@ -41,6 +41,7 @@ export const PAYMENT_STATE = {
   110: "AwaitConversion",
   120: "InitiateFiatTransfer",
   130: "FiatTransferComplete",
+  200: "Completed",
 };
 
 export const FIAT_CURRENCIES = [
