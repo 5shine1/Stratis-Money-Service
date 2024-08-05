@@ -21,11 +21,14 @@ type Props = {
 
 const PaymentPage: React.FC<Props> = ({ params }) => {
   const { setLoading } = useContext(LoadingContext);
-  const [isCurrencySelected, setIsCurrencySelected] = useState(false);
+  const [status, setStatus] = useState(10);
   const [currency, setCurrency] = useState(0);
   const [paymentInfo, setPaymentInfo] = useState<any>();
   const [depositInfo, setDepositInfo] = useState<any>();
   const [isLoading, setIsLoading] = useState(true);
+  const [isSpin1, setIsSpin1] = useState(false);
+  const [isSpin2, setIsSpin2] = useState(false);
+  const [isSpin3, setIsSpin3] = useState(false);
   const id = params.id;
   const currencies = paymentInfo?.acceptableCurrencies?.map((item, i) => {
     return { id: i, key: item?.currencyId, text: item?.symbol };
@@ -36,28 +39,47 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
     try {
       const result = await apiPaymentStart(id);
       setPaymentInfo(result);
+      setStatus(10);
     } catch (error) {
       console.log(error);
       toast.error("Server error.");
     }
     setIsLoading(false);
   };
+
   const handleMakePayment = async () => {
     setLoading(true);
     try {
       const result = await apiMakePayment(id, currencies[currency].text);
       setDepositInfo(result);
-      setIsCurrencySelected(true);
+      setStatus(60);
     } catch (error) {
       console.log(error);
       toast.error("Server error.");
     }
     setLoading(false);
   };
+
   const handleGetStatus = async () => {
-    if (isCurrencySelected) {
+    if (status === 60) {
       const result = await apiPaymentStatus(id);
-      console.log("state:", result?.state);
+      console.log(result?.state);
+      if (result?.state === 55) {
+        toast.error("This transaction has been expired.");
+        setStatus(55);
+      } else if (result?.state === 200) {
+        setIsSpin1(true);
+        setTimeout(() => {
+          setIsSpin2(true);
+        }, 1000);
+        setTimeout(() => {
+          setIsSpin3(true);
+        }, 2000);
+        setTimeout(() => {
+          toast.success("Transaction completed successfully.");
+          setStatus(200);
+        }, 3000);
+      }
     }
   };
 
@@ -73,7 +95,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
     return () => {
       clearInterval(timer);
     };
-  }, [isCurrencySelected]); //eslint-disable-line
+  }, [status]); //eslint-disable-line
 
   return (
     <>
@@ -85,15 +107,15 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
               <SvgLogoApp className="w-48 h-48 !fill-secondary-200" />{" "}
               <h4 className="hidden sm:block">Stratis Payment</h4>
             </Link>
-            {!isCurrencySelected ? (
+            {status !== 60 ? (
               <div className="bg-white/5 rounded-12 px-16 md:px-40 py-32 md:py-48 flex flex-col md:flex-row gap-32 w-full max-w-1000">
                 <div className="flex flex-col items-start gap-24">
-                  {paymentInfo?.state > 60 && (
+                  {status == 200 && (
                     <div className="border border-success text-success bg-success/5 rounded-6 p-12 text-center w-fit">
                       This transaction already processed.
                     </div>
                   )}
-                  {paymentInfo?.state == 55 && (
+                  {status == 55 && (
                     <div className="border border-error text-error bg-error/5 rounded-6 p-12 text-center w-fit">
                       This transaction was expired.
                     </div>
@@ -119,7 +141,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
                     ></CustomSelect>
                   </div>
                   <div className="flex flex-col gap-16">
-                    {paymentInfo?.state > 50 ? (
+                    {status === 200 || status === 55 ? (
                       <div className=" text-20 border border-white/50 text-white/50 text-center rounded-full py-16 px-48 cursor-not-allowed">
                         Continue
                       </div>
@@ -191,21 +213,34 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
                 </div>
                 <div className="flex items-center gap-4 w-full max-w-600 mx-auto py-24">
                   <div className="relative">
-                    <Icon icon={"eos-icons:loading"} className="w-32 h-32" />
+                    {isSpin1 ? (
+                      <Icon icon={"lets-icons:check-ring"} className="w-32 h-32 text-success" />
+                    ) : (
+                      <Icon icon={"eos-icons:loading"} className="w-32 h-32" />
+                    )}
                     <span className="absolute left-1/2 text-12 whitespace-nowrap -translate-x-1/2 top-full mt-4">
                       Deposit
                     </span>
                   </div>
                   <hr className="border-white/30 w-full" />
                   <div className="relative">
-                    <Icon icon={"eos-icons:loading"} className="w-32 h-32" />
+                    {isSpin2 ? (
+                      <Icon icon={"lets-icons:check-ring"} className="w-32 h-32 text-success" />
+                    ) : (
+                      <Icon icon={"eos-icons:loading"} className="w-32 h-32" />
+                    )}
+
                     <span className="absolute left-1/2 text-12 whitespace-nowrap -translate-x-1/2 top-full mt-4">
                       Confirm
                     </span>
                   </div>
                   <hr className="border-white/30 w-full" />
                   <div className="relative">
-                    <Icon icon={"eos-icons:loading"} className="w-32 h-32" />
+                    {isSpin3 ? (
+                      <Icon icon={"lets-icons:check-ring"} className="w-32 h-32 text-success" />
+                    ) : (
+                      <Icon icon={"eos-icons:loading"} className="w-32 h-32" />
+                    )}
                     <span className="absolute left-1/2 text-12 whitespace-nowrap -translate-x-1/2 top-full mt-4">
                       Success
                     </span>
