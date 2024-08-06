@@ -58,3 +58,8 @@ export const shortenAddress = (address: string) => {
   if (address.length < 8) return address;
   return address.slice(0, 4) + "..." + address.slice(-4);
 };
+
+export const shortenString = (address: string, from: number, to: number) => {
+  if (address.length < from + to) return address;
+  return address.slice(0, from) + "..." + address.slice(-1 * to);
+};
