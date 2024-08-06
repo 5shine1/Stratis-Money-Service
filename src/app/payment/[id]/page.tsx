@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import QRCode from "react-qr-code";
 import Link from "next/link";
 import toast from "react-hot-toast";
@@ -11,7 +11,7 @@ import CustomSelect from "@/components/global/CustomSelect";
 import { apiMakePayment, apiPaymentStart, apiPaymentStatus } from "@/api/payment.api";
 import Error404Page from "@/app/not-found";
 import { LoadingContext } from "@/components/providers/LoadingProvider";
-import { shortenAddress } from "@/utils/string.utils";
+import { shortenAddress, shortenString } from "@/utils/string.utils";
 
 type Props = {
   params: {
@@ -22,17 +22,21 @@ type Props = {
 const PaymentPage: React.FC<Props> = ({ params }) => {
   const { setLoading } = useContext(LoadingContext);
   const [status, setStatus] = useState(10);
+  const [hash, setHash] = useState("");
   const [currency, setCurrency] = useState(0);
   const [paymentInfo, setPaymentInfo] = useState<any>();
   const [depositInfo, setDepositInfo] = useState<any>();
   const [isLoading, setIsLoading] = useState(true);
-  const [isSpin1, setIsSpin1] = useState(false);
   const [isSpin2, setIsSpin2] = useState(false);
   const [isSpin3, setIsSpin3] = useState(false);
   const id = params.id;
-  const currencies = paymentInfo?.acceptableCurrencies?.map((item, i) => {
-    return { id: i, key: item?.currencyId, text: item?.symbol };
-  });
+  const currencies = useMemo(
+    () =>
+      paymentInfo?.acceptableCurrencies?.map((item, i) => {
+        return { id: i, key: item?.currencyId, text: item?.symbol };
+      }),
+    [paymentInfo?.acceptableCurrencies]
+  );
 
   const handleGetInfo = async () => {
     setIsLoading(true);
@@ -63,22 +67,17 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
   const handleGetStatus = async () => {
     if (status === 60) {
       const result = await apiPaymentStatus(id);
+      if (result?.transactionHash) setHash(result?.transactionHash);
       console.log(result?.state);
       if (result?.state === 55) {
         toast.error("This transaction has been expired.");
         setStatus(55);
+      } else if (result?.state === 100) {
+        setIsSpin2(true);
       } else if (result?.state === 200) {
-        setIsSpin1(true);
-        setTimeout(() => {
-          setIsSpin2(true);
-        }, 1000);
-        setTimeout(() => {
-          setIsSpin3(true);
-        }, 2000);
-        setTimeout(() => {
-          toast.success("Transaction completed successfully.");
-          setStatus(200);
-        }, 3000);
+        setIsSpin3(true);
+        toast.success("Transaction completed successfully.");
+        setStatus(200);
       }
     }
   };
@@ -120,8 +119,10 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
                       This transaction was expired.
                     </div>
                   )}
-                  <div className="text-24">
-                    {paymentInfo?.payeeName} <span className="text-white/50">has requested</span> {paymentInfo?.payer}{" "}
+                  <div className="text-24 break-words">
+                    <span className="break-all md:break-normal">{paymentInfo?.payeeName} </span>
+                    <span className="text-white/50">has requested</span>{" "}
+                    <span className="break-all md:break-normal">{paymentInfo?.payer}</span>{" "}
                     <span className="text-white/50">to pay</span> {paymentInfo?.amount} {paymentInfo?.currencySymbol}.
                   </div>
                   <div className=" text-16 text-white/60">{paymentInfo?.description}</div>
@@ -203,46 +204,66 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
                       cryptocurrency over the wrong network or wrong currency, then your money will not be credited or
                       returned.
                     </p>
+                    {hash && (
+                      <div className="flex flex-col gap-8">
+                        <span className="text-white/70">Transaction Hash</span>
+                        <div className="flex gap-8 items-center">
+                          <span className="text-18 font-bold hidden md:block">{shortenString(hash, 8, 6)}</span>
+                          <span className="text-18 font-bold md:hidden">{shortenString(hash, 4, 4)}</span>
+                          <span
+                            className="cursor-pointer"
+                            onClick={() => {
+                              navigator.clipboard.writeText(hash);
+                              toast.success("Copied transaction hash.");
+                            }}
+                          >
+                            <Icon icon={"fluent-mdl2:copy"} className="w-16 h-16" />
+                          </span>
+                        </div>
+                      </div>
+                    )}
                   </div>
-                  <div className="w-full max-w-300 border-4 border-secondary-200 ">
-                    <QRCode
-                      value={`ethereum:${depositInfo?.paymentDestination}?value=${depositInfo?.paymentAmount}`}
-                      style={{ height: "auto", maxWidth: "100%", width: "100%" }}
-                    />
+                  <div className={`w-full max-w-300 `}>
+                    {!hash && (
+                      <div className="border-4 border-secondary-200">
+                        <QRCode
+                          value={depositInfo?.paymentDestination}
+                          style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                        />
+                      </div>
+                    )}
                   </div>
                 </div>
-                <div className="flex items-center gap-4 w-full max-w-600 mx-auto py-24">
-                  <div className="relative">
-                    {isSpin1 ? (
-                      <Icon icon={"lets-icons:check-ring"} className="w-32 h-32 text-success" />
-                    ) : (
-                      <Icon icon={"eos-icons:loading"} className="w-32 h-32" />
-                    )}
-                    <span className="absolute left-1/2 text-12 whitespace-nowrap -translate-x-1/2 top-full mt-4">
-                      Deposit
+                <div className="flex items-start md:items-center gap-24 md:gap-4 w-full max-w-600 mx-auto py-24 flex-col md:flex-row">
+                  <div className="relative flex items-center gap-8">
+                    <Icon icon={"lets-icons:check-ring"} className="w-32 h-32 flex-none text-success" />
+                    <span className="md:hidden text-14">Payment is requested</span>
+                    <span className="absolute left-1/2 text-12 whitespace-nowrap -translate-x-1/2 top-full mt-4 hidden md:block">
+                      Payment is requested
                     </span>
                   </div>
-                  <hr className="border-white/30 w-full" />
-                  <div className="relative">
+                  <hr className="border-white/30 w-full hidden md:block" />
+                  <div className="relative flex items-center gap-8">
                     {isSpin2 ? (
-                      <Icon icon={"lets-icons:check-ring"} className="w-32 h-32 text-success" />
+                      <Icon icon={"lets-icons:check-ring"} className="w-32 h-32 flex-none text-success" />
                     ) : (
-                      <Icon icon={"eos-icons:loading"} className="w-32 h-32" />
+                      <Icon icon={"eos-icons:loading"} className="w-32 h-32 flex-none" />
                     )}
-
-                    <span className="absolute left-1/2 text-12 whitespace-nowrap -translate-x-1/2 top-full mt-4">
-                      Confirm
+                    <span className="md:hidden text-14">Payment is received, awaiting confirmation</span>
+                    <span className="absolute left-1/2 text-12 whitespace-nowrap -translate-x-1/2 top-full mt-4 hidden md:block">
+                      Payment is received, awaiting confirmation
                     </span>
                   </div>
-                  <hr className="border-white/30 w-full" />
-                  <div className="relative">
+                  <hr className="border-white/30 w-full hidden md:block" />
+                  <div className="relative flex items-center gap-8">
                     {isSpin3 ? (
-                      <Icon icon={"lets-icons:check-ring"} className="w-32 h-32 text-success" />
+                      <Icon icon={"lets-icons:check-ring"} className="w-32 h-32 flex-none text-success" />
                     ) : (
-                      <Icon icon={"eos-icons:loading"} className="w-32 h-32" />
-                    )}
-                    <span className="absolute left-1/2 text-12 whitespace-nowrap -translate-x-1/2 top-full mt-4">
-                      Success
+                      <Icon icon={"eos-icons:loading"} className="w-32 h-32 flex-none" />
+                    )}{" "}
+                    <span className="md:hidden text-14">Payment completed</span>
+                    <span className="absolute left-1/2 text-12 whitespace-nowrap -translate-x-1/2 top-full mt-4 hidden md:block">
+                      Payment completed
                     </span>
                   </div>
                 </div>
