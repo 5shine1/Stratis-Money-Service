@@ -29,6 +29,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [isSpin2, setIsSpin2] = useState(false);
   const [isSpin3, setIsSpin3] = useState(false);
+  const [confirmStep, setConfirmStep] = useState(0);
   const id = params.id;
   const currencies = useMemo(
     () =>
@@ -68,6 +69,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
     if (status === 60) {
       const result = await apiPaymentStatus(id);
       if (result?.transactionHash) setHash(result?.transactionHash);
+      setConfirmStep(result?.confirmations);
       console.log(result?.state);
       if (result?.state === 55) {
         toast.error("This transaction has been expired.");
@@ -219,6 +221,13 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
                           >
                             <Icon icon={"fluent-mdl2:copy"} className="w-16 h-16" />
                           </span>
+                          <a
+                            href={`https://sepolia.etherscan.io/tx/${hash}`}
+                            target="_blank"
+                            className="cursor-pointer"
+                          >
+                            <Icon icon={"radix-icons:external-link"} className="w-16 h-16" />
+                          </a>
                         </div>
                       </div>
                     )}
@@ -261,9 +270,9 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
                     ) : (
                       <Icon icon={"eos-icons:loading"} className="w-32 h-32 flex-none" />
                     )}{" "}
-                    <span className="md:hidden text-14">Payment completed</span>
+                    <span className="md:hidden text-14">Payment completed({confirmStep}/6)</span>
                     <span className="absolute left-1/2 text-12 whitespace-nowrap -translate-x-1/2 top-full mt-4 hidden md:block">
-                      Payment completed
+                      Payment completed({confirmStep}/6)
                     </span>
                   </div>
                 </div>
