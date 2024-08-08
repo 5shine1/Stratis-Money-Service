@@ -17,7 +17,7 @@ import ControlModal from "./components/ControlModal";
 import DeleteModal from "./components/DeleteModal";
 import { IPayment } from "@/@types/data";
 import useAppSelector from "@/hooks/global/useAppSelector";
-import { apiAdminPaymentHistory } from "@/api/admin.api";
+import { apiAdminDeleteOrder, apiAdminPaymentHistory } from "@/api/admin.api";
 
 const OrderPage = () => {
   const { setLoading } = useContext(LoadingContext);
@@ -25,7 +25,7 @@ const OrderPage = () => {
   const [searchIndex, setSearchIndex] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [controlModalOpen, setControlModalOpen] = useState<string | null>(null);
-  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const { role } = useAppSelector((state) => state.auth);
 
@@ -92,12 +92,17 @@ const OrderPage = () => {
     }
     setLoading(false);
   };
-  const handleDeleteOrder = async () => {
+  const handleDeleteOrder = async (id: string) => {
     setLoading(true);
     try {
-      await callAPI();
+      if (role === ROLES.ADMIN) {
+        await apiAdminDeleteOrder(id);
+      } else {
+        throw "403 error";
+      }
       toast.success("Detail deleted successfully.");
-      setDeleteModalOpen(false);
+      setPaymentOrders(paymentOrders.filter((item) => item.paymentId !== id));
+      setDeleteModalOpen(null);
     } catch (error) {
       toast.error("Server error.");
     }
@@ -179,14 +184,9 @@ const OrderPage = () => {
                                   >
                                     <Icon icon="ph:eye-fill" className="w-18 h-18"></Icon>
                                   </Link>
+
                                   <button
-                                    onClick={() => setControlModalOpen(item.paymentId)}
-                                    className="text-primary-200/30 dark:text-white/40 u-transition-color hover:text-success"
-                                  >
-                                    <Icon icon="fluent:edit-48-filled" className="w-18 h-18"></Icon>
-                                  </button>
-                                  <button
-                                    onClick={() => setDeleteModalOpen(true)}
+                                    onClick={() => setDeleteModalOpen(item.paymentId)}
                                     className="text-primary-200/30 dark:text-white/40 u-transition-color hover:text-error"
                                   >
                                     <Icon icon="bxs:trash" className="w-18 h-18"></Icon>
@@ -244,14 +244,9 @@ const OrderPage = () => {
                               >
                                 <Icon icon="ph:eye-fill" className="w-18 h-18"></Icon>
                               </Link>
+
                               <button
-                                onClick={() => setControlModalOpen(item.paymentId)}
-                                className="text-primary-200/30 dark:text-white/40 u-transition-color hover:text-success"
-                              >
-                                <Icon icon="fluent:edit-48-filled" className="w-18 h-18"></Icon>
-                              </button>
-                              <button
-                                onClick={() => setDeleteModalOpen(true)}
+                                onClick={() => setDeleteModalOpen(item.paymentId)}
                                 className="text-primary-200/30 dark:text-white/40 u-transition-color hover:text-error"
                               >
                                 <Icon icon="bxs:trash" className="w-18 h-18"></Icon>
@@ -286,7 +281,11 @@ const OrderPage = () => {
         data={paymentOrders.find((item) => item.paymentId === controlModalOpen)}
         onNext={controlModalOpen === "" ? handleCreateOrder : handleEditOrder}
       />
-      <DeleteModal isOpen={deleteModalOpen} onClose={() => setDeleteModalOpen(false)} onNext={handleDeleteOrder} />
+      <DeleteModal
+        isOpen={deleteModalOpen}
+        onClose={() => setDeleteModalOpen(null)}
+        onNext={() => handleDeleteOrder(deleteModalOpen)}
+      />
     </>
   );
 };
