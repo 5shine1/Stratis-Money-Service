@@ -53,3 +53,11 @@ export const apiAdminDeleteOrder = async (id: string) => {
     throw error;
   }
 };
+export const apiActivateUser = async (userId: string, status: boolean) => {
+  try {
+    const result = await axiosInstance.post(`/api/Admin/KybManualReview?userId=${userId}`, status);
+    return result.data;
+  } catch (error) {
+    throw error;
+  }
+};
