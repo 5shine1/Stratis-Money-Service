@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import Pagination from "rc-pagination";
 import toast from "react-hot-toast";
@@ -7,9 +7,10 @@ import { Icon } from "@iconify/react";
 
 import AppInput from "@/components/global/AppInput";
 import CustomSelect from "@/components/global/CustomSelect";
-import { apiAdminUsers } from "@/api/admin.api";
+import { apiActivateUser, apiAdminUsers } from "@/api/admin.api";
 import { IUser } from "@/@types/data";
 import { ROLES } from "@/@types/common";
+import { LoadingContext } from "@/components/providers/LoadingProvider";
 
 const UserPage = () => {
   const sortData = [
@@ -19,6 +20,7 @@ const UserPage = () => {
     { id: 3, key: "role", text: "Sort By Country" },
   ];
 
+  const { setLoading } = useContext(LoadingContext);
   const [users, setUsers] = useState<IUser[]>([]);
   const [searchIndex, setSearchIndex] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -55,6 +57,21 @@ const UserPage = () => {
     setIsLoading(false);
   };
 
+  const handleActiveUser = async (userId: string, status: boolean) => {
+    setLoading(true);
+    try {
+      await apiActivateUser(userId, status);
+      setUsers(
+        users.map((user) => {
+          if (user.userId === userId) return { ...user, isKnowYourBusinessPassed: status };
+          return user;
+        })
+      );
+    } catch (error) {
+      toast.error("Server error.");
+    }
+    setLoading(false);
+  };
   useEffect(() => {
     handleGetOrders();
     return () => {};
@@ -101,15 +118,16 @@ const UserPage = () => {
                     <th className="px-8 py-16 text-left w-160">Phone</th>
                     <th className="px-8 py-16 text-left w-120">Location</th>
                     <th className="px-8 py-16 text-left w-120">Role</th>
-                    <th className="px-8 py-16 text-center w-100">KYB Status</th>
                     <th className="px-8 py-16 text-center w-100">Email Status</th>
+                    <th className="px-8 py-16 text-center w-100">KYB Status</th>
+                    <th className="px-8 py-16 text-center w-100">Manual KYB</th>
                     <th className="px-8 py-16 text-right w-100">Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   {!filteredData.length ? (
                     <tr>
-                      <td colSpan={8} className="text-error p-24 lg:text-center text-left">
+                      <td colSpan={9} className="text-error p-24 lg:text-center text-left">
                         No Users
                       </td>
                     </tr>
@@ -126,14 +144,21 @@ const UserPage = () => {
                               {item.isAdmin ? ROLES.ADMIN : ROLES.BUSINESS}
                             </td>
                             <td className={`px-8`}>
-                              {item.isKnowYourBusinessPassed ? (
+                              {item.isVerifiedEmail ? (
                                 <Icon icon="icon-park-outline:check-one" className="w-16 h-16 text-success mx-auto" />
                               ) : (
                                 <Icon icon="icon-park-outline:close-one" className="w-16 h-16 text-error mx-auto" />
                               )}
                             </td>
                             <td className={`px-8`}>
-                              {item.isVerifiedEmail ? (
+                              {item.isKnowYourBusinessCompleted ? (
+                                <Icon icon="icon-park-outline:check-one" className="w-16 h-16 text-success mx-auto" />
+                              ) : (
+                                <Icon icon="icon-park-outline:close-one" className="w-16 h-16 text-error mx-auto" />
+                              )}
+                            </td>
+                            <td className={`px-8`}>
+                              {item.isKnowYourBusinessPassed ? (
                                 <Icon icon="icon-park-outline:check-one" className="w-16 h-16 text-success mx-auto" />
                               ) : (
                                 <Icon icon="icon-park-outline:close-one" className="w-16 h-16 text-error mx-auto" />
@@ -147,12 +172,25 @@ const UserPage = () => {
                                 >
                                   <Icon icon="ph:eye-fill" className="w-20 h-20"></Icon>
                                 </Link>
-                                <button
-                                  onClick={() => {}}
-                                  className="text-primary-200/30 dark:text-white/40 u-transition-color hover:text-error"
-                                >
-                                  <Icon icon="heroicons-solid:ban" className="w-20 h-20"></Icon>
-                                </button>
+                                {item.isKnowYourBusinessPassed ? (
+                                  <button
+                                    onClick={() => {
+                                      handleActiveUser(item.userId, false);
+                                    }}
+                                    className="text-primary-200/30 dark:text-white/40 u-transition-color hover:text-error"
+                                  >
+                                    <Icon icon="heroicons-solid:ban" className="w-20 h-20"></Icon>
+                                  </button>
+                                ) : (
+                                  <button
+                                    onClick={() => {
+                                      handleActiveUser(item.userId, true);
+                                    }}
+                                    className="text-primary-200/30 dark:text-white/40 u-transition-color hover:text-success"
+                                  >
+                                    <Icon icon="mdi:approve" className="w-20 h-20"></Icon>
+                                  </button>
+                                )}
                               </div>
                             </td>
                           </tr>
