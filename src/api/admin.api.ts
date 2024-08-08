@@ -44,3 +44,12 @@ export const apiAdminPaymentHistoryDetail = async (id: string) => {
     throw error;
   }
 };
+
+export const apiAdminDeleteOrder = async (id: string) => {
+  try {
+    const result = await axiosInstance.delete(`/api/Admin/Payment/Delete/${id}`);
+    return result.data;
+  } catch (error) {
+    throw error;
+  }
+};

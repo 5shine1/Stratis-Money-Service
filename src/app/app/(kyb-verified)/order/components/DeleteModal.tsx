@@ -5,14 +5,14 @@ import { Icon } from "@iconify/react";
 import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
 
 type Props = {
-  isOpen: boolean;
+  isOpen: null | string;
   onClose: () => void;
   onNext: () => void;
 };
 const DeleteModal: React.FC<Props> = ({ isOpen, onClose, onNext }) => {
   return (
     <Modal
-      isOpen={isOpen}
+      isOpen={isOpen !== null}
       onRequestClose={onClose}
       className="relative z-50 overflow-hidden bg-white dark:bg-primary-800 w-full max-w-400 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-12 shadow-md"
       overlayClassName="bg-black/50 backdrop-blur-md fixed left-0 top-0 w-full h-full z-40 px-8 py-32"
