@@ -4,7 +4,7 @@ import { BACKEND_URL } from "./env";
 const axiosInstance = axios.create({
   baseURL: BACKEND_URL,
   headers: {
-    accept: "application/json",
+    accept: "text/plain",
     "Content-Type": "application/json",
   },
 });
