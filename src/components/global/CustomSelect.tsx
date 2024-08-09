@@ -70,8 +70,8 @@ export default function CustomSelect({
   return (
     <div ref={dropdownRef} className={`relative w-full ${parentClass}`}>
       <div onClick={toggleDropdown} className={`relative flex justify-between items-center gap-2 w-full ${mainClass}`}>
-        <div className="u-text-overflow w-full flex items-center gap-1">
-          {isIcon && <Icon icon={init.icon || "ph:star"} className="w-5 h-5" />}
+        <div className="u-text-overflow w-full flex items-center gap-4">
+          {isIcon && <img src={init.icon} alt="" className="w-20 h-20" />}
           {init && init.text}
         </div>
         <Icon
@@ -109,8 +109,8 @@ export default function CustomSelect({
                 setIsOpen(false);
               }}
             >
-              <div className="u-text-overflow flex items-center gap-1">
-                {isIcon && <Icon icon={item.icon || "ph:star"} className="w-5 h-5" />}
+              <div className="u-text-overflow flex items-center gap-4">
+                {isIcon && <img src={item.icon} alt="" className="w-20 h-20" />}
                 {item.text}
               </div>
             </div>
