@@ -24,6 +24,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
   const [status, setStatus] = useState(10);
   const [hash, setHash] = useState("");
   const [currency, setCurrency] = useState(0);
+  const [network, setNetwork] = useState(0);
   const [paymentInfo, setPaymentInfo] = useState<any>();
   const [depositInfo, setDepositInfo] = useState<any>();
   const [isLoading, setIsLoading] = useState(true);
@@ -34,10 +35,26 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
   const currencies = useMemo(
     () =>
       paymentInfo?.acceptableCurrencies?.map((item, i) => {
-        return { id: i, key: item?.currencyId, text: item?.symbol };
+        return {
+          id: i,
+          key: item?.currencyId,
+          text: item?.symbol,
+          icon: "https://s2.coinmarketcap.com/static/img/coins/64x64/3408.png",
+        };
       }),
     [paymentInfo?.acceptableCurrencies]
   );
+
+  const networks = [
+    { id: 0, key: "ethereum", text: "Ethereum", icon: "https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png" },
+    { id: 1, key: "polygon", text: "Polygon", icon: "https://s2.coinmarketcap.com/static/img/coins/64x64/3890.png" },
+    {
+      id: 2,
+      key: "avalanche",
+      text: "Avalanche",
+      icon: "https://s2.coinmarketcap.com/static/img/coins/64x64/5805.png",
+    },
+  ];
 
   const handleGetInfo = async () => {
     setIsLoading(true);
@@ -131,6 +148,20 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
                 </div>
                 <div className="w-full max-w-360 flex flex-col gap-24">
                   <div>
+                    <div className="mb-4">Select network of currency</div>
+                    <CustomSelect
+                      data={networks}
+                      init={networks[currency]}
+                      onChange={(selected) => {
+                        setNetwork(selected.id);
+                      }}
+                      mainClass="border border-secondary-200 bg-secondary-200/10 rounded-8 py-12 px-16 cursor-pointer u-text-overflow"
+                      padClass="absolute top-full left-0 w-full max-h-[240px] overflow-auto shadow-lg rounded-8 mt-6 bg-secondary-200/20 flex flex-col gap-4 overflow-y-auto backdrop-blur-md z-10 p-8"
+                      listClass=" py-12 px-10 cursor-pointer u-text-overflow rounded-4"
+                      isIcon={true}
+                    ></CustomSelect>
+                  </div>
+                  <div>
                     <div className="mb-4">Select currency you want to pay</div>
                     <CustomSelect
                       data={currencies}
@@ -141,6 +172,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
                       mainClass="border border-secondary-200 bg-secondary-200/10 rounded-8 py-12 px-16 cursor-pointer u-text-overflow"
                       padClass="absolute top-full left-0 w-full max-h-[240px] overflow-auto shadow-lg rounded-8 mt-6 bg-secondary-200/20 flex flex-col gap-4 overflow-y-auto backdrop-blur-md z-10 p-8"
                       listClass=" py-12 px-10 cursor-pointer u-text-overflow rounded-4"
+                      isIcon={true}
                     ></CustomSelect>
                   </div>
                   <div className="flex flex-col gap-16">
@@ -272,7 +304,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
                     )}{" "}
                     <span className="md:hidden text-14">Payment completed({confirmStep}/6)</span>
                     <span className="absolute left-1/2 text-12 whitespace-nowrap -translate-x-1/2 top-full mt-4 hidden md:block">
-                      Payment completed({confirmStep}/6)
+                      Payment completed({confirmStep}/11)
                     </span>
                   </div>
                 </div>
