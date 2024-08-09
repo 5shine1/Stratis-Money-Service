@@ -272,7 +272,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
                     )}{" "}
                     <span className="md:hidden text-14">Payment completed({confirmStep}/6)</span>
                     <span className="absolute left-1/2 text-12 whitespace-nowrap -translate-x-1/2 top-full mt-4 hidden md:block">
-                      Payment completed({confirmStep}/6)
+                      Payment completed({confirmStep}/11)
                     </span>
                   </div>
                 </div>
