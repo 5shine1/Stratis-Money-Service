@@ -10,6 +10,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ethereumjs/common": "^4.3.0",
     "@iconify/react": "^4.1.1",
     "@reduxjs/toolkit": "^2.2.5",
     "@types/qrcode.react": "^1.0.5",

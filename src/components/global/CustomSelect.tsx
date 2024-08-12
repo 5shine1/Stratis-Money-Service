@@ -6,6 +6,7 @@ interface ISelect {
   key: string;
   text: string;
   icon?: string;
+  subtext?: string;
 }
 
 interface Props {
@@ -70,9 +71,10 @@ export default function CustomSelect({
   return (
     <div ref={dropdownRef} className={`relative w-full ${parentClass}`}>
       <div onClick={toggleDropdown} className={`relative flex justify-between items-center gap-2 w-full ${mainClass}`}>
-        <div className="u-text-overflow w-full flex items-center gap-4">
-          {isIcon && <img src={init.icon} alt="" className="w-20 h-20" />}
+        <div className="u-text-overflow w-full flex items-center gap-8">
+          {isIcon && <img src={init?.icon} alt="" className="w-20 h-20 rounded-full" />}
           {init && init.text}
+          <span className="text-14 text-gray-400">{init?.subtext && init.subtext}</span>
         </div>
         <Icon
           icon={`ep:arrow-down`}
@@ -98,7 +100,7 @@ export default function CustomSelect({
         )}
         {list
           .filter((item) => {
-            return item.text.toUpperCase().includes(searchIndex.toUpperCase());
+            return item.text?.toUpperCase().includes(searchIndex.toUpperCase());
           })
           .map((item) => (
             <div
@@ -110,8 +112,9 @@ export default function CustomSelect({
               }}
             >
               <div className="u-text-overflow flex items-center gap-4">
-                {isIcon && <img src={item.icon} alt="" className="w-20 h-20" />}
+                {isIcon && <img src={item.icon} alt="" className="w-20 h-20 rounded-full" />}
                 {item.text}
+                {item?.subtext && <span className="text-14 text-gray-400">{init?.subtext && init.subtext}</span>}
               </div>
             </div>
           ))}
