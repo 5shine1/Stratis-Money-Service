@@ -12,6 +12,7 @@ import { apiMakePayment, apiPaymentStart, apiPaymentStatus } from "@/api/payment
 import Error404Page from "@/app/not-found";
 import { LoadingContext } from "@/components/providers/LoadingProvider";
 import { shortenAddress, shortenString } from "@/utils/string.utils";
+import { getChainInfo } from "@/utils/web3.utils";
 
 type Props = {
   params: {
@@ -20,41 +21,41 @@ type Props = {
 };
 
 const PaymentPage: React.FC<Props> = ({ params }) => {
+  const id = params.id;
   const { setLoading } = useContext(LoadingContext);
   const [status, setStatus] = useState(10);
   const [hash, setHash] = useState("");
   const [currency, setCurrency] = useState(0);
-  const [network, setNetwork] = useState(0);
+  // const [network, setNetwork] = useState('');
   const [paymentInfo, setPaymentInfo] = useState<any>();
   const [depositInfo, setDepositInfo] = useState<any>();
   const [isLoading, setIsLoading] = useState(true);
   const [isSpin2, setIsSpin2] = useState(false);
   const [isSpin3, setIsSpin3] = useState(false);
   const [confirmStep, setConfirmStep] = useState(0);
-  const id = params.id;
-  const currencies = useMemo(
-    () =>
-      paymentInfo?.acceptableCurrencies?.map((item, i) => {
-        return {
-          id: i,
-          key: item?.currencyId,
-          text: item?.symbol,
-          icon: "https://s2.coinmarketcap.com/static/img/coins/64x64/3408.png",
-        };
-      }),
-    [paymentInfo?.acceptableCurrencies]
-  );
+  const [currencies, setCurrencies] = useState([]);
 
-  const networks = [
-    { id: 0, key: "ethereum", text: "Ethereum", icon: "https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png" },
-    { id: 1, key: "polygon", text: "Polygon", icon: "https://s2.coinmarketcap.com/static/img/coins/64x64/3890.png" },
-    {
-      id: 2,
-      key: "avalanche",
-      text: "Avalanche",
-      icon: "https://s2.coinmarketcap.com/static/img/coins/64x64/5805.png",
-    },
-  ];
+  useEffect(() => {
+    const fetchCurrencies = async () => {
+      if (paymentInfo?.acceptableCurrencies) {
+        const currencyPromises = paymentInfo.acceptableCurrencies.map(async (item, i) => {
+          const chain = await getChainInfo(item?.chainId);
+          console.log(chain);
+          return {
+            id: i,
+            key: item?.currencyId,
+            text: item?.symbol,
+            icon: item?.icon,
+            subtext: chain.name,
+          };
+        });
+        const resolvedCurrencies = await Promise.all(currencyPromises);
+        setCurrencies(resolvedCurrencies);
+      }
+    };
+
+    fetchCurrencies();
+  }, [paymentInfo?.acceptableCurrencies]);
 
   const handleGetInfo = async () => {
     setIsLoading(true);
@@ -62,6 +63,8 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
       const result = await apiPaymentStart(id);
       setPaymentInfo(result);
       setStatus(10);
+      const response = await apiPaymentStatus(id);
+      setHash(response.transactionHash);
     } catch (error) {
       console.log(error);
       toast.error("Server error.");
@@ -125,78 +128,14 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
               <SvgLogoApp className="w-48 h-48 !fill-secondary-200" />{" "}
               <h4 className="hidden sm:block">Stratis Payment</h4>
             </Link>
-            {status !== 60 ? (
-              <div className="bg-white/5 rounded-12 px-16 md:px-40 py-32 md:py-48 flex flex-col md:flex-row gap-32 w-full max-w-1000">
-                <div className="flex flex-col items-start gap-24">
-                  {status == 200 && (
-                    <div className="border border-success text-success bg-success/5 rounded-6 p-12 text-center w-fit">
-                      This transaction already processed.
-                    </div>
-                  )}
-                  {status == 55 && (
-                    <div className="border border-error text-error bg-error/5 rounded-6 p-12 text-center w-fit">
-                      This transaction was expired.
-                    </div>
-                  )}
-                  <div className="text-24 break-words">
-                    <span className="break-all md:break-normal">{paymentInfo?.payeeName} </span>
-                    <span className="text-white/50">has requested</span>{" "}
-                    <span className="break-all md:break-normal">{paymentInfo?.payer}</span>{" "}
-                    <span className="text-white/50">to pay</span> {paymentInfo?.amount} {paymentInfo?.currencySymbol}.
-                  </div>
-                  <div className=" text-16 text-white/60">{paymentInfo?.description}</div>
-                </div>
-                <div className="w-full max-w-360 flex flex-col gap-24">
-                  <div>
-                    <div className="mb-4">Select network of currency</div>
-                    <CustomSelect
-                      data={networks}
-                      init={networks[currency]}
-                      onChange={(selected) => {
-                        setNetwork(selected.id);
-                      }}
-                      mainClass="border border-secondary-200 bg-secondary-200/10 rounded-8 py-12 px-16 cursor-pointer u-text-overflow"
-                      padClass="absolute top-full left-0 w-full max-h-[240px] overflow-auto shadow-lg rounded-8 mt-6 bg-secondary-200/20 flex flex-col gap-4 overflow-y-auto backdrop-blur-md z-10 p-8"
-                      listClass=" py-12 px-10 cursor-pointer u-text-overflow rounded-4"
-                      isIcon={true}
-                    ></CustomSelect>
-                  </div>
-                  <div>
-                    <div className="mb-4">Select currency you want to pay</div>
-                    <CustomSelect
-                      data={currencies}
-                      init={currencies[currency]}
-                      onChange={(selected) => {
-                        setCurrency(selected.id);
-                      }}
-                      mainClass="border border-secondary-200 bg-secondary-200/10 rounded-8 py-12 px-16 cursor-pointer u-text-overflow"
-                      padClass="absolute top-full left-0 w-full max-h-[240px] overflow-auto shadow-lg rounded-8 mt-6 bg-secondary-200/20 flex flex-col gap-4 overflow-y-auto backdrop-blur-md z-10 p-8"
-                      listClass=" py-12 px-10 cursor-pointer u-text-overflow rounded-4"
-                      isIcon={true}
-                    ></CustomSelect>
-                  </div>
-                  <div className="flex flex-col gap-16">
-                    {status === 200 || status === 55 ? (
-                      <div className=" text-20 border border-white/50 text-white/50 text-center rounded-full py-16 px-48 cursor-not-allowed">
-                        Continue
-                      </div>
-                    ) : (
-                      <AnimatedSlideButton
-                        onClick={() => {
-                          handleMakePayment();
-                        }}
-                        className=" text-20 border border-secondary-300 rounded-full py-16 px-48"
-                      >
-                        Continue
-                      </AnimatedSlideButton>
-                    )}
-                  </div>
-                </div>
-              </div>
-            ) : (
+            {status === 60 ? (
               <div className="bg-white/5 rounded-12 px-16 md:px-40 py-32 md:py-48 flex flex-col gap-32 w-full max-w-1000">
                 <div className="flex gap-24  items-start flex-col md:flex-row">
                   <div className="flex flex-col gap-16">
+                    <div className="flex flex-col gap-4">
+                      <span className="text-white/70">Network</span>
+                      <div className="flex items-center gap-8 text-24">{currencies[currency].subtext}</div>
+                    </div>
                     <div className="flex flex-col gap-4">
                       <span className="text-white/70">Amount</span>
                       <div className="flex items-center gap-8">
@@ -304,8 +243,129 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
                     )}{" "}
                     <span className="md:hidden text-14">Payment completed({confirmStep}/6)</span>
                     <span className="absolute left-1/2 text-12 whitespace-nowrap -translate-x-1/2 top-full mt-4 hidden md:block">
-                      Payment completed({confirmStep}/11)
+                      Payment completed({confirmStep}/6)
                     </span>
+                  </div>
+                </div>
+              </div>
+            ) : status === 200 ? (
+              <div className="bg-white/5 rounded-12 px-16 md:px-40 py-32 md:py-48  flex flex-col md:flex-row gap-32 w-full max-w-800">
+                <Icon
+                  icon={"line-md:check-list-3"}
+                  className="aspect-square h-full w-full max-w-200 flex-none p-24 mx-auto md:mx-0 text-success"
+                />
+                <div className="flex flex-col items-start gap-24">
+                  <div className="text-success">Transaction has been completed successfully.</div>
+                  <div className="text-24 break-words">
+                    <span className="break-all md:break-normal">{paymentInfo?.payeeName} </span>
+                    <span className="text-white/50">has requested</span>{" "}
+                    <span className="break-all md:break-normal">{paymentInfo?.payer}</span>{" "}
+                    <span className="text-white/50">to pay</span> {paymentInfo?.amount} {paymentInfo?.currencySymbol}.
+                  </div>
+                  <div className=" text-16 text-white/60">{paymentInfo?.description}</div>
+                  {hash && (
+                    <div className="flex gap-8 items-center">
+                      <span className="text-18 font-bold hidden md:block">{shortenString(hash, 8, 6)}</span>
+                      <span className="text-18 font-bold md:hidden">{shortenString(hash, 4, 4)}</span>
+                      <span
+                        className="cursor-pointer"
+                        onClick={() => {
+                          navigator.clipboard.writeText(hash);
+                          toast.success("Copied transaction hash.");
+                        }}
+                      >
+                        <Icon icon={"fluent-mdl2:copy"} className="w-16 h-16" />
+                      </span>
+                      <a href={`https://sepolia.etherscan.io/tx/${hash}`} target="_blank" className="cursor-pointer">
+                        <Icon icon={"radix-icons:external-link"} className="w-16 h-16" />
+                      </a>
+                    </div>
+                  )}
+                </div>
+              </div>
+            ) : (
+              <div className="bg-white/5 rounded-12 px-16 md:px-40 py-32 md:py-48 flex flex-col md:flex-row gap-32 w-full max-w-1000">
+                <div className="flex flex-col items-start gap-24">
+                  {paymentInfo.state == 200 && (
+                    <div className="border border-success text-success bg-success/5 rounded-6 p-12 text-center w-fit">
+                      This has already been processed
+                    </div>
+                  )}
+                  {paymentInfo.state == 55 && (
+                    <div className="border border-error text-error bg-error/5 rounded-6 p-12 text-center w-fit">
+                      This transaction was expired.
+                    </div>
+                  )}
+                  <div className="text-24 break-words">
+                    <span className="break-all md:break-normal">{paymentInfo?.payeeName} </span>
+                    <span className="text-white/50">has requested</span>{" "}
+                    <span className="break-all md:break-normal">{paymentInfo?.payer}</span>{" "}
+                    <span className="text-white/50">to pay</span> {paymentInfo?.amount} {paymentInfo?.currencySymbol}.
+                  </div>
+                  <div className=" text-16 text-white/60">{paymentInfo?.description}</div>
+                  {hash && (
+                    <div className="flex gap-8 items-center">
+                      <span className="text-18 font-bold hidden md:block">{shortenString(hash, 8, 6)}</span>
+                      <span className="text-18 font-bold md:hidden">{shortenString(hash, 4, 4)}</span>
+                      <span
+                        className="cursor-pointer"
+                        onClick={() => {
+                          navigator.clipboard.writeText(hash);
+                          toast.success("Copied transaction hash.");
+                        }}
+                      >
+                        <Icon icon={"fluent-mdl2:copy"} className="w-16 h-16" />
+                      </span>
+                      <a href={`https://sepolia.etherscan.io/tx/${hash}`} target="_blank" className="cursor-pointer">
+                        <Icon icon={"radix-icons:external-link"} className="w-16 h-16" />
+                      </a>
+                    </div>
+                  )}
+                </div>
+                <div className="w-full max-w-360 flex flex-col gap-24">
+                  {/* <<div>
+                    <div className="mb-4">Select network of currency</div>
+                   CustomSelect
+                      data={networks}
+                      init={networks[currency]}
+                      onChange={(selected) => {
+                        setNetwork(selected.id);
+                      }}
+                      mainClass="border border-secondary-200 bg-secondary-200/10 rounded-8 py-12 px-16 cursor-pointer u-text-overflow"
+                      padClass="absolute top-full left-0 w-full max-h-[240px] overflow-auto shadow-lg rounded-8 mt-6 bg-secondary-200/20 flex flex-col gap-4 overflow-y-auto backdrop-blur-md z-10 p-8"
+                      listClass=" py-12 px-10 cursor-pointer u-text-overflow rounded-4"
+                      isIcon={true}
+                    ></CustomSelect> 
+                  </div>*/}
+                  <div>
+                    <div className="mb-4">Select currency you want to pay</div>
+                    <CustomSelect
+                      data={currencies}
+                      init={currencies[currency]}
+                      onChange={(selected) => {
+                        setCurrency(selected.id);
+                      }}
+                      mainClass="border border-secondary-200 bg-secondary-200/10 rounded-8 py-12 px-16 cursor-pointer u-text-overflow"
+                      padClass="absolute top-full left-0 w-full max-h-[240px] overflow-auto shadow-lg rounded-8 mt-6 bg-secondary-200/20 flex flex-col gap-4 overflow-y-auto backdrop-blur-md z-10 p-8"
+                      listClass=" py-12 px-10 cursor-pointer u-text-overflow rounded-4"
+                      isIcon={true}
+                    ></CustomSelect>
+                  </div>
+                  <div className="flex flex-col gap-16">
+                    {paymentInfo.state === 200 || paymentInfo.state === 55 ? (
+                      <div className=" text-20 border border-white/50 text-white/50 text-center rounded-full py-16 px-48 cursor-not-allowed">
+                        Continue
+                      </div>
+                    ) : (
+                      <AnimatedSlideButton
+                        onClick={() => {
+                          handleMakePayment();
+                        }}
+                        className=" text-20 border border-secondary-300 rounded-full py-16 px-48"
+                      >
+                        Continue
+                      </AnimatedSlideButton>
+                    )}
                   </div>
                 </div>
               </div>
