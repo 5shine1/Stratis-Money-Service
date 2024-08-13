@@ -251,7 +251,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
             ) : status === 200 ? (
               <div className="bg-white/5 rounded-12 px-16 md:px-40 py-32 md:py-48  flex flex-col md:flex-row gap-32 w-full max-w-800">
                 <Icon
-                  icon={"line-md:check-list-3"}
+                  icon={"line-md:check-list-3-twotone"}
                   className="aspect-square h-full w-full max-w-200 flex-none p-24 mx-auto md:mx-0 text-success"
                 />
                 <div className="flex flex-col items-start gap-24">
