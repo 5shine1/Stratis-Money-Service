@@ -25,6 +25,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
   const { setLoading } = useContext(LoadingContext);
   const [status, setStatus] = useState(10);
   const [hash, setHash] = useState("");
+  const [explorer, setExplorer] = useState("");
   const [currency, setCurrency] = useState(0);
   // const [network, setNetwork] = useState('');
   const [paymentInfo, setPaymentInfo] = useState<any>();
@@ -40,7 +41,6 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
       if (paymentInfo?.acceptableCurrencies) {
         const currencyPromises = paymentInfo.acceptableCurrencies.map(async (item, i) => {
           const chain = await getChainInfo(item?.chainId);
-          console.log(chain);
           return {
             id: i,
             key: item?.currencyId,
@@ -65,6 +65,8 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
       setStatus(10);
       const response = await apiPaymentStatus(id);
       setHash(response.transactionHash);
+      const explorer = await getChainInfo(response.chainId);
+      setExplorer(explorer?.explorers[0]?.url);
     } catch (error) {
       console.log(error);
       toast.error("Server error.");
@@ -88,7 +90,11 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
   const handleGetStatus = async () => {
     if (status === 60) {
       const result = await apiPaymentStatus(id);
-      if (result?.transactionHash) setHash(result?.transactionHash);
+      if (result?.transactionHash) {
+        setHash(result?.transactionHash);
+        const explorer = await getChainInfo(result.chainId);
+        setExplorer(explorer?.explorers[0]?.url);
+      }
       setConfirmStep(result?.confirmations);
       console.log(result?.state);
       if (result?.state === 55) {
@@ -192,11 +198,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
                           >
                             <Icon icon={"fluent-mdl2:copy"} className="w-16 h-16" />
                           </span>
-                          <a
-                            href={`https://sepolia.etherscan.io/tx/${hash}`}
-                            target="_blank"
-                            className="cursor-pointer"
-                          >
+                          <a href={`${explorer}/tx/${hash}`} target="_blank" className="cursor-pointer">
                             <Icon icon={"radix-icons:external-link"} className="w-16 h-16" />
                           </a>
                         </div>
@@ -276,7 +278,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
                       >
                         <Icon icon={"fluent-mdl2:copy"} className="w-16 h-16" />
                       </span>
-                      <a href={`https://sepolia.etherscan.io/tx/${hash}`} target="_blank" className="cursor-pointer">
+                      <a href={`${explorer}/tx/${hash}`} target="_blank" className="cursor-pointer">
                         <Icon icon={"radix-icons:external-link"} className="w-16 h-16" />
                       </a>
                     </div>
