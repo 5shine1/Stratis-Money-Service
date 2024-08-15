@@ -86,7 +86,7 @@ const RegisterPage = () => {
                 value={name.value}
                 onChange={(e) => setName({ error: "", value: e })}
                 icon="solar:user-outline"
-                placeholder="User Name"
+                placeholder="Company Name"
                 error={name.error}
               />
               <CustomInput
@@ -131,7 +131,7 @@ const RegisterPage = () => {
                 className=" text-18 py-14 border border-secondary-300 rounded-full mt-16"
                 isSubmit={true}
               >
-                Continue with Email
+                Register
               </AnimatedSlideButton>
               <div className="text-center text-14 text-gray-500">
                 Already have an account?{" "}
