@@ -56,12 +56,6 @@ const WithdrawPage = () => {
                 1,323 <span className="opacity-50">EUR</span>
               </span>
             </div>
-            <div className="flex items-center gap-8">
-              <Icon icon={"cryptocurrency-color:gbp"} className="w-24 h-24" />
-              <span>
-                1,323 <span className="opacity-50">GBP</span>
-              </span>
-            </div>
 
             <AnimatedSlideButton
               onClick={() => {}}
