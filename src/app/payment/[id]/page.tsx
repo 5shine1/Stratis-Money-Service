@@ -62,7 +62,8 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
     try {
       const result = await apiPaymentStart(id);
       setPaymentInfo(result);
-      setStatus(10);
+      if (result?.state === 200) setStatus(200);
+      else setStatus(10);
       const response = await apiPaymentStatus(id);
       setHash(response.transactionHash);
       const explorer = await getChainInfo(response.chainId);
@@ -324,52 +325,40 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
                     </div>
                   )}
                 </div>
-                <div className="w-full max-w-360 flex flex-col gap-24">
-                  {/* <<div>
-                    <div className="mb-4">Select network of currency</div>
-                   CustomSelect
-                      data={networks}
-                      init={networks[currency]}
-                      onChange={(selected) => {
-                        setNetwork(selected.id);
-                      }}
-                      mainClass="border border-secondary-200 bg-secondary-200/10 rounded-8 py-12 px-16 cursor-pointer u-text-overflow"
-                      padClass="absolute top-full left-0 w-full max-h-[240px] overflow-auto shadow-lg rounded-8 mt-6 bg-secondary-200/20 flex flex-col gap-4 overflow-y-auto backdrop-blur-md z-10 p-8"
-                      listClass=" py-12 px-10 cursor-pointer u-text-overflow rounded-4"
-                      isIcon={true}
-                    ></CustomSelect> 
-                  </div>*/}
-                  <div>
-                    <div className="mb-4">Select currency you want to pay</div>
-                    <CustomSelect
-                      data={currencies}
-                      init={currencies[currency]}
-                      onChange={(selected) => {
-                        setCurrency(selected.id);
-                      }}
-                      mainClass="border border-secondary-200 bg-secondary-200/10 rounded-8 py-12 px-16 cursor-pointer u-text-overflow"
-                      padClass="absolute top-full left-0 w-full max-h-[240px] overflow-auto shadow-lg rounded-8 mt-6 bg-secondary-200/20 flex flex-col gap-4 overflow-y-auto backdrop-blur-md z-10 p-8"
-                      listClass=" py-12 px-10 cursor-pointer u-text-overflow rounded-4"
-                      isIcon={true}
-                    ></CustomSelect>
-                  </div>
-                  <div className="flex flex-col gap-16">
-                    {paymentInfo.state === 200 || paymentInfo.state === 55 ? (
-                      <div className=" text-20 border border-white/50 text-white/50 text-center rounded-full py-16 px-48 cursor-not-allowed">
-                        Continue
-                      </div>
-                    ) : (
-                      <AnimatedSlideButton
-                        onClick={() => {
-                          handleMakePayment();
+                {paymentInfo.state !== 200 && (
+                  <div className="w-full max-w-360 flex flex-col gap-24">
+                    <div>
+                      <div className="mb-4">Select currency you want to pay</div>
+                      <CustomSelect
+                        data={currencies}
+                        init={currencies[currency]}
+                        onChange={(selected) => {
+                          setCurrency(selected.id);
                         }}
-                        className=" text-20 border border-secondary-300 rounded-full py-16 px-48"
-                      >
-                        Continue
-                      </AnimatedSlideButton>
-                    )}
+                        mainClass="border border-secondary-200 bg-secondary-200/10 rounded-8 py-12 px-16 cursor-pointer u-text-overflow"
+                        padClass="absolute top-full left-0 w-full max-h-[240px] overflow-auto shadow-lg rounded-8 mt-6 bg-secondary-200/20 flex flex-col gap-4 overflow-y-auto backdrop-blur-md z-10 p-8"
+                        listClass=" py-12 px-10 cursor-pointer u-text-overflow rounded-4"
+                        isIcon={true}
+                      ></CustomSelect>
+                    </div>
+                    <div className="flex flex-col gap-16">
+                      {paymentInfo.state === 200 || paymentInfo.state === 55 ? (
+                        <div className=" text-20 border border-white/50 text-white/50 text-center rounded-full py-16 px-48 cursor-not-allowed">
+                          Continue
+                        </div>
+                      ) : (
+                        <AnimatedSlideButton
+                          onClick={() => {
+                            handleMakePayment();
+                          }}
+                          className=" text-20 border border-secondary-300 rounded-full py-16 px-48"
+                        >
+                          Continue
+                        </AnimatedSlideButton>
+                      )}
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             )}
           </div>
