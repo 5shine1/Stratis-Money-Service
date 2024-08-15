@@ -81,10 +81,21 @@ const AppSidebar: React.FC<PropsWithChildren> = ({ children }) => {
                     : "hover:bg-white/30 dark:hover:bg-primary-700/40"
                 }`}
               >
-                <Icon icon="ph:user-list-thin" className="w-30 h-30 flex-none" />
-                <div className={` ${isWrapped ? "block" : "hidden"}`}>User</div>
+                <Icon icon="ph:users-three-thin" className="w-30 h-30 flex-none" />
+                <div className={` ${isWrapped ? "block" : "hidden"}`}>Users</div>
               </Link>
             )}
+            <Link
+              href="/app/account"
+              className={`p-9 flex items-center justify-start gap-12  u-transition-color rounded-8 overflow-hidden ${
+                pathname.includes("/app/account")
+                  ? "bg-secondary-400/80 dark:bg-primary-700"
+                  : "hover:bg-white/30 dark:hover:bg-primary-700/40"
+              }`}
+            >
+              <Icon icon="ph:user-list-thin" className="w-30 h-30 flex-none" />
+              <div className={` ${isWrapped ? "block" : "hidden"}`}>Profile</div>
+            </Link>
           </div>
 
           <div className="mt-auto flex flex-col gap-12">

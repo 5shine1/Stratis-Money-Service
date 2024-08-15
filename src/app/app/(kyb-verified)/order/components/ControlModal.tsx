@@ -77,7 +77,7 @@ const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext, data }) => {
         onClick={onClose}
       />
       <div className="p-12 py-24 md:p-32 flex flex-col gap-16 md:gap-32 bg-secondary-100/20 dark:bg-transparent">
-        <h4 className="g-button-text w-fit pr-30">{data ? "Edit Detail" : "Generate New Link"}</h4>
+        <h4 className="g-button-text w-fit pr-30">{data ? "Edit Detail" : "Generate New Order Link"}</h4>
         <div className="flex flex-col gap-16 md:gap-24">
           <div className="flex items-start gap-16 md:gap-12 md:flex-row flex-col">
             <AppInput
@@ -108,7 +108,7 @@ const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext, data }) => {
               setReference({ error: "", value: e });
             }}
             placeholder="Reference"
-            label="Link reference"
+            label="Order Reference"
             error={reference.error}
             pattern="^[a-zA-Z0-9-]+$"
           />
@@ -119,7 +119,7 @@ const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext, data }) => {
               setPayerEmail({ error: "", value: e });
             }}
             placeholder="Email address"
-            label="Customer email"
+            label="Customer Email"
             error={payerEmail.error}
           />
           <AnimatedSlideButton
