@@ -20,6 +20,10 @@ const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext, data }) => {
   const [currency, setCurrency] = useState<{ value: ICurrency | null; error: string }>({ value: null, error: "" });
   const [reference, setReference] = useState({ value: "", error: "" });
   const [payerEmail, setPayerEmail] = useState({ value: "", error: "" });
+  const [payerName, setPayerName] = useState({ value: "", error: "" });
+  const [payerAddress, setPayerAddress] = useState({ value: "", error: "" });
+  const [payerDOB, setPayerDOB] = useState({ value: "", error: "" });
+  const [payerPOB, setPayerPOB] = useState({ value: "", error: "" });
   const { currencies } = useAppSelector((state) => state.payment);
 
   const handleClick = () => {
@@ -43,7 +47,23 @@ const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext, data }) => {
     }
     if (!payerEmail.value) {
       temp++;
-      setPayerEmail({ ...payerEmail, error: "Payer info required." });
+      setPayerEmail({ ...payerEmail, error: "This field required." });
+    }
+    if (!payerName.value) {
+      temp++;
+      setPayerEmail({ ...payerEmail, error: "This field required." });
+    }
+    if (!payerAddress.value) {
+      temp++;
+      setPayerEmail({ ...payerEmail, error: "This field required." });
+    }
+    if (!payerDOB.value) {
+      temp++;
+      setPayerEmail({ ...payerEmail, error: "This field required." });
+    }
+    if (!payerPOB.value) {
+      temp++;
+      setPayerEmail({ ...payerEmail, error: "This field required." });
     }
 
     if (temp > 0) return;
@@ -68,7 +88,7 @@ const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext, data }) => {
         setReference({ value: "", error: "" });
         setPayerEmail({ value: "", error: "" });
       }}
-      className="relative z-50  overflow-hidden bg-white dark:bg-primary-800 w-full max-w-560  rounded-12 shadow-md m-auto"
+      className="relative z-50  overflow-hidden bg-white dark:bg-primary-800 w-full max-w-640  rounded-12 shadow-md m-auto"
       overlayClassName="bg-black/50 backdrop-blur-md fixed left-0 top-0 w-full h-full z-40 px-8 py-32 overflow-y-auto flex items-start justify-center"
     >
       <Icon
@@ -112,7 +132,6 @@ const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext, data }) => {
             error={reference.error}
             pattern="^[a-zA-Z0-9-]+$"
           />
-
           <AppInput
             value={payerEmail.value}
             onChange={(e) => {
@@ -122,6 +141,46 @@ const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext, data }) => {
             label="Customer Email"
             error={payerEmail.error}
           />
+          <div className="flex items-start gap-16 md:gap-12 md:flex-row flex-col">
+            <AppInput
+              value={payerName.value}
+              onChange={(e) => {
+                setPayerName({ error: "", value: e });
+              }}
+              placeholder="Customer Name"
+              label="Customer Name"
+              error={payerName.error}
+            />
+            <AppInput
+              value={payerAddress.value}
+              onChange={(e) => {
+                setPayerAddress({ error: "", value: e });
+              }}
+              placeholder="Customer Address"
+              label="Customer Address"
+              error={payerAddress.error}
+            />
+          </div>
+          <div className="flex items-start gap-16 md:gap-12 md:flex-row flex-col">
+            <AppInput
+              value={payerDOB.value}
+              onChange={(e) => {
+                setPayerDOB({ error: "", value: e });
+              }}
+              placeholder="Customer Date of Birth"
+              label="Customer Date of Birth"
+              error={payerDOB.error}
+            />
+            <AppInput
+              value={payerPOB.value}
+              onChange={(e) => {
+                setPayerDOB({ error: "", value: e });
+              }}
+              placeholder="Customer Place of Birth"
+              label="Customer Place of Birth"
+              error={payerPOB.error}
+            />
+          </div>
           <AnimatedSlideButton
             onClick={handleClick}
             className="text-primary-200 dark:text-white text-20 py-12 px-32 border border-primary-200 dark:border-secondary-300  rounded-full mt-8"
