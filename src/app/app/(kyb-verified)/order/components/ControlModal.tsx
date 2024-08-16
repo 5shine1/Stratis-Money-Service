@@ -174,7 +174,7 @@ const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext, data }) => {
             <AppInput
               value={payerPOB.value}
               onChange={(e) => {
-                setPayerDOB({ error: "", value: e });
+                setPayerPOB({ error: "", value: e });
               }}
               placeholder="Customer Place of Birth"
               label="Customer Place of Birth"
