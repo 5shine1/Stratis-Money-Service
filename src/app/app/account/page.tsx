@@ -61,10 +61,6 @@ const AccountPage = () => {
               <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Address</span>
               United States
             </div>
-            {/*<div className="flex gap-4 flex-col sm:flex-row break-all">
-                <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Member from</span>
-                05/09/2024
-              </div> */}
           </div>
         </div>
 
@@ -98,6 +94,7 @@ const AccountPage = () => {
             )}
           </div>
         </div>
+
         <div className="p-24 md:p-32 rounded-8 bg-secondary-100/20 dark:bg-white/5 w-full">
           <div className="text-20 font-bold text-primary-200 dark:text-secondary-200"> Setting</div>
           <div className="flex md:items-center gap-12 md:gap-32 mt-18 flex-col md:flex-row items-start">
@@ -114,6 +111,24 @@ const AccountPage = () => {
                 }}
               />
               ON
+            </div>
+          </div>
+        </div>
+
+        <div className="p-24 md:p-32 rounded-8 bg-secondary-100/20 dark:bg-white/5 w-full">
+          <div className="text-20 font-bold text-primary-200 dark:text-secondary-200"> Bank Detail</div>
+          <div className="flex md:items-center gap-12 md:gap-32 mt-18 flex-col md:flex-row items-start">
+            <div className="flex gap-4 flex-col sm:flex-row break-all">
+              <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Account Name</span>
+              xxxxxx
+            </div>
+            <div className="flex gap-4 flex-col sm:flex-row break-all">
+              <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">IBAN</span>
+              xxx-xxx-xxx
+            </div>
+            <div className="flex gap-4 flex-col sm:flex-row break-all">
+              <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">BIC</span>
+              xxxxxxxxx
             </div>
           </div>
         </div>
