@@ -56,20 +56,12 @@ const OrderDetailPage: React.FC<Props> = ({ params }) => {
             <div className="text-20 font-bold text-primary-200 dark:text-secondary-200"> Summary</div>
             <div className="flex flex-col gap-16 mt-18 text-primary-200 dark:text-white">
               <div className="flex gap-4 flex-col sm:flex-row break-all">
-                <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Transaction ID</span>
+                <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Order ID</span>
                 {payment?.paymentId}
               </div>
               <div className="flex gap-4 flex-col sm:flex-row break-all">
-                <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Payment Link</span>
+                <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Order Link</span>
                 {window.location.origin}/payment/{payment?.paymentId}
-              </div>
-              <div className="flex gap-4 flex-col sm:flex-row break-all">
-                <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Status</span>
-                {PAYMENT_STATE[payment?.state] || "Error"}
-              </div>
-              <div className="flex gap-4 flex-col sm:flex-row break-all">
-                <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Payer</span>
-                {payment?.payer}
               </div>
               <div className="flex gap-4 flex-col sm:flex-row break-all">
                 <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Amount</span>
@@ -85,69 +77,52 @@ const OrderDetailPage: React.FC<Props> = ({ params }) => {
                   <span className="opacity-60">{formattedTime(payment?.requested)}</span>
                 </span>
               </div>
-              {/* <div className="flex gap-4 flex-col sm:flex-row break-all text-error">
-                <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200 ">Completed At</span>
-                N/A
-              </div> */}
             </div>
           </div>
 
-          {/* <div className="flex gap-16 flex-col xl:flex-row">
-            <div className="p-24 md:p-32 rounded-8 bg-secondary-100/20 dark:bg-white/5 w-full">
-              <div className="text-20 font-bold text-primary-200 dark:text-secondary-200"> From</div>
-              <div className="flex flex-col gap-16 mt-18 text-primary-200 dark:text-white">
-                <div className="flex gap-4 flex-col sm:flex-row break-all">
-                  <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Name</span>
-                  John Doe{" "}
-                </div>
-                <div className="flex gap-4 flex-col sm:flex-row break-all">
-                  <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Emailk</span>
-                  johndoe@stratis.com
-                </div>
-                <div className="flex gap-4 flex-col sm:flex-row break-all">
-                  <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Phone number</span>
-                  +12737713322
-                </div>
-                <div className="flex gap-4 flex-col sm:flex-row break-all">
-                  <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Address</span>
-                  United States
-                </div>
-                <div className="flex gap-4 flex-col sm:flex-row break-all text-error">
-                  <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Member from</span>
-                  Not Registered
-                </div>
+          <div className="p-24 md:p-32 rounded-8 bg-secondary-100/20 dark:bg-white/5 w-full">
+            <div className="text-20 font-bold text-primary-200 dark:text-secondary-200"> Payer Info</div>
+            <div className="flex flex-col gap-16 mt-18 text-primary-200 dark:text-white">
+              <div className="flex gap-4 flex-col sm:flex-row break-all">
+                <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Email</span>
+                {payment?.payer}
+              </div>
+              <div className="flex gap-4 flex-col sm:flex-row break-all">
+                <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Name</span>
+                John Doe
+              </div>
+              <div className="flex gap-4 flex-col sm:flex-row break-all">
+                <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Address</span>
+                United States
+              </div>
+              <div className="flex gap-4 flex-col sm:flex-row break-all">
+                <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Date of Birth</span>
+                {payment?.requested?.replace("T", " ").split(".")[0]}
+              </div>
+              <div className="flex gap-4 flex-col sm:flex-row break-all">
+                <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Place of Birth</span>
+                United States
               </div>
             </div>
-            <div className="p-24 md:p-32 rounded-8 bg-secondary-100/20 dark:bg-white/5 w-full">
-              <div className="text-20 font-bold text-primary-200 dark:text-secondary-200"> To</div>
-              <div className="flex flex-col gap-16 mt-18 text-primary-200 dark:text-white">
-                <div className="flex gap-4 flex-col sm:flex-row break-all">
-                  <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Name</span>
-                  Jahn Doe
-                </div>
-                <div className="flex gap-4 flex-col sm:flex-row break-all">
-                  <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Emailk</span>
-                  jahndoe@stratis.com
-                </div>
-                <div className="flex gap-4 flex-col sm:flex-row break-all">
-                  <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Phone number</span>
-                  +12737713322
-                </div>
-                <div className="flex gap-4 flex-col sm:flex-row break-all">
-                  <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Address</span>
-                  United States
-                </div>
-                <div className="flex gap-4 flex-col sm:flex-row break-all">
-                  <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Member from</span>
-                  02/23/2024
-                </div>
-              </div>
-            </div>
-          </div> */}
+          </div>
 
           <div className="p-24 md:p-32 rounded-8 bg-secondary-100/20 dark:bg-white/5 w-full">
             <div className="text-20 font-bold text-primary-200 dark:text-secondary-200"> Description</div>
             <div className=" mt-18 text-primary-200 dark:text-white">{payment?.description}</div>
+          </div>
+
+          <div className="p-24 md:p-32 rounded-8 bg-secondary-100/20 dark:bg-white/5 w-full">
+            <div className="text-20 font-bold text-primary-200 dark:text-secondary-200"> Transaction Status</div>
+            <div className="flex flex-col gap-16 mt-18 text-primary-200 dark:text-white">
+              <div className="flex gap-4 flex-col sm:flex-row break-all">
+                <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Status</span>
+                {PAYMENT_STATE[payment?.state] || "Error"}
+              </div>
+              <div className="flex gap-4 flex-col sm:flex-row break-all">
+                <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Transaction ID</span>
+                <span>0xmockid1234567890</span>
+              </div>
+            </div>
           </div>
         </div>
       ) : (
