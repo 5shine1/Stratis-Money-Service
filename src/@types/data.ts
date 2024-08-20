@@ -7,6 +7,16 @@ export interface IPayment {
   payer: string;
   payee: string;
   description: string;
+  customerName?: string;
+  customerAddress?: string;
+  customerDateOfBirth?: string;
+  customerPlaceOfBirth?: string;
+  paymentAddress?: string;
+  paymentAmount?: number;
+  paymentCurrency?: string;
+  paymentTransaction?: string;
+  paymentChainId?: number;
+  lastConfirmationCheck?: string;
 }
 
 export interface IUser {

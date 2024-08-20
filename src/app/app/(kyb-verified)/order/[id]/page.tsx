@@ -89,19 +89,19 @@ const OrderDetailPage: React.FC<Props> = ({ params }) => {
               </div>
               <div className="flex gap-4 flex-col sm:flex-row break-all">
                 <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Name</span>
-                John Doe
+                {payment?.customerName}
               </div>
               <div className="flex gap-4 flex-col sm:flex-row break-all">
                 <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Address</span>
-                United States
+                {payment?.customerAddress}
               </div>
               <div className="flex gap-4 flex-col sm:flex-row break-all">
                 <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Date of Birth</span>
-                {payment?.requested?.replace("T", " ").split(".")[0]}
+                {payment?.customerDateOfBirth}
               </div>
               <div className="flex gap-4 flex-col sm:flex-row break-all">
                 <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Place of Birth</span>
-                United States
+                {payment?.customerPlaceOfBirth}
               </div>
             </div>
           </div>
@@ -118,10 +118,30 @@ const OrderDetailPage: React.FC<Props> = ({ params }) => {
                 <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Status</span>
                 {PAYMENT_STATE[payment?.state] || "Error"}
               </div>
-              <div className="flex gap-4 flex-col sm:flex-row break-all">
-                <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Transaction ID</span>
-                <span>0xmockid1234567890</span>
-              </div>
+              {payment?.paymentAddress && (
+                <>
+                  <div className="flex gap-4 flex-col sm:flex-row break-all">
+                    <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Payment Address</span>
+                    <span>{payment?.paymentAddress}</span>
+                  </div>
+                  <div className="flex gap-4 flex-col sm:flex-row break-all">
+                    <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Payment Amount</span>
+                    {payment?.paymentAmount} <span className="opacity-60">{payment?.paymentCurrency}</span>
+                  </div>
+                  <div className="flex gap-4 flex-col sm:flex-row break-all">
+                    <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Transaction ID</span>
+                    <span>{payment?.paymentTransaction}</span>
+                  </div>
+                  <div className="flex gap-4 flex-col sm:flex-row break-all">
+                    <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Completed At</span>
+                    <span>
+                      {payment?.lastConfirmationCheck?.replace("T", " ").split(".")[0]}
+                      &nbsp;&nbsp;&nbsp;
+                      <span className="opacity-60">{formattedTime(payment?.lastConfirmationCheck)}</span>
+                    </span>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>

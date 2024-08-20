@@ -12,7 +12,16 @@ import { isValidEmail } from "@/utils/string.utils";
 type Props = {
   isOpen: boolean;
   onClose: () => void;
-  onNext: (amount: number, currencySymbol: string, description: string, payer: string) => void; //eslint-disable-line
+  onNext: (
+    amount: number, //eslint-disable-line
+    currencySymbol: string, //eslint-disable-line
+    description: string, //eslint-disable-line
+    payer: string, //eslint-disable-line
+    customerName: string, //eslint-disable-line
+    customerAddress: string, //eslint-disable-line
+    customerDateOfBirth: string, //eslint-disable-line
+    customerPlaceOfBirth: string //eslint-disable-line
+  ) => void;
   data: any;
 };
 const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext, data }) => {
@@ -67,7 +76,16 @@ const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext, data }) => {
     }
 
     if (temp > 0) return;
-    onNext(parseFloat(amount.value), currency.value.symbol, reference.value, payerEmail.value);
+    onNext(
+      parseFloat(amount.value),
+      currency.value.symbol,
+      reference.value,
+      payerEmail.value,
+      payerName.value,
+      payerAddress.value,
+      payerDOB.value,
+      payerPOB.value
+    );
   };
 
   useEffect(() => {

@@ -9,9 +9,27 @@ export const apiGetCurrencies = async (isFiat = true) => {
   }
 };
 
-export const apiGenerate = async (amount: number, currencySymbol: string, description: string, payer: string) => {
+export const apiGenerate = async (
+  amount: number,
+  currencySymbol: string,
+  description: string,
+  payer: string,
+  customerName: string,
+  customerAddress: string,
+  customerDateOfBirth: string,
+  customerPlaceOfBirth: string
+) => {
   try {
-    const result = await axiosInstance.post("/api/Payment/Generate", { amount, currencySymbol, description, payer });
+    const result = await axiosInstance.post("/api/Payment/Generate", {
+      amount,
+      currencySymbol,
+      description,
+      payer,
+      customerName,
+      customerAddress,
+      customerDateOfBirth,
+      customerPlaceOfBirth,
+    });
     return result?.data;
   } catch (error) {
     throw error;
@@ -30,6 +48,7 @@ export const apiPaymentHistory = async () => {
 export const apiPaymentHistoryDetail = async (id: string) => {
   try {
     const result = await axiosInstance.get(`/api/Payment/History/${id}`);
+    console.log(result.data);
     return result.data;
   } catch (error) {
     throw error;
