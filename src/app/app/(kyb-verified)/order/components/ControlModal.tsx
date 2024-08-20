@@ -60,19 +60,19 @@ const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext, data }) => {
     }
     if (!payerName.value) {
       temp++;
-      setPayerEmail({ ...payerEmail, error: "This field required." });
+      setPayerName({ ...payerName, error: "This field required." });
     }
     if (!payerAddress.value) {
       temp++;
-      setPayerEmail({ ...payerEmail, error: "This field required." });
+      setPayerAddress({ ...payerAddress, error: "This field required." });
     }
     if (!payerDOB.value) {
       temp++;
-      setPayerEmail({ ...payerEmail, error: "This field required." });
+      setPayerDOB({ ...payerDOB, error: "This field required." });
     }
     if (!payerPOB.value) {
       temp++;
-      setPayerEmail({ ...payerEmail, error: "This field required." });
+      setPayerPOB({ ...payerPOB, error: "This field required." });
     }
 
     if (temp > 0) return;
