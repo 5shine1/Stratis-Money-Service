@@ -7,6 +7,10 @@ export interface IPayment {
   payer: string;
   payee: string;
   description: string;
+  customerName?: string;
+  customerAddress?: string;
+  customerDateOfBirth?: string;
+  customerPlaceOfBirth?: string;
 }
 
 export interface IUser {
