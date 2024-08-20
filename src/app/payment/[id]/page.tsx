@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useEffect, useMemo, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import QRCode from "react-qr-code";
 import Link from "next/link";
 import toast from "react-hot-toast";
