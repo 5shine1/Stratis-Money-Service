@@ -105,6 +105,10 @@ const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext, data }) => {
         setCurrency({ value: null, error: "" });
         setReference({ value: "", error: "" });
         setPayerEmail({ value: "", error: "" });
+        setPayerAddress({ value: "", error: "" });
+        setPayerName({ value: "", error: "" });
+        setPayerDOB({ value: "", error: "" });
+        setPayerPOB({ value: "", error: "" });
       }}
       className="relative z-50  overflow-hidden bg-white dark:bg-primary-800 w-full max-w-640  rounded-12 shadow-md m-auto"
       overlayClassName="bg-black/50 backdrop-blur-md fixed left-0 top-0 w-full h-full z-40 px-8 py-32 overflow-y-auto flex items-start justify-center"
