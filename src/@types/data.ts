@@ -11,6 +11,12 @@ export interface IPayment {
   customerAddress?: string;
   customerDateOfBirth?: string;
   customerPlaceOfBirth?: string;
+  paymentAddress?: string;
+  paymentAmount?: number;
+  paymentCurrency?: string;
+  paymentTransaction?: string;
+  paymentChainId?: number;
+  lastConfirmationCheck?: string;
 }
 
 export interface IUser {

@@ -81,7 +81,7 @@ const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext, data }) => {
       currency.value.symbol,
       reference.value,
       payerEmail.value,
-      payerEmail.value,
+      payerName.value,
       payerAddress.value,
       payerDOB.value,
       payerPOB.value
