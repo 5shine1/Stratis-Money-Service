@@ -97,7 +97,7 @@ const OrderDetailPage: React.FC<Props> = ({ params }) => {
               </div>
               <div className="flex gap-4 flex-col sm:flex-row break-all">
                 <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Date of Birth</span>
-                {payment?.customerDateOfBirth}
+                {payment?.customerDateOfBirth?.split("T")[0]}
               </div>
               <div className="flex gap-4 flex-col sm:flex-row break-all">
                 <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Place of Birth</span>
