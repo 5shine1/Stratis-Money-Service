@@ -13,6 +13,8 @@ import Error404Page from "@/app/not-found";
 import { LoadingContext } from "@/components/providers/LoadingProvider";
 import { shortenAddress, shortenString } from "@/utils/string.utils";
 import { getChainInfo } from "@/utils/web3.utils";
+import DatePicker from "@/components/global/DatePicker";
+import CustomDatePicker from "@/components/global/CustomDatePicker";
 
 type Props = {
   params: {
@@ -25,9 +27,10 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
   const { setLoading } = useContext(LoadingContext);
   const [status, setStatus] = useState(10);
   const [hash, setHash] = useState("");
+  const [dob, setDOB] = useState<null | Date>(null);
+  const [isVerified, setIsVerified] = useState(false);
   const [explorer, setExplorer] = useState("");
   const [currency, setCurrency] = useState(0);
-  // const [network, setNetwork] = useState('');
   const [paymentInfo, setPaymentInfo] = useState<any>();
   const [depositInfo, setDepositInfo] = useState<any>();
   const [isLoading, setIsLoading] = useState(true);
@@ -62,6 +65,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
     try {
       const result = await apiPaymentStart(id);
       setPaymentInfo(result);
+      console.log(result);
       if (result?.state === 200) setStatus(200);
       else setStatus(10);
       const response = await apiPaymentStatus(id);
@@ -87,7 +91,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
     }
     setLoading(false);
   };
-
+  const handleCheckVerify = () => {};
   const handleGetStatus = async () => {
     if (status === 60) {
       const result = await apiPaymentStatus(id);
@@ -136,121 +140,140 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
               <h4 className="hidden sm:block">Stratis Payment</h4>
             </Link>
             {status === 60 ? (
-              <div className="bg-white/5 rounded-12 px-16 md:px-40 py-32 md:py-48 flex flex-col gap-32 w-full max-w-1000">
-                <div className="flex gap-24  items-start flex-col md:flex-row">
-                  <div className="flex flex-col gap-16">
-                    <div className="flex flex-col gap-4">
-                      <span className="text-white/70">Network</span>
-                      <div className="flex items-center gap-8 text-24">{currencies[currency].subtext}</div>
-                    </div>
-                    <div className="flex flex-col gap-4">
-                      <span className="text-white/70">Amount</span>
-                      <div className="flex items-center gap-8">
-                        <span className="text-24 font-bold">
-                          {depositInfo?.paymentAmount} {currencies[currency].text}
-                        </span>
-                        <span
-                          className="cursor-pointer"
-                          onClick={() => {
-                            navigator.clipboard.writeText(depositInfo?.paymentAmount);
-
-                            toast.success("Copied amount.");
-                          }}
-                        >
-                          <Icon icon={"fluent-mdl2:copy"} className="w-16 h-16" />
-                        </span>
-                      </div>
-                    </div>
-                    <div className="flex flex-col gap-8">
-                      <span className="text-white/70">Deposit Address</span>
-                      <div className="flex gap-8 items-center">
-                        <span className="text-18 font-bold hidden md:block">{depositInfo?.paymentDestination}</span>
-                        <span className="text-18 font-bold md:hidden">
-                          {shortenAddress(depositInfo?.paymentDestination || "")}
-                        </span>
-                        <span
-                          className="cursor-pointer"
-                          onClick={() => {
-                            navigator.clipboard.writeText(depositInfo?.paymentDestination);
-                            toast.success("Copied deposit address.");
-                          }}
-                        >
-                          <Icon icon={"fluent-mdl2:copy"} className="w-16 h-16" />
-                        </span>
-                      </div>
-                    </div>
-                    <p className="text-error mt-12 text-14">
-                      Be careful when choosing a network and currency when sending cryptocurrency. If you send
-                      cryptocurrency over the wrong network or wrong currency, then your money will not be credited or
-                      returned.
-                    </p>
-                    {hash && (
-                      <div className="flex flex-col gap-8">
-                        <span className="text-white/70">Transaction Hash</span>
-                        <div className="flex gap-8 items-center">
-                          <span className="text-18 font-bold hidden md:block">{shortenString(hash, 8, 6)}</span>
-                          <span className="text-18 font-bold md:hidden">{shortenString(hash, 4, 4)}</span>
-                          <span
-                            className="cursor-pointer"
-                            onClick={() => {
-                              navigator.clipboard.writeText(hash);
-                              toast.success("Copied transaction hash.");
-                            }}
-                          >
-                            <Icon icon={"fluent-mdl2:copy"} className="w-16 h-16" />
-                          </span>
-                          <a href={`${explorer}/tx/${hash}`} target="_blank" className="cursor-pointer">
-                            <Icon icon={"radix-icons:external-link"} className="w-16 h-16" />
-                          </a>
+              <>
+                {isVerified ? (
+                  <div className="bg-white/5 rounded-12 px-16 md:px-40 py-32 md:py-48 flex flex-col gap-32 w-full max-w-1000">
+                    <div className="flex gap-24  items-start flex-col md:flex-row">
+                      <div className="flex flex-col gap-16">
+                        <div className="flex flex-col gap-4">
+                          <span className="text-white/70">Network</span>
+                          <div className="flex items-center gap-8 text-24">{currencies[currency].subtext}</div>
                         </div>
+                        <div className="flex flex-col gap-4">
+                          <span className="text-white/70">Amount</span>
+                          <div className="flex items-center gap-8">
+                            <span className="text-24 font-bold">
+                              {depositInfo?.paymentAmount} {currencies[currency].text}
+                            </span>
+                            <span
+                              className="cursor-pointer"
+                              onClick={() => {
+                                navigator.clipboard.writeText(depositInfo?.paymentAmount);
+
+                                toast.success("Copied amount.");
+                              }}
+                            >
+                              <Icon icon={"fluent-mdl2:copy"} className="w-16 h-16" />
+                            </span>
+                          </div>
+                        </div>
+                        <div className="flex flex-col gap-8">
+                          <span className="text-white/70">Deposit Address</span>
+                          <div className="flex gap-8 items-center">
+                            <span className="text-18 font-bold hidden md:block">{depositInfo?.paymentDestination}</span>
+                            <span className="text-18 font-bold md:hidden">
+                              {shortenAddress(depositInfo?.paymentDestination || "")}
+                            </span>
+                            <span
+                              className="cursor-pointer"
+                              onClick={() => {
+                                navigator.clipboard.writeText(depositInfo?.paymentDestination);
+                                toast.success("Copied deposit address.");
+                              }}
+                            >
+                              <Icon icon={"fluent-mdl2:copy"} className="w-16 h-16" />
+                            </span>
+                          </div>
+                        </div>
+                        <p className="text-error mt-12 text-14">
+                          Be careful when choosing a network and currency when sending cryptocurrency. If you send
+                          cryptocurrency over the wrong network or wrong currency, then your money will not be credited
+                          or returned.
+                        </p>
+                        {hash && (
+                          <div className="flex flex-col gap-8">
+                            <span className="text-white/70">Transaction Hash</span>
+                            <div className="flex gap-8 items-center">
+                              <span className="text-18 font-bold hidden md:block">{shortenString(hash, 8, 6)}</span>
+                              <span className="text-18 font-bold md:hidden">{shortenString(hash, 4, 4)}</span>
+                              <span
+                                className="cursor-pointer"
+                                onClick={() => {
+                                  navigator.clipboard.writeText(hash);
+                                  toast.success("Copied transaction hash.");
+                                }}
+                              >
+                                <Icon icon={"fluent-mdl2:copy"} className="w-16 h-16" />
+                              </span>
+                              <a href={`${explorer}/tx/${hash}`} target="_blank" className="cursor-pointer">
+                                <Icon icon={"radix-icons:external-link"} className="w-16 h-16" />
+                              </a>
+                            </div>
+                          </div>
+                        )}
                       </div>
-                    )}
-                  </div>
-                  <div className={`w-full max-w-300 `}>
-                    {!hash && (
-                      <div className="border-4 border-secondary-200">
-                        <QRCode
-                          value={depositInfo?.paymentDestination}
-                          style={{ height: "auto", maxWidth: "100%", width: "100%" }}
-                        />
+                      <div className={`w-full max-w-300 `}>
+                        {!hash && (
+                          <div className="border-4 border-secondary-200">
+                            <QRCode
+                              value={depositInfo?.paymentDestination}
+                              style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                            />
+                          </div>
+                        )}
                       </div>
-                    )}
+                    </div>
+                    <div className="flex items-start md:items-center gap-24 md:gap-4 w-full max-w-600 mx-auto py-24 flex-col md:flex-row">
+                      <div className="relative flex items-center gap-8">
+                        <Icon icon={"lets-icons:check-ring"} className="w-32 h-32 flex-none text-success" />
+                        <span className="md:hidden text-14">Payment is requested</span>
+                        <span className="absolute left-1/2 text-12 whitespace-nowrap -translate-x-1/2 top-full mt-4 hidden md:block">
+                          Payment is requested
+                        </span>
+                      </div>
+                      <hr className="border-white/30 w-full hidden md:block" />
+                      <div className="relative flex items-center gap-8">
+                        {isSpin2 ? (
+                          <Icon icon={"lets-icons:check-ring"} className="w-32 h-32 flex-none text-success" />
+                        ) : (
+                          <Icon icon={"eos-icons:loading"} className="w-32 h-32 flex-none" />
+                        )}
+                        <span className="md:hidden text-14">Payment is received, awaiting confirmation</span>
+                        <span className="absolute left-1/2 text-12 whitespace-nowrap -translate-x-1/2 top-full mt-4 hidden md:block">
+                          Payment is received, awaiting confirmation
+                        </span>
+                      </div>
+                      <hr className="border-white/30 w-full hidden md:block" />
+                      <div className="relative flex items-center gap-8">
+                        {isSpin3 ? (
+                          <Icon icon={"lets-icons:check-ring"} className="w-32 h-32 flex-none text-success" />
+                        ) : (
+                          <Icon icon={"eos-icons:loading"} className="w-32 h-32 flex-none" />
+                        )}{" "}
+                        <span className="md:hidden text-14">Payment completed({confirmStep}/6)</span>
+                        <span className="absolute left-1/2 text-12 whitespace-nowrap -translate-x-1/2 top-full mt-4 hidden md:block">
+                          Payment completed({confirmStep}/6)
+                        </span>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div className="flex items-start md:items-center gap-24 md:gap-4 w-full max-w-600 mx-auto py-24 flex-col md:flex-row">
-                  <div className="relative flex items-center gap-8">
-                    <Icon icon={"lets-icons:check-ring"} className="w-32 h-32 flex-none text-success" />
-                    <span className="md:hidden text-14">Payment is requested</span>
-                    <span className="absolute left-1/2 text-12 whitespace-nowrap -translate-x-1/2 top-full mt-4 hidden md:block">
-                      Payment is requested
-                    </span>
+                ) : (
+                  <div className="bg-white/5 rounded-12 px-16 md:px-40 py-32 md:py-48 flex flex-col gap-8 w-full max-w-540">
+                    <div className="w-full"> Please select your Date of Birth to continue</div>
+                    <div className="w-full">
+                      <CustomDatePicker selectedDate={dob} setSelectedDate={(d) => setDOB(d)} />
+                    </div>
+                    <AnimatedSlideButton
+                      onClick={() => {
+                        handleCheckVerify();
+                      }}
+                      className=" text-20 border border-secondary-300 rounded-full py-12 px-48 mt-12"
+                    >
+                      Continue
+                    </AnimatedSlideButton>
                   </div>
-                  <hr className="border-white/30 w-full hidden md:block" />
-                  <div className="relative flex items-center gap-8">
-                    {isSpin2 ? (
-                      <Icon icon={"lets-icons:check-ring"} className="w-32 h-32 flex-none text-success" />
-                    ) : (
-                      <Icon icon={"eos-icons:loading"} className="w-32 h-32 flex-none" />
-                    )}
-                    <span className="md:hidden text-14">Payment is received, awaiting confirmation</span>
-                    <span className="absolute left-1/2 text-12 whitespace-nowrap -translate-x-1/2 top-full mt-4 hidden md:block">
-                      Payment is received, awaiting confirmation
-                    </span>
-                  </div>
-                  <hr className="border-white/30 w-full hidden md:block" />
-                  <div className="relative flex items-center gap-8">
-                    {isSpin3 ? (
-                      <Icon icon={"lets-icons:check-ring"} className="w-32 h-32 flex-none text-success" />
-                    ) : (
-                      <Icon icon={"eos-icons:loading"} className="w-32 h-32 flex-none" />
-                    )}{" "}
-                    <span className="md:hidden text-14">Payment completed({confirmStep}/6)</span>
-                    <span className="absolute left-1/2 text-12 whitespace-nowrap -translate-x-1/2 top-full mt-4 hidden md:block">
-                      Payment completed({confirmStep}/6)
-                    </span>
-                  </div>
-                </div>
-              </div>
+                )}
+              </>
             ) : status === 200 ? (
               <div className="bg-white/5 rounded-12 px-16 md:px-40 py-32 md:py-48  flex flex-col md:flex-row gap-32 w-full max-w-800">
                 <Icon

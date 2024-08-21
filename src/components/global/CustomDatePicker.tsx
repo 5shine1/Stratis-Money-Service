@@ -7,7 +7,7 @@ type Props = {
   setSelectedDate: (value: Date) => void; //eslint-disable-line
   error?: string;
 };
-const DatePicker: React.FC<Props> = ({ selectedDate, setSelectedDate, error }) => {
+const CustomDatePicker: React.FC<Props> = ({ selectedDate, setSelectedDate, error }) => {
   const [inputValue, setInputValue] = useState<string>("");
   const [showCalendar, setShowCalendar] = useState<boolean>(false);
   const [currentMonth, setCurrentMonth] = useState<number>(new Date().getMonth() + 1);
@@ -104,7 +104,7 @@ const DatePicker: React.FC<Props> = ({ selectedDate, setSelectedDate, error }) =
         <button
           key={i}
           className={`text-12 py-6 flex items-center justify-center rounded-4 ${
-            isSelected ? "bg-primary-500 text-secondary-100 dark:bg-secondary-100 dark:text-primary-500" : ""
+            isSelected ? "bg-primary-500 text-secondary-100" : ""
           }`}
           onClick={() => handleDateSelect(i)}
         >
@@ -130,15 +130,13 @@ const DatePicker: React.FC<Props> = ({ selectedDate, setSelectedDate, error }) =
         onChange={handleInputChange}
         onFocus={() => setShowCalendar(true)}
         readOnly
-        className={` border flex items-center px-12 gap-6 u-transition-color group rounded-6 text-14 placeholder:text-primary-500/70 dark:placeholder:text-white/40 py-12 w-full text-primary-500 dark:text-gray-200 outline-none bg-transparent ${
-          error
-            ? "border-error"
-            : "border-secondary-200 dark:border-primary-500 focus-within:border-secondary-400 dark:focus-within:border-primary-400"
+        className={` border flex items-center px-12 gap-6 u-transition-color group rounded-6 text-14 placeholder:text-white/40 py-12 w-full text-gray-200 outline-none bg-transparent ${
+          error ? "border-error" : "border-secondary-200 focus-within:border-secondary-400 "
         }`}
         placeholder="YYYY-MM-DD"
       />
       {showCalendar && (
-        <div className="absolute w-260 z-20 top-full mt-6 left-0 p-16 bg-secondary-100 dark:bg-primary-900 text-primary-500 dark:text-gray-200 rounded-lg shadow-md">
+        <div className="absolute w-260 z-20 top-full mt-6 left-0 p-16 bg-secondary-100 text-primary-500  rounded-lg shadow-md">
           <div className="flex justify-between items-center mb-4">
             <div className="flex items-center justify-evenly w-full gap-8">
               <Icon icon="uiw:d-arrow-left" onClick={handlePrevYear} className="w-12 h-12 cursor-pointer" />
@@ -166,4 +164,4 @@ const DatePicker: React.FC<Props> = ({ selectedDate, setSelectedDate, error }) =
   );
 };
 
-export default DatePicker;
+export default CustomDatePicker;
