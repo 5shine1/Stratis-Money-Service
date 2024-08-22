@@ -81,34 +81,56 @@ const OrderDetailPage: React.FC<Props> = ({ params }) => {
           </div>
 
           <div className="p-24 md:p-32 rounded-8 bg-secondary-100/20 dark:bg-white/5 w-full">
-            <div className="text-20 font-bold text-primary-200 dark:text-secondary-200"> Payer Info</div>
-            <div className="flex flex-col gap-16 mt-18 text-primary-200 dark:text-white">
-              <div className="flex gap-4 flex-col sm:flex-row break-all">
-                <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Email</span>
-                {payment?.payer}
-              </div>
-              <div className="flex gap-4 flex-col sm:flex-row break-all">
-                <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Name</span>
-                {payment?.customerName}
-              </div>
-              <div className="flex gap-4 flex-col sm:flex-row break-all">
-                <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Address</span>
-                {payment?.customerAddress}
-              </div>
-              <div className="flex gap-4 flex-col sm:flex-row break-all">
-                <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Date of Birth</span>
-                {payment?.customerDateOfBirth?.split("T")[0]}
-              </div>
-              <div className="flex gap-4 flex-col sm:flex-row break-all">
-                <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Place of Birth</span>
-                {payment?.customerPlaceOfBirth}
-              </div>
-            </div>
+            <div className="text-20 font-bold text-primary-200 dark:text-secondary-200"> Description</div>
+            <div className=" mt-18 text-primary-200 dark:text-white">{payment?.description}</div>
           </div>
 
           <div className="p-24 md:p-32 rounded-8 bg-secondary-100/20 dark:bg-white/5 w-full">
-            <div className="text-20 font-bold text-primary-200 dark:text-secondary-200"> Description</div>
-            <div className=" mt-18 text-primary-200 dark:text-white">{payment?.description}</div>
+            <div className="text-20 font-bold text-primary-200 dark:text-secondary-200"> Payer Info</div>
+            <div className="flex flex-col gap-16 mt-18 text-primary-200 dark:text-white">
+              <div className="flex gap-4 flex-col sm:flex-row break-all">
+                {payment?.payer ? (
+                  <>
+                    <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Email</span>
+                    {payment?.payer}
+                  </>
+                ) : (
+                  <span className="text-error">N/A</span>
+                )}
+              </div>
+              <div className="flex gap-4 flex-col sm:flex-row break-all">
+                <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Name</span>
+                {payment?.customerName ? (
+                  <span> {payment?.customerName}</span>
+                ) : (
+                  <span className="text-error">N/A</span>
+                )}
+              </div>
+              <div className="flex gap-4 flex-col sm:flex-row break-all">
+                <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Address</span>
+                {payment?.customerAddress ? (
+                  <span> {payment?.customerAddress}</span>
+                ) : (
+                  <span className="text-error">N/A</span>
+                )}
+              </div>
+              <div className="flex gap-4 flex-col sm:flex-row break-all">
+                <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Date of Birth</span>
+                {payment?.customerDateOfBirth && payment?.customerDateOfBirth !== "0001-01-01T00:00:00" ? (
+                  <span>{payment?.customerDateOfBirth?.split("T")[0]}</span>
+                ) : (
+                  <span className="text-error">N/A</span>
+                )}
+              </div>
+              <div className="flex gap-4 flex-col sm:flex-row break-all">
+                <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Place of Birth</span>
+                {payment?.customerPlaceOfBirth ? (
+                  <span> {payment?.customerPlaceOfBirth}</span>
+                ) : (
+                  <span className="text-error">N/A</span>
+                )}
+              </div>
+            </div>
           </div>
 
           <div className="p-24 md:p-32 rounded-8 bg-secondary-100/20 dark:bg-white/5 w-full">
