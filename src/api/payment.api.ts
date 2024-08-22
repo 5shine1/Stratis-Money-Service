@@ -9,26 +9,13 @@ export const apiGetCurrencies = async (isFiat = true) => {
   }
 };
 
-export const apiGenerate = async (
-  amount: number,
-  currencySymbol: string,
-  description: string,
-  payer: string,
-  customerName: string,
-  customerAddress: string,
-  customerDateOfBirth: string,
-  customerPlaceOfBirth: string
-) => {
+export const apiGenerate = async (amount: number, currencySymbol: string, description: string, payer: string) => {
   try {
     const result = await axiosInstance.post("/api/Payment/Generate", {
       amount,
       currencySymbol,
       description,
       payer,
-      customerName,
-      customerAddress,
-      customerDateOfBirth,
-      customerPlaceOfBirth,
     });
     return result?.data;
   } catch (error) {
@@ -64,9 +51,23 @@ export const apiPaymentStart = async (paymentId: string) => {
   }
 };
 
-export const apiMakePayment = async (paymentId: string, paymentCurrencySymbol: string) => {
+export const apiMakePayment = async (
+  paymentId: string,
+  paymentCurrencySymbol: string,
+  customerName: string,
+  customerAddress: string,
+  customerDateOfBirth: string,
+  customerPlaceOfBirth: string
+) => {
   try {
-    const result = await axiosInstance.post(`api/Payment/MakePayment`, { paymentId, paymentCurrencySymbol });
+    const result = await axiosInstance.post(`api/Payment/MakePayment`, {
+      paymentId,
+      paymentCurrencySymbol,
+      customerName,
+      customerAddress,
+      customerDateOfBirth,
+      customerPlaceOfBirth,
+    });
     return result.data;
   } catch (error) {
     throw error;
