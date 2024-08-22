@@ -20,10 +20,6 @@ const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext, data }) => {
   const [currency, setCurrency] = useState<{ value: ICurrency | null; error: string }>({ value: null, error: "" });
   const [reference, setReference] = useState({ value: "", error: "" });
   const [payerEmail, setPayerEmail] = useState({ value: "", error: "" });
-  // const [payerName, setPayerName] = useState({ value: "", error: "" });
-  // const [payerAddress, setPayerAddress] = useState({ value: "", error: "" });
-  // const [payerDOB, setPayerDOB] = useState({ value: null, error: "" });
-  // const [payerPOB, setPayerPOB] = useState({ value: "", error: "" });
   const { currencies } = useAppSelector((state) => state.payment);
 
   const handleClick = () => {
