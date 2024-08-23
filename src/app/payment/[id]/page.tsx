@@ -15,6 +15,7 @@ import { shortenAddress, shortenString } from "@/utils/string.utils";
 import { getChainInfo } from "@/utils/web3.utils";
 import CustomDatePicker from "@/components/global/CustomDatePicker";
 import PaymentInput from "@/components/global/PaymentInput";
+import axios from "axios";
 
 type Props = {
   params: {
@@ -64,12 +65,41 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
     fetchCurrencies();
   }, [paymentInfo?.acceptableCurrencies]);
 
+  useEffect(() => {
+    const getLocation = () => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          async (position) => {
+            const { latitude, longitude } = position.coords;
+            await getAddress(latitude, longitude);
+          },
+          (error) => {
+            console.error("Error getting location:", error);
+          }
+        );
+      } else {
+        console.error("Geolocation is not supported by this browser.");
+      }
+    };
+
+    const getAddress = async (latitude, longitude) => {
+      try {
+        const response = await axios.get(
+          `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`
+        );
+        setPayerAddress({ value: response?.data?.address?.country || "", error: "" });
+      } catch (error) {
+        console.log("Error fetching the address:", error);
+      }
+    };
+    getLocation();
+  }, []);
+
   const handleGetInfo = async () => {
     setIsLoading(true);
     try {
       const result = await apiPaymentStart(id);
       setPaymentInfo(result);
-      console.log(result);
       if (result?.state === 200) setStatus(200);
       else setStatus(10);
       const response = await apiPaymentStatus(id);
@@ -77,7 +107,6 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
       const explorer = await getChainInfo(response.chainId);
       setExplorer(explorer?.explorers[0]?.url);
     } catch (error) {
-      console.log(error);
       toast.error("Server error.");
     }
     setIsLoading(false);
@@ -111,7 +140,6 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
         setExplorer(explorer?.explorers[0]?.url);
       }
       setConfirmStep(result?.confirmations);
-      console.log(result?.state);
       if (result?.state === 55) {
         toast.error("This transaction has been expired.");
         setStatus(55);
@@ -404,7 +432,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
                   </div>
                 ) : step === 2 ? (
                   <div className="bg-white/5 rounded-12 px-16 md:px-40 py-32 md:py-48 flex flex-col gap-8 w-full max-w-480">
-                    <div className="w-full"> Please input your Address</div>
+                    <div className="w-full"> Please Enter your Home Address</div>
                     <div className="w-full">
                       <PaymentInput
                         value={payerAddress.value}
