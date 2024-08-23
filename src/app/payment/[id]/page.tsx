@@ -140,6 +140,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
         setExplorer(explorer?.explorers[0]?.url);
       }
       setConfirmStep(result?.confirmations);
+      console.log(result?.state);
       if (result?.state === 55) {
         toast.error("This transaction has been expired.");
         setStatus(55);
@@ -180,76 +181,92 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
             {status === 60 ? (
               <div className="bg-white/5 rounded-12 px-16 md:px-40 py-32 md:py-48 flex flex-col gap-32 w-full max-w-1000">
                 <div className="flex gap-24  items-start flex-col md:flex-row">
-                  <div className="flex flex-col gap-16">
-                    <div className="flex flex-col gap-4">
-                      <span className="text-white/70">Network</span>
-                      <div className="flex items-center gap-8 text-24">{currencies[currency].subtext}</div>
-                    </div>
-                    <div className="flex flex-col gap-4">
-                      <span className="text-white/70">Amount</span>
-                      <div className="flex items-center gap-8">
-                        <span className="text-24 font-bold">
-                          {depositInfo?.paymentAmount} {currencies[currency].text}
-                        </span>
-                        <span
-                          className="cursor-pointer"
-                          onClick={() => {
-                            navigator.clipboard.writeText(depositInfo?.paymentAmount);
-
-                            toast.success("Copied amount.");
-                          }}
-                        >
-                          <Icon icon={"fluent-mdl2:copy"} className="w-16 h-16" />
-                        </span>
-                      </div>
-                    </div>
-                    <div className="flex flex-col gap-8">
-                      <span className="text-white/70">Deposit Address</span>
+                  {hash ? (
+                    <div className="flex flex-col gap-8 w-full mx-auto">
+                      <span className="text-white/70">Transaction Hash</span>
                       <div className="flex gap-8 items-center">
-                        <span className="text-18 font-bold hidden md:block">{depositInfo?.paymentDestination}</span>
-                        <span className="text-18 font-bold md:hidden">
-                          {shortenAddress(depositInfo?.paymentDestination || "")}
-                        </span>
+                        <span className="text-18 font-bold hidden md:block">{shortenString(hash, 8, 6)}</span>
+                        <span className="text-18 font-bold md:hidden">{shortenString(hash, 4, 4)}</span>
                         <span
                           className="cursor-pointer"
                           onClick={() => {
-                            navigator.clipboard.writeText(depositInfo?.paymentDestination);
-                            toast.success("Copied deposit address.");
+                            navigator.clipboard.writeText(hash);
+                            toast.success("Copied transaction hash.");
                           }}
                         >
                           <Icon icon={"fluent-mdl2:copy"} className="w-16 h-16" />
                         </span>
+                        <a href={`${explorer}/tx/${hash}`} target="_blank" className="cursor-pointer">
+                          <Icon icon={"radix-icons:external-link"} className="w-16 h-16" />
+                        </a>
                       </div>
                     </div>
-                    <p className="text-error mt-12 text-14">
-                      Be careful when choosing a network and currency when sending cryptocurrency. If you send
-                      cryptocurrency over the wrong network or wrong currency, then your money will not be credited or
-                      returned.
-                    </p>
-                    {hash && (
-                      <div className="flex flex-col gap-8">
-                        <span className="text-white/70">Transaction Hash</span>
-                        <div className="flex gap-8 items-center">
-                          <span className="text-18 font-bold hidden md:block">{shortenString(hash, 8, 6)}</span>
-                          <span className="text-18 font-bold md:hidden">{shortenString(hash, 4, 4)}</span>
+                  ) : (
+                    <div className="flex flex-col gap-16">
+                      <div className="flex flex-col gap-4">
+                        <span className="text-white/70">Network</span>
+                        <div className="flex items-center gap-8 text-24">{currencies[currency].subtext}</div>
+                      </div>
+                      <div className="flex flex-col gap-4">
+                        <span className="text-white/70">Amount</span>
+                        <div className="flex items-center gap-8">
+                          <span className="text-24 font-bold">
+                            {depositInfo?.paymentAmount} {currencies[currency].text}
+                          </span>
                           <span
                             className="cursor-pointer"
                             onClick={() => {
-                              navigator.clipboard.writeText(hash);
-                              toast.success("Copied transaction hash.");
+                              navigator.clipboard.writeText(depositInfo?.paymentAmount);
+
+                              toast.success("Copied amount.");
                             }}
                           >
                             <Icon icon={"fluent-mdl2:copy"} className="w-16 h-16" />
                           </span>
-                          <a href={`${explorer}/tx/${hash}`} target="_blank" className="cursor-pointer">
-                            <Icon icon={"radix-icons:external-link"} className="w-16 h-16" />
-                          </a>
                         </div>
                       </div>
-                    )}
-                  </div>
+                      <div className="flex flex-col gap-8">
+                        <span className="text-white/70">Deposit Address</span>
+                        <div className="flex gap-8 items-center">
+                          <span className="text-18 font-bold hidden md:block">{depositInfo?.paymentDestination}</span>
+                          <span className="text-18 font-bold md:hidden">
+                            {shortenAddress(depositInfo?.paymentDestination || "")}
+                          </span>
+                          <span
+                            className="cursor-pointer"
+                            onClick={() => {
+                              navigator.clipboard.writeText(depositInfo?.paymentDestination);
+                              toast.success("Copied deposit address.");
+                            }}
+                          >
+                            <Icon icon={"fluent-mdl2:copy"} className="w-16 h-16" />
+                          </span>
+                        </div>
+                      </div>
+                      <p className="text-error mt-12 text-14">
+                        Be careful when choosing a network and currency when sending cryptocurrency. If you send
+                        cryptocurrency over the wrong network or wrong currency, then your money will not be credited or
+                        returned.
+                      </p>
+                    </div>
+                  )}
                   <div className={`w-full max-w-300 `}>
-                    {!hash && (
+                    {hash ? (
+                      <div className="flex flex-col gap-12">
+                        {[0, 1, 2, 3, 4, 5].map((item) => {
+                          return (
+                            <div className="flex items-center gap-12" key={item}>
+                              {confirmStep > item ? (
+                                <Icon icon={"lets-icons:check-ring"} className="w-32 h-32 flex-none text-success" />
+                              ) : (
+                                <Icon icon={"eos-icons:loading"} className="w-32 h-32 flex-none" />
+                              )}
+                              Confirmation {item + 1}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    ) : (
                       <div className="border-4 border-secondary-200">
                         <QRCode
                           value={depositInfo?.paymentDestination}
