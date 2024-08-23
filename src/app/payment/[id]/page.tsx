@@ -182,7 +182,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
               <div className="bg-white/5 rounded-12 px-16 md:px-40 py-32 md:py-48 flex flex-col gap-32 w-full max-w-1000">
                 <div className="flex gap-24  items-start flex-col md:flex-row">
                   {hash ? (
-                    <div className="flex flex-col gap-8 w-full mx-auto">
+                    <div className="flex flex-col gap-8 w-full">
                       <span className="text-white/70">Transaction Hash</span>
                       <div className="flex gap-8 items-center">
                         <span className="text-18 font-bold hidden md:block">{shortenString(hash, 8, 6)}</span>
