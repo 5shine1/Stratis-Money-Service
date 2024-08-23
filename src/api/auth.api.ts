@@ -108,3 +108,35 @@ export const apiUserInfo = async () => {
     throw error;
   }
 };
+
+export const apiGetSetting = async () => {
+  try {
+    const result = await axiosInstance.get("/api/User/Settings");
+    return result?.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const apiSetSetting = async (
+  userId: string,
+  kycEnabled: boolean,
+  bankAccountHolder: string,
+  bankIban: string,
+  bankBic: string
+) => {
+  try {
+    const result = await axiosInstance.post("/api/User/ChangeSettings", {
+      businessSettings: {
+        userId,
+        kycEnabled,
+        bankAccountHolder,
+        bankIban,
+        bankBic,
+      },
+    });
+    return result?.data;
+  } catch (error) {
+    throw error;
+  }
+};
