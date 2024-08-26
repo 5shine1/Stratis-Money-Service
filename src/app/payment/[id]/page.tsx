@@ -93,6 +93,13 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
       }
     };
     getLocation();
+
+    const name = localStorage.getItem("stratis-customer-name");
+    setPayerName({ value: name, error: "" });
+    const dobStr = localStorage.getItem("stratis-customer-dob");
+    setDOB(new Date(dobStr));
+    const pob = localStorage.getItem("stratis-customer-pob");
+    setPayerPOB({ value: pob, error: "" });
   }, []);
 
   const handleGetInfo = async () => {
@@ -432,7 +439,10 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
                     <div className="w-full">
                       <PaymentInput
                         value={payerName.value}
-                        onChange={(e) => setPayerName({ value: e, error: "" })}
+                        onChange={(e) => {
+                          setPayerName({ value: e, error: "" });
+                          localStorage.setItem("stratis-customer-name", e);
+                        }}
                         placeholder="Your Full Name"
                         error={payerName.error}
                       />
@@ -474,7 +484,10 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
                     <div className="w-full">
                       <CustomDatePicker
                         selectedDate={dob}
-                        setSelectedDate={(d) => setDOB(d)}
+                        setSelectedDate={(d) => {
+                          setDOB(d);
+                          localStorage.setItem("stratis-customer-dob", d.toString());
+                        }}
                         error={dob ? "" : "This field required."}
                       />
                       {!dob && <span className="text-error text-12 mx-6 mt-4">This field required.</span>}
@@ -495,7 +508,10 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
                     <div className="w-full">
                       <PaymentInput
                         value={payerPOB.value}
-                        onChange={(e) => setPayerPOB({ value: e, error: "" })}
+                        onChange={(e) => {
+                          setPayerPOB({ value: e, error: "" });
+                          localStorage.setItem("stratis-customer-pob", e);
+                        }}
                         placeholder="Your Place of Birth"
                         error={payerPOB.error}
                       />
