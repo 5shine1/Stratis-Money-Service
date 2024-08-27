@@ -57,10 +57,28 @@ const OrderPage = () => {
     }
     setIsLoading(false);
   };
-  const handleCreateOrder = async (amount: number, currencySymbol: string, description: string, payer: string) => {
+  const handleCreateOrder = async (
+    amount: number,
+    currencySymbol: string,
+    description: string,
+    payer: string,
+    payerName: string,
+    payerAddress: string,
+    payerDOB: string,
+    payerPOB: string
+  ) => {
     setLoading(true);
     try {
-      const result = await apiGenerate(amount, currencySymbol, description, payer);
+      const result = await apiGenerate(
+        amount,
+        currencySymbol,
+        description,
+        payer,
+        payerName,
+        payerAddress,
+        payerDOB,
+        payerPOB
+      );
       setPaymentOrders([
         {
           paymentId: result?.paymentId,
