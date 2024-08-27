@@ -13,8 +13,6 @@ import Error404Page from "@/app/not-found";
 import { LoadingContext } from "@/components/providers/LoadingProvider";
 import { shortenAddress, shortenString } from "@/utils/string.utils";
 import { getChainInfo } from "@/utils/web3.utils";
-import CustomDatePicker from "@/components/global/CustomDatePicker";
-import PaymentInput from "@/components/global/PaymentInput";
 import axios from "axios";
 
 type Props = {
@@ -28,8 +26,6 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
   const { setLoading } = useContext(LoadingContext);
   const [status, setStatus] = useState(10);
   const [hash, setHash] = useState("");
-  const [dob, setDOB] = useState<null | Date>(null);
-  const [step, setStep] = useState(0);
   const [explorer, setExplorer] = useState("");
   const [currency, setCurrency] = useState(0);
   const [paymentInfo, setPaymentInfo] = useState<any>();
@@ -39,10 +35,6 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
   const [isSpin3, setIsSpin3] = useState(false);
   const [confirmStep, setConfirmStep] = useState(0);
   const [currencies, setCurrencies] = useState([]);
-
-  const [payerName, setPayerName] = useState({ value: "", error: "" });
-  const [payerAddress, setPayerAddress] = useState({ value: "", error: "" });
-  const [payerPOB, setPayerPOB] = useState({ value: "", error: "" });
 
   useEffect(() => {
     const fetchCurrencies = async () => {
@@ -65,43 +57,6 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
     fetchCurrencies();
   }, [paymentInfo?.acceptableCurrencies]);
 
-  useEffect(() => {
-    const getLocation = () => {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          async (position) => {
-            const { latitude, longitude } = position.coords;
-            await getAddress(latitude, longitude);
-          },
-          (error) => {
-            console.error("Error getting location:", error);
-          }
-        );
-      } else {
-        console.error("Geolocation is not supported by this browser.");
-      }
-    };
-
-    const getAddress = async (latitude, longitude) => {
-      try {
-        const response = await axios.get(
-          `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`
-        );
-        setPayerAddress({ value: response?.data?.address?.country || "", error: "" });
-      } catch (error) {
-        console.log("Error fetching the address:", error);
-      }
-    };
-    getLocation();
-
-    const name = localStorage.getItem("stratis-customer-name");
-    setPayerName({ value: name, error: "" });
-    const dobStr = localStorage.getItem("stratis-customer-dob");
-    setDOB(new Date(dobStr));
-    const pob = localStorage.getItem("stratis-customer-pob");
-    setPayerPOB({ value: pob, error: "" });
-  }, []);
-
   const handleGetInfo = async () => {
     setIsLoading(true);
     try {
@@ -122,14 +77,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
   const handleMakePayment = async () => {
     setLoading(true);
     try {
-      const result = await apiMakePayment(
-        id,
-        currencies[currency].text,
-        payerName.value,
-        payerAddress.value,
-        dob.toISOString(),
-        payerPOB.value
-      );
+      const result = await apiMakePayment(id, currencies[currency].text);
       setDepositInfo(result);
       setStatus(60);
     } catch (error) {
@@ -354,183 +302,79 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
               </div>
             ) : (
               <>
-                {step === 0 ? (
-                  <div className="bg-white/5 rounded-12 px-16 md:px-40 py-32 md:py-48 flex flex-col md:flex-row gap-32 w-full max-w-1000">
-                    <div className="flex flex-col items-start gap-24">
-                      {paymentInfo.state == 200 && (
-                        <div className="border border-success text-success bg-success/5 rounded-6 p-12 text-center w-fit">
-                          This has already been processed
-                        </div>
-                      )}
-                      {paymentInfo.state == 55 && (
-                        <div className="border border-error text-error bg-error/5 rounded-6 p-12 text-center w-fit">
-                          This transaction was expired.
-                        </div>
-                      )}
-                      <div className="text-24 break-words">
-                        <span className="break-all md:break-normal">{paymentInfo?.payeeName} </span>
-                        <span className="text-white/50">has requested</span>{" "}
-                        <span className="break-all md:break-normal">{paymentInfo?.payer}</span>{" "}
-                        <span className="text-white/50">to pay</span> {paymentInfo?.amount}{" "}
-                        {paymentInfo?.currencySymbol}.
+                <div className="bg-white/5 rounded-12 px-16 md:px-40 py-32 md:py-48 flex flex-col md:flex-row gap-32 w-full max-w-1000">
+                  <div className="flex flex-col items-start gap-24">
+                    {paymentInfo.state == 200 && (
+                      <div className="border border-success text-success bg-success/5 rounded-6 p-12 text-center w-fit">
+                        This has already been processed
                       </div>
-                      <div className=" text-16 text-white/60">{paymentInfo?.description}</div>
-                      {hash && (
-                        <div className="flex gap-8 items-center">
-                          <span className="text-18 font-bold hidden md:block">{shortenString(hash, 8, 6)}</span>
-                          <span className="text-18 font-bold md:hidden">{shortenString(hash, 4, 4)}</span>
-                          <span
-                            className="cursor-pointer"
-                            onClick={() => {
-                              navigator.clipboard.writeText(hash);
-                              toast.success("Copied transaction hash.");
-                            }}
-                          >
-                            <Icon icon={"fluent-mdl2:copy"} className="w-16 h-16" />
-                          </span>
-                          <a
-                            href={`https://sepolia.etherscan.io/tx/${hash}`}
-                            target="_blank"
-                            className="cursor-pointer"
-                          >
-                            <Icon icon={"radix-icons:external-link"} className="w-16 h-16" />
-                          </a>
-                        </div>
-                      )}
+                    )}
+                    {paymentInfo.state == 55 && (
+                      <div className="border border-error text-error bg-error/5 rounded-6 p-12 text-center w-fit">
+                        This transaction was expired.
+                      </div>
+                    )}
+                    <div className="text-24 break-words">
+                      <span className="break-all md:break-normal">{paymentInfo?.payeeName} </span>
+                      <span className="text-white/50">has requested</span>{" "}
+                      <span className="break-all md:break-normal">{paymentInfo?.payer}</span>{" "}
+                      <span className="text-white/50">to pay</span> {paymentInfo?.amount} {paymentInfo?.currencySymbol}.
                     </div>
-                    {paymentInfo.state !== 200 && (
-                      <div className="w-full max-w-360 flex flex-col gap-24">
-                        <div>
-                          <div className="mb-4">Select currency you want to pay</div>
-                          <CustomSelect
-                            data={currencies}
-                            init={currencies[currency]}
-                            onChange={(selected) => {
-                              setCurrency(selected.id);
-                            }}
-                            mainClass="border border-secondary-200 bg-secondary-200/10 rounded-8 py-12 px-16 cursor-pointer u-text-overflow"
-                            padClass="absolute top-full left-0 w-full max-h-[240px] overflow-auto shadow-lg rounded-8 mt-6 bg-secondary-200/20 flex flex-col gap-4 overflow-y-auto backdrop-blur-md z-10 p-8"
-                            listClass=" py-12 px-10 cursor-pointer u-text-overflow rounded-4"
-                            isIcon={true}
-                          ></CustomSelect>
-                        </div>
-                        <div className="flex flex-col gap-16">
-                          {paymentInfo.state === 200 || paymentInfo.state === 55 ? (
-                            <div className=" text-20 border border-white/50 text-white/50 text-center rounded-full py-16 px-48 cursor-not-allowed">
-                              Continue
-                            </div>
-                          ) : (
-                            <AnimatedSlideButton
-                              onClick={() => {
-                                setStep(1);
-                              }}
-                              className=" text-20 border border-secondary-300 rounded-full py-16 px-48"
-                            >
-                              Continue
-                            </AnimatedSlideButton>
-                          )}
-                        </div>
+                    <div className=" text-16 text-white/60">{paymentInfo?.description}</div>
+                    {hash && (
+                      <div className="flex gap-8 items-center">
+                        <span className="text-18 font-bold hidden md:block">{shortenString(hash, 8, 6)}</span>
+                        <span className="text-18 font-bold md:hidden">{shortenString(hash, 4, 4)}</span>
+                        <span
+                          className="cursor-pointer"
+                          onClick={() => {
+                            navigator.clipboard.writeText(hash);
+                            toast.success("Copied transaction hash.");
+                          }}
+                        >
+                          <Icon icon={"fluent-mdl2:copy"} className="w-16 h-16" />
+                        </span>
+                        <a href={`https://sepolia.etherscan.io/tx/${hash}`} target="_blank" className="cursor-pointer">
+                          <Icon icon={"radix-icons:external-link"} className="w-16 h-16" />
+                        </a>
                       </div>
                     )}
                   </div>
-                ) : step === 1 ? (
-                  <div className="bg-white/5 rounded-12 px-16 md:px-40 py-32 md:py-48 flex flex-col gap-8 w-full max-w-480">
-                    <div className="w-full"> Please input your Full Name</div>
-                    <div className="w-full">
-                      <PaymentInput
-                        value={payerName.value}
-                        onChange={(e) => {
-                          setPayerName({ value: e, error: "" });
-                          localStorage.setItem("stratis-customer-name", e);
-                        }}
-                        placeholder="Your Full Name"
-                        error={payerName.error}
-                      />
+                  {paymentInfo.state !== 200 && (
+                    <div className="w-full max-w-360 flex flex-col gap-24">
+                      <div>
+                        <div className="mb-4">Select currency you want to pay</div>
+                        <CustomSelect
+                          data={currencies}
+                          init={currencies[currency]}
+                          onChange={(selected) => {
+                            setCurrency(selected.id);
+                          }}
+                          mainClass="border border-secondary-200 bg-secondary-200/10 rounded-8 py-12 px-16 cursor-pointer u-text-overflow"
+                          padClass="absolute top-full left-0 w-full max-h-[240px] overflow-auto shadow-lg rounded-8 mt-6 bg-secondary-200/20 flex flex-col gap-4 overflow-y-auto backdrop-blur-md z-10 p-8"
+                          listClass=" py-12 px-10 cursor-pointer u-text-overflow rounded-4"
+                          isIcon={true}
+                        ></CustomSelect>
+                      </div>
+                      <div className="flex flex-col gap-16">
+                        {paymentInfo.state === 200 || paymentInfo.state === 55 ? (
+                          <div className=" text-20 border border-white/50 text-white/50 text-center rounded-full py-16 px-48 cursor-not-allowed">
+                            Continue
+                          </div>
+                        ) : (
+                          <AnimatedSlideButton
+                            onClick={() => {
+                              handleMakePayment();
+                            }}
+                            className=" text-20 border border-secondary-300 rounded-full py-16 px-48"
+                          >
+                            Continue
+                          </AnimatedSlideButton>
+                        )}
+                      </div>
                     </div>
-                    <AnimatedSlideButton
-                      onClick={() => {
-                        if (!payerName.value) setPayerName({ ...payerName, error: "This field required." });
-                        else setStep(2);
-                      }}
-                      className=" text-20 border border-secondary-300 rounded-full py-12 px-48 mt-12"
-                    >
-                      Continue
-                    </AnimatedSlideButton>
-                  </div>
-                ) : step === 2 ? (
-                  <div className="bg-white/5 rounded-12 px-16 md:px-40 py-32 md:py-48 flex flex-col gap-8 w-full max-w-480">
-                    <div className="w-full"> Please Enter your Home Address</div>
-                    <div className="w-full">
-                      <PaymentInput
-                        value={payerAddress.value}
-                        onChange={(e) => setPayerAddress({ value: e, error: "" })}
-                        placeholder="Your Address"
-                        error={payerAddress.error}
-                      />
-                    </div>
-                    <AnimatedSlideButton
-                      onClick={() => {
-                        if (!payerAddress.value) setPayerAddress({ ...payerAddress, error: "This field required." });
-                        else setStep(3);
-                      }}
-                      className=" text-20 border border-secondary-300 rounded-full py-12 px-48 mt-12"
-                    >
-                      Continue
-                    </AnimatedSlideButton>
-                  </div>
-                ) : step === 3 ? (
-                  <div className="bg-white/5 rounded-12 px-16 md:px-40 py-32 md:py-48 flex flex-col gap-8 w-full max-w-480">
-                    <div className="w-full"> Please select your Date of Birth to continue</div>
-                    <div className="w-full">
-                      <CustomDatePicker
-                        selectedDate={dob}
-                        setSelectedDate={(d) => {
-                          setDOB(d);
-                          localStorage.setItem("stratis-customer-dob", d.toString());
-                        }}
-                        error={dob ? "" : "This field required."}
-                      />
-                      {!dob && <span className="text-error text-12 mx-6 mt-4">This field required.</span>}
-                    </div>
-                    <AnimatedSlideButton
-                      onClick={() => {
-                        if (!dob) console.log("dob");
-                        else setStep(4);
-                      }}
-                      className=" text-20 border border-secondary-300 rounded-full py-12 px-48 mt-12"
-                    >
-                      Continue
-                    </AnimatedSlideButton>
-                  </div>
-                ) : step === 4 ? (
-                  <div className="bg-white/5 rounded-12 px-16 md:px-40 py-32 md:py-48 flex flex-col gap-8 w-full max-w-480">
-                    <div className="w-full"> Please input your Place of Birth</div>
-                    <div className="w-full">
-                      <PaymentInput
-                        value={payerPOB.value}
-                        onChange={(e) => {
-                          setPayerPOB({ value: e, error: "" });
-                          localStorage.setItem("stratis-customer-pob", e);
-                        }}
-                        placeholder="Your Place of Birth"
-                        error={payerPOB.error}
-                      />
-                    </div>
-                    <AnimatedSlideButton
-                      onClick={() => {
-                        if (!payerPOB.value) setPayerPOB({ ...payerPOB, error: "This field required." });
-                        else handleMakePayment();
-                      }}
-                      className=" text-20 border border-secondary-300 rounded-full py-12 px-48 mt-12"
-                    >
-                      Continue
-                    </AnimatedSlideButton>
-                  </div>
-                ) : (
-                  <></>
-                )}
-
-                <div className="text-center">Step: {step + 1} / 5</div>
+                  )}
+                </div>
               </>
             )}
           </div>
