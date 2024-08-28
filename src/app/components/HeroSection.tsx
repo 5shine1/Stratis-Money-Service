@@ -25,7 +25,9 @@ const HeroSection = () => {
       <div className="relative flex-col lg:flex-row items-center w-full max-w-600 lg:max-w-1440  mx-auto flex gap-60 xl:gap-120">
         <div className="w-full flex flex-col gap-32 lg:gap-56">
           <ScrollAnimationElement initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} duration={0.8}>
-            <h3 className="text-center lg:text-left">Empower Your Business with Secure and Compliant Crypto Payments</h3>
+            <h3 className="text-center lg:text-left">
+              Empower Your Business with Secure and Compliant Crypto Payments
+            </h3>
           </ScrollAnimationElement>
 
           <ScrollAnimationElement
@@ -35,7 +37,8 @@ const HeroSection = () => {
             delay={0.4}
           >
             <p className="text-center lg:text-left text-gray-400 text-xl">
-              We offer businesses a seamless way to accept cryptocurrency payments, fully compliant with o regulations and free from risk.
+              We offer businesses a seamless way to accept cryptocurrency payments, fully compliant with o regulations
+              and free from risk.
             </p>
           </ScrollAnimationElement>
           <ScrollAnimationElement
@@ -51,7 +54,7 @@ const HeroSection = () => {
                     icon={"lets-icons:check-fill"}
                     className="flex-none lg:h-32 lg:w-32 w-24 h-24 text-primary-400"
                   />
-                  <p className="text-16 lg:text-20 font-semibold text-gray-200">
+                  <p className="text-20 font-semibold text-gray-200">
                     <span className="text-primary-400">{item.key} </span> - {item.text}
                   </p>
                 </div>
