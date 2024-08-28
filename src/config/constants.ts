@@ -1,6 +1,6 @@
 export const APP_ROUTES = [
   { key: "app", text: "Dashboard", path: "/app/order" },
-  { key: "contactUs", text: "ContactUs", path: "/contact-us" },
+  { key: "contactUs", text: "Contact Us", path: "/contact-us" },
 ];
 
 export const SOCIAL_LINKS = [
