@@ -6,7 +6,7 @@ import ScrollAnimationElement from "@/components/global/ScrollAnimatedElement";
 
 const featurePoints = [
   { key: "Instant Settlement", text: "crypto-assets are immediately liquidated and credited to your account" },
-  { key: "Withdraw Fiat", text: "to your bank account" },
+  { key: "Withdraw Fiat", text: "to your business banking account" },
   { key: "Simplified Payments", text: "effortlessly share payment links via Email or SMS" },
 ];
 const featurePointsLogos = [
@@ -37,8 +37,9 @@ const HeroSection = () => {
             delay={0.4}
           >
             <p className="text-center lg:text-left text-gray-400 text-xl">
-              We offer businesses a seamless way to accept cryptocurrency payments, fully compliant with o regulations
-              and free from risk.
+              At Stratis Money Service, we bridge the gap between traditional finance and the digital world. 
+              Regulated by the Bank of Spain (SEPBLAC) with a VASP registration, we provide a secure platform 
+              that allows your customers to pay in crypto, ensuring compliance and eliminating uncertainty.
             </p>
           </ScrollAnimationElement>
           <ScrollAnimationElement
