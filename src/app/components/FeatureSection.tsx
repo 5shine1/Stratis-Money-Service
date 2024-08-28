@@ -3,10 +3,10 @@ import React from "react";
 
 import ScrollAnimationElement from "@/components/global/ScrollAnimatedElement";
 
-const mockData = [
-  { title: "Lowest Fees", text: "asdf" },
-  { title: "Fast & Safe", text: "asdfs" },
-  { title: "Direct Withdraw", text: "asdf" },
+const featurePoints = [
+  { title: "Regulatory Compliance", text: "Trust in a solution regulated by the Bank of Spain." },
+  { title: "Hassle-Free Integration", text: "No complex setup required, start accepting crypto payments instantly" },
+  { title: "Rapid Settlement", text: "Crypto-assets are immediately liquidated, removing risk of volatility" },
 ];
 
 const FeatureSection = () => {
@@ -15,21 +15,10 @@ const FeatureSection = () => {
       <div className="g-effect absolute -top-[800px] -z-10 -right-[600px] w-[1200px] h-[1600px] scale-50 lg:scale-100"></div>
       <div className="relative w-full  max-w-600 lg:max-w-1440 mx-auto ">
         <ScrollAnimationElement initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1 }} duration={0.5}>
-          <h2 className="uppercase text-center">Why Stratis payment</h2>
-        </ScrollAnimationElement>
-        <ScrollAnimationElement
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          duration={0.8}
-          delay={0.4}
-        >
-          <p className="text-gray-400 text-center max-w-1000 mx-auto  mt-24 lg:mt-32">
-            Lorem ipsum is a pseudo-Latin text used in web design, typography, layout, and printing in place of English
-            to emphasise design elements over content. Its also called placeholder (or filler) text.
-          </p>
-        </ScrollAnimationElement>
+          <h2 className="uppercase text-center">Why Choose Us</h2>
+        </ScrollAnimationElement>        
         <div className="flex items-center lg:items-stretch justify-between flex-col lg:flex-row gap-32 mt-56 lg:mt-96">
-          {mockData.map((item, i) => (
+          {featurePoints.map((item, i) => (
             <ScrollAnimationElement
               key={i}
               initial={{ opacity: 0, rotateY: 90 }}
@@ -44,8 +33,7 @@ const FeatureSection = () => {
                 <div className="py-24">
                   <h6 className="g-button-text w-fit font-semibold text-24 lg:text-32">{item.title}</h6>
                   <p className="text-gray-400 mt-12">
-                    Lorem ipsum is a pseudo-Latin text used in web design, typography, layout, and printing in place of
-                    English to emphasise design elements over content. Its also called placeholder (or filler) text.
+                    {item.text}
                   </p>
                 </div>
               </div>

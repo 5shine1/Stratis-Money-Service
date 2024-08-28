@@ -75,7 +75,7 @@ const LoginPage = () => {
             </Link>
             <div>
               <h4 className="g-button-text w-fit mx-auto text-center">Sign In Your Account</h4>
-              <p className="text-gray-400 text-14 mt-8 text-center">Welcome to stratis payment. Enjoy now!</p>
+              <p className="text-gray-400 text-14 mt-8 text-center">Welcome to stratis money service. Enjoy now!</p>
             </div>
             <form onSubmit={handleSubmit} className="flex flex-col gap-24 mt-12 w-full">
               <div>

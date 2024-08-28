@@ -44,7 +44,7 @@ const Header = () => {
         <nav className="flex items-center gap-8 max-w-1440 mx-auto">
           <Link href={"/"} className="mr-auto flex gap-16 items-center">
             <SvgLogo className={"w-36 h-36 lg:w-48 lg:h-48"} />
-            <span className="text-32 font-bold hidden md:inline">Stratis Payment</span>
+            <span className="text-32 font-bold hidden md:inline">Stratis Money Service</span>
           </Link>
           <ul className="items-center gap-48 hidden md:flex">
             {APP_ROUTES.map((item) => (
@@ -114,7 +114,7 @@ const Header = () => {
           <Icon icon="fontisto:close" className="w-24 h-24 text-secondary-200" />
         </div>
 
-        <div className="g-button-text text-32 font-bold w-fit">Stratis Payment</div>
+        <div className="g-button-text text-32 font-bold w-fit">Stratis Money Service</div>
         <ul className="flex flex-col  gap-24 text-24 mt-42">
           {APP_ROUTES.map((item) => (
             <Link className=" hover:text-secondary-200 u-transition-color" href={item.path} key={item.key}>
