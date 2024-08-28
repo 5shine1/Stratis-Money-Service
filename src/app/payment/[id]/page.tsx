@@ -13,7 +13,6 @@ import Error404Page from "@/app/not-found";
 import { LoadingContext } from "@/components/providers/LoadingProvider";
 import { shortenAddress, shortenString } from "@/utils/string.utils";
 import { getChainInfo } from "@/utils/web3.utils";
-import axios from "axios";
 
 type Props = {
   params: {
