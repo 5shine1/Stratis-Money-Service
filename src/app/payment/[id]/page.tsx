@@ -13,6 +13,7 @@ import Error404Page from "@/app/not-found";
 import { LoadingContext } from "@/components/providers/LoadingProvider";
 import { shortenAddress, shortenString } from "@/utils/string.utils";
 import { getChainInfo } from "@/utils/web3.utils";
+import ProgressBar from "@/app/components/ProgressBar";
 
 type Props = {
   params: {
@@ -206,20 +207,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
                   )}
                   <div className={`w-full max-w-300 `}>
                     {hash ? (
-                      <div className="flex flex-col gap-12">
-                        {[0, 1, 2, 3, 4, 5].map((item) => {
-                          return (
-                            <div className="flex items-center gap-12" key={item}>
-                              {confirmStep > item ? (
-                                <Icon icon={"lets-icons:check-ring"} className="w-32 h-32 flex-none text-success" />
-                              ) : (
-                                <Icon icon={"eos-icons:loading"} className="w-32 h-32 flex-none" />
-                              )}
-                              Confirmation {item + 1}
-                            </div>
-                          );
-                        })}
-                      </div>
+                      <ProgressBar percentage={(confirmStep / 6) * 100} label='Confirmations' progress={`${confirmStep}/6 (${Math.floor((confirmStep / 6) * 100)})`} />
                     ) : (
                       <div className="border-4 border-secondary-200">
                         <QRCode
