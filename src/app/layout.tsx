@@ -4,7 +4,7 @@ import { PropsWithChildren } from "react";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Stratis Payment",
+  title: "Stratis Money Service",
   description: "Stratis Crypto Payment Gateway Platform",
 };
 
