@@ -15,7 +15,7 @@ const FeatureSection = () => {
       <div className="g-effect absolute -top-[800px] -z-10 -right-[600px] w-[1200px] h-[1600px] scale-50 lg:scale-100"></div>
       <div className="relative w-full  max-w-600 lg:max-w-1440 mx-auto ">
         <ScrollAnimationElement initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1 }} duration={0.5}>
-          <h2 className="uppercase text-center">Why Stratis payment</h2>
+          <h2 className="uppercase text-center">Why Stratis money service</h2>
         </ScrollAnimationElement>
         <ScrollAnimationElement
           initial={{ opacity: 0, y: 20 }}
