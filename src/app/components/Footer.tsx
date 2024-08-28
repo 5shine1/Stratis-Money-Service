@@ -12,7 +12,7 @@ const Footer = () => {
 
       <div className="relative px-16 py-24 pb-16 border-b border-white/5">
         <div className="items-center flex-col lg:flex-row flex gap-24 justify-between max-w-1440 mx-auto w-full">
-          <div className="text-32 font-bold">Stratis Payment</div>
+          <div className="text-16 font-bold">Stratis Money Service</div>
           <div className="flex gap-24 items-center">
             {SOCIAL_LINKS.map((item) => (
               <Link key={item.id} href={item.link}>
