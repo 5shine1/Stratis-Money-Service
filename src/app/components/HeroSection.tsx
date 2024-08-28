@@ -4,12 +4,12 @@ import { Icon } from "@iconify/react";
 
 import ScrollAnimationElement from "@/components/global/ScrollAnimatedElement";
 
-const mockData = [
-  { key: "Only 1%", text: "the lowest fee on the  market" },
+const featurePoints = [
+  { key: "Instant Settlement", text: "crypto-assets are immediately liquidated and credited to your account" },
   { key: "Withdraw Fiat", text: "to your bank account" },
-  { key: "24/7", text: "personal account management service" },
+  { key: "Simplified Payments", text: "effortlessly share payment links via Email or SMS" },
 ];
-const mockDataLogo = [
+const featurePointsLogos = [
   "logos:bitcoin",
   "logos:ethereum",
   "cryptocurrency-color:usdt",
@@ -25,7 +25,7 @@ const HeroSection = () => {
       <div className="relative flex-col lg:flex-row items-center w-full max-w-600 lg:max-w-1440  mx-auto flex gap-60 xl:gap-120">
         <div className="w-full flex flex-col gap-32 lg:gap-56">
           <ScrollAnimationElement initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} duration={0.8}>
-            <h1 className="text-center lg:text-left">Your Header Text Here</h1>
+            <h3 className="text-center lg:text-left">Empower Your Business with Secure and Compliant Crypto Payments</h3>
           </ScrollAnimationElement>
 
           <ScrollAnimationElement
@@ -34,9 +34,8 @@ const HeroSection = () => {
             duration={0.8}
             delay={0.4}
           >
-            <p className="text-center lg:text-left text-gray-400">
-              Lorem ipsum is a pseudo-Latin text used in web design, typography, layout, and printing in place of
-              English to emphasise design elements over content. It&apos; s also called placeholder (or filler) text.
+            <p className="text-center lg:text-left text-gray-400 text-xl">
+              We offer businesses a seamless way to accept cryptocurrency payments, fully compliant with o regulations and free from risk.
             </p>
           </ScrollAnimationElement>
           <ScrollAnimationElement
@@ -46,13 +45,13 @@ const HeroSection = () => {
             delay={0.8}
           >
             <div className="flex flex-col lg:gap-16 gap-8 max-w-480 mx-auto lg:mx-0 lg:max-w-none">
-              {mockData.map((item, i) => (
+              {featurePoints.map((item, i) => (
                 <div key={i} className="flex items-start gap-8">
                   <Icon
                     icon={"lets-icons:check-fill"}
                     className="flex-none lg:h-32 lg:w-32 w-24 h-24 text-primary-400"
                   />
-                  <p className="text-18 lg:text-24 font-semibold text-gray-200">
+                  <p className="text-16 lg:text-20 font-semibold text-gray-200">
                     <span className="text-primary-400">{item.key} </span> - {item.text}
                   </p>
                 </div>
@@ -60,7 +59,7 @@ const HeroSection = () => {
             </div>
           </ScrollAnimationElement>
           <div className="flex items-center justify-center lg:justify-start gap-12 lg:gap-24">
-            {mockDataLogo.map((item, i) => (
+            {featurePointsLogos.map((item, i) => (
               <ScrollAnimationElement
                 key={i}
                 initial={{ opacity: 0, y: 20 }}

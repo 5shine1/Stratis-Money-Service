@@ -4,11 +4,11 @@ import React from "react";
 import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
 import ScrollAnimationElement from "@/components/global/ScrollAnimatedElement";
 
-const mockData = [
-  { key: "Create Account", text: "lorem" },
-  { key: "KYC Verify", text: "lorem" },
-  { key: "Generate Payment Link", text: "lorem" },
-  { key: "Send Email", text: "lorem" },
+const processSteps = [
+  { key: "Register your Business", text: "Sign up and create your business account with us in just a few minutes" },
+  { key: "Verify your Business", text: "Complete the Know your Business verification to ensure compliance with regulations." },
+  { key: "Generate Payment Link", text: "Create a payment link through our platform, we will share it with your customer." },
+  { key: "Receive Payment & Transfer Funds", text: "Once your customer pays, funds are instantly liquidated and ready to be withdrawn to your business bank account" },
 ];
 
 const ProcessSection = () => {
@@ -32,13 +32,14 @@ const ProcessSection = () => {
             delay={0.3}
           >
             <p className="text-gray-400">
-              Lorem ipsum is a pseudo-Latin text used in web design, typography, layout, and printing in place of
-              English to emphasise design elements over content. It&apos; s also called placeholder (or filler) text.
+              Start accepting crypto payments in just a few simple steps.
+              Our streamlined process ensures your business is up and running quickly,
+              with no hassle and full regulatory compliance.
             </p>
           </ScrollAnimationElement>
 
           <div className="flex flex-col gap-36">
-            {mockData.map((item, i) => (
+            {processSteps.map((item, i) => (
               <ScrollAnimationElement
                 key={i}
                 initial={{ opacity: 0, filter: "blur(12px)", x: 40 }}
@@ -50,27 +51,12 @@ const ProcessSection = () => {
                   <div className="rounded-full flex-none w-64 h-64 bg-gradient-to-b from-primary-400 to-secondary-300"></div>
                   <div className="flex flex-col gap-4">
                     <p className="g-button-text text-24 font-semibold w-fit">{item.key}</p>
-                    <p className=" text-gray-400">
-                      Lorem ipsum is a pseudo-Latin text used in web design, typography, layout, and printing in place
-                      of English to emphasise design elements over content.
-                    </p>
+                    <p className="text-gray-400">{item.text}</p>
                   </div>
                 </div>
               </ScrollAnimationElement>
             ))}
           </div>
-          <ScrollAnimationElement
-            initial={{ opacity: 0, filter: "blur(12px)", y: 40 }}
-            animate={{ opacity: 1, filter: "blur(0px)", y: 0 }}
-            duration={0.5}
-            delay={1.2}
-          >
-            <div className="w-full flex items-center lg:justify-start justify-center">
-              <AnimatedSlideButton className="text-20 lg:text-24 border border-secondary-300 rounded-full px-32 py-12 lg:px-40 lg:py-16 mt-24">
-                Learn More
-              </AnimatedSlideButton>
-            </div>
-          </ScrollAnimationElement>
         </div>
         <div className="w-full relative p-12">
           <ScrollAnimationElement
