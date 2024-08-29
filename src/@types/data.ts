@@ -32,3 +32,13 @@ export interface IUser {
   mobileNumber: string;
   name: string;
 }
+
+export interface IWithdrawHistory {
+  withdrawalId: string;
+  userId: string;
+  requested: string;
+  completed: boolean;
+  amount: number;
+  fee: number;
+  currency: string;
+}

@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 import { Icon } from "@iconify/react";
 
 import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
-import { callAPI } from "@/config/mock";
+import { apiWithdrawHistory } from "@/api/payment.api";
 
 const WithdrawPage = () => {
   const [withdrawHistory, setWithdrawHistory] = useState([]);
@@ -24,7 +24,8 @@ const WithdrawPage = () => {
   const handleGetOrders = async () => {
     setIsLoading(true);
     try {
-      await callAPI();
+      const result = await apiWithdrawHistory();
+      console.log(result);
       setWithdrawHistory([]);
     } catch (error) {
       toast.error("Server error.");
