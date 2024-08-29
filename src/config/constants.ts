@@ -3,7 +3,7 @@ import { group } from "console";
 
 export const APP_ROUTES = [
   { key: "app", text: "Dashboard", path: "/app/order" },
-  { key: "contactUs", text: "Contact Us", path: "/contact-us" },
+  { key: "contactUs", text: "Contact Us", path: "mailto:sms@stratisplatform.com" },
 ];
 
 export const SOCIAL_LINKS = [
