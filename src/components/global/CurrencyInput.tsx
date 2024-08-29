@@ -33,7 +33,7 @@ const CurrencyInput: React.FC<Props> = ({
     >
       <div className="flex flex-col gap-8 w-full">
         <span className="text-gray-400 text-14">{label}</span>
-        <input className="text-24 text-white outline-none w-full  bg-transparent" placeholder="0.0" />
+        <input className="text-24 text-white outline-none w-full  bg-transparent" placeholder="0" />
       </div>
       <div className="flex items-center gap-4">
         <div
