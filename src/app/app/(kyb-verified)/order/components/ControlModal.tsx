@@ -127,7 +127,7 @@ const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext, data }) => {
               onChange={(e) => {
                 setAmount({ error: "", value: e });
               }}
-              placeholder="0.0"
+              placeholder="0"
               label="Amount"
               error={amount.error}
               pattern="^([0-9]+(?:[.,][0-9]*)?)$"
