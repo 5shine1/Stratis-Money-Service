@@ -84,3 +84,12 @@ export const apiPaymentStatus = async (paymentId: string) => {
     throw error;
   }
 };
+
+export const apiWithdrawHistory = async () => {
+  try {
+    const result = await axiosInstance.get(`api/Payment/WithdrawalHistory`);
+    return result.data;
+  } catch (error) {
+    throw error;
+  }
+};
