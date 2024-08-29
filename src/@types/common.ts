@@ -20,6 +20,11 @@ export interface IAuth {
   role: ROLES;
 }
 
+export interface IInputSelectItem {
+  group: string;
+  items: string[];
+}
+
 export enum ROLES {
   ADMIN = "Admin", //eslint-disable-line
   BUSINESS = "Business", //eslint-disable-line
