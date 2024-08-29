@@ -91,7 +91,16 @@ const RegisterPage = () => {
 
     setLoading(true);
     try {
-      const result = await apiRegister(email.value, password.value, name.value, country.value, phone.value);
+      const result = await apiRegister(
+        email.value,
+        password.value,
+        name.value,
+        country.value,
+        phone.value,
+        industry.value,
+        activity.value,
+        volume.value
+      );
       if (result === true) {
         toast.success("Registered successfully.");
         router.push(`/auth/login`);
