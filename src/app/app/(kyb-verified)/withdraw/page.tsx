@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 import { Icon } from "@iconify/react";
 
 import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
-import { callAPI, mockOrderLinks } from "@/config/mock";
+import { callAPI } from "@/config/mock";
 
 const WithdrawPage = () => {
   const [withdrawHistory, setWithdrawHistory] = useState([]);
@@ -25,7 +25,7 @@ const WithdrawPage = () => {
     setIsLoading(true);
     try {
       await callAPI();
-      setWithdrawHistory(mockOrderLinks);
+      setWithdrawHistory([]);
     } catch (error) {
       toast.error("Server error.");
     }
