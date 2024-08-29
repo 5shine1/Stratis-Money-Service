@@ -10,12 +10,17 @@ import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
 import CustomInput from "@/components/global/CustomInput";
 import { isValidPassword, isValidEmail, isValidPhoneNumber } from "@/utils/string.utils";
 import { apiRegister } from "@/api/auth.api";
+import CustomSelectInput from "@/components/global/CustomSelectInput";
+import { ACTIVITIES, INDUSTRIES, VOLUMES } from "@/config/constants";
 
 const RegisterPage = () => {
   const router = useRouter();
   const { setLoading } = useContext(LoadingContext);
   const [email, setEmail] = useState({ value: "", error: "" });
   const [name, setName] = useState({ value: "", error: "" });
+  const [industry, setIndustry] = useState({ value: "", error: "" });
+  const [activity, setActivity] = useState({ value: "", error: "" });
+  const [volume, setVolume] = useState({ value: "", error: "" });
   const [country, setCountry] = useState({ value: "", error: "" });
   const [phone, setPhone] = useState({ value: "", error: "" });
   const [password, setPassword] = useState({ value: "", error: "" });
@@ -26,23 +31,63 @@ const RegisterPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!email.value) return setEmail({ ...email, error: "Email required." });
-    if (!isValidEmail(email.value)) return setEmail({ ...email, error: "Invalid email." });
-    if (!name.value) return setName({ ...name, error: "Name required." });
-    if (!country.value) return setCountry({ ...country, error: "Country required." });
-    if (!phone.value) return setPhone({ ...phone, error: "Mobile phone required." });
-    if (!isValidPhoneNumber(phone.value)) return setPhone({ ...phone, error: "Incorrect phone number" });
-    if (!password.value) return setPassword({ ...password, error: "Password required." });
-    if (isValidPassword(password.value))
-      return setPassword({
+    let temp = 0;
+
+    if (!isValidEmail(email.value)) {
+      temp++;
+      setEmail({ ...email, error: "Invalid email." });
+    }
+    if (!email.value) {
+      temp++;
+      setEmail({ ...email, error: "Email required." });
+    }
+    if (!name.value) {
+      temp++;
+      setName({ ...name, error: "Name required." });
+    }
+    if (!industry.value) {
+      temp++;
+      setIndustry({ ...industry, error: "This field required." });
+    }
+    if (!activity.value) {
+      temp++;
+      setActivity({ ...activity, error: "This field required." });
+    }
+    if (!volume.value) {
+      temp++;
+      setVolume({ ...volume, error: "This field required." });
+    }
+    if (!country.value) {
+      temp++;
+      setCountry({ ...country, error: "Country required." });
+    }
+    if (!phone.value) {
+      temp++;
+      setPhone({ ...phone, error: "Mobile phone required." });
+    }
+    if (!isValidPhoneNumber(phone.value)) {
+      temp++;
+      setPhone({ ...phone, error: "Incorrect phone number" });
+    }
+    if (!password.value) {
+      temp++;
+      setPassword({ ...password, error: "Password required." });
+    }
+    if (isValidPassword(password.value)) {
+      temp++;
+      setPassword({
         ...password,
         error: isValidPassword(password.value),
       });
-    if (passwordConfirm.value !== password.value)
-      return setPasswordConfirm({
+    }
+    if (passwordConfirm.value !== password.value) {
+      temp++;
+      setPasswordConfirm({
         ...passwordConfirm,
         error: "Password confirmation does not match.",
       });
+    }
+    if (temp > 0) return;
 
     setLoading(true);
     try {
@@ -88,6 +133,30 @@ const RegisterPage = () => {
                 icon="solar:user-outline"
                 placeholder="Company Name"
                 error={name.error}
+              />
+              <CustomSelectInput
+                value={industry.value}
+                onChange={(e) => setIndustry({ error: "", value: e })}
+                icon="ph:buildings-light"
+                placeholder="Industry or Sector"
+                data={INDUSTRIES}
+                error={industry.error}
+              />
+              <CustomSelectInput
+                value={activity.value}
+                onChange={(e) => setActivity({ error: "", value: e })}
+                icon="material-symbols-light:service-toolbox-outline-rounded"
+                placeholder="Type of Activity"
+                data={ACTIVITIES}
+                error={activity.error}
+              />
+              <CustomSelectInput
+                value={volume.value}
+                onChange={(e) => setVolume({ error: "", value: e })}
+                icon="solar:chat-round-money-linear"
+                placeholder="Expected Monthly Volume"
+                data={VOLUMES}
+                error={volume.error}
               />
               <CustomInput
                 value={country.value}
