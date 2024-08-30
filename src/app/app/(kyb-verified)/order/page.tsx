@@ -18,6 +18,7 @@ import DeleteModal from "./components/DeleteModal";
 import { IPayment } from "@/@types/data";
 import useAppSelector from "@/hooks/global/useAppSelector";
 import { apiAdminDeleteOrder, apiAdminPaymentHistory } from "@/api/admin.api";
+import QrCodeModal from "./components/QrCodeModal";
 
 const OrderPage = () => {
   const { setLoading } = useContext(LoadingContext);
@@ -26,6 +27,7 @@ const OrderPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [controlModalOpen, setControlModalOpen] = useState<string | null>(null);
   const [deleteModalOpen, setDeleteModalOpen] = useState<string | null>(null);
+  const [qrCodeModalOpen, setQrCodeModalOpen] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const { role } = useAppSelector((state) => state.auth);
 
@@ -94,6 +96,7 @@ const OrderPage = () => {
       ]);
       toast.success("Generated new link successfully.");
       setControlModalOpen(null);
+      setQrCodeModalOpen("asdf");
     } catch (error) {
       toast.error("Server error.");
     }
@@ -304,6 +307,7 @@ const OrderPage = () => {
         onClose={() => setDeleteModalOpen(null)}
         onNext={() => handleDeleteOrder(deleteModalOpen)}
       />
+      <QrCodeModal data={qrCodeModalOpen} onClose={() => setQrCodeModalOpen(null)} />
     </>
   );
 };
