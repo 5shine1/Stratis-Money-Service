@@ -17,6 +17,9 @@ export const apiRegister = async (
   password: string,
   name: string,
   country: string,
+  industry: string,
+  activity: string,
+  volume: string,
   mobileNumber: string
 ) => {
   try {
@@ -25,6 +28,9 @@ export const apiRegister = async (
       password,
       name,
       country,
+      industry,
+      activity,
+      volume,
       mobileNumber,
     });
 
