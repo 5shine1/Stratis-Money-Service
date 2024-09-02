@@ -22,7 +22,7 @@ const AppCheckbox: React.FC<Props> = ({ value, onChange, label }) => {
           <Icon icon="mdi:checkbox-blank-outline" className="w-24 h-24 text-primary-200" />
         )}
       </div>
-      <div className={`${value ? "text-white/90" : "text-white/50"}`}>{label}</div>
+      <div className={` text-primary-500 dark:text-gray-400 ${value ? "opacity-100" : "opacity-80"}`}>{label}</div>
     </div>
   );
 };
