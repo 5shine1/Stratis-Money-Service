@@ -22,6 +22,7 @@ type Props = {
 };
 
 const PaymentPage: React.FC<Props> = ({ params }) => {
+  const totalConfirmations = 6;
   const id = params.id;
   const { setLoading } = useContext(LoadingContext);
   const [status, setStatus] = useState(10);
@@ -207,7 +208,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
                   )}
                   <div className={`w-full max-w-300 `}>
                     {hash ? (
-                      <ProgressBar percentage={(confirmStep / 6) * 100} label='Confirmations' progress={`${confirmStep}/6 (${Math.floor((confirmStep / 6) * 100)})`} />
+                      <ProgressBar percentage={(confirmStep / totalConfirmations) * 100} label='Confirmations' progress={`${confirmStep}/${totalConfirmations} (${Math.floor((confirmStep / totalConfirmations) * 100)})`} />
                     ) : (
                       <div className="border-4 border-secondary-200">
                         <QRCode
@@ -245,9 +246,9 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
                     ) : (
                       <Icon icon={"eos-icons:loading"} className="w-32 h-32 flex-none" />
                     )}{" "}
-                    <span className="md:hidden text-14">Payment completed({confirmStep}/6)</span>
+                    <span className="md:hidden text-14">Payment completed({confirmStep}/{totalConfirmations})</span>
                     <span className="absolute left-1/2 text-12 whitespace-nowrap -translate-x-1/2 top-full mt-4 hidden md:block">
-                      Payment completed({confirmStep}/6)
+                      Payment completed({confirmStep}/{totalConfirmations})
                     </span>
                   </div>
                 </div>
