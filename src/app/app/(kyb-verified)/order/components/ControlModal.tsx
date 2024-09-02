@@ -81,6 +81,11 @@ const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext, data }) => {
       temp++;
       setPayerPOB({ ...payerPOB, error: "This field required." });
     }
+    console.log(isAcceptable, acceptableCurrency);
+    if (isAcceptable && !acceptableCurrency.value) {
+      temp++;
+      setAcceptableCurrency({ ...acceptableCurrency, error: "Acceptable currency required." });
+    }
     if (temp > 0) return;
     onNext(
       parseFloat(amount.value),
