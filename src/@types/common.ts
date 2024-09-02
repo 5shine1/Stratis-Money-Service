@@ -3,6 +3,10 @@ export interface IIcon {
 }
 
 export interface ICurrency {
+  chainId: number;
+  liquidationConfirmations: number;
+  depositConfirmations: number;
+  icon: string;
   currencyId: number;
   name: string;
   symbol: string;
