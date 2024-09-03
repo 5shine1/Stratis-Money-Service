@@ -82,12 +82,14 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
       const result = await apiMakePayment(id, currencies[currency].text);
       setDepositInfo(result);
 
-      const selectedCurrency = paymentInfo.acceptableCurrencies.find((item) => item.currencyId === currencies[currency].key);
-      
+      const selectedCurrency = paymentInfo.acceptableCurrencies.find(
+        (item) => item.currencyId === currencies[currency].key
+      );
+
       const link = !selectedCurrency
         ? result?.paymentDestination
         : `ethereum:${selectedCurrency.tokenContract}@${selectedCurrency.chainId}/transfer?address=${result?.paymentDestination}&uint256=${paymentInfo?.amount}e18`;
-      
+
       setPaymentLinkData(link);
 
       setStatus(60);
@@ -218,13 +220,16 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
                   )}
                   <div className={`w-full max-w-300 `}>
                     {hash ? (
-                      <ProgressBar percentage={(confirmStep / totalConfirmations) * 100} label='Confirmations' progress={`${confirmStep}/${totalConfirmations} (${Math.floor((confirmStep / totalConfirmations) * 100)}%)`} />
+                      <ProgressBar
+                        percentage={(confirmStep / totalConfirmations) * 100}
+                        label="Confirmations"
+                        progress={`${confirmStep}/${totalConfirmations} (${Math.floor(
+                          (confirmStep / totalConfirmations) * 100
+                        )}%)`}
+                      />
                     ) : (
                       <div className="border-4 border-secondary-200">
-                        <QRCode
-                          value={paymentLinkData}
-                          style={{ height: "auto", maxWidth: "100%", width: "100%" }}
-                        />
+                        <QRCode value={paymentLinkData} style={{ height: "auto", maxWidth: "100%", width: "100%" }} />
                       </div>
                     )}
                   </div>
@@ -256,7 +261,9 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
                     ) : (
                       <Icon icon={"eos-icons:loading"} className="w-32 h-32 flex-none" />
                     )}{" "}
-                    <span className="md:hidden text-14">Payment completed({confirmStep}/{totalConfirmations})</span>
+                    <span className="md:hidden text-14">
+                      Payment completed({confirmStep}/{totalConfirmations})
+                    </span>
                     <span className="absolute left-1/2 text-12 whitespace-nowrap -translate-x-1/2 top-full mt-4 hidden md:block">
                       Payment completed({confirmStep}/{totalConfirmations})
                     </span>

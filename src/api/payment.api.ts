@@ -48,7 +48,6 @@ export const apiPaymentHistory = async () => {
 export const apiPaymentHistoryDetail = async (id: string) => {
   try {
     const result = await axiosInstance.get(`/api/Payment/History/${id}`);
-    console.log(result.data);
     return result.data;
   } catch (error) {
     throw error;
