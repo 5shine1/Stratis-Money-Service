@@ -19,10 +19,8 @@ import { IPayment } from "@/@types/data";
 import useAppSelector from "@/hooks/global/useAppSelector";
 import { apiAdminDeleteOrder, apiAdminPaymentHistory } from "@/api/admin.api";
 import QrCodeModal from "./components/QrCodeModal";
-import { useRouter } from "next/navigation";
 
 const OrderPage = () => {
-  const router = useRouter();
   const { setLoading } = useContext(LoadingContext);
   const [paymentOrders, setPaymentOrders] = useState<IPayment[]>([]);
   const [searchIndex, setSearchIndex] = useState("");
