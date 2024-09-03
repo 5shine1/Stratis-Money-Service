@@ -105,7 +105,6 @@ const RegisterPage = () => {
         toast.success("Registered successfully.");
         router.push(`/auth/login`);
       } else {
-        console.log(result);
         if (result?.duplicate) setEmail({ ...email, error: "User is already exist." });
         else
           setPassword({
