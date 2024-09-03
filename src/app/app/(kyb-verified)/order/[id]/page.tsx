@@ -61,7 +61,13 @@ const OrderDetailPage: React.FC<Props> = ({ params }) => {
               </div>
               <div className="flex gap-4 flex-col sm:flex-row break-all">
                 <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Order Link</span>
-                {window.location.origin}/payment/{payment?.paymentId}
+                <a
+                  target="_blank"
+                  href={`/payment/${payment?.paymentId}`}
+                  className="u-transition-color hover:text-info"
+                >
+                  {window.location.origin}/payment/{payment?.paymentId}
+                </a>
               </div>
               <div className="flex gap-4 flex-col sm:flex-row break-all">
                 <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Amount</span>

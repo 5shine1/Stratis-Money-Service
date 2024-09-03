@@ -39,7 +39,6 @@ export const apiAdminUserDetail = async (userId: string) => {
 export const apiAdminPaymentHistoryDetail = async (id: string) => {
   try {
     const result = await axiosInstance.get(`/api/Admin/Payment/${id}`);
-    console.log(result.data);
     return result.data;
   } catch (error) {
     throw error;

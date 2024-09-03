@@ -82,7 +82,7 @@ const AppSidebar: React.FC<PropsWithChildren> = ({ children }) => {
                 }`}
               >
                 <Icon icon="ph:users-three-thin" className="w-30 h-30 flex-none" />
-                <div className={` ${isWrapped ? "block" : "hidden"}`}>Users</div>
+                <div className={` ${isWrapped ? "block" : "hidden"}`}>Companies</div>
               </Link>
             )}
             <Link

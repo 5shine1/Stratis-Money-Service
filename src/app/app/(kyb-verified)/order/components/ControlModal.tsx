@@ -31,7 +31,8 @@ const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext, data }) => {
   const [reference, setReference] = useState({ value: "", error: "" });
   const [payerEmail, setPayerEmail] = useState({ value: "", error: "" });
   const { currencies } = useAppSelector((state) => state.payment);
-  const [payerName, setPayerName] = useState({ value: "", error: "" });
+  const [payerFirstName, setPayerFirstName] = useState({ value: "", error: "" });
+  const [payerLastName, setPayerLastName] = useState({ value: "", error: "" });
   const [payerAddress, setPayerAddress] = useState({ value: "", error: "" });
   const [payerDOB, setPayerDOB] = useState({ value: null, error: "" });
   const [payerPOB, setPayerPOB] = useState({ value: "", error: "" });
@@ -59,9 +60,13 @@ const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext, data }) => {
       temp++;
       setPayerEmail({ ...payerEmail, error: "This field required." });
     }
-    if (!payerName.value) {
+    if (!payerFirstName.value) {
       temp++;
-      setPayerName({ ...payerName, error: "This field required." });
+      setPayerFirstName({ ...payerFirstName, error: "This field required." });
+    }
+    if (!payerLastName.value) {
+      temp++;
+      setPayerLastName({ ...payerLastName, error: "This field required." });
     }
     if (!payerAddress.value) {
       temp++;
@@ -82,7 +87,7 @@ const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext, data }) => {
       currency.value.symbol,
       reference.value,
       payerEmail.value,
-      payerName.value,
+      payerFirstName.value + " " + payerLastName.value,
       payerAddress.value,
       payerDOB.value,
       payerPOB.value
@@ -107,7 +112,8 @@ const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext, data }) => {
         setReference({ value: "", error: "" });
         setPayerEmail({ value: "", error: "" });
         setPayerAddress({ value: "", error: "" });
-        setPayerName({ value: "", error: "" });
+        setPayerFirstName({ value: "", error: "" });
+        setPayerLastName({ value: "", error: "" });
         setPayerDOB({ value: null, error: "" });
         setPayerPOB({ value: "", error: "" });
       }}
@@ -166,22 +172,22 @@ const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext, data }) => {
           />
           <div className="flex items-start gap-16 md:gap-12 md:flex-row flex-col">
             <AppInput
-              value={payerName.value}
+              value={payerFirstName.value}
               onChange={(e) => {
-                setPayerName({ error: "", value: e });
+                setPayerFirstName({ error: "", value: e });
               }}
-              placeholder="Customer Name"
-              label="Customer Name"
-              error={payerName.error}
+              placeholder="Customer First Name"
+              label="Customer First Name"
+              error={payerFirstName.error}
             />
             <AppInput
-              value={payerAddress.value}
+              value={payerLastName.value}
               onChange={(e) => {
-                setPayerAddress({ error: "", value: e });
+                setPayerLastName({ error: "", value: e });
               }}
-              placeholder="Customer Address"
-              label="Customer Address"
-              error={payerAddress.error}
+              placeholder="Customer Last Name"
+              label="Customer Last Name"
+              error={payerLastName.error}
             />
           </div>
           <div className="flex items-start gap-16 md:gap-12 md:flex-row flex-col">
@@ -204,6 +210,15 @@ const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext, data }) => {
               error={payerPOB.error}
             />
           </div>
+          <AppInput
+            value={payerAddress.value}
+            onChange={(e) => {
+              setPayerAddress({ error: "", value: e });
+            }}
+            placeholder="Customer Address"
+            label="Customer Address"
+            error={payerAddress.error}
+          />
           <AnimatedSlideButton
             onClick={handleClick}
             className="text-primary-200 dark:text-white text-20 py-12 px-32 border border-primary-200 dark:border-secondary-300  rounded-full mt-8"

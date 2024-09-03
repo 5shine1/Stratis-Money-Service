@@ -55,7 +55,6 @@ export const apiLoginRefresh = async () => {
 export const apiLogout = async () => {
   try {
     const result = await axiosInstance.post("/api/Identity/Logout");
-    console.log(result);
     if (result?.data?.isSucceed === true) return true;
     throw "Something went wrong";
   } catch (error) {

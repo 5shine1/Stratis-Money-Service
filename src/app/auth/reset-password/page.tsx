@@ -39,7 +39,6 @@ const ResetPasswordPage = () => {
     try {
       setLoading(true);
       const result = await apiResetPassword(code, password.value, email);
-      console.log(result);
       if (result) {
         toast.success("Password reset completed.");
         router.push("/auth/login");
