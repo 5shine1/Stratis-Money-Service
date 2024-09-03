@@ -36,6 +36,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
   const [isSpin3, setIsSpin3] = useState(false);
   const [confirmStep, setConfirmStep] = useState(0);
   const [currencies, setCurrencies] = useState([]);
+  const [paymentLinkData, setPaymentLinkData] = useState("");
 
   useEffect(() => {
     const fetchCurrencies = async () => {
@@ -80,6 +81,16 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
     try {
       const result = await apiMakePayment(id, currencies[currency].text);
       setDepositInfo(result);
+
+      const selectedCurrency = paymentInfo.acceptableCurrencies.find((item) => item.currencyId === currencies[currency].key);
+      if (!selectedCurrency) {
+        setPaymentLinkData(result?.paymentDestination);
+        return;
+      }
+
+      const link = `ethereum:${selectedCurrency.tokenContract}@${selectedCurrency.chainId}/transfer?address=${result?.paymentDestination}&uint256=${paymentInfo?.amount}e18`;
+      setPaymentLinkData(link);
+
       setStatus(60);
     } catch (error) {
       console.log(error);
@@ -212,7 +223,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
                     ) : (
                       <div className="border-4 border-secondary-200">
                         <QRCode
-                          value={depositInfo?.paymentDestination}
+                          value={paymentLinkData}
                           style={{ height: "auto", maxWidth: "100%", width: "100%" }}
                         />
                       </div>
