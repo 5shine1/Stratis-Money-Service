@@ -120,7 +120,7 @@ const UserPage = () => {
                     <th className="px-8 py-16 text-left w-120">Role</th>
                     <th className="px-8 py-16 text-center w-100">Email Status</th>
                     <th className="px-8 py-16 text-center w-100">KYB Status</th>
-                    <th className="px-8 py-16 text-center w-100">Manual KYB</th>
+                    <th className="px-8 py-16 text-center w-100">Compliance Status</th>
                     <th className="px-8 py-16 text-right w-100">Action</th>
                   </tr>
                 </thead>

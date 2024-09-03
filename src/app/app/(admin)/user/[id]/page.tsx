@@ -1,14 +1,16 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Icon } from "@iconify/react";
 
-import { apiAdminPaymentHistoryByUser, apiAdminUserDetail } from "@/api/admin.api";
+import { apiActivateUser, apiAdminPaymentHistoryByUser, apiAdminUserDetail } from "@/api/admin.api";
 import { IUser } from "@/@types/data";
 import Link from "next/link";
 import { formattedTime } from "@/utils/string.utils";
 import { PAYMENT_STATE } from "@/@types/common";
 import Pagination from "rc-pagination/lib/Pagination";
+import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
+import { LoadingContext } from "@/components/providers/LoadingProvider";
 
 type Props = {
   params: {
@@ -21,6 +23,7 @@ const UserDetailPage: React.FC<Props> = ({ params }) => {
   const [paymentOrders, setPaymentOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const { setLoading } = useContext(LoadingContext);
   const id = params.id;
 
   const handleGetUser = async () => {
@@ -29,13 +32,24 @@ const UserDetailPage: React.FC<Props> = ({ params }) => {
       const result = await apiAdminUserDetail(id);
       setUserInfo(result);
       const payments = await apiAdminPaymentHistoryByUser(id);
-      console.log(payments);
       setPaymentOrders(payments);
     } catch (error) {
       console.log(error);
       toast.error("Server error.");
     }
     setIsLoading(false);
+  };
+  const handleActiveUser = async () => {
+    setLoading(true);
+    const userId = userInfo.userId;
+    const status = !userInfo.isKnowYourBusinessPassed;
+    try {
+      await apiActivateUser(userId, status);
+      setUserInfo({ ...userInfo, isKnowYourBusinessPassed: status });
+    } catch (error) {
+      toast.error("Server error.");
+    }
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -56,7 +70,7 @@ const UserDetailPage: React.FC<Props> = ({ params }) => {
           <div className="flex flex-col md:flex-row gap-16">
             <div className="p-24 md:p-32 rounded-8 bg-secondary-100/20 dark:bg-white/5 w-full">
               <div className="text-20 font-bold text-primary-200 dark:text-secondary-200"> Summary</div>
-              <div className="flex flex-col gap-16 mt-18 text-primary-200 dark:text-white">
+              <div className="flex flex-col gap-12 mt-18 text-primary-200 dark:text-white">
                 <span>
                   <span className="opacity-60">Name: </span>
                   {userInfo.name}{" "}
@@ -80,9 +94,18 @@ const UserDetailPage: React.FC<Props> = ({ params }) => {
                   <span className="opacity-60">Location: </span>
                   {userInfo.country}
                 </span>
-                {/* <span>
-                  <span className="opacity-60">Member from: </span>02/23/2024
-                </span> */}
+                <span>
+                  <span className="opacity-60">Industry: </span>
+                  ASDF
+                </span>
+                <span>
+                  <span className="opacity-60">Activity: </span>
+                  ASDF
+                </span>
+                <span>
+                  <span className="opacity-60">Volume: </span>
+                  ASDF
+                </span>
               </div>
             </div>
             <div className="p-24 md:p-32 rounded-8 bg-secondary-100/20 dark:bg-white/5 w-full">
@@ -133,6 +156,15 @@ const UserDetailPage: React.FC<Props> = ({ params }) => {
                     {userInfo.isKnowYourBusinessPassed ? "Verified" : "Not Verified"}
                   </span>
                 </span>
+                <AnimatedSlideButton
+                  onClick={() => {
+                    handleActiveUser();
+                  }}
+                  className=" w-fit text-primary-200 dark:text-white text-14 font-normal py-12 px-24 border border-primary-200 dark:border-secondary-300 rounded-full"
+                  backClassName="from-primary-100 to-secondary-100 dark:from-primary-400 dark:to-secondary-300 "
+                >
+                  {userInfo.isKnowYourBusinessPassed ? "Disapprove Compliance" : "Approve Compliance"}
+                </AnimatedSlideButton>
               </div>
             </div>
           </div>
