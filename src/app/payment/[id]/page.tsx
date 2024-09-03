@@ -83,12 +83,11 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
       setDepositInfo(result);
 
       const selectedCurrency = paymentInfo.acceptableCurrencies.find((item) => item.currencyId === currencies[currency].key);
-      if (!selectedCurrency) {
-        setPaymentLinkData(result?.paymentDestination);
-        return;
-      }
-
-      const link = `ethereum:${selectedCurrency.tokenContract}@${selectedCurrency.chainId}/transfer?address=${result?.paymentDestination}&uint256=${paymentInfo?.amount}e18`;
+      
+      const link = !selectedCurrency
+        ? result?.paymentDestination
+        : `ethereum:${selectedCurrency.tokenContract}@${selectedCurrency.chainId}/transfer?address=${result?.paymentDestination}&uint256=${paymentInfo?.amount}e18`;
+      
       setPaymentLinkData(link);
 
       setStatus(60);
@@ -219,7 +218,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
                   )}
                   <div className={`w-full max-w-300 `}>
                     {hash ? (
-                      <ProgressBar percentage={(confirmStep / totalConfirmations) * 100} label='Confirmations' progress={`${confirmStep}/${totalConfirmations} (${Math.floor((confirmStep / totalConfirmations) * 100)})`} />
+                      <ProgressBar percentage={(confirmStep / totalConfirmations) * 100} label='Confirmations' progress={`${confirmStep}/${totalConfirmations} (${Math.floor((confirmStep / totalConfirmations) * 100)}%)`} />
                     ) : (
                       <div className="border-4 border-secondary-200">
                         <QRCode
