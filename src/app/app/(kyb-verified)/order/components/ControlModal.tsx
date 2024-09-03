@@ -9,7 +9,6 @@ import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
 import AppCurrencySelect from "@/components/global/AppCurrencySelect";
 import { isValidEmail } from "@/utils/string.utils";
 import DatePicker from "@/components/global/DatePicker";
-import AppCheckbox from "@/components/global/AppCheckbox";
 
 type Props = {
   isOpen: boolean;
@@ -36,11 +35,6 @@ const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext, data }) => {
   const [payerAddress, setPayerAddress] = useState({ value: "", error: "" });
   const [payerDOB, setPayerDOB] = useState({ value: null, error: "" });
   const [payerPOB, setPayerPOB] = useState({ value: "", error: "" });
-  const [isAcceptable, setIsAcceptable] = useState(false);
-  const [acceptableCurrency, setAcceptableCurrency] = useState<{ value: ICurrency | null; error: string }>({
-    value: null,
-    error: "",
-  });
 
   const handleClick = () => {
     let temp = 0;
@@ -81,11 +75,7 @@ const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext, data }) => {
       temp++;
       setPayerPOB({ ...payerPOB, error: "This field required." });
     }
-    console.log(isAcceptable, acceptableCurrency);
-    if (isAcceptable && !acceptableCurrency.value) {
-      temp++;
-      setAcceptableCurrency({ ...acceptableCurrency, error: "Acceptable currency required." });
-    }
+
     if (temp > 0) return;
     onNext(
       parseFloat(amount.value),
@@ -120,8 +110,6 @@ const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext, data }) => {
         setPayerName({ value: "", error: "" });
         setPayerDOB({ value: null, error: "" });
         setPayerPOB({ value: "", error: "" });
-        setIsAcceptable(false);
-        setAcceptableCurrency({ value: null, error: "" });
       }}
       className="relative z-50 bg-white dark:bg-primary-800 w-full max-w-640  rounded-12 shadow-md m-auto"
       overlayClassName="bg-black/50 backdrop-blur-md fixed left-0 top-0 w-full h-full z-40 px-8 py-32 overflow-y-auto flex items-start justify-center"
@@ -216,25 +204,6 @@ const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext, data }) => {
               error={payerPOB.error}
             />
           </div>
-          <AppCheckbox
-            label="Choose one acceptable currency"
-            value={isAcceptable}
-            onChange={() => {
-              setIsAcceptable(!isAcceptable);
-            }}
-          />
-          {isAcceptable && (
-            <AppCurrencySelect
-              data={currencies}
-              value={acceptableCurrency.value}
-              placeholder="Select Acceptable Currency"
-              label="Acceptable"
-              error={acceptableCurrency.error}
-              onChange={(selected) => {
-                setAcceptableCurrency({ value: selected, error: "" });
-              }}
-            ></AppCurrencySelect>
-          )}
           <AnimatedSlideButton
             onClick={handleClick}
             className="text-primary-200 dark:text-white text-20 py-12 px-32 border border-primary-200 dark:border-secondary-300  rounded-full mt-8"
