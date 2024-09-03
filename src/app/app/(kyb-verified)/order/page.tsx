@@ -19,8 +19,10 @@ import { IPayment } from "@/@types/data";
 import useAppSelector from "@/hooks/global/useAppSelector";
 import { apiAdminDeleteOrder, apiAdminPaymentHistory } from "@/api/admin.api";
 import QrCodeModal from "./components/QrCodeModal";
+import { useRouter } from "next/navigation";
 
 const OrderPage = () => {
+  const router = useRouter();
   const { setLoading } = useContext(LoadingContext);
   const [paymentOrders, setPaymentOrders] = useState<IPayment[]>([]);
   const [searchIndex, setSearchIndex] = useState("");
@@ -96,7 +98,10 @@ const OrderPage = () => {
       ]);
       toast.success("Generated new link successfully.");
       setControlModalOpen(null);
-      setQrCodeModalOpen("asdf");
+
+      if (!!result.paymentId) {
+        router.push(`/payment/${result.paymentId}`);
+      }      
     } catch (error) {
       toast.error("Server error.");
     }
