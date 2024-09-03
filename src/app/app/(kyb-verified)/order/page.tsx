@@ -100,8 +100,8 @@ const OrderPage = () => {
       setControlModalOpen(null);
 
       if (!!result.paymentId) {
-        router.push(`/payment/${result.paymentId}`);
-      }      
+        location.href = `/payment/${result.paymentId}`;
+      }
     } catch (error) {
       toast.error("Server error.");
     }
