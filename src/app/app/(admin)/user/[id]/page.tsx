@@ -3,8 +3,12 @@ import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Icon } from "@iconify/react";
 
-import { apiAdminUserDetail } from "@/api/admin.api";
+import { apiAdminPaymentHistoryByUser, apiAdminUserDetail } from "@/api/admin.api";
 import { IUser } from "@/@types/data";
+import Link from "next/link";
+import { formattedTime } from "@/utils/string.utils";
+import { PAYMENT_STATE } from "@/@types/common";
+import Pagination from "rc-pagination/lib/Pagination";
 
 type Props = {
   params: {
@@ -14,8 +18,9 @@ type Props = {
 
 const UserDetailPage: React.FC<Props> = ({ params }) => {
   const [userInfo, setUserInfo] = useState<IUser | null>(null);
-  // const [paymentOrders, setPaymentOrders] = useState([]);
+  const [paymentOrders, setPaymentOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
   const id = params.id;
 
   const handleGetUser = async () => {
@@ -23,6 +28,9 @@ const UserDetailPage: React.FC<Props> = ({ params }) => {
     try {
       const result = await apiAdminUserDetail(id);
       setUserInfo(result);
+      const payments = await apiAdminPaymentHistoryByUser(id);
+      console.log(payments);
+      setPaymentOrders(payments);
     } catch (error) {
       console.log(error);
       toast.error("Server error.");
@@ -37,7 +45,7 @@ const UserDetailPage: React.FC<Props> = ({ params }) => {
 
   return (
     <div className="flex flex-col gap-24 lg:gap-32 lg:px-48 lg:py-64 py-32 p-8 text-14">
-      <h4 className="w-fit g-header-app">User Detail</h4>
+      <h4 className="w-fit g-header-app">Company Detail</h4>
 
       {isLoading ? (
         <div className="text-primary-200 dark:text-white/70 p-12 text-center">
@@ -47,7 +55,7 @@ const UserDetailPage: React.FC<Props> = ({ params }) => {
         <div className="flex flex-col gap-32">
           <div className="flex flex-col md:flex-row gap-16">
             <div className="p-24 md:p-32 rounded-8 bg-secondary-100/20 dark:bg-white/5 w-full">
-              <div className="text-20 font-bold text-primary-200 dark:text-secondary-200"> User Detail</div>
+              <div className="text-20 font-bold text-primary-200 dark:text-secondary-200"> Summary</div>
               <div className="flex flex-col gap-16 mt-18 text-primary-200 dark:text-white">
                 <span>
                   <span className="opacity-60">Name: </span>
@@ -92,12 +100,16 @@ const UserDetailPage: React.FC<Props> = ({ params }) => {
                     1,323 <span className="opacity-50">EUR</span>
                   </span>
                 </div>
-                <div className="flex items-center gap-8">
-                  <Icon icon={"cryptocurrency-color:gbp"} className="w-24 h-24" />
-                  <span>
-                    1,323 <span className="opacity-50">GBP</span>
-                  </span>
-                </div>
+              </div>
+              <div className="flex flex-col gap-16 mt-18 text-primary-200 dark:text-white">
+                <span>
+                  <span className="opacity-60">Total Transactions: </span>
+                  {paymentOrders.length} Transactions
+                </span>
+                <span>
+                  <span className="opacity-60">Total Volume: </span>
+                  1234 EUR
+                </span>
               </div>
             </div>
             <div className="p-24 md:p-32 rounded-8 bg-secondary-100/20 dark:bg-white/5 w-full">
@@ -110,13 +122,13 @@ const UserDetailPage: React.FC<Props> = ({ params }) => {
                   </span>
                 </span>
                 <span>
-                  <span className="opacity-60">Shufti Pro KYB: </span>
+                  <span className="opacity-60">KYB State: </span>
                   <span className={`${userInfo.isKnowYourBusinessCompleted ? "text-success" : "text-error"}`}>
                     {userInfo.isKnowYourBusinessCompleted ? "Verified" : "Not Verified"}
                   </span>
                 </span>
                 <span>
-                  <span className="opacity-60">Manual KYB Check: </span>
+                  <span className="opacity-60">Compliance State: </span>
                   <span className={`${userInfo.isKnowYourBusinessPassed ? "text-success" : "text-error"}`}>
                     {userInfo.isKnowYourBusinessPassed ? "Verified" : "Not Verified"}
                   </span>
@@ -124,42 +136,48 @@ const UserDetailPage: React.FC<Props> = ({ params }) => {
               </div>
             </div>
           </div>
-          {/* <div className="w-full overflow-x-auto">
-            <table className="w-full table-fixed min-w-800 text-primary-200 dark:text-white/70">
+          <div className="w-full overflow-x-auto hidden lg:block">
+            <table className="w-full text-primary-200 dark:text-white/70">
               <thead>
                 <tr className="border-b border-primary-200/20 dark:border-white/10">
-                  <th className="px-8 py-16 text-left w-160">Payment ID</th>
-                  <th className="px-8 py-16 text-left w-160">Payment Link</th>
-                  <th className="px-8 py-16 text-left w-120">From</th>
-                  <th className="px-8 py-16 text-left w-120">To</th>
-                  <th className="px-8 py-16 text-left w-120">Amount</th>
-                  <th className="px-8 py-16 text-left w-120">Status</th>
-                  <th className="px-8 py-16 text-left w-160">Date</th>
+                  <th className="px-8 py-16 text-left w-200">Payer</th>
+                  <th className="px-8 py-16 text-left w-160">Amount</th>
+                  <th className="px-8 py-16 text-left w-160">Reference</th>
+                  <th className="px-8 py-16 text-left w-160">State</th>
+                  <th className="px-8 py-16 text-left w-120">Date</th>
+                  <th className="px-8 py-16 text-right w-120">Actions</th>
                 </tr>
               </thead>
               <tbody>
-                {![paymentOrders].length ? (
+                {!paymentOrders.length ? (
                   <tr>
-                    <td colSpan={7} className="text-error p-24 lg:text-center text-left">
-                      No History
+                    <td colSpan={6} className="text-error p-24 text-center">
+                      No Order Links
                     </td>
                   </tr>
                 ) : (
                   <>
-                    {paymentOrders.map((item, i) => {
+                    {paymentOrders.slice(currentPage * 10 - 10, currentPage * 10).map((item, i) => {
                       return (
-                        <tr key={i} className="even:bg-secondary-100/10 dark:even:bg-[#ffffff04]">
-                          <td className="px-8 py-16">{item.id}</td>
-                          <td className="px-8 py-16">{item.link}</td>
-                          <td className="px-8 py-16">{item.from}</td>
-                          <td className="px-8 py-16">{item.to}</td>
+                        <tr key={i} className="odd:bg-secondary-100/10 dark:odd:bg-[#ffffff04]">
+                          <td className="px-8 py-16">{item.payer}</td>
                           <td className="px-8 py-16">
-                            {item.amount} <span className="text-white/30">{item.currency.name}</span>
+                            {item.amount} <span className="opacity-50">{item.currency}</span>
                           </td>
-                          <td className={`px-8 py-16 ${item.status === "Completed" ? "text-success" : ""}`}>
-                            {item.status}
+                          <td className="px-8 py-16">{item.description}</td>
+                          <td className={`px-8 py-16`}>{PAYMENT_STATE[item.state] || "Error"}</td>
+                          <td className="px-8 py-16">{formattedTime(item.requested)}</td>
+                          <td className="px-8">
+                            <div className="flex items-center gap-16 justify-end">
+                              <Link
+                                href={`/app/order/${item.paymentId}`}
+                                target="_blank"
+                                className="text-primary-200/30 dark:text-white/40 u-transition-color hover:text-info"
+                              >
+                                <Icon icon="ph:eye-fill" className="w-18 h-18"></Icon>
+                              </Link>
+                            </div>
                           </td>
-                          <td className={`px-8 py-16 `}>{item.date}</td>
                         </tr>
                       );
                     })}
@@ -167,7 +185,19 @@ const UserDetailPage: React.FC<Props> = ({ params }) => {
                 )}
               </tbody>
             </table>
-          </div> */}
+          </div>
+          <Pagination
+            current={currentPage}
+            onChange={setCurrentPage}
+            showSizeChanger={false}
+            total={paymentOrders.length}
+            hideOnSinglePage={true}
+            className="flex items-center gap-8 text-14"
+            prevIcon={<Icon icon="icon-park-outline:left" />}
+            nextIcon={<Icon icon="icon-park-outline:right" />}
+            showLessItems
+            showTitle={false}
+          />
         </div>
       ) : (
         <div className="text-primary-200 dark:text-white/70">Something went wrong. Please check the link again.</div>

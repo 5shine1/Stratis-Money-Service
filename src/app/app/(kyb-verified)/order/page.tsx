@@ -183,7 +183,7 @@ const OrderPage = () => {
                   <tbody>
                     {!filteredData.length ? (
                       <tr>
-                        <td colSpan={5} className="text-error p-24 text-center">
+                        <td colSpan={6} className="text-error p-24 text-center">
                           No Order Links
                         </td>
                       </tr>
