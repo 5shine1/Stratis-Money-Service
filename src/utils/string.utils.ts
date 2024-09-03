@@ -14,7 +14,7 @@ export const isValidPassword = (password: string) => {
 };
 
 export const isValidPhoneNumber = (number: string) => {
-  if (/^\+?[1-9]\d{1,14}$/.test(number)) return true;
+  if (/^\+?[0-9]\d{1,14}$/.test(number)) return true;
   return false;
 };
 
