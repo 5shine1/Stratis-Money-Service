@@ -1,10 +1,12 @@
+import React, { useState } from "react";
+import Modal from "react-modal";
+
 import { ICurrency } from "@/@types/common";
 import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
 import AppCurrencySelect from "@/components/global/AppCurrencySelect";
 import AppInput from "@/components/global/AppInput";
 import useAppSelector from "@/hooks/global/useAppSelector";
-import React, { useState } from "react";
-import Modal from "react-modal";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 type Props = {
   isOpen: boolean;
@@ -18,37 +20,47 @@ const RequestWithdrawModal: React.FC<Props> = ({ isOpen, onClose }) => {
     <Modal
       isOpen={isOpen}
       onRequestClose={onClose}
-      className="relative z-50 overflow-hidden bg-white dark:bg-primary-800 w-full max-w-400 p-24 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-12 shadow-md"
+      className="relative z-50 overflow-hidden bg-white dark:bg-primary-800 w-full max-w-480 p-24 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-12 shadow-md"
       overlayClassName="bg-black/50 backdrop-blur-md fixed left-0 top-0 w-full h-full z-40 px-8 py-32"
     >
-      <AppCurrencySelect
-        data={currencies}
-        value={currency.value}
-        placeholder="Select Currency"
-        label="Currency"
-        error={currency.error}
-        onChange={(selected) => {
-          setCurrency({ value: selected, error: "" });
-        }}
-      ></AppCurrencySelect>
-      <AppInput
-        value={amount.value}
-        onChange={(e) => {
-          setAmount({ error: "", value: e });
-        }}
-        placeholder="0"
-        label="Amount"
-        error={amount.error}
-        pattern="^([0-9]+(?:[.,][0-9]*)?)$"
-        inputMode="decimal"
+      <Icon
+        icon="zondicons:close-outline"
+        className="w-32 h-32 text-primary-200 dark:text-white/50 dark:hover:text-white/80 hover:text-primary-500 u-transition-color cursor-pointer absolute right-20 top-20"
+        onClick={onClose}
       />
-      <AnimatedSlideButton
-        onClick={() => {}}
-        className="text-primary-200 dark:text-white text-20 py-12 px-32 border border-primary-200 dark:border-secondary-300  rounded-full mt-8"
-        backClassName="from-primary-100 to-secondary-100 dark:from-primary-400 dark:to-secondary-300 "
-      >
-        Request Withdraw
-      </AnimatedSlideButton>
+      <div className="flex flex-col gap-32">
+        <h4 className="g-button-text w-fit pr-30">Request Withdraw</h4>
+        <div className="flex flex-col gap-16">
+          <AppCurrencySelect
+            data={currencies}
+            value={currency.value}
+            placeholder="Select Currency"
+            label="Currency"
+            error={currency.error}
+            onChange={(selected) => {
+              setCurrency({ value: selected, error: "" });
+            }}
+          ></AppCurrencySelect>
+          <AppInput
+            value={amount.value}
+            onChange={(e) => {
+              setAmount({ error: "", value: e });
+            }}
+            placeholder="0"
+            label="Amount"
+            error={amount.error}
+            pattern="^([0-9]+(?:[.,][0-9]*)?)$"
+            inputMode="decimal"
+          />
+          <AnimatedSlideButton
+            onClick={() => {}}
+            className="text-primary-200 dark:text-white text-20 py-12 px-32 border border-primary-200 dark:border-secondary-300  rounded-full mt-8"
+            backClassName="from-primary-100 to-secondary-100 dark:from-primary-400 dark:to-secondary-300 "
+          >
+            Request Withdraw
+          </AnimatedSlideButton>
+        </div>
+      </div>
     </Modal>
   );
 };
