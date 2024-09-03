@@ -80,7 +80,7 @@ const UserPage = () => {
   return (
     <>
       <div className="flex flex-col gap-24 lg:gap-32 lg:px-48 lg:py-64 py-32 p-8 text-14">
-        <h4 className="w-fit g-header-app">Users</h4>
+        <h4 className="w-fit g-header-app">Companies</h4>
         <div className="flex flex-col gap-32">
           <div className="flex items-stretch md:items-center justify-between gap-12  md:flex-row flex-col ">
             <div className="w-full md:max-w-320">
