@@ -22,6 +22,8 @@ export interface IAuth {
   isKnowYourBusinessCompleted: boolean;
   isKnowYourBusinessPassed: boolean;
   role: ROLES;
+  country: string;
+  mobileNumber: string;
 }
 
 export interface IInputSelectItem {

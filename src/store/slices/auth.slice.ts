@@ -10,6 +10,8 @@ const initialState: IAuth = {
   isKnowYourBusinessCompleted: false,
   isKnowYourBusinessPassed: false,
   role: ROLES.GUEST,
+  country: "",
+  mobileNumber: "",
 };
 
 export const authSlice = createSlice({
