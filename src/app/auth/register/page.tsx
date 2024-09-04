@@ -96,10 +96,10 @@ const RegisterPage = () => {
         password.value,
         name.value,
         country.value,
-        phone.value,
         industry.value,
         activity.value,
-        volume.value
+        volume.value,
+        phone.value
       );
       if (result === true) {
         toast.success("Registered successfully.");
