@@ -35,12 +35,8 @@ const LoginPage = () => {
         localStorage.setItem("stratis-auth-refresh", result?.data?.refreshToken);
         dispatch(
           setAuth({
+            ...result?.data,
             email: email.value,
-            userId: result?.data?.userId,
-            name: result?.data?.name,
-            isVerifiedEmail: result?.data?.isVerifiedEmail,
-            isKnowYourBusinessCompleted: result?.data?.isKnowYourBusinessCompleted,
-            isKnowYourBusinessPassed: result?.data?.isKnowYourBusinessPassed,
             role: result?.data?.isAdmin ? ROLES.ADMIN : result?.data?.isBusiness ? ROLES.BUSINESS : ROLES.GUEST,
           })
         );
