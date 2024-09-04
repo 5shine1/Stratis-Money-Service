@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import toast from "react-hot-toast";
@@ -10,6 +10,7 @@ import { LoadingContext } from "@/components/providers/LoadingProvider";
 import { apiResendVerificationEmail } from "@/api/auth.api";
 
 const VerifyEmailSendPage = () => {
+  const [isSent, setIsSent] = useState(false);
   const searchParams = useSearchParams();
   const email = searchParams.get("email");
   const { setLoading } = useContext(LoadingContext);
@@ -19,18 +20,15 @@ const VerifyEmailSendPage = () => {
     setLoading(true);
     try {
       const result = await apiResendVerificationEmail(email);
-      if (result) toast.success("Sent an email successfully.");
-      else toast.error("Something went wrong.");
+      if (result) {
+        toast.success("Sent an email successfully.");
+        setIsSent(true);
+      } else toast.error("Something went wrong.");
     } catch (error) {
       toast.error("Something went wrong.");
     }
     setLoading(false);
   };
-  useEffect(() => {
-    handleResendEmail();
-
-    return () => {};
-  }, [email]); // eslint-disable-line
 
   return (
     <main className="relative w-full overflow-x-hidden">
@@ -57,7 +55,7 @@ const VerifyEmailSendPage = () => {
                 onClick={handleResendEmail}
                 className=" text-18 py-12 px-32 w-fit border border-secondary-300 rounded-full mt-16 text-white"
               >
-                Resend Email
+                {isSent ? "Resend" : "Send"} Email
               </AnimatedSlideButton>
             </div>
           </div>
