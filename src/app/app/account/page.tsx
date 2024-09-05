@@ -17,9 +17,8 @@ const AccountPage = () => {
   const { setLoading } = useContext(LoadingContext);
   const [isKycAsk, setIsKycAsk] = useState(true);
   const [bankModalShow, setBankModalShow] = useState(false);
-  const { userId, name, role, email, isKnowYourBusinessCompleted, isKnowYourBusinessPassed } = useAppSelector(
-    (state) => state.auth
-  );
+  const { userId, name, role, email, isKnowYourBusinessCompleted, isKnowYourBusinessPassed, mobileNumber, country } =
+    useAppSelector((state) => state.auth);
   const { bankAccountHolder, bankIban, bankBic } = useAppSelector((state) => state.setting);
   const dispatch = useAppDispatch();
 
@@ -59,7 +58,7 @@ const AccountPage = () => {
 
   useEffect(() => {
     getSetting();
-  }, []);
+  }, []); //eslint-disable-line
 
   return (
     <>
@@ -89,11 +88,11 @@ const AccountPage = () => {
 
               <div className="flex gap-4 flex-col sm:flex-row break-all">
                 <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Phone number</span>
-                +12737713322
+                {mobileNumber}
               </div>
               <div className="flex gap-4 flex-col sm:flex-row break-all">
                 <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Address</span>
-                United States
+                {country}
               </div>
             </div>
           </div>
