@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import toast from "react-hot-toast";
 import { Icon } from "@iconify/react";
 
@@ -38,16 +38,14 @@ const AccountPage = () => {
     try {
       const result = await apiGetSetting();
       dispatch(setSettings(result?.businessSettings));
-    } catch (error) {
-      console.log(error);
-      toast.error("Server error.");
-    }
+    } catch (error) {}
   };
   const setSetting = async (account: string, iban: string, bic: string) => {
     setLoading(true);
     try {
       const result = await apiSetSetting(userId, true, account, iban, bic);
       if (result) toast.success("Bank connected successfully");
+      getSetting();
       setBankModalShow(false);
     } catch (error) {
       console.log(error);
@@ -55,10 +53,6 @@ const AccountPage = () => {
     }
     setLoading(false);
   };
-
-  useEffect(() => {
-    getSetting();
-  }, []); //eslint-disable-line
 
   return (
     <>
