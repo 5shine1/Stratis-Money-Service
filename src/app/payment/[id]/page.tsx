@@ -322,7 +322,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
                     <div className="text-24 break-words">
                       <span className="break-all md:break-normal">{paymentInfo?.payeeName} </span>
                       <span className="text-white/50">has requested</span>{" "}
-                      <span className="break-all md:break-normal">{paymentInfo?.payer}</span>{" "}
+                      <span className="break-all md:break-normal">{paymentInfo?.customerName}</span>{" "}
                       <span className="text-white/50">to pay</span> {paymentInfo?.amount} {paymentInfo?.currencySymbol}.
                     </div>
                     <div className=" text-16 text-white/60">{paymentInfo?.description}</div>
