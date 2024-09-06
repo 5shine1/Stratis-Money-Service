@@ -31,6 +31,12 @@ export interface IUser {
   knowYourBusinessLink: null | string;
   mobileNumber: string;
   name: string;
+  industry?: string;
+  activity?: string;
+  volume?: string;
+  totalBalance?: { EUR: string; USD: string };
+  transactionCount?: number;
+  transactionVolume?: { EUR: string; USD: string };
 }
 
 export interface IWithdrawHistory {
