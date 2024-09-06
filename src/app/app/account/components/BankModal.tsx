@@ -4,6 +4,7 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 
 import AppInput from "@/components/global/AppInput";
 import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
+import { isValidBankIBAN, isValidBIC } from "@/utils/string.utils";
 
 type Props = {
   isOpen: boolean;
@@ -21,9 +22,17 @@ const BankModal: React.FC<Props> = ({ isOpen, onClose, onNext }) => {
       temp++;
       setBankAccountHolder({ ...bankAccountHolder, error: "This field required." });
     }
+    if (!isValidBankIBAN(bankIban.value)) {
+      temp++;
+      setBankIban({ ...bankIban, error: "Invalid Bank IBAN." });
+    }
     if (!bankIban.value) {
       temp++;
       setBankIban({ ...bankIban, error: "This field required." });
+    }
+    if (!isValidBIC(bankBic.value)) {
+      temp++;
+      setBankBic({ ...bankBic, error: "Invalid Bank BIC." });
     }
     if (!bankBic.value) {
       temp++;
