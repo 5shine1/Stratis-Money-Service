@@ -46,6 +46,7 @@ const UserDetailPage: React.FC<Props> = ({ params }) => {
     try {
       await apiActivateUser(userId, status);
       setUserInfo({ ...userInfo, isKnowYourBusinessPassed: status });
+      toast.success(`${status ? "Approved" : "Disapproved"} successfully.`);
     } catch (error) {
       toast.error("Server error.");
     }
@@ -96,15 +97,15 @@ const UserDetailPage: React.FC<Props> = ({ params }) => {
                 </span>
                 <span>
                   <span className="opacity-60">Industry: </span>
-                  ASDF
+                  {userInfo.industry}
                 </span>
                 <span>
                   <span className="opacity-60">Activity: </span>
-                  ASDF
+                  {userInfo.activity}
                 </span>
                 <span>
                   <span className="opacity-60">Volume: </span>
-                  ASDF
+                  {userInfo.volume}
                 </span>
               </div>
             </div>
@@ -114,24 +115,24 @@ const UserDetailPage: React.FC<Props> = ({ params }) => {
                 <div className="flex  items-center gap-8">
                   <Icon icon={"cryptocurrency-color:usd"} className="w-24 h-24" />
                   <span>
-                    1,323 <span className="opacity-50">USD</span>
+                    {userInfo.totalBalance.USD} <span className="opacity-50">USD</span>
                   </span>
                 </div>
                 <div className="flex items-center gap-8">
                   <Icon icon={"cryptocurrency-color:eur"} className="w-24 h-24" />
                   <span>
-                    1,323 <span className="opacity-50">EUR</span>
+                    {userInfo.totalBalance.EUR} <span className="opacity-50">EUR</span>
                   </span>
                 </div>
               </div>
               <div className="flex flex-col gap-16 mt-18 text-primary-200 dark:text-white">
                 <span>
                   <span className="opacity-60">Total Transactions: </span>
-                  {paymentOrders.length} Transactions
+                  {userInfo.transactionCount} Transactions
                 </span>
                 <span>
                   <span className="opacity-60">Total Volume: </span>
-                  1234 EUR
+                  {userInfo.transactionVolume.USD} USD / {userInfo.transactionVolume.EUR} EUR
                 </span>
               </div>
             </div>
