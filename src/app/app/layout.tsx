@@ -6,6 +6,8 @@ import useAppDispatch from "@/hooks/global/useAppDispatch";
 import { setCurrency } from "@/store/slices/payment.slice";
 import { apiGetCurrencies } from "@/api/payment.api";
 import AppSidebar from "./components/Sidebar";
+import { apiGetSetting } from "@/api/auth.api";
+import { setSettings } from "@/store/slices/setting.slice";
 
 const AppLayout: React.FC<PropsWithChildren> = ({ children }) => {
   const router = useRouter();
@@ -16,8 +18,15 @@ const AppLayout: React.FC<PropsWithChildren> = ({ children }) => {
     const result = await apiGetCurrencies();
     if (result) dispatch(setCurrency(result));
   };
+  const getSetting = async () => {
+    try {
+      const result = await apiGetSetting();
+      dispatch(setSettings(result?.businessSettings));
+    } catch (error) {}
+  };
   useEffect(() => {
     handleGetCurrencies();
+    getSetting();
   }, []); //eslint-disable-line
 
   if (isAuthLoading) return;
