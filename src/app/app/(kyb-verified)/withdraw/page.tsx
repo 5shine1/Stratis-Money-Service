@@ -8,6 +8,10 @@ import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
 import { apiWithdrawHistory } from "@/api/payment.api";
 import RequestWithdrawModal from "./components/RequestWithdrawModal";
 import useAppSelector from "@/hooks/global/useAppSelector";
+import { ROLES } from "@/@types/common";
+import { setAuth } from "@/store/slices/auth.slice";
+import useAppDispatch from "@/hooks/global/useAppDispatch";
+import { apiUserInfo } from "@/api/auth.api";
 
 const WithdrawPage = () => {
   const [withdrawHistory, setWithdrawHistory] = useState([]);
@@ -15,7 +19,8 @@ const WithdrawPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [isRequestModalOpen, setIsRequestModalOpen] = useState(false);
-  const { totalBalance } = useAppSelector((state) => state.auth);
+  const auth = useAppSelector((state) => state.auth);
+  const dispatch = useAppDispatch();
 
   const filteredData = useMemo(
     () =>
@@ -24,6 +29,18 @@ const WithdrawPage = () => {
       }),
     [withdrawHistory, searchIndex]
   );
+
+  const handleGetBalance = async () => {
+    try {
+      const result = await apiUserInfo();
+      dispatch(
+        setAuth({
+          ...auth,
+          totalBalance: result?.totalBalance,
+        })
+      );
+    } catch (error) {}
+  };
 
   const handleGetOrders = async () => {
     setIsLoading(true);
@@ -38,6 +55,7 @@ const WithdrawPage = () => {
   };
 
   useEffect(() => {
+    handleGetBalance();
     handleGetOrders();
     return () => {};
   }, []);
@@ -53,13 +71,13 @@ const WithdrawPage = () => {
               <div className="flex  items-center gap-8">
                 <Icon icon={"cryptocurrency-color:usd"} className="w-24 h-24" />
                 <span>
-                  {totalBalance?.USD || 0} <span className="opacity-50">USD</span>
+                  {auth?.totalBalance?.USD || 0} <span className="opacity-50">USD</span>
                 </span>
               </div>
               <div className="flex items-center gap-8">
                 <Icon icon={"cryptocurrency-color:eur"} className="w-24 h-24" />
                 <span>
-                  {totalBalance?.EUR || 0} <span className="opacity-50">EUR</span>
+                  {auth?.totalBalance?.EUR || 0} <span className="opacity-50">EUR</span>
                 </span>
               </div>
 
