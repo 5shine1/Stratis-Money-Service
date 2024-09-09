@@ -7,6 +7,7 @@ import { Icon } from "@iconify/react";
 import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
 import { apiWithdrawHistory } from "@/api/payment.api";
 import RequestWithdrawModal from "./components/RequestWithdrawModal";
+import useAppSelector from "@/hooks/global/useAppSelector";
 
 const WithdrawPage = () => {
   const [withdrawHistory, setWithdrawHistory] = useState([]);
@@ -14,6 +15,7 @@ const WithdrawPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [isRequestModalOpen, setIsRequestModalOpen] = useState(false);
+  const { totalBalance } = useAppSelector((state) => state.auth);
 
   const filteredData = useMemo(
     () =>
@@ -51,13 +53,13 @@ const WithdrawPage = () => {
               <div className="flex  items-center gap-8">
                 <Icon icon={"cryptocurrency-color:usd"} className="w-24 h-24" />
                 <span>
-                  1,323 <span className="opacity-50">USD</span>
+                  {totalBalance?.USD || 0} <span className="opacity-50">USD</span>
                 </span>
               </div>
               <div className="flex items-center gap-8">
                 <Icon icon={"cryptocurrency-color:eur"} className="w-24 h-24" />
                 <span>
-                  1,323 <span className="opacity-50">EUR</span>
+                  {totalBalance?.EUR || 0} <span className="opacity-50">EUR</span>
                 </span>
               </div>
 

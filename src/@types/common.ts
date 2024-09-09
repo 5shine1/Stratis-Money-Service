@@ -24,6 +24,7 @@ export interface IAuth {
   role: ROLES;
   country: string;
   mobileNumber: string;
+  totalBalance?: { EUR: number; USD: number };
 }
 
 export interface IInputSelectItem {

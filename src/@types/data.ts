@@ -34,9 +34,9 @@ export interface IUser {
   industry?: string;
   activity?: string;
   volume?: string;
-  totalBalance?: { EUR: string; USD: string };
+  totalBalance?: { EUR: number; USD: number };
   transactionCount?: number;
-  transactionVolume?: { EUR: string; USD: string };
+  transactionVolume?: { EUR: number; USD: number };
 }
 
 export interface IWithdrawHistory {
