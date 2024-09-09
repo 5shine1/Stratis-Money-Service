@@ -115,13 +115,13 @@ const UserDetailPage: React.FC<Props> = ({ params }) => {
                 <div className="flex  items-center gap-8">
                   <Icon icon={"cryptocurrency-color:usd"} className="w-24 h-24" />
                   <span>
-                    {userInfo.totalBalance.USD} <span className="opacity-50">USD</span>
+                    {userInfo.totalBalance?.USD} <span className="opacity-50">USD</span>
                   </span>
                 </div>
                 <div className="flex items-center gap-8">
                   <Icon icon={"cryptocurrency-color:eur"} className="w-24 h-24" />
                   <span>
-                    {userInfo.totalBalance.EUR} <span className="opacity-50">EUR</span>
+                    {userInfo.totalBalance?.EUR} <span className="opacity-50">EUR</span>
                   </span>
                 </div>
               </div>
