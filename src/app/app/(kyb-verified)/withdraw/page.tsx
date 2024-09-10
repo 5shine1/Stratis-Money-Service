@@ -8,7 +8,6 @@ import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
 import { apiWithdrawHistory } from "@/api/payment.api";
 import RequestWithdrawModal from "./components/RequestWithdrawModal";
 import useAppSelector from "@/hooks/global/useAppSelector";
-import { ROLES } from "@/@types/common";
 import { setAuth } from "@/store/slices/auth.slice";
 import useAppDispatch from "@/hooks/global/useAppDispatch";
 import { apiUserInfo } from "@/api/auth.api";
