@@ -145,3 +145,13 @@ export const apiSetSetting = async (
     throw error;
   }
 };
+
+export const apiInviteAgent = async (email: string, businessOwnerId: string) => {
+  try {
+    const result = await axiosInstance.post("/api/Identity/InviteAgent", { email, businessOwnerId });
+    if (result?.data?.isSucceed === false) throw "Something went wrong";
+    return result?.data?.isSucceed;
+  } catch (error) {
+    throw error;
+  }
+};
