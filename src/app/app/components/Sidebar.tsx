@@ -72,6 +72,19 @@ const AppSidebar: React.FC<PropsWithChildren> = ({ children }) => {
               <Icon icon="ph:hand-withdraw-thin" className="w-30 h-30 flex-none" />
               <div className={` ${isWrapped ? "block" : "hidden"}`}>Withdraw</div>
             </Link>
+            {role === ROLES.BUSINESS && (
+              <Link
+                href="/app/agent"
+                className={`p-9 flex items-center justify-start gap-12  u-transition-color rounded-8 overflow-hidden ${
+                  pathname.includes("/app/agent")
+                    ? "bg-secondary-400/80 dark:bg-primary-700"
+                    : "hover:bg-white/30 dark:hover:bg-primary-700/40"
+                }`}
+              >
+                <Icon icon="material-symbols-light:real-estate-agent-outline-rounded" className="w-30 h-30 flex-none" />
+                <div className={` ${isWrapped ? "block" : "hidden"}`}>Agent</div>
+              </Link>
+            )}
             {role === ROLES.ADMIN && (
               <Link
                 href="/app/user"
