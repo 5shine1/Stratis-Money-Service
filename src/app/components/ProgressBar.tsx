@@ -1,21 +1,21 @@
-import React from 'react';
+import React from "react";
 
 const ProgressBar = ({ label, progress, percentage }) => {
   return (
-    <div>
-      <div className="mb-10 flex justify-between items-center">
-        <h3 className="text-sm font-semibold text-gray-800 dark:text-white">{label}</h3>
-        <span className="text-sm text-white dark:text-white">{progress}</span>
+    <div className="w-full">
+      <div className="mb-10 flex justify-between gap-20 items-center text-14">
+        <div className="text-[#6B7A87]">{label}</div>
+        <span className="#BDCCD8">{progress}</span>
       </div>
       <div
-        className="flex w-full h-4 bg-gray-200 rounded-full overflow-hidden dark:bg-neutral-700"
+        className="flex w-full h-4 bg-[#192D3B] placeholder:rounded-full overflow-hidden"
         role="progressbar"
         aria-valuenow={percentage}
         aria-valuemin={0}
         aria-valuemax={100}
       >
         <div
-          className="flex flex-col justify-center rounded-full overflow-hidden bg-teal-600 text-xs text-white text-center whitespace-nowrap transition duration-500 dark:bg-blue-500"
+          className="flex flex-col justify-center rounded-full overflow-hidden bg-gradient-to-r from-[#4194B6] to-[#E2AD3A] text-xs text-white text-center whitespace-nowrap transition duration-500 "
           style={{ width: `${percentage}%` }}
         ></div>
       </div>
