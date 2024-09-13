@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import { Icon } from "@iconify/react/dist/iconify.js";
 
@@ -92,6 +92,10 @@ const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext }) => {
       payerPOB.value
     );
   };
+
+  useEffect(() => {
+    setCurrency({ value: currencies[0], error: "" });
+  }, [currencies]);
 
   return (
     <Modal
