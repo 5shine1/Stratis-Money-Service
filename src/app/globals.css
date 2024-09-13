@@ -15,29 +15,6 @@
   cursor: pointer;
   background: #031521;
 }
-/* Track */
-#mainSection ::-webkit-scrollbar-track {
-  cursor: pointer;
-  background: #fdf6e9;
-}
-.dark #mainSection ::-webkit-scrollbar-track {
-  cursor: pointer;
-  background: #031521;
-}
-.ReactModal__Overlay::-webkit-scrollbar-track {
-  cursor: pointer;
-  background: #fdf6e9;
-}
-
-.dark .ReactModal__Overlay ::-webkit-scrollbar-track {
-  cursor: pointer;
-  background: #031521;
-}
-
-*::-webkit-scrollbar-track {
-  background: inherit;
-}
-
 /* Handle */
 ::-webkit-scrollbar-thumb {
   cursor: pointer;
@@ -60,7 +37,7 @@
   @apply outline-none;
 }
 body {
-  @apply font-inter bg-primary-800 text-white leading-tight overflow-x-hidden box-border;
+  @apply font-inter bg-primary-800 text-white leading-none overflow-x-hidden box-border;
 }
 
 h1 {
@@ -116,10 +93,14 @@ td {
 }
 
 .g-button-text {
-  background: linear-gradient(40deg, #2589ac, #db9b1e);
+  background: linear-gradient(90deg, #4194b6, #e2ad3a);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+.g-box-back {
+  background: linear-gradient(#031420, #07272d, #031420);
 }
 
 ul.rc-pagination {

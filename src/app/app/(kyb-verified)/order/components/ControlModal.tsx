@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Modal from "react-modal";
 import { Icon } from "@iconify/react/dist/iconify.js";
 
@@ -9,6 +9,8 @@ import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
 import AppCurrencySelect from "@/components/global/AppCurrencySelect";
 import { isValidEmail } from "@/utils/string.utils";
 import DatePicker from "@/components/global/DatePicker";
+import IconBox from "@/components/global/IconBox";
+import CurrencyInputSelect from "@/components/global/CurrencyInputSelect";
 
 type Props = {
   isOpen: boolean;
@@ -23,14 +25,13 @@ type Props = {
     payerDOB: string, //eslint-disable-line
     payerPOB: string //eslint-disable-line
   ) => void;
-  data: any;
 };
-const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext, data }) => {
+const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext }) => {
+  const { currencies } = useAppSelector((state) => state.payment);
   const [amount, setAmount] = useState({ value: "", error: "" });
-  const [currency, setCurrency] = useState<{ value: ICurrency | null; error: string }>({ value: null, error: "" });
+  const [currency, setCurrency] = useState<{ value: ICurrency; error: string }>({ value: currencies[0], error: "" });
   const [reference, setReference] = useState({ value: "", error: "" });
   const [payerEmail, setPayerEmail] = useState({ value: "", error: "" });
-  const { currencies } = useAppSelector((state) => state.payment);
   const [payerFirstName, setPayerFirstName] = useState({ value: "", error: "" });
   const [payerLastName, setPayerLastName] = useState({ value: "", error: "" });
   const [payerAddress, setPayerAddress] = useState({ value: "", error: "" });
@@ -94,21 +95,13 @@ const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext, data }) => {
     );
   };
 
-  useEffect(() => {
-    if (data) {
-      setAmount({ value: data.amount || "", error: "" });
-      setCurrency({ value: data.currency, error: "" });
-      setPayerEmail({ value: data.payer || "", error: "" });
-    }
-  }, [data]);
-
   return (
     <Modal
       isOpen={isOpen}
       onRequestClose={onClose}
       onAfterClose={() => {
         setAmount({ value: "", error: "" });
-        setCurrency({ value: null, error: "" });
+        setCurrency({ value: currencies[0], error: "" });
         setReference({ value: "", error: "" });
         setPayerEmail({ value: "", error: "" });
         setPayerAddress({ value: "", error: "" });
@@ -117,59 +110,46 @@ const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext, data }) => {
         setPayerDOB({ value: null, error: "" });
         setPayerPOB({ value: "", error: "" });
       }}
-      className="relative z-50 bg-white dark:bg-primary-800 w-full max-w-640  rounded-12 shadow-md m-auto"
+      className="relative z-50 g-box-back w-full max-w-740  rounded-20 shadow-md m-auto border border-modal-border"
       overlayClassName="bg-black/50 backdrop-blur-md fixed left-0 top-0 w-full h-full z-40 px-8 py-32 overflow-y-auto flex items-start justify-center"
     >
       <Icon
-        icon="zondicons:close-outline"
-        className="w-32 h-32 text-primary-200 dark:text-white/50 dark:hover:text-white/80 hover:text-primary-500 u-transition-color cursor-pointer absolute right-20 top-20"
+        icon="clarity:close-line"
+        className="w-32 h-32 text-white/50 hover:text-white/80 u-transition-color cursor-pointer absolute right-20 top-20"
         onClick={onClose}
       />
-      <div className="p-12 py-24 md:p-32 flex flex-col gap-16 md:gap-32 bg-secondary-100/20 dark:bg-transparent">
-        <h4 className="g-button-text w-fit pr-30">{data ? "Edit Detail" : "Generate New Order Link"}</h4>
+      <div className="p-12 py-24 md:p-40 flex flex-col gap-32">
+        <div className="flex items-center gap-12">
+          <IconBox icon="iconoir:link" />
+          <h4 className="g-button-text w-fit mr-30">Generate New Order Link</h4>
+        </div>
         <div className="flex flex-col gap-16 md:gap-24">
           <div className="flex items-start gap-16 md:gap-12 md:flex-row flex-col">
-            <AppInput
-              value={amount.value}
-              onChange={(e) => {
-                setAmount({ error: "", value: e });
-              }}
+            <CurrencyInputSelect
+              data={currencies}
+              amount={amount.value}
+              value={currency.value}
               placeholder="0"
               label="Amount"
-              error={amount.error}
-              pattern="^([0-9]+(?:[.,][0-9]*)?)$"
-              inputMode="decimal"
-            />
-            <AppCurrencySelect
-              data={currencies}
-              value={currency.value}
-              placeholder="Select Currency"
-              label="Currency"
-              error={currency.error}
-              onChange={(selected) => {
+              error={amount.error || currency.error}
+              onAmountChange={(e) => {
+                setAmount({ value: e, error: "" });
+              }}
+              onSelectChange={(selected) => {
                 setCurrency({ value: selected, error: "" });
               }}
-            ></AppCurrencySelect>
+            ></CurrencyInputSelect>
+            <AppInput
+              value={reference.value}
+              onChange={(e) => {
+                setReference({ error: "", value: e });
+              }}
+              placeholder="Reference"
+              label="Order Reference"
+              error={reference.error}
+              pattern="^[a-zA-Z0-9-]+$"
+            />
           </div>
-          <AppInput
-            value={reference.value}
-            onChange={(e) => {
-              setReference({ error: "", value: e });
-            }}
-            placeholder="Reference"
-            label="Order Reference"
-            error={reference.error}
-            pattern="^[a-zA-Z0-9-]+$"
-          />
-          <AppInput
-            value={payerEmail.value}
-            onChange={(e) => {
-              setPayerEmail({ error: "", value: e });
-            }}
-            placeholder="Email address"
-            label="Customer Email"
-            error={payerEmail.error}
-          />
           <div className="flex items-start gap-16 md:gap-12 md:flex-row flex-col">
             <AppInput
               value={payerFirstName.value}
@@ -191,8 +171,8 @@ const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext, data }) => {
             />
           </div>
           <div className="flex items-start gap-16 md:gap-12 md:flex-row flex-col">
-            <div className="w-full flex flex-col gap-4">
-              <span className="text-primary-500/60 dark:text-white/50 text-14">Customer Date of Birth</span>
+            <div className="w-full flex flex-col gap-8">
+              <span className="text-input-label text-14">Customer Date of Birth</span>
               <DatePicker
                 selectedDate={payerDOB.value}
                 setSelectedDate={(d) => setPayerDOB({ error: "", value: d })}
@@ -211,6 +191,16 @@ const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext, data }) => {
             />
           </div>
           <AppInput
+            value={payerEmail.value}
+            icon="iconoir:mail"
+            onChange={(e) => {
+              setPayerEmail({ error: "", value: e });
+            }}
+            placeholder="Email address"
+            label="Customer Email"
+            error={payerEmail.error}
+          />
+          <AppInput
             value={payerAddress.value}
             onChange={(e) => {
               setPayerAddress({ error: "", value: e });
@@ -219,13 +209,13 @@ const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext, data }) => {
             label="Customer Address"
             error={payerAddress.error}
           />
-          <AnimatedSlideButton
+          <button
             onClick={handleClick}
-            className="text-primary-200 dark:text-white text-20 py-12 px-32 border border-primary-200 dark:border-secondary-300  rounded-full mt-8"
-            backClassName="from-primary-100 to-secondary-100 dark:from-primary-400 dark:to-secondary-300 "
+            className="mt-16 w-full md:w-300 text-button-text text-18 font-semibold py-16  rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50"
           >
-            {data ? "Save" : "Generate"}
-          </AnimatedSlideButton>
+            Generate
+            <Icon icon={"akar-icons:arrow-cycle"} className="w-16 h-16" />
+          </button>
         </div>
       </div>
     </Modal>
