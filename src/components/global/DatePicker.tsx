@@ -130,10 +130,8 @@ const DatePicker: React.FC<Props> = ({ selectedDate, setSelectedDate, error }) =
         onChange={handleInputChange}
         onFocus={() => setShowCalendar(true)}
         readOnly
-        className={` border flex items-center px-12 gap-6 u-transition-color group rounded-6 text-14 placeholder:text-primary-500/70 dark:placeholder:text-white/40 py-12 w-full text-primary-500 dark:text-gray-200 outline-none bg-transparent ${
-          error
-            ? "border-error"
-            : "border-secondary-200 dark:border-primary-500 focus-within:border-secondary-400 dark:focus-within:border-primary-400"
+        className={` border flex items-center px-12 gap-6 u-transition-color group rounded-6 text-14 placeholder:text-input-placeholder py-12 w-full text-input-text outline-none bg-transparent ${
+          error ? "border-error" : "border-input-border focus-within:border-primary-400"
         }`}
         placeholder="YYYY-MM-DD"
       />
