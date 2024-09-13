@@ -52,7 +52,6 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
         }),
     [currencies, currency, currencyList]
   );
-  console.log(networkList);
   useEffect(() => {
     const fetchCurrencies = async () => {
       if (paymentInfo?.acceptableCurrencies) {
