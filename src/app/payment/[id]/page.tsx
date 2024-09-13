@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import QRCode from "react-qr-code";
 import Link from "next/link";
 import toast from "react-hot-toast";
@@ -31,6 +31,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
   const [hash, setHash] = useState("");
   const [explorer, setExplorer] = useState("");
   const [currency, setCurrency] = useState(0);
+  const [network, setNetwork] = useState(0);
   const [paymentInfo, setPaymentInfo] = useState<any>();
   const [depositInfo, setDepositInfo] = useState<any>();
   const [isLoading, setIsLoading] = useState(true);
@@ -39,7 +40,19 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
   const [confirmStep, setConfirmStep] = useState(0);
   const [currencies, setCurrencies] = useState([]);
   const [paymentLinkData, setPaymentLinkData] = useState("");
-
+  const currencyList = useMemo(() => Array.from(new Set(currencies)), [currencies]);
+  const networkList = useMemo(
+    () =>
+      currencies
+        .filter((item) => {
+          return item.text === currencyList[currency]?.text;
+        })
+        .map((item) => {
+          return { ...item, text: item.chainName };
+        }),
+    [currencies, currency, currencyList]
+  );
+  console.log(networkList);
   useEffect(() => {
     const fetchCurrencies = async () => {
       if (paymentInfo?.acceptableCurrencies) {
@@ -50,7 +63,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
             key: item?.currencyId,
             text: item?.symbol,
             icon: item?.icon,
-            subtext: chain.name,
+            chainName: chain.name,
           };
         });
         const resolvedCurrencies = await Promise.all(currencyPromises);
@@ -82,7 +95,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
   const handleMakePayment = async () => {
     setLoading(true);
     try {
-      const result = await apiMakePayment(id, currencies[currency].text);
+      const result = await apiMakePayment(id, currencyList[currency].text);
       setDepositInfo(result);
 
       const selectedCurrency = paymentInfo.acceptableCurrencies.find(
@@ -232,7 +245,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
                         <div className="flex items-start flex-col md:flex-row gap-24 md:gap-40">
                           <div className="flex flex-col gap-6">
                             <span className="text-[#6B7A87] text-14">Network</span>
-                            <div className="font-medium text-[#BDCCD8] text-24">{currencies[currency].subtext}</div>
+                            <div className="font-medium text-[#BDCCD8] text-24">{networkList[network].text}</div>
                           </div>
                           <div className="flex flex-col gap-6">
                             <span className="text-[#6B7A87]  text-14">Amount</span>
@@ -365,13 +378,14 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
                   <div>
                     <div className="mb-6 text-[#6B7A87]">Select currency you want to pay</div>
                     <CustomSelect
-                      data={currencies}
-                      init={currencies[currency]}
+                      data={currencyList}
+                      init={currencyList[currency]}
                       onChange={(selected) => {
                         setCurrency(selected.id);
+                        setNetwork(0);
                       }}
                       mainClass="border border-input-border text-input-text rounded-8 py-12 px-16 cursor-pointer u-text-overflow"
-                      padClass="absolute top-full left-0 w-full max-h-[240px] overflow-auto shadow-lg rounded-8 mt-6 bg-secondary-200/20 flex flex-col gap-4 overflow-y-auto backdrop-blur-md z-10 p-8"
+                      padClass="absolute top-full left-0 w-full max-h-[240px] overflow-auto shadow-lg rounded-8 mt-6 bg-[#031520] flex flex-col gap-4 overflow-y-auto z-10 p-8"
                       listClass=" py-12 px-10 cursor-pointer u-text-overflow rounded-4"
                       isIcon={true}
                     ></CustomSelect>
@@ -379,15 +393,14 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
                   <div>
                     <div className="mb-6 text-[#6B7A87]">Select Network</div>
                     <CustomSelect
-                      data={currencies}
-                      init={currencies[currency]}
+                      data={networkList}
+                      init={networkList[network]}
                       onChange={(selected) => {
-                        setCurrency(selected.id);
+                        setNetwork(selected.id);
                       }}
                       mainClass="border border-input-border text-input-text rounded-8 py-12 px-16 cursor-pointer u-text-overflow"
-                      padClass="absolute top-full left-0 w-full max-h-[240px] overflow-auto shadow-lg rounded-8 mt-6 bg-secondary-200/20 flex flex-col gap-4 overflow-y-auto backdrop-blur-md z-10 p-8"
+                      padClass="absolute top-full left-0 w-full max-h-[240px] overflow-auto shadow-lg rounded-8 mt-6 bg-[#031520] flex flex-col gap-4 overflow-y-auto z-10 p-8"
                       listClass=" py-12 px-10 cursor-pointer u-text-overflow rounded-4"
-                      isIcon={true}
                     ></CustomSelect>
                   </div>
                 </div>
