@@ -198,7 +198,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
                         <span className="text-[#6B7A87] text-14">Transaction Hash</span>
                         <div className="font-medium text-[#BDCCD8] text-17 flex items-center gap-8">
                           <span className="hidden md:block">{shortenString(hash, 8, 6)}</span>
-                          <span className="md:hidden text-24">{shortenString(hash, 6, 4)}</span>
+                          <span className="md:hidden">{shortenString(hash, 6, 4)}</span>
                           <div
                             className="cursor-pointer"
                             onClick={() => {
@@ -216,7 +216,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
                     </div>
                     <div className="max-w-280 w-full">
                       <ProgressBar
-                        percentage={(confirmStep / totalConfirmations) * 100 + 40}
+                        percentage={(confirmStep / totalConfirmations) * 100}
                         label="Confirmations"
                         progress={`${confirmStep}/${totalConfirmations} (${Math.floor(
                           (confirmStep / totalConfirmations) * 100
@@ -295,40 +295,50 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
                 )}
               </section>
             ) : status === 200 ? (
-              <div className="bg-white/5 rounded-12 px-16 md:px-40 py-32 md:py-48  flex flex-col md:flex-row gap-32 w-full max-w-800">
-                <Icon
-                  icon={"line-md:check-list-3-twotone"}
-                  className="aspect-square h-full w-full max-w-200 flex-none p-24 mx-auto md:mx-0 text-success"
+              <section className="relative g-box-back rounded-20 border border-modal-border py-24 px-24 md:px-40 flex flex-col gap-32 w-full max-w-820 items-center">
+                <img src="/assets/global/back_pattern.png" draggable={false} alt="" className="absolute left-0 top-0" />
+                <img
+                  src="/assets/global/back_pattern.png"
+                  draggable={false}
+                  alt=""
+                  className="absolute bottom-0 right-0 scale-y-[-1] scale-x-[-1]"
                 />
-                <div className="flex flex-col items-start gap-24">
-                  <div className="text-success">Transaction has been completed successfully.</div>
-                  <div className="text-24 break-words">
-                    <span className="break-all md:break-normal">{paymentInfo?.payeeName} </span>
-                    <span className="text-white/50">has requested</span>{" "}
-                    <span className="break-all md:break-normal">{paymentInfo?.customerName}</span>{" "}
-                    <span className="text-white/50">to pay</span> {paymentInfo?.amount} {paymentInfo?.currencySymbol}.
+                <div className="relative max-w-540 w-full flex items-center flex-col gap-12">
+                  <IconBox icon="lets-icons:check-ring" />
+                  <div className="text-24 text-center g-button-text font-semibold">
+                    Transaction has been completed successfully!
                   </div>
-                  <div className=" text-16 text-white/60">{paymentInfo?.description}</div>
-                  {hash && (
-                    <div className="flex gap-8 items-center">
-                      <span className="text-18 font-bold hidden md:block">{shortenString(hash, 8, 6)}</span>
-                      <span className="text-18 font-bold md:hidden">{shortenString(hash, 4, 4)}</span>
-                      <span
+                </div>
+
+                <div className="relative bg-[#031520B2] rounded-8 flex items-start md:items-center gap-32 justify-between w-full p-20 flex-col md:flex-row">
+                  <div className="text-18 text-[#DAE3EA] leading-[1.5] md:max-w-220">
+                    You have paid{" "}
+                    <span className="text-[#DEAD3D]">
+                      {paymentInfo?.amount} {paymentInfo?.currencySymbol}
+                    </span>{" "}
+                    to {paymentInfo?.payeeName}
+                  </div>
+                  <div className="flex flex-col gap-6">
+                    <span className="text-[#6B7A87] text-14">Transaction Hash</span>
+                    <div className="font-medium text-[#BDCCD8] text-17 flex items-center gap-8">
+                      <span className="hidden md:block">{shortenString(hash, 8, 6)}</span>
+                      <span className="md:hidden">{shortenString(hash, 6, 4)}</span>
+                      <div
                         className="cursor-pointer"
                         onClick={() => {
                           navigator.clipboard.writeText(hash);
-                          toast.success("Copied transaction hash.");
+                          toast.success("Copied amount.");
                         }}
                       >
-                        <Icon icon={"fluent-mdl2:copy"} className="w-16 h-16" />
-                      </span>
-                      <a href={`${explorer}/tx/${hash}`} target="_blank" className="cursor-pointer">
-                        <Icon icon={"radix-icons:external-link"} className="w-16 h-16" />
+                        <IconBoxSm icon="ph:copy-light" />
+                      </div>
+                      <a href={`${explorer}/tx/${hash}`} target="_blank">
+                        <IconBoxSm icon="octicon:link-external-24" />
                       </a>
                     </div>
-                  )}
+                  </div>
                 </div>
-              </div>
+              </section>
             ) : (
               // ----------------init payment-----------------
               <section className="relative g-box-back rounded-20 border border-modal-border p-24 flex flex-col gap-32 w-full max-w-820 items-center">
@@ -349,66 +359,38 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
                   </div>
                   <div className=" text-18 text-[#788F99]">{paymentInfo?.description}</div>
                 </div>
-                {/* {paymentInfo.state == 200 && (
-                      <div className="border border-success text-success bg-success/5 rounded-6 p-12 text-center w-fit">
-                        This has already been processed
-                      </div>
-                    )}
-                    {paymentInfo.state == 55 && (
-                      <div className="border border-error text-error bg-error/5 rounded-6 p-12 text-center w-fit">
-                        This transaction was expired.
-                      </div>
-                    )} */}
-                {/* {hash && (
-                    <div className="flex gap-8 items-center">
-                      <span className="text-18 font-bold hidden md:block">{shortenString(hash, 8, 6)}</span>
-                      <span className="text-18 font-bold md:hidden">{shortenString(hash, 4, 4)}</span>
-                      <span
-                        className="cursor-pointer"
-                        onClick={() => {
-                          navigator.clipboard.writeText(hash);
-                          toast.success("Copied transaction hash.");
-                        }}
-                      >
-                        <Icon icon={"fluent-mdl2:copy"} className="w-16 h-16" />
-                      </span>
-                      <a href={`https://sepolia.etherscan.io/tx/${hash}`} target="_blank" className="cursor-pointer">
-                        <Icon icon={"radix-icons:external-link"} className="w-16 h-16" />
-                      </a>
-                    </div>
-                  )} */}
-                {paymentInfo.state !== 200 && (
-                  <div className="w-full  max-w-320 flex flex-col gap-24">
-                    <div>
-                      <div className="mb-6 text-[#6B7A87]">Select currency you want to pay</div>
-                      <CustomSelect
-                        data={currencies}
-                        init={currencies[currency]}
-                        onChange={(selected) => {
-                          setCurrency(selected.id);
-                        }}
-                        mainClass="border border-input-border text-input-text rounded-8 py-12 px-16 cursor-pointer u-text-overflow"
-                        padClass="absolute top-full left-0 w-full max-h-[240px] overflow-auto shadow-lg rounded-8 mt-6 bg-secondary-200/20 flex flex-col gap-4 overflow-y-auto backdrop-blur-md z-10 p-8"
-                        listClass=" py-12 px-10 cursor-pointer u-text-overflow rounded-4"
-                        isIcon={true}
-                      ></CustomSelect>
-                    </div>
-                    <div>
-                      <div className="mb-6 text-[#6B7A87]">Select Network</div>
-                      <CustomSelect
-                        data={currencies}
-                        init={currencies[currency]}
-                        onChange={(selected) => {
-                          setCurrency(selected.id);
-                        }}
-                        mainClass="border border-input-border text-input-text rounded-8 py-12 px-16 cursor-pointer u-text-overflow"
-                        padClass="absolute top-full left-0 w-full max-h-[240px] overflow-auto shadow-lg rounded-8 mt-6 bg-secondary-200/20 flex flex-col gap-4 overflow-y-auto backdrop-blur-md z-10 p-8"
-                        listClass=" py-12 px-10 cursor-pointer u-text-overflow rounded-4"
-                        isIcon={true}
-                      ></CustomSelect>
-                    </div>
+
+                <div className="w-full  max-w-320 flex flex-col gap-24">
+                  <div>
+                    <div className="mb-6 text-[#6B7A87]">Select currency you want to pay</div>
+                    <CustomSelect
+                      data={currencies}
+                      init={currencies[currency]}
+                      onChange={(selected) => {
+                        setCurrency(selected.id);
+                      }}
+                      mainClass="border border-input-border text-input-text rounded-8 py-12 px-16 cursor-pointer u-text-overflow"
+                      padClass="absolute top-full left-0 w-full max-h-[240px] overflow-auto shadow-lg rounded-8 mt-6 bg-secondary-200/20 flex flex-col gap-4 overflow-y-auto backdrop-blur-md z-10 p-8"
+                      listClass=" py-12 px-10 cursor-pointer u-text-overflow rounded-4"
+                      isIcon={true}
+                    ></CustomSelect>
                   </div>
-                )}
+                  <div>
+                    <div className="mb-6 text-[#6B7A87]">Select Network</div>
+                    <CustomSelect
+                      data={currencies}
+                      init={currencies[currency]}
+                      onChange={(selected) => {
+                        setCurrency(selected.id);
+                      }}
+                      mainClass="border border-input-border text-input-text rounded-8 py-12 px-16 cursor-pointer u-text-overflow"
+                      padClass="absolute top-full left-0 w-full max-h-[240px] overflow-auto shadow-lg rounded-8 mt-6 bg-secondary-200/20 flex flex-col gap-4 overflow-y-auto backdrop-blur-md z-10 p-8"
+                      listClass=" py-12 px-10 cursor-pointer u-text-overflow rounded-4"
+                      isIcon={true}
+                    ></CustomSelect>
+                  </div>
+                </div>
+
                 <button
                   onClick={handleMakePayment}
                   className="w-full max-w-320 text-button-text text-18 font-semibold py-16  rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50"
