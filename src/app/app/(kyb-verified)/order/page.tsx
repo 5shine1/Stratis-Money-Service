@@ -10,7 +10,6 @@ import { PAYMENT_STATE, ROLES } from "@/@types/common";
 import AppInput from "@/components/global/AppInput";
 import { LoadingContext } from "@/components/providers/LoadingProvider";
 import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
-import { callAPI } from "@/config/mock";
 import { formattedTime } from "@/utils/string.utils";
 
 import ControlModal from "./components/ControlModal";
@@ -25,7 +24,7 @@ const OrderPage = () => {
   const [paymentOrders, setPaymentOrders] = useState<IPayment[]>([]);
   const [searchIndex, setSearchIndex] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [controlModalOpen, setControlModalOpen] = useState<string | null>(null);
+  const [controlModalOpen, setControlModalOpen] = useState<boolean>(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState<string | null>(null);
   const [qrCodeModalOpen, setQrCodeModalOpen] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -105,17 +104,7 @@ const OrderPage = () => {
     }
     setLoading(false);
   };
-  const handleEditOrder = async () => {
-    setLoading(true);
-    try {
-      await callAPI();
-      toast.success("Detail updated successfully.");
-      setControlModalOpen(null);
-    } catch (error) {
-      toast.error("Server error.");
-    }
-    setLoading(false);
-  };
+
   const handleDeleteOrder = async (id: string) => {
     setLoading(true);
     try {
@@ -154,7 +143,7 @@ const OrderPage = () => {
             </div>
             <AnimatedSlideButton
               onClick={() => {
-                setControlModalOpen("");
+                setControlModalOpen(true);
               }}
               className=" text-primary-200 dark:text-white text-16 py-12 px-32 border border-primary-200 dark:border-secondary-300 rounded-full"
               backClassName="from-primary-100 to-secondary-100 dark:from-primary-400 dark:to-secondary-300 "
@@ -299,12 +288,7 @@ const OrderPage = () => {
           />
         </div>
       </div>
-      <ControlModal
-        isOpen={controlModalOpen !== null}
-        onClose={() => setControlModalOpen(null)}
-        data={paymentOrders.find((item) => item.paymentId === controlModalOpen)}
-        onNext={controlModalOpen === "" ? handleCreateOrder : handleEditOrder}
-      />
+      <ControlModal isOpen={controlModalOpen} onClose={() => setControlModalOpen(null)} onNext={handleCreateOrder} />
       <DeleteModal
         isOpen={deleteModalOpen}
         onClose={() => setDeleteModalOpen(null)}

@@ -61,7 +61,7 @@ module.exports = {
           500: "#0b3b48",
           600: "#082d40",
           700: "#072a36",
-          800: "#031521",
+          800: "#030C11",
           900: "#010D15",
         },
         secondary: {
@@ -69,6 +69,7 @@ module.exports = {
           200: "#e7bc69 ",
           300: "#DB9B1E",
           400: "#FFBF44",
+          main: "#dead3d",
         },
         error: {
           DEFAULT: "#FD7325",
@@ -78,6 +79,21 @@ module.exports = {
         },
         info: {
           DEFAULT: "#00b2f9",
+        },
+        modal: {
+          border: "#07263c",
+        },
+        input: {
+          placeholder: "#45515A",
+          text: "#BDCCD8",
+          label: "#6B7A87",
+          border: "#213541",
+        },
+        button: {
+          text: "#DDAC3E",
+          from: "#95845C80",
+          to: "#4294B580",
+          border: "#95845C",
         },
       },
     },
