@@ -67,6 +67,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
       const result = await apiPaymentStart(id);
       setPaymentInfo(result);
       if (result?.state === 200) setStatus(200);
+      else if (result?.state === 55) setStatus(55);
       else setStatus(10);
       const response = await apiPaymentStatus(id);
       setHash(response.transactionHash);
@@ -140,7 +141,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
 
   return (
     <>
-      {isLoading ? null : paymentInfo ? (
+      {isLoading ? null : paymentInfo && status !== 55 ? (
         <main className="overflow-x-hidden relative py-40 px-12 flex justify-center items-center min-h-[100vh] m-auto">
           <div className="flex flex-col gap-32 md:gap-60 w-full items-center">
             <Link href={"/"} className="flex items-center gap-16 justify-center">

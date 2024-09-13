@@ -1,5 +1,4 @@
 import { IInputSelectItem } from "@/@types/common";
-import { group } from "console";
 
 export const APP_ROUTES = [
   { key: "app", text: "Dashboard", path: "/app/order" },
