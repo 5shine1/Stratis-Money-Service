@@ -1,5 +1,5 @@
 export interface IIcon {
-  className: string;
+  className?: string;
 }
 
 export interface ICurrency {

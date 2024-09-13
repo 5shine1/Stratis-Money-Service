@@ -5,8 +5,6 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import { ICurrency } from "@/@types/common";
 import useAppSelector from "@/hooks/global/useAppSelector";
 import AppInput from "@/components/global/AppInput";
-import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
-import AppCurrencySelect from "@/components/global/AppCurrencySelect";
 import { isValidEmail } from "@/utils/string.utils";
 import DatePicker from "@/components/global/DatePicker";
 import IconBox from "@/components/global/IconBox";
