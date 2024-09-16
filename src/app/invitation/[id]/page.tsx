@@ -9,8 +9,16 @@ import { LoadingContext } from "@/components/providers/LoadingProvider";
 import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
 import CustomInput from "@/components/global/CustomInput";
 import { isValidPassword, isValidEmail, isValidPhoneNumber } from "@/utils/string.utils";
+import { apiCompleteInvitation } from "@/api/auth.api";
 
-const AgentInvitationPage = () => {
+type Props = {
+  params: {
+    id: string;
+  };
+};
+
+const AgentInvitationPage = ({ params }: Props) => {
+  const id = params.id;
   const router = useRouter();
   const { setLoading } = useContext(LoadingContext);
   const [email, setEmail] = useState({ value: "", error: "" });
@@ -74,29 +82,27 @@ const AgentInvitationPage = () => {
 
     setLoading(true);
     try {
-      //   const result = await apiRegister(
-      //     email.value,
-      //     password.value,
-      //     name.value,
-      //     country.value,
-      //     industry.value,
-      //     activity.value,
-      //     volume.value,
-      //     phone.value
-      //   );
-      //   if (result === true) {
-      //     toast.success("Registered successfully.");
-      //     router.push(`/auth/login`);
-      //   } else {
-      //     if (result?.duplicate) setEmail({ ...email, error: "User is already exist." });
-      //     else
-      //       setPassword({
-      //         ...password,
-      //         error: String(Object.values(result)[0]) || "",
-      //       });
-      //     toast.error("Register failed.");
-      //   }
-      console.log(router);
+      const result = await apiCompleteInvitation(
+        id,
+        email.value,
+        name.value,
+        country.value,
+        phone.value,
+        password.value
+      );
+      if (result.isSucceed === true) {
+        toast.success("Invitation completed successfully.");
+        router.push(`/auth/login`);
+      } else {
+        console.log(result);
+        if (result?.messages?.duplicate) setEmail({ ...email, error: "User is already exist." });
+        else
+          setEmail({
+            ...email,
+            error: String(Object.values(result?.messages)[0]) || "",
+          });
+        toast.error("Register failed.");
+      }
     } catch (error: any) {
       console.log(error);
       toast.error("Something went wrong.");
