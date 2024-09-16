@@ -32,6 +32,7 @@ const InviteModal: React.FC<Props> = ({ isOpen, onClose }) => {
     try {
       await apiInviteAgent(email.value, userId);
       toast.success("Invitation email sent successfully.");
+      onClose();
     } catch (error) {
       toast.error("Some thing went wrong.");
     }

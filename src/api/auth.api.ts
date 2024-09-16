@@ -155,3 +155,26 @@ export const apiInviteAgent = async (email: string, businessOwnerId: string) => 
     throw error;
   }
 };
+
+export const apiCompleteInvitation = async (
+  invitationId: string,
+  emailAddress: string,
+  name: string,
+  country: string,
+  mobileNumber: string,
+  password: string
+) => {
+  try {
+    const result = await axiosInstance.post("/api/Identity/CompleteInvitation", {
+      invitationId,
+      emailAddress,
+      name,
+      country,
+      mobileNumber,
+      password,
+    });
+    return result.data;
+  } catch (error) {
+    throw error;
+  }
+};
