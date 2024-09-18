@@ -67,7 +67,7 @@ const InviteModal: React.FC<Props> = ({ isOpen, onClose }) => {
             onClick={() => {
               handleInviteAgent();
             }}
-            className="text-primary-200 dark:text-white text-20 py-12 px-32 border border-primary-200 dark:border-secondary-300  rounded-full mt-8"
+            className="py-12 px-32 text-primary-200 dark:text-white text-20 border border-primary-200 dark:border-secondary-300  rounded-full mt-8"
             backClassName="from-primary-100 to-secondary-100 dark:from-primary-400 dark:to-secondary-300"
           >
             Send Invite Email
