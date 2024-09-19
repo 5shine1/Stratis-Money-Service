@@ -57,7 +57,7 @@ const WithdrawPage = () => {
     handleGetBalance();
     handleGetOrders();
     return () => {};
-  }, []);
+  }, []); //eslint-disable-line
 
   return (
     <>
@@ -81,7 +81,9 @@ const WithdrawPage = () => {
               </div>
 
               <AnimatedSlideButton
-                onClick={() => setIsRequestModalOpen(true)}
+                onClick={() => {
+                  setIsRequestModalOpen(true);
+                }}
                 className="text-primary-200 dark:text-white text-16 py-12 px-32 border border-primary-200 dark:border-secondary-300 rounded-full md:ml-auto mt-16 md:mt-0"
                 backClassName="from-primary-100 to-secondary-100 dark:from-primary-400 dark:to-secondary-300 "
               >
