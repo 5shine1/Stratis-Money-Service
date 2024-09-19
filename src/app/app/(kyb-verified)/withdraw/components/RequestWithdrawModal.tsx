@@ -7,6 +7,7 @@ import AppCurrencySelect from "@/components/global/AppCurrencySelect";
 import AppInput from "@/components/global/AppInput";
 import useAppSelector from "@/hooks/global/useAppSelector";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import Link from "next/link";
 
 type Props = {
   isOpen: boolean;
@@ -16,6 +17,7 @@ const RequestWithdrawModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const [amount, setAmount] = useState({ value: "", error: "" });
   const { currencies } = useAppSelector((state) => state.payment);
   const [currency, setCurrency] = useState<{ value: ICurrency | null; error: string }>({ value: null, error: "" });
+  const { bankAccountHolder } = useAppSelector((state) => state.setting);
   return (
     <Modal
       isOpen={isOpen}
@@ -52,13 +54,30 @@ const RequestWithdrawModal: React.FC<Props> = ({ isOpen, onClose }) => {
             pattern="^([0-9]+(?:[.,][0-9]*)?)$"
             inputMode="decimal"
           />
-          <AnimatedSlideButton
-            onClick={() => {}}
-            className="text-primary-200 dark:text-white text-20 py-12 px-32 border border-primary-200 dark:border-secondary-300  rounded-full mt-8"
-            backClassName="from-primary-100 to-secondary-100 dark:from-primary-400 dark:to-secondary-300 "
-          >
-            Request Withdraw
-          </AnimatedSlideButton>
+          {!bankAccountHolder && (
+            <div className="text-14 text-error border border-error rounded-6 p-12 bg-error/10 flex gap-6 items-center">
+              <Icon icon={"iconoir:warning-circle"} className="text-20" />
+              Please connect your bank detail first.
+            </div>
+          )}
+          {!bankAccountHolder ? (
+            <Link href={"/app/account"} className="w-full">
+              <AnimatedSlideButton
+                className="w-full text-primary-200 dark:text-white text-20 py-12 px-32 border border-primary-200 dark:border-secondary-300  rounded-full mt-8"
+                backClassName="from-primary-100 to-secondary-100 dark:from-primary-400 dark:to-secondary-300 "
+              >
+                Connect Bank
+              </AnimatedSlideButton>
+            </Link>
+          ) : (
+            <AnimatedSlideButton
+              onClick={() => {}}
+              className="text-primary-200 dark:text-white text-20 py-12 px-32 border border-primary-200 dark:border-secondary-300  rounded-full mt-8"
+              backClassName="from-primary-100 to-secondary-100 dark:from-primary-400 dark:to-secondary-300 "
+            >
+              Request Withdraw
+            </AnimatedSlideButton>
+          )}
         </div>
       </div>
     </Modal>
