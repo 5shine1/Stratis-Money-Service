@@ -7,6 +7,7 @@ import AppCurrencySelect from "@/components/global/AppCurrencySelect";
 import AppInput from "@/components/global/AppInput";
 import useAppSelector from "@/hooks/global/useAppSelector";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import Link from "next/link";
 
 type Props = {
   isOpen: boolean;
@@ -14,12 +15,44 @@ type Props = {
 };
 const RequestWithdrawModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const [amount, setAmount] = useState({ value: "", error: "" });
-  const { currencies } = useAppSelector((state) => state.payment);
   const [currency, setCurrency] = useState<{ value: ICurrency | null; error: string }>({ value: null, error: "" });
+  const { currencies } = useAppSelector((state) => state.payment);
+  const { bankAccountHolder } = useAppSelector((state) => state.setting);
+  const auth = useAppSelector((state) => state.auth);
+
+  const handleRequest = () => {
+    if (!currency.value) {
+      setCurrency({ ...currency, error: "Currency required." });
+      return;
+    }
+    if (!parseFloat(amount.value)) {
+      setAmount({ ...amount, error: "Amount required." });
+      return;
+    }
+    if (auth?.totalBalance[currency.value.symbol] < parseFloat(amount.value)) {
+      setAmount({ ...amount, error: "Sufficient balance." });
+      return;
+    }
+
+    // setLoading(true);
+    // try {
+    //   await apiInviteAgent(email.value, userId);
+    //   toast.success("Invitation email sent successfully.");
+    //   onClose();
+    // } catch (error) {
+    //   toast.error("Some thing went wrong.");
+    // }
+    // setLoading(false);
+  };
+
   return (
     <Modal
       isOpen={isOpen}
       onRequestClose={onClose}
+      onAfterClose={() => {
+        setAmount({ value: "", error: "" });
+        setCurrency({ value: null, error: "" });
+      }}
       className="relative z-50 overflow-hidden bg-white dark:bg-primary-800 w-full max-w-480 p-24 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-12 shadow-md"
       overlayClassName="bg-black/50 backdrop-blur-md fixed left-0 top-0 w-full h-full z-40 px-8 py-32"
     >
@@ -52,13 +85,30 @@ const RequestWithdrawModal: React.FC<Props> = ({ isOpen, onClose }) => {
             pattern="^([0-9]+(?:[.,][0-9]*)?)$"
             inputMode="decimal"
           />
-          <AnimatedSlideButton
-            onClick={() => {}}
-            className="text-primary-200 dark:text-white text-20 py-12 px-32 border border-primary-200 dark:border-secondary-300  rounded-full mt-8"
-            backClassName="from-primary-100 to-secondary-100 dark:from-primary-400 dark:to-secondary-300 "
-          >
-            Request Withdraw
-          </AnimatedSlideButton>
+          {!bankAccountHolder && (
+            <div className="text-14 text-error border border-error rounded-6 p-12 bg-error/10 flex gap-6 items-center">
+              <Icon icon={"iconoir:warning-circle"} className="text-20" />
+              Please connect your bank detail first.
+            </div>
+          )}
+          {!bankAccountHolder ? (
+            <Link href={"/app/account"} className="w-full">
+              <AnimatedSlideButton
+                className="w-full text-primary-200 dark:text-white text-20 py-12 px-32 border border-primary-200 dark:border-secondary-300  rounded-full mt-8"
+                backClassName="from-primary-100 to-secondary-100 dark:from-primary-400 dark:to-secondary-300 "
+              >
+                Connect Bank
+              </AnimatedSlideButton>
+            </Link>
+          ) : (
+            <AnimatedSlideButton
+              onClick={handleRequest}
+              className="text-primary-200 dark:text-white text-20 py-12 px-32 border border-primary-200 dark:border-secondary-300  rounded-full mt-8"
+              backClassName="from-primary-100 to-secondary-100 dark:from-primary-400 dark:to-secondary-300 "
+            >
+              Request Withdraw
+            </AnimatedSlideButton>
+          )}
         </div>
       </div>
     </Modal>

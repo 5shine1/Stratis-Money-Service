@@ -92,3 +92,12 @@ export const apiWithdrawHistory = async () => {
     throw error;
   }
 };
+
+export const apiRequestWithdraw = async () => {
+  try {
+    const result = await axiosInstance.get(`api/Payment/Withdrawal`);
+    return result.data;
+  } catch (error) {
+    throw error;
+  }
+};
