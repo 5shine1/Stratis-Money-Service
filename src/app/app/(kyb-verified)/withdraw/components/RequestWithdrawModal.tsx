@@ -15,13 +15,44 @@ type Props = {
 };
 const RequestWithdrawModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const [amount, setAmount] = useState({ value: "", error: "" });
-  const { currencies } = useAppSelector((state) => state.payment);
   const [currency, setCurrency] = useState<{ value: ICurrency | null; error: string }>({ value: null, error: "" });
+  const { currencies } = useAppSelector((state) => state.payment);
   const { bankAccountHolder } = useAppSelector((state) => state.setting);
+  const auth = useAppSelector((state) => state.auth);
+
+  const handleRequest = () => {
+    if (!currency.value) {
+      setCurrency({ ...currency, error: "Currency required." });
+      return;
+    }
+    if (!parseFloat(amount.value)) {
+      setAmount({ ...amount, error: "Amount required." });
+      return;
+    }
+    if (auth?.totalBalance[currency.value.symbol] < parseFloat(amount.value)) {
+      setAmount({ ...amount, error: "Sufficient balance." });
+      return;
+    }
+
+    // setLoading(true);
+    // try {
+    //   await apiInviteAgent(email.value, userId);
+    //   toast.success("Invitation email sent successfully.");
+    //   onClose();
+    // } catch (error) {
+    //   toast.error("Some thing went wrong.");
+    // }
+    // setLoading(false);
+  };
+
   return (
     <Modal
       isOpen={isOpen}
       onRequestClose={onClose}
+      onAfterClose={() => {
+        setAmount({ value: "", error: "" });
+        setCurrency({ value: null, error: "" });
+      }}
       className="relative z-50 overflow-hidden bg-white dark:bg-primary-800 w-full max-w-480 p-24 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-12 shadow-md"
       overlayClassName="bg-black/50 backdrop-blur-md fixed left-0 top-0 w-full h-full z-40 px-8 py-32"
     >
@@ -71,7 +102,7 @@ const RequestWithdrawModal: React.FC<Props> = ({ isOpen, onClose }) => {
             </Link>
           ) : (
             <AnimatedSlideButton
-              onClick={() => {}}
+              onClick={handleRequest}
               className="text-primary-200 dark:text-white text-20 py-12 px-32 border border-primary-200 dark:border-secondary-300  rounded-full mt-8"
               backClassName="from-primary-100 to-secondary-100 dark:from-primary-400 dark:to-secondary-300 "
             >
