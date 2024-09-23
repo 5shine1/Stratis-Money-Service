@@ -46,8 +46,8 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
         .filter((item) => {
           return item.text === currencyList[currency]?.text;
         })
-        .map((item) => {
-          return { ...item, text: item.chainName };
+        .map((item, id) => {
+          return { ...item, id, text: item.chainName };
         }),
     [currencies, currency, currencyList]
   );
@@ -122,7 +122,6 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
         setExplorer(explorer?.explorers[0]?.url);
       }
       setConfirmStep(result?.confirmations);
-      console.log(result?.state);
       if (result?.state === 55) {
         toast.error("This transaction has been expired.");
         setStatus(55);
@@ -403,8 +402,8 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
                         setNetwork(0);
                       }}
                       mainClass="border border-input-border text-input-text rounded-8 py-12 px-16 cursor-pointer u-text-overflow"
-                      padClass="absolute top-full left-0 w-full max-h-[240px] overflow-auto shadow-lg rounded-8 mt-6 bg-[#031520] flex flex-col gap-4 overflow-y-auto z-10 p-8"
-                      listClass=" py-12 px-10 cursor-pointer u-text-overflow rounded-4"
+                      padClass="absolute top-full left-0 w-full max-h-[240px] overflow-auto shadow-lg rounded-8 bg-[#192C37] border border-[#213541] shadow-tab flex flex-col gap-4 overflow-y-auto z-10"
+                      listClass="p-12 cursor-pointer u-text-overflow rounded-4 border-b border-[#213541]"
                       isIcon={true}
                     ></CustomSelect>
                   </div>
@@ -417,8 +416,8 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
                         setNetwork(selected.id);
                       }}
                       mainClass="border border-input-border text-input-text rounded-8 py-12 px-16 cursor-pointer u-text-overflow"
-                      padClass="absolute top-full left-0 w-full max-h-[240px] overflow-auto shadow-lg rounded-8 mt-6 bg-[#031520] flex flex-col gap-4 overflow-y-auto z-10 p-8"
-                      listClass=" py-12 px-10 cursor-pointer u-text-overflow rounded-4"
+                      padClass="absolute top-full left-0 w-full max-h-[240px] overflow-auto shadow-lg rounded-8 bg-[#192C37] border border-[#213541] shadow-tab flex flex-col gap-4 overflow-y-auto z-10"
+                      listClass="p-12 cursor-pointer u-text-overflow rounded-4 border-b border-[#213541]"
                     ></CustomSelect>
                   </div>
                 </div>
