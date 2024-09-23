@@ -8,7 +8,6 @@ import { Icon } from "@iconify/react";
 import SvgLogoApp from "@/assets/SvgLogoApp";
 import CustomSelect from "@/components/global/CustomSelect";
 import { apiMakePayment, apiPaymentStart, apiPaymentStatus } from "@/api/payment.api";
-import Error404Page from "@/app/not-found";
 import { LoadingContext } from "@/components/providers/LoadingProvider";
 import { shortenAddress, shortenString } from "@/utils/string.utils";
 import { getChainInfo } from "@/utils/web3.utils";
