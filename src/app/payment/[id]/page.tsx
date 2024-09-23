@@ -402,8 +402,8 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
                         setNetwork(0);
                       }}
                       mainClass="border border-input-border text-input-text rounded-8 py-12 px-16 cursor-pointer u-text-overflow"
-                      padClass="absolute top-full left-0 w-full max-h-[240px] overflow-auto shadow-lg rounded-8 bg-[#192C37] border border-[#213541] shadow-tab flex flex-col gap-4 overflow-y-auto z-10"
-                      listClass="p-12 cursor-pointer u-text-overflow rounded-4 border-b border-[#213541]"
+                      padClass="absolute top-full left-0 w-full max-h-[240px] overflow-auto rounded-8 bg-[#192C37] border border-[#213541] shadow-tab overflow-y-auto z-10"
+                      listClass="p-16 cursor-pointer u-text-overflow rounded-4 border-b border-[#213541] last:border-b-0"
                       isIcon={true}
                     ></CustomSelect>
                   </div>
@@ -416,8 +416,8 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
                         setNetwork(selected.id);
                       }}
                       mainClass="border border-input-border text-input-text rounded-8 py-12 px-16 cursor-pointer u-text-overflow"
-                      padClass="absolute top-full left-0 w-full max-h-[240px] overflow-auto shadow-lg rounded-8 bg-[#192C37] border border-[#213541] shadow-tab flex flex-col gap-4 overflow-y-auto z-10"
-                      listClass="p-12 cursor-pointer u-text-overflow rounded-4 border-b border-[#213541]"
+                      padClass="absolute top-full left-0 w-full max-h-[240px] overflow-auto rounded-8 bg-[#192C37] border border-[#213541] shadow-tab overflow-y-auto z-10"
+                      listClass="p-16 cursor-pointer u-text-overflow rounded-4 border-b border-[#213541] last:border-b-0"
                     ></CustomSelect>
                   </div>
                 </div>
