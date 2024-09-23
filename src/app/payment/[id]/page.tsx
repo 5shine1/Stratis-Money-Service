@@ -153,7 +153,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
 
   return (
     <>
-      {isLoading ? null : paymentInfo && status !== 55 ? (
+      {isLoading ? null : (
         <main className="overflow-x-hidden relative py-40 px-12 flex justify-center items-center min-h-[100vh] m-auto">
           <div className="flex flex-col gap-32 md:gap-60 w-full items-center">
             <Link href={"/"} className="flex items-center gap-16 justify-center">
@@ -352,6 +352,26 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
                   </div>
                 </div>
               </section>
+            ) : status === 55 ? (
+              <section className="relative g-box-back rounded-20 border border-modal-border py-24 px-24 md:px-40 flex flex-col gap-40 w-full max-w-820 items-center">
+                <img src="/assets/global/back_pattern.png" draggable={false} alt="" className="absolute left-0 top-0" />
+                <img
+                  src="/assets/global/back_pattern.png"
+                  draggable={false}
+                  alt=""
+                  className="absolute bottom-0 right-0 scale-y-[-1] scale-x-[-1]"
+                />
+                <div className="relative max-w-540 w-full flex items-center flex-col gap-12">
+                  <IconBox icon="carbon:warning" />
+                  <div className="text-24 text-center g-button-text font-semibold">
+                    This transaction already has been expired!
+                  </div>
+                </div>
+                <Link href={"/"} className="flex items-center gap-8 text-[#DDAC3E]">
+                  <Icon icon={"octicon:arrow-left-16"} className="w-16 h-16" />
+                  Go Back
+                </Link>
+              </section>
             ) : (
               // ----------------init payment-----------------
               <section className="relative g-box-back rounded-20 border border-modal-border p-24 flex flex-col gap-32 w-full max-w-820 items-center">
@@ -415,8 +435,6 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
             )}
           </div>
         </main>
-      ) : (
-        <Error404Page />
       )}
     </>
   );
