@@ -76,8 +76,8 @@ export default function CurrencyInputSelect({
             inputMode="decimal"
           />
           <div
-            className={`relative flex items-center gap-6 rounded-t-6 cursor-pointer p-12 border-[#213541] -mr-1 -mt-1 ${
-              isOpen ? "bg-[#192C37] border border-b-0" : ""
+            className={`relative flex items-center gap-6 rounded-t-6 cursor-pointer p-12 border border-b-0 -mr-1 -mt-1 ${
+              isOpen ? "bg-[#192C37]  border-[#213541]" : "border-transparent"
             }`}
             onClick={toggleDropdown}
           >

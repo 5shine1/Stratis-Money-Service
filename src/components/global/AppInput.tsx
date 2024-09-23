@@ -35,9 +35,7 @@ const AppInput: React.FC<Props> = ({
         {icon && (
           <Icon
             icon={icon}
-            className={`w-24 h-24 u-transition-color flex-none ml-12 ${
-              error ? "text-error" : " text-input-label group-focus-within:text-[#3C5D71] "
-            }`}
+            className={`w-24 h-24 u-transition-color flex-none ml-12 ${error ? "text-error" : " text-input-label"}`}
           />
         )}
         <input
