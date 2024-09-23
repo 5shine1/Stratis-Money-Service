@@ -55,11 +55,7 @@ export default function CurrencyInputSelect({
       <div ref={dropdownRef} className={`relative w-full `}>
         <div
           className={`relative flex items-center gap-2 w-full border  rounded-6 u-text-overflow text-14 ${
-            error
-              ? "border-error"
-              : isOpen
-              ? "border-primary-400"
-              : "border-input-border focus-within:border-primary-400"
+            error ? "border-error" : isOpen ? "border-[#3C5D71]" : "border-input-border focus-within:border-[#3C5D71]"
           }`}
         >
           <input
