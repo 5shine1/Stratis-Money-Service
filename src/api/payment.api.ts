@@ -93,9 +93,9 @@ export const apiWithdrawHistory = async () => {
   }
 };
 
-export const apiRequestWithdraw = async () => {
+export const apiRequestWithdraw = async (currency: string, amount: number) => {
   try {
-    const result = await axiosInstance.get(`api/Payment/Withdrawal`);
+    const result = await axiosInstance.post(`api/Payment/Withdrawal`, { currency, amount });
     return result.data;
   } catch (error) {
     throw error;
