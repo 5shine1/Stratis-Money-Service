@@ -103,8 +103,8 @@ const DatePicker: React.FC<Props> = ({ selectedDate, setSelectedDate, error }) =
       days.push(
         <button
           key={i}
-          className={`text-12 py-6 flex items-center justify-center rounded-4 ${
-            isSelected ? "bg-primary-500 text-secondary-100 dark:bg-secondary-100 dark:text-primary-500" : ""
+          className={`text-12 w-32 h-32 flex items-center justify-center rounded-full ${
+            isSelected ? "bg-[#DDAC3E] text-[#4C3910]" : ""
           }`}
           onClick={() => handleDateSelect(i)}
         >
@@ -131,12 +131,12 @@ const DatePicker: React.FC<Props> = ({ selectedDate, setSelectedDate, error }) =
         onFocus={() => setShowCalendar(true)}
         readOnly
         className={` border flex items-center px-12 gap-6 u-transition-color group rounded-6 text-14 placeholder:text-input-placeholder py-12 w-full text-input-text outline-none bg-transparent ${
-          error ? "border-error" : "border-input-border focus-within:border-primary-400"
+          error ? "border-error" : "border-input-border focus-within:border-[#3C5D71]"
         }`}
         placeholder="YYYY-MM-DD"
       />
       {showCalendar && (
-        <div className="absolute w-260 z-20 top-full mt-6 left-0 p-16 bg-secondary-100 dark:bg-primary-900 text-primary-500 dark:text-gray-200 rounded-lg shadow-md">
+        <div className="absolute z-20 top-full left-0 p-16 bg-[#192C37] text-input-text rounded-lg border border-[#213541] shadow-tab">
           <div className="flex justify-between items-center mb-4">
             <div className="flex items-center justify-evenly w-full gap-8">
               <Icon icon="uiw:d-arrow-left" onClick={handlePrevYear} className="w-12 h-12 cursor-pointer" />
@@ -148,14 +148,14 @@ const DatePicker: React.FC<Props> = ({ selectedDate, setSelectedDate, error }) =
               <Icon icon="uiw:d-arrow-right" onClick={handleNextYear} className="w-12 h-12 cursor-pointer" />
             </div>
           </div>
-          <div className="grid grid-cols-7 gap-2 text-center mt-6">
-            <div className="text-12 py-6">SUN</div>
-            <div className="text-12 py-6">MON</div>
-            <div className="text-12 py-6">TUE</div>
-            <div className="text-12 py-6">WED</div>
-            <div className="text-12 py-6">THU</div>
-            <div className="text-12 py-6">FRI</div>
-            <div className="text-12 py-6">SAT</div>
+          <div className="grid grid-cols-7 gap-2 text-center mt-16">
+            <div className="text-12 flex items-center justify-center w-32 h-32">Su</div>
+            <div className="text-12 flex items-center justify-center w-32 h-32">Mo</div>
+            <div className="text-12 flex items-center justify-center w-32 h-32">Tu</div>
+            <div className="text-12 flex items-center justify-center w-32 h-32">We</div>
+            <div className="text-12 flex items-center justify-center w-32 h-32">Th</div>
+            <div className="text-12 flex items-center justify-center w-32 h-32">Fr</div>
+            <div className="text-12 flex items-center justify-center w-32 h-32">Sa</div>
             {renderDays()}
           </div>
         </div>

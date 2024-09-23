@@ -8,7 +8,6 @@ import { Icon } from "@iconify/react";
 import SvgLogoApp from "@/assets/SvgLogoApp";
 import CustomSelect from "@/components/global/CustomSelect";
 import { apiMakePayment, apiPaymentStart, apiPaymentStatus } from "@/api/payment.api";
-import Error404Page from "@/app/not-found";
 import { LoadingContext } from "@/components/providers/LoadingProvider";
 import { shortenAddress, shortenString } from "@/utils/string.utils";
 import { getChainInfo } from "@/utils/web3.utils";
@@ -47,8 +46,8 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
         .filter((item) => {
           return item.text === currencyList[currency]?.text;
         })
-        .map((item) => {
-          return { ...item, text: item.chainName };
+        .map((item, id) => {
+          return { ...item, id, text: item.chainName };
         }),
     [currencies, currency, currencyList]
   );
@@ -123,7 +122,6 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
         setExplorer(explorer?.explorers[0]?.url);
       }
       setConfirmStep(result?.confirmations);
-      console.log(result?.state);
       if (result?.state === 55) {
         toast.error("This transaction has been expired.");
         setStatus(55);
@@ -153,7 +151,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
 
   return (
     <>
-      {isLoading ? null : paymentInfo && status !== 55 ? (
+      {isLoading ? null : (
         <main className="overflow-x-hidden relative py-40 px-12 flex justify-center items-center min-h-[100vh] m-auto">
           <div className="flex flex-col gap-32 md:gap-60 w-full items-center">
             <Link href={"/"} className="flex items-center gap-16 justify-center">
@@ -352,6 +350,26 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
                   </div>
                 </div>
               </section>
+            ) : status === 55 ? (
+              <section className="relative g-box-back rounded-20 border border-modal-border py-24 px-24 md:px-40 flex flex-col gap-40 w-full max-w-820 items-center">
+                <img src="/assets/global/back_pattern.png" draggable={false} alt="" className="absolute left-0 top-0" />
+                <img
+                  src="/assets/global/back_pattern.png"
+                  draggable={false}
+                  alt=""
+                  className="absolute bottom-0 right-0 scale-y-[-1] scale-x-[-1]"
+                />
+                <div className="relative max-w-540 w-full flex items-center flex-col gap-12">
+                  <IconBox icon="carbon:warning" />
+                  <div className="text-24 text-center g-button-text font-semibold">
+                    This transaction already has been expired!
+                  </div>
+                </div>
+                <Link href={"/"} className="flex items-center gap-8 text-[#DDAC3E]">
+                  <Icon icon={"octicon:arrow-left-16"} className="w-16 h-16" />
+                  Go Back
+                </Link>
+              </section>
             ) : (
               // ----------------init payment-----------------
               <section className="relative g-box-back rounded-20 border border-modal-border p-24 flex flex-col gap-32 w-full max-w-820 items-center">
@@ -384,8 +402,8 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
                         setNetwork(0);
                       }}
                       mainClass="border border-input-border text-input-text rounded-8 py-12 px-16 cursor-pointer u-text-overflow"
-                      padClass="absolute top-full left-0 w-full max-h-[240px] overflow-auto shadow-lg rounded-8 mt-6 bg-[#031520] flex flex-col gap-4 overflow-y-auto z-10 p-8"
-                      listClass=" py-12 px-10 cursor-pointer u-text-overflow rounded-4"
+                      padClass="absolute top-full left-0 w-full max-h-[240px] overflow-auto rounded-8 bg-[#192C37] border border-[#213541] shadow-tab overflow-y-auto z-10"
+                      listClass="p-16 cursor-pointer u-text-overflow rounded-4 border-b border-[#213541] last:border-b-0"
                       isIcon={true}
                     ></CustomSelect>
                   </div>
@@ -398,8 +416,8 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
                         setNetwork(selected.id);
                       }}
                       mainClass="border border-input-border text-input-text rounded-8 py-12 px-16 cursor-pointer u-text-overflow"
-                      padClass="absolute top-full left-0 w-full max-h-[240px] overflow-auto shadow-lg rounded-8 mt-6 bg-[#031520] flex flex-col gap-4 overflow-y-auto z-10 p-8"
-                      listClass=" py-12 px-10 cursor-pointer u-text-overflow rounded-4"
+                      padClass="absolute top-full left-0 w-full max-h-[240px] overflow-auto rounded-8 bg-[#192C37] border border-[#213541] shadow-tab overflow-y-auto z-10"
+                      listClass="p-16 cursor-pointer u-text-overflow rounded-4 border-b border-[#213541] last:border-b-0"
                     ></CustomSelect>
                   </div>
                 </div>
@@ -415,8 +433,6 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
             )}
           </div>
         </main>
-      ) : (
-        <Error404Page />
       )}
     </>
   );

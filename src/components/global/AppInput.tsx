@@ -29,15 +29,13 @@ const AppInput: React.FC<Props> = ({
       {label && <span className="text-input-label text-14">{label}</span>}
       <div
         className={`w-full border flex items-center u-transition-color group rounded-6 ${
-          error ? "border-error" : "border-input-border focus-within:border-primary-400"
+          error ? "border-error" : "border-input-border focus-within:border-[#3C5D71]"
         }`}
       >
         {icon && (
           <Icon
             icon={icon}
-            className={`w-24 h-24 u-transition-color flex-none ml-12 ${
-              error ? "text-error" : " text-input-label group-focus-within:text-primary-400 "
-            }`}
+            className={`w-24 h-24 u-transition-color flex-none ml-12 ${error ? "text-error" : " text-input-label"}`}
           />
         )}
         <input

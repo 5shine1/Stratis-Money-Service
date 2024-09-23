@@ -52,6 +52,9 @@ module.exports = {
         pingSlow: "ping 1.5s linear infinite",
       },
 
+      boxShadow: {
+        tab: "0 0 18px 0 #4294B41a",
+      },
       colors: {
         primary: {
           100: "#C0D4C9",
