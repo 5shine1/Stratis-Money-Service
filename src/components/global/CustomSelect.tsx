@@ -105,7 +105,7 @@ export default function CustomSelect({
           .map((item) => (
             <div
               key={`list-item-${item.key}`}
-              className={`${listClass} ${selected?.key === item.key ? "bg-gray-400/10" : "hover:bg-gray-400/5"}`}
+              className={`${listClass} hover:bg-gray-400/5}`}
               onClick={() => {
                 setSelected(item);
                 setIsOpen(false);
