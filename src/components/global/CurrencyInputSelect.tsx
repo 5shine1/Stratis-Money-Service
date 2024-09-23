@@ -54,8 +54,12 @@ export default function CurrencyInputSelect({
       {label && <span className="text-input-label text-14">{label}</span>}
       <div ref={dropdownRef} className={`relative w-full `}>
         <div
-          className={`relative flex items-center gap-2 w-full border  rounded-6 u-text-overflow text-14 ${
-            error ? "border-error" : isOpen ? "border-[#3C5D71]" : "border-input-border focus-within:border-[#3C5D71]"
+          className={`relative flex items-center gap-2 w-full border  rounded-6 text-14 ${
+            error
+              ? "border-error"
+              : isOpen
+              ? "border-input-border"
+              : "border-input-border focus-within:border-[#3C5D71]"
           }`}
         >
           <input
@@ -71,37 +75,36 @@ export default function CurrencyInputSelect({
             pattern="^([0-9]+(?:[.,][0-9]*)?)$"
             inputMode="decimal"
           />
-          <div className="flex items-center gap-6 cursor-pointer mt-1 p-12 pl-0" onClick={toggleDropdown}>
-            <span className={` text-input-text `}>{value?.symbol}</span>
+          <div
+            className={`relative flex items-center gap-6 rounded-t-6 cursor-pointer p-12 border-[#213541] -mr-1 -mt-1 ${
+              isOpen ? "bg-[#192C37] border border-b-0" : ""
+            }`}
+            onClick={toggleDropdown}
+          >
+            <span className={` text-input-text font-semibold`}>{value?.symbol}</span>
             <Icon
               icon={`ep:arrow-down`}
-              className={`w-16 h-16 transition-transform duration-300 text-primary-500 dark:text-gray-200 ${
-                isOpen ? " rotate-180" : ""
-              }`}
+              className={`w-16 h-16 transition-transform duration-300 text-gray-200 ${isOpen ? " rotate-180" : ""}`}
             ></Icon>
-          </div>
-        </div>
-        <div
-          className={`z-20 transition-all duration-100 text-14 absolute top-full left-0 w-full max-h-[240px] overflow-auto shadow-lg rounded-8 mt-6 bg-secondary-100 dark:bg-primary-900 flex flex-col gap-4 overflow-y-auto backdrop-blur-md p-8 text-primary-500 dark:text-gray-200 ${
-            isOpen ? "opacity-100 scale-100 pointer-events-auto" : "opacity-0 scale-90 pointer-events-none"
-          }`}
-        >
-          {list.map((item) => (
             <div
-              key={`list-item-${item.currencyId}`}
-              className={`py-12 px-10 cursor-pointer u-text-overflow rounded-4 ${
-                value?.currencyId === item.currencyId
-                  ? "bg-secondary-400/50 dark:bg-primary-500/50"
-                  : "hover:bg-white/10"
+              className={`z-20 transition-all duration-100 text-14 absolute top-full left-0 w-full max-h-[240px] overflow-auto rounded-b-6 bg-[#192C37] overflow-y-auto text-input-text border-[#213541] border border-t-0 box-content -ml-1 ${
+                isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
               }`}
-              onClick={() => {
-                onSelectChange(item);
-                setIsOpen(false);
-              }}
             >
-              <div className="u-text-overflow flex items-center gap-1">{item.symbol}</div>
+              {list.map((item) => (
+                <div
+                  key={`list-item-${item.currencyId}`}
+                  className={`py-12 px-10 cursor-pointer u-text-overflow border-t border-[#213541]`}
+                  onClick={() => {
+                    onSelectChange(item);
+                    setIsOpen(false);
+                  }}
+                >
+                  <div className="u-text-overflow flex items-center gap-1">{item.symbol}</div>
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
         </div>
       </div>
       {error && <span className="text-error text-12 mx-6">{error}</span>}
