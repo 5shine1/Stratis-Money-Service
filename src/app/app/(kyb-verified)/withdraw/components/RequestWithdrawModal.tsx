@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Modal from "react-modal";
 
 import { ICurrency } from "@/@types/common";
@@ -8,19 +8,23 @@ import AppInput from "@/components/global/AppInput";
 import useAppSelector from "@/hooks/global/useAppSelector";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Link from "next/link";
+import { LoadingContext } from "@/components/providers/LoadingProvider";
+import { apiRequestWithdraw } from "@/api/payment.api";
+import toast from "react-hot-toast";
 
 type Props = {
   isOpen: boolean;
   onClose: () => void;
 };
 const RequestWithdrawModal: React.FC<Props> = ({ isOpen, onClose }) => {
+  const { setLoading } = useContext(LoadingContext);
   const [amount, setAmount] = useState({ value: "", error: "" });
   const [currency, setCurrency] = useState<{ value: ICurrency | null; error: string }>({ value: null, error: "" });
   const { currencies } = useAppSelector((state) => state.payment);
   const { bankAccountHolder } = useAppSelector((state) => state.setting);
   const auth = useAppSelector((state) => state.auth);
 
-  const handleRequest = () => {
+  const handleRequest = async () => {
     if (!currency.value) {
       setCurrency({ ...currency, error: "Currency required." });
       return;
@@ -34,15 +38,15 @@ const RequestWithdrawModal: React.FC<Props> = ({ isOpen, onClose }) => {
       return;
     }
 
-    // setLoading(true);
-    // try {
-    //   await apiInviteAgent(email.value, userId);
-    //   toast.success("Invitation email sent successfully.");
-    //   onClose();
-    // } catch (error) {
-    //   toast.error("Some thing went wrong.");
-    // }
-    // setLoading(false);
+    setLoading(true);
+    try {
+      await apiRequestWithdraw(currency?.value?.symbol, parseFloat(amount.value));
+      toast.success("Withdraw requested successfully.");
+      onClose();
+    } catch (error) {
+      toast.error("Some thing went wrong.");
+    }
+    setLoading(false);
   };
 
   return (
