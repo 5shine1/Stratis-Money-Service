@@ -96,7 +96,6 @@ const AgentInvitationPage = ({ params }: Props) => {
         toast.success("Invitation completed successfully.");
         router.push(`/auth/login`);
       } else {
-        console.log(result);
         if (result?.messages?.duplicate) setEmail({ ...email, error: "User is already exist." });
         else
           setEmail({
@@ -117,8 +116,10 @@ const AgentInvitationPage = ({ params }: Props) => {
       const result = await apiGetInviteInfo(id);
       setInviteInfo(result);
       setEmail({ value: result?.emailAddress || "", error: "" });
-      console.log(result);
-    } catch (error) {}
+    } catch (error) {
+      router.push(`/404`);
+      return;
+    }
     setIsLoading(false);
   };
 
