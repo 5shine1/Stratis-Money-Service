@@ -35,8 +35,16 @@ export interface IInputSelectItem {
 export enum ROLES {
   ADMIN = "Admin", //eslint-disable-line
   BUSINESS = "Business", //eslint-disable-line
+  COMPLIANCE = "Complience", //eslint-disable-line
+  AGENT = "Agent", //eslint-disable-line
   GUEST = "Guest", //eslint-disable-line
 }
+
+export const WITHDRAW_STATE = {
+  0: "Pending",
+  1: "Completed",
+  2: "Cancelled",
+};
 
 export const PAYMENT_STATE = {
   10: "Requested",
@@ -55,24 +63,3 @@ export const PAYMENT_STATE = {
   130: "FiatTransferComplete",
   200: "Completed",
 };
-
-export const FIAT_CURRENCIES = [
-  {
-    currencyId: 0,
-    name: "US DOLLAR",
-    symbol: "USD",
-    isFiat: true,
-  },
-  {
-    currencyId: 1,
-    name: "EURO",
-    symbol: "EUR",
-    isFiat: true,
-  },
-  {
-    currencyId: 2,
-    name: "GB POUND",
-    symbol: "GBP",
-    isFiat: true,
-  },
-];
