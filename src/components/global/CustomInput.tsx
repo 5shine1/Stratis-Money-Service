@@ -9,8 +9,17 @@ type Props = {
   type?: string;
   error?: string;
   icon?: string;
+  readonly?: boolean;
 };
-const CustomInput: React.FC<Props> = ({ value, onChange, type = "text", error = "", icon = "", placeholder }) => {
+const CustomInput: React.FC<Props> = ({
+  value,
+  onChange,
+  type = "text",
+  error = "",
+  icon = "",
+  placeholder,
+  readonly = false,
+}) => {
   return (
     <div className="w-full">
       <div
@@ -34,6 +43,7 @@ const CustomInput: React.FC<Props> = ({ value, onChange, type = "text", error = 
             icon ? "pl-40" : ""
           }`}
           placeholder={placeholder}
+          readOnly={readonly}
         />
       </div>
       {error && <span className="text-error mt-4 text-12 mx-12">{error}</span>}
