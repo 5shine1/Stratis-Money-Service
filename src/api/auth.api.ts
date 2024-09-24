@@ -156,6 +156,16 @@ export const apiInviteAgent = async (email: string, businessOwnerId: string) => 
   }
 };
 
+export const apiGetInviteInfo = async (code: string) => {
+  try {
+    const result = await axiosInstance.get(`/api/Identity/Invitation/${code}`);
+    if (result?.data?.isSucceed === false) throw "Something went wrong";
+    return result?.data?.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const apiCompleteInvitation = async (
   invitationId: string,
   emailAddress: string,
