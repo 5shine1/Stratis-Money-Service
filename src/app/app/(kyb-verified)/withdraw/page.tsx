@@ -12,6 +12,7 @@ import { setAuth } from "@/store/slices/auth.slice";
 import useAppDispatch from "@/hooks/global/useAppDispatch";
 import { apiUserInfo } from "@/api/auth.api";
 import { formattedTime } from "@/utils/string.utils";
+import { WITHDRAW_STATE } from "@/@types/common";
 
 const WithdrawPage = () => {
   const [withdrawHistory, setWithdrawHistory] = useState([]);
@@ -37,7 +38,6 @@ const WithdrawPage = () => {
     setIsLoading(true);
     try {
       const result = await apiWithdrawHistory();
-      console.log(result);
       setWithdrawHistory(result);
     } catch (error) {
       toast.error("Server error.");
@@ -118,7 +118,7 @@ const WithdrawPage = () => {
                             <td className="px-8 py-16">
                               {item.fee} <span className="opacity-50">{item.currency}</span>
                             </td>
-                            <td className="px-8 py-16">{item.status}</td>
+                            <td className="px-8 py-16">{WITHDRAW_STATE[item.status]}</td>
                             <td className={`px-8 py-16`}>{formattedTime(item.requested)}</td>
                           </tr>
                         );
