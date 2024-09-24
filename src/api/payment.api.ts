@@ -96,7 +96,7 @@ export const apiWithdrawHistory = async () => {
 export const apiRequestWithdraw = async (currency: string, amount: number) => {
   try {
     const result = await axiosInstance.post(`api/Payment/Withdrawal`, { currency, amount });
-    return result.data;
+    if (!result.data.isSucceed) throw "Something went wrong";
   } catch (error) {
     throw error;
   }
