@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Pagination from "rc-pagination";
 import toast from "react-hot-toast";
 import { Icon } from "@iconify/react";
@@ -11,23 +11,16 @@ import useAppSelector from "@/hooks/global/useAppSelector";
 import { setAuth } from "@/store/slices/auth.slice";
 import useAppDispatch from "@/hooks/global/useAppDispatch";
 import { apiUserInfo } from "@/api/auth.api";
+import { formattedTime } from "@/utils/string.utils";
+import { WITHDRAW_STATE } from "@/@types/common";
 
 const WithdrawPage = () => {
   const [withdrawHistory, setWithdrawHistory] = useState([]);
-  const [searchIndex] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [isRequestModalOpen, setIsRequestModalOpen] = useState(false);
   const auth = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
-
-  const filteredData = useMemo(
-    () =>
-      withdrawHistory.filter((item) => {
-        return item.to.toUpperCase().includes(searchIndex.toUpperCase());
-      }),
-    [withdrawHistory, searchIndex]
-  );
 
   const handleGetBalance = async () => {
     try {
@@ -45,8 +38,7 @@ const WithdrawPage = () => {
     setIsLoading(true);
     try {
       const result = await apiWithdrawHistory();
-      console.log(result);
-      setWithdrawHistory([]);
+      setWithdrawHistory(result);
     } catch (error) {
       toast.error("Server error.");
     }
@@ -101,14 +93,14 @@ const WithdrawPage = () => {
                 <thead>
                   <tr className="border-b border-primary-200/20 dark:border-white/10">
                     <th className="px-8 py-16 text-left w-320">Withdraw ID</th>
-                    <th className="px-8 py-16 text-left w-100">From</th>
-                    <th className="px-8 py-16 text-left w-100">To</th>
-                    <th className="px-8 py-16 text-left w-120">Amount</th>
-                    <th className="px-8 py-16 text-right w-160">Date</th>
+                    <th className="px-8 py-16 text-left w-140">Amount</th>
+                    <th className="px-8 py-16 text-left w-120">Fee</th>
+                    <th className="px-8 py-16 text-left w-120">Status</th>
+                    <th className="px-8 py-16 text-left w-160">Date</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {!filteredData.length ? (
+                  {!withdrawHistory.length ? (
                     <tr>
                       <td colSpan={5} className="text-error p-24 lg:text-center text-left">
                         No History
@@ -116,16 +108,18 @@ const WithdrawPage = () => {
                     </tr>
                   ) : (
                     <>
-                      {filteredData.slice(currentPage * 10 - 10, currentPage * 10).map((item, i) => {
+                      {withdrawHistory.slice(currentPage * 10 - 10, currentPage * 10).map((item, i) => {
                         return (
                           <tr key={i} className="even:bg-secondary-100/10 dark:even:bg-[#ffffff04]">
-                            <td className="px-8 py-16">{item.id}</td>
-                            <td className="px-8 py-16">Stratis</td>
-                            <td className="px-8 py-16">Me</td>
+                            <td className="px-8 py-16">{item.withdrawalId}</td>
                             <td className="px-8 py-16">
-                              {item.amount} <span className="opacity-50">{item.currency.name}</span>
+                              {item.amount} <span className="opacity-50">{item.currency}</span>
                             </td>
-                            <td className={`px-8 py-16 text-right`}>{item.date}</td>
+                            <td className="px-8 py-16">
+                              {item.fee} <span className="opacity-50">{item.currency}</span>
+                            </td>
+                            <td className="px-8 py-16">{WITHDRAW_STATE[item.status]}</td>
+                            <td className={`px-8 py-16`}>{formattedTime(item.requested)}</td>
                           </tr>
                         );
                       })}
@@ -139,7 +133,7 @@ const WithdrawPage = () => {
             current={currentPage}
             onChange={setCurrentPage}
             showSizeChanger={false}
-            total={filteredData.length}
+            total={withdrawHistory.length}
             hideOnSinglePage={true}
             className="flex items-center gap-8 text-14"
             prevIcon={<Icon icon="icon-park-outline:left" />}
@@ -149,7 +143,16 @@ const WithdrawPage = () => {
           />
         </div>
       </div>
-      <RequestWithdrawModal isOpen={isRequestModalOpen} onClose={() => setIsRequestModalOpen(false)} />
+      <RequestWithdrawModal
+        isOpen={isRequestModalOpen}
+        onClose={async () => {
+          setIsRequestModalOpen(false);
+          try {
+            const result = await apiWithdrawHistory();
+            setWithdrawHistory(result);
+          } catch (error) {}
+        }}
+      />
     </>
   );
 };
