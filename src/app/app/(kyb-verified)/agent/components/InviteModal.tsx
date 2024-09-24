@@ -9,6 +9,7 @@ import { isValidEmail } from "@/utils/string.utils";
 import toast from "react-hot-toast";
 import { apiInviteAgent } from "@/api/auth.api";
 import { LoadingContext } from "@/components/providers/LoadingProvider";
+import Link from "next/link";
 
 type Props = {
   isOpen: boolean;
@@ -17,6 +18,7 @@ type Props = {
 const InviteModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const [email, setEmail] = useState({ value: "", error: "" });
   const { userId } = useAppSelector((state) => state.auth);
+  const { bankAccountHolder } = useAppSelector((state) => state.setting);
   const { setLoading } = useContext(LoadingContext);
 
   const handleInviteAgent = async () => {
@@ -63,15 +65,32 @@ const InviteModal: React.FC<Props> = ({ isOpen, onClose }) => {
             label="Agent email"
             error={email.error}
           />
-          <AnimatedSlideButton
-            onClick={() => {
-              handleInviteAgent();
-            }}
-            className="py-12 px-32 text-primary-200 dark:text-white text-20 border border-primary-200 dark:border-secondary-300  rounded-full mt-8"
-            backClassName="from-primary-100 to-secondary-100 dark:from-primary-400 dark:to-secondary-300"
-          >
-            Send Invite Email
-          </AnimatedSlideButton>
+          {!bankAccountHolder && (
+            <div className="text-14 text-error border border-error rounded-6 p-12 bg-error/10 flex gap-6 items-center">
+              <Icon icon={"iconoir:warning-circle"} className="text-20" />
+              Please connect your bank detail first.
+            </div>
+          )}
+          {!bankAccountHolder ? (
+            <Link href={"/app/account"} className="w-full">
+              <AnimatedSlideButton
+                className="w-full text-primary-200 dark:text-white text-20 py-12 px-32 border border-primary-200 dark:border-secondary-300  rounded-full mt-8"
+                backClassName="from-primary-100 to-secondary-100 dark:from-primary-400 dark:to-secondary-300 "
+              >
+                Connect Bank
+              </AnimatedSlideButton>
+            </Link>
+          ) : (
+            <AnimatedSlideButton
+              onClick={() => {
+                handleInviteAgent();
+              }}
+              className="text-primary-200 dark:text-white text-20 py-12 px-32 border border-primary-200 dark:border-secondary-300  rounded-full mt-8"
+              backClassName="from-primary-100 to-secondary-100 dark:from-primary-400 dark:to-secondary-300 "
+            >
+              Send Invite Email
+            </AnimatedSlideButton>
+          )}
         </div>
       </div>
     </Modal>

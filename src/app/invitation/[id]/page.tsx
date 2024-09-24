@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
@@ -9,7 +9,7 @@ import { LoadingContext } from "@/components/providers/LoadingProvider";
 import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
 import CustomInput from "@/components/global/CustomInput";
 import { isValidPassword, isValidEmail, isValidPhoneNumber } from "@/utils/string.utils";
-import { apiCompleteInvitation } from "@/api/auth.api";
+import { apiCompleteInvitation, apiGetInviteInfo } from "@/api/auth.api";
 
 type Props = {
   params: {
@@ -30,6 +30,8 @@ const AgentInvitationPage = ({ params }: Props) => {
     value: "",
     error: "",
   });
+  const [isLoading, setIsLoading] = useState(true);
+  const [inviteInfo, setInviteInfo] = useState<any>();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -94,7 +96,6 @@ const AgentInvitationPage = ({ params }: Props) => {
         toast.success("Invitation completed successfully.");
         router.push(`/auth/login`);
       } else {
-        console.log(result);
         if (result?.messages?.duplicate) setEmail({ ...email, error: "User is already exist." });
         else
           setEmail({
@@ -109,78 +110,109 @@ const AgentInvitationPage = ({ params }: Props) => {
     }
     setLoading(false);
   };
+  const handleGetInfo = async () => {
+    setIsLoading(true);
+    try {
+      const result = await apiGetInviteInfo(id);
+      setInviteInfo(result);
+      setEmail({ value: result?.emailAddress || "", error: "" });
+    } catch (error) {
+      router.push(`/404`);
+      return;
+    }
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    handleGetInfo();
+  }, [id]); // eslint-disable-line
 
   return (
-    <main className="relative w-full overflow-x-hidden">
-      <div className="g-effect absolute -top-[300px] -right-[300px] w-[1000px] h-[1000px] scale-50 lg:scale-100"></div>
+    <>
+      {isLoading ? null : (
+        <main className="relative w-full overflow-x-hidden">
+          <div className="g-effect absolute -top-[300px] -right-[300px] w-[1000px] h-[1000px] scale-50 lg:scale-100"></div>
 
-      <div className="min-h-screen w-full  max-w-1440 mx-auto relative flex items-center">
-        <div className="w-full h-full flex flex-col items-center justify-center px-16 py-36">
-          <div className="w-full py-40 px-16 md:px-32 max-w-480  bg-white/5 rounded-16 flex flex-col gap-24 items-center">
-            <Link href={"/"}>
-              <SvgLogo className="w-50 h-50" />
-            </Link>
-            <div>
-              <h4 className="g-button-text w-fit  mx-auto text-center ">Agent Invitation</h4>
-              <p className="text-gray-400 text-14 mt-8 text-center">Please complete this form to access as an agent.</p>
+          <div className="min-h-screen w-full  max-w-1440 mx-auto relative flex items-center">
+            <div className="w-full h-full flex flex-col items-center justify-center px-16 py-36">
+              <div className="w-full py-40 px-16 md:px-32 max-w-480  bg-white/5 rounded-16 flex flex-col gap-24 items-center">
+                <Link href={"/"}>
+                  <SvgLogo className="w-50 h-50" />
+                </Link>
+                <div>
+                  <h4 className="g-button-text w-fit  mx-auto text-center ">Agent Invitation</h4>
+                  <p className="text-gray-400 text-14 mt-8 text-center">
+                    You were invited by <span className="text-secondary-200">{inviteInfo?.businessName}</span>. Please
+                    complete this form to be an agent.
+                  </p>
+                </div>
+
+                {inviteInfo.isExpired ? (
+                  <div className="text-error">This transaction has been expired.</div>
+                ) : inviteInfo.isCompleted ? (
+                  <div className="text-success">This transaction was already completed.</div>
+                ) : (
+                  <form onSubmit={handleSubmit} className="flex flex-col gap-24 mt-12 w-full">
+                    <CustomInput
+                      value={name.value}
+                      onChange={(e) => setName({ error: "", value: e })}
+                      icon="solar:user-outline"
+                      placeholder="Agent Name"
+                      error={name.error}
+                    />
+                    <CustomInput
+                      value={country.value}
+                      onChange={(e) => setCountry({ error: "", value: e })}
+                      icon="carbon:location"
+                      placeholder="Country"
+                      error={country.error}
+                    />
+                    <CustomInput
+                      value={phone.value}
+                      onChange={(e) => setPhone({ error: "", value: e })}
+                      icon="radix-icons:mobile"
+                      placeholder="Mobile Number"
+                      error={phone.error}
+                    />
+                    <CustomInput
+                      value={email.value}
+                      onChange={(e) => setEmail({ error: "", value: e })}
+                      type="email"
+                      icon="ic:round-alternate-email"
+                      placeholder="Email Address"
+                      error={email.error}
+                      readonly={true}
+                    />
+                    <CustomInput
+                      value={password.value}
+                      onChange={(e) => setPassword({ error: "", value: e })}
+                      type="password"
+                      icon="solar:shield-keyhole-outline"
+                      placeholder="Password"
+                      error={password.error}
+                    />
+                    <CustomInput
+                      value={passwordConfirm.value}
+                      onChange={(e) => setPasswordConfirm({ error: "", value: e })}
+                      type="password"
+                      icon="solar:shield-keyhole-outline"
+                      placeholder="Confirm Password"
+                      error={passwordConfirm.error}
+                    />
+                    <AnimatedSlideButton
+                      className=" text-18 py-14 border border-secondary-300 rounded-full mt-16"
+                      isSubmit={true}
+                    >
+                      Continue
+                    </AnimatedSlideButton>
+                  </form>
+                )}
+              </div>
             </div>
-            <form onSubmit={handleSubmit} className="flex flex-col gap-24 mt-12 w-full">
-              <CustomInput
-                value={name.value}
-                onChange={(e) => setName({ error: "", value: e })}
-                icon="solar:user-outline"
-                placeholder="Agent Name"
-                error={name.error}
-              />
-              <CustomInput
-                value={country.value}
-                onChange={(e) => setCountry({ error: "", value: e })}
-                icon="carbon:location"
-                placeholder="Country"
-                error={country.error}
-              />
-              <CustomInput
-                value={phone.value}
-                onChange={(e) => setPhone({ error: "", value: e })}
-                icon="radix-icons:mobile"
-                placeholder="Mobile Number"
-                error={phone.error}
-              />
-              <CustomInput
-                value={email.value}
-                onChange={(e) => setEmail({ error: "", value: e })}
-                type="email"
-                icon="ic:round-alternate-email"
-                placeholder="Email Address"
-                error={email.error}
-              />
-              <CustomInput
-                value={password.value}
-                onChange={(e) => setPassword({ error: "", value: e })}
-                type="password"
-                icon="solar:shield-keyhole-outline"
-                placeholder="Password"
-                error={password.error}
-              />
-              <CustomInput
-                value={passwordConfirm.value}
-                onChange={(e) => setPasswordConfirm({ error: "", value: e })}
-                type="password"
-                icon="solar:shield-keyhole-outline"
-                placeholder="Confirm Password"
-                error={passwordConfirm.error}
-              />
-              <AnimatedSlideButton
-                className=" text-18 py-14 border border-secondary-300 rounded-full mt-16"
-                isSubmit={true}
-              >
-                Continue
-              </AnimatedSlideButton>
-            </form>
           </div>
-        </div>
-      </div>
-    </main>
+        </main>
+      )}
+    </>
   );
 };
 
