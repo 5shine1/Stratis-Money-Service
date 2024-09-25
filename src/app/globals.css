@@ -85,12 +85,6 @@ td {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
-.dark .g-header-app {
-  background: linear-gradient(40deg, #c0d4c9, #db9b1e);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
 
 .g-button-text {
   background: linear-gradient(90deg, #4194b6, #e2ad3a);
