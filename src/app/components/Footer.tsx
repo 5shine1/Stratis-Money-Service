@@ -21,7 +21,7 @@ const Footer = () => {
             Privacy Policy
           </Link>
         </div>
-        <div className="w-full text-right">©2024 All right reserved</div>
+        <div className="w-full text-right text-[#6B7A87]">©2024 All right reserved</div>
       </div>
     </footer>
   );

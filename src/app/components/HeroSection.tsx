@@ -14,6 +14,7 @@ const featurePoints = [
 const HeroSection = () => {
   return (
     <section className="relative px-16 pt-120 pb-40 lg:pt-200 lg:pb-60">
+      <img src="/assets/landing/hero-pattern.png" alt="" className="absolute top-0 right-0 h-full" />
       <div className="relative flex-col lg:flex-row items-center w-full max-w-600 lg:max-w-1520  mx-auto flex gap-60 xl:gap-24">
         <div className="w-full flex flex-col gap-32 lg:gap-12">
           <ScrollAnimationElement initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} duration={0.8}>
@@ -59,7 +60,7 @@ const HeroSection = () => {
           </ScrollAnimationElement>
         </div>
       </div>
-      <ScrollAnimationElement initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} duration={0.8} delay={0.8}>
+      <ScrollAnimationElement initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} duration={0.8} delay={1.2}>
         <div className="flex items-center gap-12 justify-center mt-120">
           <SvgTokens />
         </div>
