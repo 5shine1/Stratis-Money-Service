@@ -23,13 +23,15 @@ const ConclusionSection = () => {
             />
             <IconBox icon="hugeicons:dollar-receive-01" />
             <div className="w-full max-w-640 flex flex-col gap-12 text-center relative">
-              <div className="g-button-text text-36 font-semibold w-fit">Ready to Accept Crypto Payments?</div>
+              <div className="g-button-text text-36 font-semibold w-full text-center">
+                Ready to Accept Crypto Payments?
+              </div>
               <div>
                 Join the growing number of businesses embracing the future of payments. Get started with a secure,
                 compliant solution today.
               </div>
             </div>
-            <div className=" w-full max-w-300">
+            <div className="relative w-full max-w-300">
               <Link href={"/auth/register"} className="w-full">
                 <button className=" text-button-text text-18 w-full font-semibold py-16 rounded-12 gap-8 border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50 mx-auto">
                   Sign Up Now

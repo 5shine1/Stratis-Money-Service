@@ -32,12 +32,13 @@ const ProcessSection = () => {
     <section className="px-16 py-80 lg:py-120 relative">
       <div className="relative items-center w-full  max-w-600 lg:max-w-1520 mx-auto flex gap-80 flex-col lg:flex-row-reverse">
         <div className="w-full relative p-12">
+          <div className="bg-[#0B3740] absolute left-1/2 top-1/2 -translate-x-1/2 rounded-full  -translate-y-1/2 w-800 h-800 pointer-event-none blur-[366px] scale-50 lg:scale-100"></div>
           <ScrollAnimationElement
             initial={{ opacity: 0, filter: "blur(12px)", x: -40 }}
             animate={{ opacity: 1, filter: "blur(0px)", x: 0 }}
             duration={0.8}
           >
-            <img src="/assets/landing/process-bg.png" alt="" className="w-full" />
+            <img src="/assets/landing/process-bg.png" alt="" className="w-full z-10" />
           </ScrollAnimationElement>
         </div>
         <div className="w-full flex flex-col gap-12">
