@@ -14,11 +14,17 @@ const FeatureSection = () => {
     <section className="px-16 py-80 lg:py-120 relative">
       <div className="relative w-full  max-w-600 lg:max-w-1520 mx-auto flex items-center gap-24 justify-between">
         <div className="w-full max-w-600">
-          <img
-            src="/assets/global/mock.png"
-            alt=""
-            className="w-full aspect-[4/3] rounded-36 border border-[#374F64]"
-          />
+          <ScrollAnimationElement
+            initial={{ opacity: 0, rotateY: 90 }}
+            animate={{ opacity: 1, rotateY: 0 }}
+            duration={0.5}
+          >
+            <img
+              src="/assets/global/mock.png"
+              alt=""
+              className="w-full aspect-[4/3] rounded-36 border border-[#374F64]"
+            />
+          </ScrollAnimationElement>
         </div>
         <div>
           <ScrollAnimationElement
@@ -31,8 +37,8 @@ const FeatureSection = () => {
             </div>
           </ScrollAnimationElement>
           <ScrollAnimationElement
-            initial={{ opacity: 0, rotateY: 90 }}
-            animate={{ opacity: 1, rotateY: 0 }}
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
             duration={0.8}
             delay={0.4}
           >

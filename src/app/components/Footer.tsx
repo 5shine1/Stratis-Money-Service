@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 import Link from "next/link";
-import { Icon } from "@iconify/react";
 import SvgLogoApp from "@/assets/SvgLogoApp";
 
 const Footer = () => {

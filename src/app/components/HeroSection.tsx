@@ -59,9 +59,11 @@ const HeroSection = () => {
           </ScrollAnimationElement>
         </div>
       </div>
-      <div className="flex items-center gap-12 justify-center mt-120">
-        <SvgTokens />
-      </div>
+      <ScrollAnimationElement initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} duration={0.8} delay={0.8}>
+        <div className="flex items-center gap-12 justify-center mt-120">
+          <SvgTokens />
+        </div>
+      </ScrollAnimationElement>
     </section>
   );
 };
