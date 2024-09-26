@@ -36,7 +36,7 @@ const Header = () => {
   return (
     <>
       <header
-        className={`bg-gradient-to-r from-button-from/10 to-button-to/10 z-10 fixed top-0  left-0 w-full px-16 py-24 backdrop-blur-md`}
+        className={`bg-gradient-to-r from-button-from/10 to-button-to/10 z-10 absolute top-0  left-0 w-full px-16 py-24 backdrop-blur-md`}
       >
         <nav className="flex items-center gap-8 md:gap-64 max-w-1520 mx-auto">
           <Link href={"/"} className="mr-auto flex gap-10 items-center">
