@@ -6,9 +6,18 @@ import ScrollAnimationElement from "@/components/global/ScrollAnimatedElement";
 
 const processSteps = [
   { key: "Register your Business", text: "Sign up and create your business account with us in just a few minutes" },
-  { key: "Verify your Business", text: "Complete the Know your Business verification to ensure compliance with regulations." },
-  { key: "Generate Payment Link", text: "Create a payment link through our platform, we will share it with your customer." },
-  { key: "Receive Payment & Transfer Funds", text: "Once your customer pays, funds are instantly liquidated and ready to be withdrawn to your business bank account" },
+  {
+    key: "Verify your Business",
+    text: "Complete the Know your Business verification to ensure compliance with regulations.",
+  },
+  {
+    key: "Generate Payment Link",
+    text: "Create a payment link through our platform, we will share it with your customer.",
+  },
+  {
+    key: "Receive Payment & Transfer Funds",
+    text: "Once your customer pays, funds are instantly liquidated and ready to be withdrawn to your business bank account",
+  },
 ];
 
 const ProcessSection = () => {
@@ -32,9 +41,8 @@ const ProcessSection = () => {
             delay={0.3}
           >
             <p className="text-gray-400">
-              Start accepting crypto payments in just a few simple steps.
-              Our streamlined process ensures your business is up and running quickly,
-              with no hassle and full regulatory compliance.
+              Start accepting crypto payments in just a few simple steps. Our streamlined process ensures your business
+              is up and running quickly, with no hassle and full regulatory compliance.
             </p>
           </ScrollAnimationElement>
 
