@@ -238,14 +238,16 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
                 <>
                   <div className="relative z-10 bg-[#031520B2] rounded-8 max-w-780 mx-auto w-full flex items-start md:items-center flex-col md:flex-row p-24 gap-40 md:gap-24 justify-between">
                     <div className="flex flex-col gap-24 md:gap-40">
-                      <div className="flex items-start flex-col md:flex-row gap-24 md:gap-40">
+                      <div className="flex items-start flex-col md:flex-row gap-20 md:gap-40">
                         <div className="flex flex-col gap-6">
                           <span className="text-[#6B7A87] text-14">Network</span>
-                          <div className="font-medium text-[#BDCCD8] text-24">{networkList[network].text}</div>
+                          <div className="font-medium text-[#BDCCD8] text-20 md:text-24">
+                            {networkList[network].text}
+                          </div>
                         </div>
                         <div className="flex flex-col gap-6">
                           <span className="text-[#6B7A87]  text-14">Amount</span>
-                          <div className="font-medium text-[#BDCCD8] text-24 flex items-center gap-8">
+                          <div className="font-medium text-[#BDCCD8] text-20 md:text-24 flex items-center gap-8">
                             {depositInfo?.paymentAmount} {currencies[currency].text}
                             <div
                               className="cursor-pointer"
@@ -262,9 +264,9 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
                       </div>
                       <div className="flex flex-col gap-6">
                         <span className="text-[#6B7A87]  text-14">Deposit Address</span>
-                        <div className="font-medium text-[#BDCCD8] text-17 flex items-center gap-8">
+                        <div className="font-medium text-[#BDCCD8] text-17 flex items-start sm:items-center gap-8">
                           <span className="hidden md:block">{depositInfo?.paymentDestination}</span>
-                          <span className="md:hidden text-24">{shortenAddress(depositInfo?.paymentDestination)}</span>
+                          <span className="md:hidden text-16 break-all">{depositInfo?.paymentDestination}</span>
                           <div
                             className="cursor-pointer"
                             onClick={() => {
@@ -277,7 +279,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
                         </div>
                       </div>
                     </div>
-                    <div className="p-8 w-full max-w-280 sm:max-w-180 aspect-square">
+                    <div className="p-8 w-full max-w-280 sm:max-w-180 aspect-square mx-auto md:mx-0">
                       <div className="relative">
                         <div className=" top-0 left-0 absolute w-full aspect-square bg-[#DEAD3D99] rotate-[-5.4deg] rounded-8 "></div>
                         <QRCode
@@ -295,7 +297,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
                       backColor="bg-[#290D0D]"
                       textColor="text-[#BF5858]"
                     />
-                    <p className="text-[#6B7A87] text-14">
+                    <p className="text-[#6B7A87] text-14 leading-[1.5]">
                       Be careful when choosing a network and currency when sending cryptocurrency. If you send
                       cryptocurrency over the wrong network or wrong currency, then your money will not be credited or
                       returned.
@@ -382,9 +384,8 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
               <div className="relative max-w-540 w-full flex items-center flex-col gap-12">
                 <IconBox icon="iconoir:open-in-window" />
                 <div className="text-20 md:text-24 text-center text-[#DAE3EA] font-semibold">
-                  <span className="break-all ">{paymentInfo?.payeeName} </span>
-                  <span className="text-[#788F99]">has requested</span>{" "}
-                  <span className="break-all ">{paymentInfo?.customerName}</span>{" "}
+                  <span>{paymentInfo?.payeeName} </span>
+                  <span className="text-[#788F99]">has requested</span> <span>{paymentInfo?.customerName}</span>{" "}
                   <span className="text-[#788F99]">to pay</span> {paymentInfo?.amount} {paymentInfo?.currencySymbol}.
                 </div>
                 <div className=" text-18 text-[#788F99]">{paymentInfo?.description}</div>
