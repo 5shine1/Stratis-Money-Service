@@ -48,7 +48,7 @@ const FeatureSection = () => {
                   key={i}
                   className="flex items-start gap-40 pb-24 border-b border-[#213541] last:border-transparent"
                 >
-                  <div className="text-[#11212D] font-extrabold text-48">0{i + 1}</div>
+                  <div className="text-[#1B2B35] font-extrabold text-48">0{i + 1}</div>
                   <div className="flex flex-col gap-6">
                     <div className="font-semibold text-24">{item.title}</div>
                     <div className="text-16 text-[#788F99]">{item.text}</div>
