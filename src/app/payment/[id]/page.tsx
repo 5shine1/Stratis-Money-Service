@@ -152,124 +152,106 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
   return (
     <>
       {isLoading ? null : (
-        <main className="overflow-x-hidden relative py-40 px-12 flex justify-center items-center min-h-[100vh] m-auto">
-          <div className="flex flex-col gap-32 md:gap-60 w-full items-center">
-            <Link href={"/"} className="flex items-center gap-16 justify-center">
-              <SvgLogoApp className="w-48 h-48 !fill-secondary-200" />{" "}
-              <h4 className="hidden sm:block">Stratis Money Service</h4>
-            </Link>
-            {status === 60 ? (
-              //-------------deposite------------
-              <section className="relative g-box-back rounded-20 border border-modal-border px-20 py-40 md:p-40 flex flex-col gap-40 w-full max-w-920 items-center">
-                <img src="/assets/global/back_pattern.png" draggable={false} alt="" className="absolute left-0 top-0" />
-                <img
-                  src="/assets/global/back_pattern.png"
-                  draggable={false}
-                  alt=""
-                  className="absolute bottom-0 right-0 scale-y-[-1] scale-x-[-1]"
-                />
-                <div className="relative flex items-start md:items-center gap-24 md:gap-12 w-full max-w-540  flex-col md:flex-row md:pb-50">
-                  <div className="relative flex items-center gap-8">
-                    <IconBox icon="lets-icons:check-ring" />
-                    <span className="md:hidden text-14 text-[#BDCCD8]">Payment is requested</span>
-                    <span className="absolute left-1/2 text-14 whitespace-nowrap -translate-x-1/2 top-full mt-12 hidden md:block text-[#BDCCD8]">
-                      Payment is requested
-                    </span>
-                  </div>
-                  <ChainLine />
-                  <div className="relative flex items-center gap-8">
-                    <IconBox
-                      icon={isSpin2 ? "lets-icons:check-ring" : "eos-icons:loading"}
-                      className={`w-24 h-24 ${isSpin2 ? "text-secondary-main" : "text-[#516972]"}`}
-                    />
-
-                    <span className="md:hidden text-14 text-[#BDCCD8]">Payment is received, awaiting confirmation</span>
-                    <span className="absolute left-1/2 text-14 whitespace-nowrap -translate-x-1/2 top-full mt-12 hidden md:block text-[#BDCCD8]">
-                      Payment is received, <br /> awaiting confirmation
-                    </span>
-                  </div>
-                  <ChainLine />
-                  <div className="relative flex items-center gap-8">
-                    <IconBox
-                      icon={isSpin3 ? "lets-icons:check-ring" : "eos-icons:loading"}
-                      className={`w-24 h-24 ${isSpin3 ? "text-secondary-main" : "text-[#516972]"}`}
-                    />
-                    <span className="md:hidden text-14  text-[#BDCCD8]">
-                      Payment completed ({confirmStep}/{totalConfirmations})
-                    </span>
-                    <span className="absolute left-1/2 text-14 whitespace-nowrap -translate-x-1/2 top-full mt-12 hidden md:block  text-[#BDCCD8]">
-                      Payment completed ({confirmStep}/{totalConfirmations})
-                    </span>
-                  </div>
+        <main className="overflow-x-hidden relative py-40 px-12 flex justify-between md:justify-center items-center h-full  min-h-screen m-auto flex-col gap-32 md:gap-60 w-full ">
+          <Link href={"/"} className="flex flex-col md:flex-row items-center gap-16 justify-center">
+            <SvgLogoApp className="w-48 h-48 !fill-secondary-200" />{" "}
+            <h4 className="text-center">Stratis Money Service</h4>
+          </Link>
+          {status === 60 ? (
+            //-------------deposite------------
+            <section className="relative g-box-back rounded-20 border border-modal-border px-20 py-40 md:p-40 flex flex-col gap-40 w-full max-w-920 items-center">
+              <img src="/assets/global/back_pattern.png" draggable={false} alt="" className="absolute left-0 top-0" />
+              <img
+                src="/assets/global/back_pattern.png"
+                draggable={false}
+                alt=""
+                className="absolute bottom-0 right-0 scale-y-[-1] scale-x-[-1]"
+              />
+              <div className="relative flex items-start md:items-center gap-24 md:gap-12 w-full max-w-540  flex-col md:flex-row md:pb-50">
+                <div className="relative flex items-center gap-8">
+                  <IconBox icon="lets-icons:check-ring" />
+                  <span className="md:hidden text-14 text-[#BDCCD8]">Payment is requested</span>
+                  <span className="absolute left-1/2 text-14 whitespace-nowrap -translate-x-1/2 top-full mt-12 hidden md:block text-[#BDCCD8]">
+                    Payment is requested
+                  </span>
                 </div>
-                {hash ? (
-                  <div className="relative z-10 bg-[#031520B2] rounded-8 max-w-780 mx-auto w-full flex items-start md:items-end flex-col md:flex-row p-24 gap-24 justify-between">
-                    <div className="flex flex-col gap-24 md:gap-40">
-                      <div className="flex flex-col gap-6">
-                        <span className="text-[#6B7A87] text-14">Transaction Hash</span>
-                        <div className="font-medium text-[#BDCCD8] text-17 flex items-center gap-8">
-                          <span className="hidden md:block">{shortenString(hash, 8, 6)}</span>
-                          <span className="md:hidden">{shortenString(hash, 6, 4)}</span>
-                          <div
-                            className="cursor-pointer"
-                            onClick={() => {
-                              navigator.clipboard.writeText(hash);
-                              toast.success("Copied amount.");
-                            }}
-                          >
-                            <IconBoxSm icon="ph:copy-light" />
-                          </div>
-                          <a href={`${explorer}/tx/${hash}`} target="_blank">
-                            <IconBoxSm icon="octicon:link-external-24" />
-                          </a>
+                <ChainLine />
+                <div className="relative flex items-center gap-8">
+                  <IconBox
+                    icon={isSpin2 ? "lets-icons:check-ring" : "eos-icons:loading"}
+                    className={`w-24 h-24 ${isSpin2 ? "text-secondary-main" : "text-[#516972]"}`}
+                  />
+
+                  <span className="md:hidden text-14 text-[#BDCCD8]">Payment is received, awaiting confirmation</span>
+                  <span className="absolute left-1/2 text-14 whitespace-nowrap -translate-x-1/2 top-full mt-12 hidden md:block text-[#BDCCD8]">
+                    Payment is received, <br /> awaiting confirmation
+                  </span>
+                </div>
+                <ChainLine />
+                <div className="relative flex items-center gap-8">
+                  <IconBox
+                    icon={isSpin3 ? "lets-icons:check-ring" : "eos-icons:loading"}
+                    className={`w-24 h-24 ${isSpin3 ? "text-secondary-main" : "text-[#516972]"}`}
+                  />
+                  <span className="md:hidden text-14  text-[#BDCCD8]">
+                    Payment completed ({confirmStep}/{totalConfirmations})
+                  </span>
+                  <span className="absolute left-1/2 text-14 whitespace-nowrap -translate-x-1/2 top-full mt-12 hidden md:block  text-[#BDCCD8]">
+                    Payment completed ({confirmStep}/{totalConfirmations})
+                  </span>
+                </div>
+              </div>
+              {hash ? (
+                <div className="relative z-10 bg-[#031520B2] rounded-8 max-w-780 mx-auto w-full flex items-start md:items-end flex-col md:flex-row p-24 gap-24 justify-between">
+                  <div className="flex flex-col gap-24 md:gap-40">
+                    <div className="flex flex-col gap-6">
+                      <span className="text-[#6B7A87] text-14">Transaction Hash</span>
+                      <div className="font-medium text-[#BDCCD8] text-17 flex items-center gap-8">
+                        <span className="hidden md:block">{shortenString(hash, 8, 6)}</span>
+                        <span className="md:hidden">{shortenString(hash, 6, 4)}</span>
+                        <div
+                          className="cursor-pointer"
+                          onClick={() => {
+                            navigator.clipboard.writeText(hash);
+                            toast.success("Copied amount.");
+                          }}
+                        >
+                          <IconBoxSm icon="ph:copy-light" />
                         </div>
+                        <a href={`${explorer}/tx/${hash}`} target="_blank">
+                          <IconBoxSm icon="octicon:link-external-24" />
+                        </a>
                       </div>
                     </div>
-                    <div className="max-w-280 w-full">
-                      <ProgressBar
-                        percentage={(confirmStep / totalConfirmations) * 100}
-                        label="Confirmations"
-                        progress={`${confirmStep}/${totalConfirmations} (${Math.floor(
-                          (confirmStep / totalConfirmations) * 100
-                        )}%)`}
-                      />
-                    </div>
                   </div>
-                ) : (
-                  <>
-                    <div className="relative z-10 bg-[#031520B2] rounded-8 max-w-780 mx-auto w-full flex items-start md:items-center flex-col md:flex-row p-24 gap-40 md:gap-24 justify-between">
-                      <div className="flex flex-col gap-24 md:gap-40">
-                        <div className="flex items-start flex-col md:flex-row gap-24 md:gap-40">
-                          <div className="flex flex-col gap-6">
-                            <span className="text-[#6B7A87] text-14">Network</span>
-                            <div className="font-medium text-[#BDCCD8] text-24">{networkList[network].text}</div>
-                          </div>
-                          <div className="flex flex-col gap-6">
-                            <span className="text-[#6B7A87]  text-14">Amount</span>
-                            <div className="font-medium text-[#BDCCD8] text-24 flex items-center gap-8">
-                              {depositInfo?.paymentAmount} {currencies[currency].text}
-                              <div
-                                className="cursor-pointer"
-                                onClick={() => {
-                                  navigator.clipboard.writeText(depositInfo?.paymentAmount);
-
-                                  toast.success("Copied amount.");
-                                }}
-                              >
-                                <IconBoxSm icon="ph:copy-light" />
-                              </div>
-                            </div>
-                          </div>
+                  <div className="max-w-280 w-full">
+                    <ProgressBar
+                      percentage={(confirmStep / totalConfirmations) * 100}
+                      label="Confirmations"
+                      progress={`${confirmStep}/${totalConfirmations} (${Math.floor(
+                        (confirmStep / totalConfirmations) * 100
+                      )}%)`}
+                    />
+                  </div>
+                </div>
+              ) : (
+                <>
+                  <div className="relative z-10 bg-[#031520B2] rounded-8 max-w-780 mx-auto w-full flex items-start md:items-center flex-col md:flex-row p-24 gap-40 md:gap-24 justify-between">
+                    <div className="flex flex-col gap-24 md:gap-40">
+                      <div className="flex items-start flex-col md:flex-row gap-24 md:gap-40">
+                        <div className="flex flex-col gap-6">
+                          <span className="text-[#6B7A87] text-14">Network</span>
+                          <div className="font-medium text-[#BDCCD8] text-24">{networkList[network].text}</div>
                         </div>
                         <div className="flex flex-col gap-6">
-                          <span className="text-[#6B7A87]  text-14">Deposit Address</span>
-                          <div className="font-medium text-[#BDCCD8] text-17 flex items-center gap-8">
-                            <span className="hidden md:block">{depositInfo?.paymentDestination}</span>
-                            <span className="md:hidden text-24">{shortenAddress(depositInfo?.paymentDestination)}</span>
+                          <span className="text-[#6B7A87]  text-14">Amount</span>
+                          <div className="font-medium text-[#BDCCD8] text-24 flex items-center gap-8">
+                            {depositInfo?.paymentAmount} {currencies[currency].text}
                             <div
                               className="cursor-pointer"
                               onClick={() => {
-                                navigator.clipboard.writeText(depositInfo?.paymentDestination);
+                                navigator.clipboard.writeText(depositInfo?.paymentAmount);
+
                                 toast.success("Copied amount.");
                               }}
                             >
@@ -278,160 +260,177 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
                           </div>
                         </div>
                       </div>
-                      <div className="p-8 w-full max-w-280 sm:max-w-180 aspect-square">
-                        <div className="relative">
-                          <div className=" top-0 left-0 absolute w-full aspect-square bg-[#DEAD3D99] rotate-[-5.4deg] rounded-8 "></div>
-                          <QRCode
-                            className="rounded-8 relative "
-                            value={paymentLinkData}
-                            style={{ height: "auto", maxWidth: "100%", width: "100%" }}
-                          />
+                      <div className="flex flex-col gap-6">
+                        <span className="text-[#6B7A87]  text-14">Deposit Address</span>
+                        <div className="font-medium text-[#BDCCD8] text-17 flex items-center gap-8">
+                          <span className="hidden md:block">{depositInfo?.paymentDestination}</span>
+                          <span className="md:hidden text-24">{shortenAddress(depositInfo?.paymentDestination)}</span>
+                          <div
+                            className="cursor-pointer"
+                            onClick={() => {
+                              navigator.clipboard.writeText(depositInfo?.paymentDestination);
+                              toast.success("Copied amount.");
+                            }}
+                          >
+                            <IconBoxSm icon="ph:copy-light" />
+                          </div>
                         </div>
                       </div>
                     </div>
-                    <div className="flex gap-12 items-start max-w-780 mx-auto w-full ">
-                      <IconBoxSm
-                        icon="carbon:warning"
-                        borderColor="border-[#3D1414]"
-                        backColor="bg-[#290D0D]"
-                        textColor="text-[#BF5858]"
-                      />
-                      <p className="text-[#6B7A87] text-14">
-                        Be careful when choosing a network and currency when sending cryptocurrency. If you send
-                        cryptocurrency over the wrong network or wrong currency, then your money will not be credited or
-                        returned.
-                      </p>
-                    </div>
-                  </>
-                )}
-              </section>
-            ) : status === 200 ? (
-              <section className="relative g-box-back rounded-20 border border-modal-border py-24 px-24 md:px-40 flex flex-col gap-32 w-full max-w-820 items-center">
-                <img src="/assets/global/back_pattern.png" draggable={false} alt="" className="absolute left-0 top-0" />
-                <img
-                  src="/assets/global/back_pattern.png"
-                  draggable={false}
-                  alt=""
-                  className="absolute bottom-0 right-0 scale-y-[-1] scale-x-[-1]"
-                />
-                <div className="relative max-w-540 w-full flex items-center flex-col gap-12">
-                  <IconBox icon="lets-icons:check-ring" />
-                  <div className="text-24 text-center g-button-text font-semibold">
-                    Transaction has been completed successfully!
-                  </div>
-                </div>
-
-                <div className="relative bg-[#031520B2] rounded-8 flex items-start md:items-center gap-32 justify-between w-full p-20 flex-col md:flex-row">
-                  <div className="text-18 text-[#DAE3EA] leading-[1.5] md:max-w-220">
-                    You have paid{" "}
-                    <span className="text-[#DEAD3D]">
-                      {paymentInfo?.amount} {paymentInfo?.currencySymbol}
-                    </span>{" "}
-                    to {paymentInfo?.payeeName}
-                  </div>
-                  <div className="flex flex-col gap-6">
-                    <span className="text-[#6B7A87] text-14">Transaction Hash</span>
-                    <div className="font-medium text-[#BDCCD8] text-17 flex items-center gap-8">
-                      <span className="hidden md:block">{shortenString(hash, 8, 6)}</span>
-                      <span className="md:hidden">{shortenString(hash, 6, 4)}</span>
-                      <div
-                        className="cursor-pointer"
-                        onClick={() => {
-                          navigator.clipboard.writeText(hash);
-                          toast.success("Copied amount.");
-                        }}
-                      >
-                        <IconBoxSm icon="ph:copy-light" />
+                    <div className="p-8 w-full max-w-280 sm:max-w-180 aspect-square">
+                      <div className="relative">
+                        <div className=" top-0 left-0 absolute w-full aspect-square bg-[#DEAD3D99] rotate-[-5.4deg] rounded-8 "></div>
+                        <QRCode
+                          className="rounded-8 relative "
+                          value={paymentLinkData}
+                          style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                        />
                       </div>
-                      <a href={`${explorer}/tx/${hash}`} target="_blank">
-                        <IconBoxSm icon="octicon:link-external-24" />
-                      </a>
                     </div>
                   </div>
-                </div>
-              </section>
-            ) : status === 55 ? (
-              <section className="relative g-box-back rounded-20 border border-modal-border py-24 px-24 md:px-40 flex flex-col gap-40 w-full max-w-820 items-center">
-                <img src="/assets/global/back_pattern.png" draggable={false} alt="" className="absolute left-0 top-0" />
-                <img
-                  src="/assets/global/back_pattern.png"
-                  draggable={false}
-                  alt=""
-                  className="absolute bottom-0 right-0 scale-y-[-1] scale-x-[-1]"
-                />
-                <div className="relative max-w-540 w-full flex items-center flex-col gap-12">
-                  <IconBox icon="carbon:warning" />
-                  <div className="text-24 text-center g-button-text font-semibold">
-                    This transaction already has been expired!
+                  <div className="flex gap-12 items-start max-w-780 mx-auto w-full ">
+                    <IconBoxSm
+                      icon="carbon:warning"
+                      borderColor="border-[#3D1414]"
+                      backColor="bg-[#290D0D]"
+                      textColor="text-[#BF5858]"
+                    />
+                    <p className="text-[#6B7A87] text-14">
+                      Be careful when choosing a network and currency when sending cryptocurrency. If you send
+                      cryptocurrency over the wrong network or wrong currency, then your money will not be credited or
+                      returned.
+                    </p>
                   </div>
+                </>
+              )}
+            </section>
+          ) : status === 200 ? (
+            <section className="relative g-box-back rounded-20 border border-modal-border py-24 px-24 md:px-40 flex flex-col gap-32 w-full max-w-820 items-center">
+              <img src="/assets/global/back_pattern.png" draggable={false} alt="" className="absolute left-0 top-0" />
+              <img
+                src="/assets/global/back_pattern.png"
+                draggable={false}
+                alt=""
+                className="absolute bottom-0 right-0 scale-y-[-1] scale-x-[-1]"
+              />
+              <div className="relative max-w-540 w-full flex items-center flex-col gap-12">
+                <IconBox icon="lets-icons:check-ring" />
+                <div className="text-24 text-center g-button-text font-semibold">
+                  Transaction has been completed successfully!
                 </div>
-                <Link href={"/"} className="flex items-center gap-8 text-[#DDAC3E]">
-                  <Icon icon={"octicon:arrow-left-16"} className="w-16 h-16" />
-                  Go Back
-                </Link>
-              </section>
-            ) : (
-              // ----------------init payment-----------------
-              <section className="relative g-box-back rounded-20 border border-modal-border p-24 flex flex-col gap-32 w-full max-w-820 items-center">
-                <img src="/assets/global/back_pattern.png" draggable={false} alt="" className="absolute left-0 top-0" />
-                <img
-                  src="/assets/global/back_pattern.png"
-                  draggable={false}
-                  alt=""
-                  className="absolute bottom-0 right-0 scale-y-[-1] scale-x-[-1]"
-                />
-                <div className="relative max-w-540 w-full flex items-center flex-col gap-12">
-                  <IconBox icon="iconoir:open-in-window" />
-                  <div className="text-24 text-center text-[#DAE3EA] font-semibold">
-                    <span className="break-all md:break-normal">{paymentInfo?.payeeName} </span>
-                    <span className="text-[#788F99]">has requested</span>{" "}
-                    <span className="break-all md:break-normal">{paymentInfo?.customerName}</span>{" "}
-                    <span className="text-[#788F99]">to pay</span> {paymentInfo?.amount} {paymentInfo?.currencySymbol}.
-                  </div>
-                  <div className=" text-18 text-[#788F99]">{paymentInfo?.description}</div>
-                </div>
+              </div>
 
-                <div className="w-full  max-w-320 flex flex-col gap-24">
-                  <div>
-                    <div className="mb-6 text-[#6B7A87]">Select currency you want to pay</div>
-                    <CustomSelect
-                      data={currencyList}
-                      init={currencyList[currency]}
-                      onChange={(selected) => {
-                        setCurrency(selected.id);
-                        setNetwork(0);
+              <div className="relative bg-[#031520B2] rounded-8 flex items-start md:items-center gap-32 justify-between w-full p-20 flex-col md:flex-row">
+                <div className="text-18 text-[#DAE3EA] leading-[1.5] md:max-w-220">
+                  You have paid{" "}
+                  <span className="text-[#DEAD3D]">
+                    {paymentInfo?.amount} {paymentInfo?.currencySymbol}
+                  </span>{" "}
+                  to {paymentInfo?.payeeName}
+                </div>
+                <div className="flex flex-col gap-6">
+                  <span className="text-[#6B7A87] text-14">Transaction Hash</span>
+                  <div className="font-medium text-[#BDCCD8] text-17 flex items-center gap-8">
+                    <span className="hidden md:block">{shortenString(hash, 8, 6)}</span>
+                    <span className="md:hidden">{shortenString(hash, 6, 4)}</span>
+                    <div
+                      className="cursor-pointer"
+                      onClick={() => {
+                        navigator.clipboard.writeText(hash);
+                        toast.success("Copied amount.");
                       }}
-                      mainClass="border border-input-border text-input-text rounded-8 py-12 px-16 cursor-pointer u-text-overflow"
-                      padClass="absolute top-full left-0 w-full max-h-[240px] overflow-auto rounded-8 bg-[#192C37] border border-[#213541] shadow-tab overflow-y-auto z-10"
-                      listClass="p-16 cursor-pointer u-text-overflow rounded-4 border-b border-[#213541] last:border-b-0"
-                      isIcon={true}
-                    ></CustomSelect>
-                  </div>
-                  <div>
-                    <div className="mb-6 text-[#6B7A87]">Select Network</div>
-                    <CustomSelect
-                      data={networkList}
-                      init={networkList[network]}
-                      onChange={(selected) => {
-                        setNetwork(selected.id);
-                      }}
-                      mainClass="border border-input-border text-input-text rounded-8 py-12 px-16 cursor-pointer u-text-overflow"
-                      padClass="absolute top-full left-0 w-full max-h-[240px] overflow-auto rounded-8 bg-[#192C37] border border-[#213541] shadow-tab overflow-y-auto z-10"
-                      listClass="p-16 cursor-pointer u-text-overflow rounded-4 border-b border-[#213541] last:border-b-0"
-                    ></CustomSelect>
+                    >
+                      <IconBoxSm icon="ph:copy-light" />
+                    </div>
+                    <a href={`${explorer}/tx/${hash}`} target="_blank">
+                      <IconBoxSm icon="octicon:link-external-24" />
+                    </a>
                   </div>
                 </div>
+              </div>
+            </section>
+          ) : status === 55 ? (
+            <section className="relative g-box-back rounded-20 border border-modal-border py-24 px-24 md:px-40 flex flex-col gap-40 w-full max-w-820 items-center">
+              <img src="/assets/global/back_pattern.png" draggable={false} alt="" className="absolute left-0 top-0" />
+              <img
+                src="/assets/global/back_pattern.png"
+                draggable={false}
+                alt=""
+                className="absolute bottom-0 right-0 scale-y-[-1] scale-x-[-1]"
+              />
+              <div className="relative max-w-540 w-full flex items-center flex-col gap-12">
+                <IconBox icon="carbon:warning" />
+                <div className="text-24 text-center g-button-text font-semibold">
+                  This transaction already has been expired!
+                </div>
+              </div>
+              <Link href={"/"} className="flex items-center gap-8 text-[#DDAC3E]">
+                <Icon icon={"octicon:arrow-left-16"} className="w-16 h-16" />
+                Go Back
+              </Link>
+            </section>
+          ) : (
+            // ----------------init payment-----------------
+            <section className="relative g-box-back rounded-20 border border-modal-border p-20 md:p-24 flex flex-col gap-32 w-full max-w-820 items-center">
+              <img src="/assets/global/back_pattern.png" draggable={false} alt="" className="absolute left-0 top-0" />
+              <img
+                src="/assets/global/back_pattern.png"
+                draggable={false}
+                alt=""
+                className="absolute bottom-0 right-0 scale-y-[-1] scale-x-[-1] hidden md:block"
+              />
+              <div className="relative max-w-540 w-full flex items-center flex-col gap-12">
+                <IconBox icon="iconoir:open-in-window" />
+                <div className="text-20 md:text-24 text-center text-[#DAE3EA] font-semibold">
+                  <span className="break-all ">{paymentInfo?.payeeName} </span>
+                  <span className="text-[#788F99]">has requested</span>{" "}
+                  <span className="break-all ">{paymentInfo?.customerName}</span>{" "}
+                  <span className="text-[#788F99]">to pay</span> {paymentInfo?.amount} {paymentInfo?.currencySymbol}.
+                </div>
+                <div className=" text-18 text-[#788F99]">{paymentInfo?.description}</div>
+              </div>
 
-                <button
-                  onClick={handleMakePayment}
-                  className="w-full max-w-320 text-button-text text-18 font-semibold py-16  rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50"
-                >
-                  Continue
-                  <Icon icon={"octicon:arrow-right-16"} className="w-16 h-16" />
-                </button>
-              </section>
-            )}
-          </div>
+              <div className="w-full  max-w-320 flex flex-col gap-16 md:gap-24">
+                <div>
+                  <div className="text-14 md:text-16 mb-6 text-[#6B7A87]">Select currency you want to pay</div>
+                  <CustomSelect
+                    data={currencyList}
+                    init={currencyList[currency]}
+                    onChange={(selected) => {
+                      setCurrency(selected.id);
+                      setNetwork(0);
+                    }}
+                    mainClass="border border-input-border text-input-text rounded-8 py-12 px-16 cursor-pointer u-text-overflow"
+                    padClass="absolute top-full left-0 w-full max-h-[240px] overflow-auto rounded-8 bg-[#192C37] border border-[#213541] shadow-tab overflow-y-auto z-10"
+                    listClass="p-16 cursor-pointer u-text-overflow rounded-4 border-b border-[#213541] last:border-b-0"
+                    isIcon={true}
+                  ></CustomSelect>
+                </div>
+                <div>
+                  <div className="text-14 md:text-16 mb-6 text-[#6B7A87]">Select Network</div>
+                  <CustomSelect
+                    data={networkList}
+                    init={networkList[network]}
+                    onChange={(selected) => {
+                      setNetwork(selected.id);
+                    }}
+                    mainClass="border border-input-border text-input-text rounded-8 py-12 px-16 cursor-pointer u-text-overflow"
+                    padClass="absolute top-full left-0 w-full max-h-[240px] overflow-auto rounded-8 bg-[#192C37] border border-[#213541] shadow-tab overflow-y-auto z-10"
+                    listClass="p-16 cursor-pointer u-text-overflow rounded-4 border-b border-[#213541] last:border-b-0"
+                  ></CustomSelect>
+                </div>
+              </div>
+
+              <button
+                onClick={handleMakePayment}
+                className="w-full max-w-320 text-button-text text-18 font-semibold py-16  rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50"
+              >
+                Continue
+                <Icon icon={"octicon:arrow-right-16"} className="w-16 h-16" />
+              </button>
+            </section>
+          )}
+          <div className="md:hidden"></div>
         </main>
       )}
     </>
