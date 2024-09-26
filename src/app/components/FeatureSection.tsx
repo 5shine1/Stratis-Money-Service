@@ -12,33 +12,51 @@ const featurePoints = [
 const FeatureSection = () => {
   return (
     <section className="px-16 py-80 lg:py-120 relative">
-      <div className="g-effect absolute -top-[800px] -z-10 -right-[600px] w-[1200px] h-[1600px] scale-50 lg:scale-100"></div>
-      <div className="relative w-full  max-w-600 lg:max-w-1440 mx-auto ">
-        <ScrollAnimationElement initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1 }} duration={0.5}>
-          <h2 className="uppercase text-center">Why Choose Us</h2>
-        </ScrollAnimationElement>        
-        <div className="flex items-center lg:items-stretch justify-between flex-col lg:flex-row gap-32 mt-56 lg:mt-96">
-          {featurePoints.map((item, i) => (
-            <ScrollAnimationElement
-              key={i}
-              initial={{ opacity: 0, rotateY: 90 }}
-              animate={{ opacity: 1, rotateY: 0 }}
-              duration={0.8}
-              delay={0.4}
-            >
-              <div className="rounded-32 w-full bg-primary-600 border border-primary-400 p-12 max-w-400">
-                <div className="overflow-hidden aspect-[4/3] rounded-24">
-                  <img src="/assets/global/mock.png" alt="" className="w-full h-full object-cover" />
+      <div className="relative w-full  max-w-600 lg:max-w-1520 mx-auto flex items-center gap-24 justify-between">
+        <div className="w-full max-w-600">
+          <ScrollAnimationElement
+            initial={{ opacity: 0, rotateY: 90 }}
+            animate={{ opacity: 1, rotateY: 0 }}
+            duration={0.5}
+          >
+            <img
+              src="/assets/global/mock.png"
+              alt=""
+              className="w-full aspect-[4/3] rounded-36 border border-[#374F64]"
+            />
+          </ScrollAnimationElement>
+        </div>
+        <div>
+          <ScrollAnimationElement
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            duration={0.5}
+          >
+            <div className="text-52 w-fit g-button-text text-center lg:text-left uppercase font-semibold leading-[1.2]">
+              Why Choose Us
+            </div>
+          </ScrollAnimationElement>
+          <ScrollAnimationElement
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            duration={0.8}
+            delay={0.4}
+          >
+            <div className="flex flex-col  gap-32 mt-56 lg:mt-60 ">
+              {featurePoints.map((item, i) => (
+                <div
+                  key={i}
+                  className="flex items-start gap-40 pb-24 border-b border-[#213541] last:border-transparent"
+                >
+                  <div className="text-[#11212D] font-extrabold text-48">0{i + 1}</div>
+                  <div className="flex flex-col gap-6">
+                    <div className="font-semibold text-24">{item.title}</div>
+                    <div className="text-16 text-[#788F99]">{item.text}</div>
+                  </div>
                 </div>
-                <div className="py-24">
-                  <h6 className="g-button-text w-fit font-semibold text-24 lg:text-32">{item.title}</h6>
-                  <p className="text-gray-400 mt-12">
-                    {item.text}
-                  </p>
-                </div>
-              </div>
-            </ScrollAnimationElement>
-          ))}
+              ))}
+            </div>
+          </ScrollAnimationElement>
         </div>
       </div>
     </section>

@@ -37,7 +37,7 @@
   @apply outline-none;
 }
 body {
-  @apply font-inter bg-primary-800 text-white leading-tight overflow-x-hidden box-border;
+  @apply font-inter bg-[#030C11] text-[#BDCCD8] leading-tight overflow-x-hidden box-border;
 }
 
 h1 {
@@ -73,7 +73,7 @@ td {
 }
 
 .g-header {
-  background: linear-gradient(90deg, #f8fcc8, #ddac3e);
+  background: linear-gradient(90deg, #faf5b0, #ddac3e);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -81,12 +81,6 @@ td {
 
 .g-header-app {
   background: linear-gradient(40deg, #004d20, #ffd51a);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-.dark .g-header-app {
-  background: linear-gradient(40deg, #c0d4c9, #db9b1e);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
