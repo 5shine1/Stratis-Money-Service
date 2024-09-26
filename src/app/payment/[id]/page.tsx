@@ -9,7 +9,7 @@ import SvgLogoApp from "@/assets/SvgLogoApp";
 import CustomSelect from "@/components/global/CustomSelect";
 import { apiMakePayment, apiPaymentStart, apiPaymentStatus } from "@/api/payment.api";
 import { LoadingContext } from "@/components/providers/LoadingProvider";
-import { shortenAddress, shortenString } from "@/utils/string.utils";
+import { shortenString } from "@/utils/string.utils";
 import { getChainInfo } from "@/utils/web3.utils";
 import ProgressBar from "@/app/components/ProgressBar";
 import IconBox from "@/components/global/IconBox";
@@ -313,7 +313,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
                 src="/assets/global/back_pattern.png"
                 draggable={false}
                 alt=""
-                className="absolute bottom-0 right-0 scale-y-[-1] scale-x-[-1]"
+                className="absolute bottom-0 right-0 scale-y-[-1] scale-x-[-1] hidden md:block"
               />
               <div className="relative max-w-540 w-full flex items-center flex-col gap-12">
                 <IconBox icon="lets-icons:check-ring" />
@@ -358,7 +358,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
                 src="/assets/global/back_pattern.png"
                 draggable={false}
                 alt=""
-                className="absolute bottom-0 right-0 scale-y-[-1] scale-x-[-1]"
+                className="absolute bottom-0 right-0 scale-y-[-1] scale-x-[-1] hidden md:block"
               />
               <div className="relative max-w-540 w-full flex items-center flex-col gap-12">
                 <IconBox icon="carbon:warning" />
