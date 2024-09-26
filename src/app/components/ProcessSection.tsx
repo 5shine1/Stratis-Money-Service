@@ -32,7 +32,7 @@ const ProcessSection = () => {
     <section className="px-16 py-80 lg:py-120 relative">
       <div className="relative items-center w-full  max-w-600 lg:max-w-1520 mx-auto flex gap-80 flex-col lg:flex-row-reverse">
         <div className="w-full relative p-12">
-          <div className="bg-[#0B3740] absolute left-1/2 top-1/2 -translate-x-1/2 rounded-full  -translate-y-1/2 w-800 h-800 pointer-event-none blur-[366px] scale-50 lg:scale-100"></div>
+          <div className="bg-[#0B3740] absolute left-1/2 top-1/2 -translate-x-1/2 rounded-full  -translate-y-1/2 w-600 h-600 pointer-event-none blur-[200px] scale-50 lg:scale-100"></div>
           <ScrollAnimationElement
             initial={{ opacity: 0, filter: "blur(12px)", x: -40 }}
             animate={{ opacity: 1, filter: "blur(0px)", x: 0 }}
