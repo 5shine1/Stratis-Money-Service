@@ -12,7 +12,7 @@ const IconBoxSm = ({ icon, textColor, borderColor, backColor }: Props) => {
     <div
       className={`flex-none p-6 rounded-8 border ${borderColor || "border-[#192d3c]"} ${backColor || "bg-[#11212d]"}`}
     >
-      <Icon icon={icon} className={`w-16 h-16 ${textColor || "text-[##BDCCD8]"} `} />
+      <Icon icon={icon} className={`w-16 h-16 ${textColor || "text-[#BDCCD8]"} `} />
     </div>
   );
 };

@@ -7,7 +7,6 @@ import toast from "react-hot-toast";
 import { APP_ROUTES } from "@/config/constants";
 import { ScrollContext } from "@/components/providers/ScrollProvider";
 import { LoadingContext } from "@/components/providers/LoadingProvider";
-import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
 import useClickOutside from "@/hooks/global/useClickOutside";
 import useAppSelector from "@/hooks/global/useAppSelector";
 import useAppDispatch from "@/hooks/global/useAppDispatch";
