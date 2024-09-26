@@ -121,7 +121,7 @@ const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext }) => {
         onClick={onClose}
       />
       <div className="p-12 py-24 md:p-40 flex flex-col gap-32">
-        <div className="flex items-center gap-12">
+        <div className="flex sm:items-center items-start gap-12">
           <IconBox icon="iconoir:link" />
           <h4 className="g-button-text w-fit mr-30">Generate New Order Link</h4>
         </div>
