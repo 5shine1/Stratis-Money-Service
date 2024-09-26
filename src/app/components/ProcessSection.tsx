@@ -30,7 +30,7 @@ const processSteps = [
 const ProcessSection = () => {
   return (
     <section className="px-16 py-80 lg:py-120 relative">
-      <div className="relative items-center w-full  max-w-600 lg:max-w-1440 mx-auto flex gap-80 flex-col lg:flex-row-reverse">
+      <div className="relative items-center w-full  max-w-600 lg:max-w-1520 mx-auto flex gap-80 flex-col lg:flex-row-reverse">
         <div className="w-full relative p-12">
           <ScrollAnimationElement
             initial={{ opacity: 0, filter: "blur(12px)", x: -40 }}
