@@ -2,7 +2,6 @@
 import React from "react";
 
 import ScrollAnimationElement from "@/components/global/ScrollAnimatedElement";
-import IconBox from "@/components/global/IconBox";
 
 const featurePoints = [
   { title: "Regulatory Compliance", text: "Trust in a solution regulated by the Bank of Spain." },
