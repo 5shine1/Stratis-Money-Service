@@ -4,17 +4,16 @@ import Link from "next/link";
 import { Icon } from "@iconify/react";
 import toast from "react-hot-toast";
 
-import SvgLogo from "@/assets/SvgLogo";
 import { APP_ROUTES } from "@/config/constants";
 import { ScrollContext } from "@/components/providers/ScrollProvider";
 import { LoadingContext } from "@/components/providers/LoadingProvider";
-import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
 import useClickOutside from "@/hooks/global/useClickOutside";
 import useAppSelector from "@/hooks/global/useAppSelector";
 import useAppDispatch from "@/hooks/global/useAppDispatch";
 import { logout } from "@/store/slices/auth.slice";
 import { apiLogout } from "@/api/auth.api";
 import { formattedUsername } from "@/utils/string.utils";
+import SvgLogoApp from "@/assets/SvgLogoApp";
 
 const Header = () => {
   const { scroll } = useContext(ScrollContext);
@@ -37,16 +36,14 @@ const Header = () => {
   return (
     <>
       <header
-        className={`z-10 fixed top-0  left-0 w-full px-16 transition-all duration-300 ${
-          scroll > 0 ? "bg-black/30 backdrop-blur-lg py-16 shadow-md" : "py-32"
-        }`}
+        className={`bg-gradient-to-r from-button-from/10 to-button-to/10 z-10 fixed top-0  left-0 w-full px-16 py-24 backdrop-blur-md`}
       >
-        <nav className="flex items-center gap-8 max-w-1440 mx-auto">
-          <Link href={"/"} className="mr-auto flex gap-16 items-center">
-            <SvgLogo className={"w-36 h-36 lg:w-48 lg:h-48"} />
-            <span className=" text-24 lg:text-32 font-bold hidden md:inline">Stratis Money Service</span>
+        <nav className="flex items-center gap-8 md:gap-64 max-w-1520 mx-auto">
+          <Link href={"/"} className="mr-auto flex gap-10 items-center">
+            <SvgLogoApp className={"w-36 h-36 "} />
+            <span className=" text-24 lg:text-32 font-semibold hidden md:inline g-header">Stratis Money Service</span>
           </Link>
-          <ul className="items-center gap-48 hidden md:flex">
+          <ul className="text-[#BDCCD8] text-16 items-center gap-40 hidden md:flex">
             {APP_ROUTES.map((item) => (
               <Link className=" hover:text-secondary-200 u-transition-color" href={item.path} key={item.key}>
                 {item.text}
@@ -54,7 +51,7 @@ const Header = () => {
             ))}
           </ul>
           <div
-            className={`ml-auto relative  ${email ? "block" : "hidden"}`}
+            className={`relative  ${email ? "block" : "hidden"}`}
             ref={useClickOutside(() => {
               setOpenUserMenu(false);
             })}
@@ -94,10 +91,10 @@ const Header = () => {
               </div>
             </div>
           </div>
-          <Link href={"/auth/login"} className={`ml-auto ${email ? "hidden" : "block"}`}>
-            <AnimatedSlideButton className="border border-secondary-300 px-24 py-8 lg:text-18 lg:py-10 lg:px-32">
+          <Link href={"/auth/login"} className={`${email ? "hidden" : "block"}`}>
+            <button className=" text-button-text text-16 font-semibold py-12 px-36  rounded-12 gap-8 border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50">
               Sign In
-            </AnimatedSlideButton>
+            </button>
           </Link>
 
           <div className="cursor-pointer md:hidden" onClick={() => setOpenMobile(true)}>

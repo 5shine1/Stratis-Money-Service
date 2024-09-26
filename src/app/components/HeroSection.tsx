@@ -1,33 +1,25 @@
 "use client";
 import React from "react";
-import { Icon } from "@iconify/react";
 
 import ScrollAnimationElement from "@/components/global/ScrollAnimatedElement";
+import IconBox from "@/components/global/IconBox";
+import SvgTokens from "@/assets/SvgTokens";
 
 const featurePoints = [
   { key: "Instant Settlement", text: "crypto-assets are immediately liquidated and credited to your account" },
   { key: "Withdraw Fiat", text: "to your business banking account" },
   { key: "Simplified Payments", text: "effortlessly share payment links via Email or SMS" },
 ];
-const featurePointsLogos = [
-  "logos:bitcoin",
-  "logos:ethereum",
-  "cryptocurrency-color:usdt",
-  "cryptocurrency-color:usdc",
-  "cryptocurrency-color:bnb",
-];
 
 const HeroSection = () => {
   return (
-    <section className="relative px-16 pt-120 pb-80 lg:pt-200 lg:pb-200">
-      <div className="g-effect absolute -top-[600px] -left-[600px] w-[1600px] h-[1600px] scale-50 lg:scale-100"></div>
-
-      <div className="relative flex-col lg:flex-row items-center w-full max-w-600 lg:max-w-1440  mx-auto flex gap-60 xl:gap-120">
-        <div className="w-full flex flex-col gap-32 lg:gap-56">
+    <section className="relative px-16 pt-120 pb-40 lg:pt-200 lg:pb-60">
+      <div className="relative flex-col lg:flex-row items-center w-full max-w-600 lg:max-w-1520  mx-auto flex gap-60 xl:gap-24">
+        <div className="w-full flex flex-col gap-32 lg:gap-12">
           <ScrollAnimationElement initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} duration={0.8}>
-            <h3 className="text-center lg:text-left">
+            <div className="text-52 w-fit g-button-text text-center lg:text-left uppercase font-semibold leading-[1.2]">
               Empower Your Business with Secure and Compliant Crypto Payments
-            </h3>
+            </div>
           </ScrollAnimationElement>
 
           <ScrollAnimationElement
@@ -36,10 +28,10 @@ const HeroSection = () => {
             duration={0.8}
             delay={0.4}
           >
-            <p className="text-center lg:text-left text-gray-400 text-xl">
-              At Stratis Money Service, we bridge the gap between traditional finance and the digital world. 
-              Regulated by the Bank of Spain (SEPBLAC) with a VASP registration, we provide a secure platform 
-              that allows your customers to pay in crypto, ensuring compliance and eliminating uncertainty.
+            <p className="text-center lg:text-left text-16 leading-[1.5]">
+              At Stratis Money Service, we bridge the gap between traditional finance and the digital world. Regulated
+              by the Bank of Spain (SEPBLAC) with a VASP registration, we provide a secure platform that allows your
+              customers to pay in crypto, ensuring compliance and eliminating uncertainty.
             </p>
           </ScrollAnimationElement>
           <ScrollAnimationElement
@@ -48,74 +40,30 @@ const HeroSection = () => {
             duration={0.8}
             delay={0.8}
           >
-            <div className="flex flex-col lg:gap-16 gap-8 max-w-480 mx-auto lg:mx-0 lg:max-w-none">
+            <div className="flex flex-col lg:gap-24 gap-8 mt-28 max-w-480 mx-auto lg:mx-0 lg:max-w-none">
               {featurePoints.map((item, i) => (
-                <div key={i} className="flex items-start gap-8">
-                  <Icon
-                    icon={"lets-icons:check-fill"}
-                    className="flex-none lg:h-32 lg:w-32 w-24 h-24 text-primary-400"
-                  />
-                  <p className="text-20 font-semibold text-gray-200">
-                    <span className="text-primary-400">{item.key} </span> - {item.text}
-                  </p>
+                <div key={i} className="flex items-start gap-12">
+                  <IconBox icon="ph:check-circle" borderColor="border-[#374F64]" backColor="bg-[#062A42]" />
+                  <div className="flex flex-col gap-6">
+                    <div className="font-semibold text-24">{item.key}</div>
+                    <div className="text-16 text-[#788F99]">{item.text}</div>
+                  </div>
                 </div>
               ))}
             </div>
           </ScrollAnimationElement>
-          <div className="flex items-center justify-center lg:justify-start gap-12 lg:gap-24">
-            {featurePointsLogos.map((item, i) => (
-              <ScrollAnimationElement
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                duration={0.8}
-                delay={1 + i * 0.2}
-              >
-                <Icon icon={item} className="w-36 lg:w-50 h-36 lg:h-50" />
-              </ScrollAnimationElement>
-            ))}
-          </div>
         </div>
-        <div className="w-full p-12 relative">
+        <div className="p-12 w-full max-w-640 relative">
           <ScrollAnimationElement initial={{ opacity: 0, y: -40 }} animate={{ opacity: 1, y: 0 }} duration={1}>
-            <img src="/assets/landing/hero-bg.png" alt="" className="absolute w-full" />
-            <img src="/assets/landing/hero.png" alt="" className="relative max-w-full" />
+            <img src="/assets/landing/hero-bg.png" alt="" className="relative max-w-full" />
           </ScrollAnimationElement>
         </div>
       </div>
-      <div className="relative  w-full max-w-600 lg:max-w-1440  mx-auto">
-        <ScrollAnimationElement
-          initial={{ opacity: 0, scale: 0.5 }}
-          animate={{ opacity: 1, scale: 1 }}
-          duration={0.2}
-          delay={1.5}
-        >
-          <div className="absolute w-100 h-100 lg:w-120 lg:h-120  left-80 -top-60 lg:left-1/2 lg:-top-30 -translate-x-1/2 ">
-            <div className=" border-2 w-full h-full border-gray-200 rounded-full cursor-pointer overflow-hidden group peer hover:border-primary-300 u-transition-color ">
-              <div className="w-full h-full absolute top-0 left-0 animate-spinSlow text-12 group-hover:text-primary-400 u-transition-color overflow-hidden">
-                {"GET STARTED GET STARTED".split("").map((text, i) => {
-                  return (
-                    <div
-                      className="absolute w-full h-full text-center p-6"
-                      style={{ rotate: `${14.8 * i - 2}deg` }}
-                      key={i}
-                    >
-                      {text}
-                    </div>
-                  );
-                })}
-              </div>
-              <div className="w-full h-full absolute top-0 left-0 flex items-center justify-center">
-                <Icon
-                  icon={"icon-park-outline:arrow-up"}
-                  className="w-48 h-48 rotate-45 group-hover:text-primary-300 u-transition-color"
-                />
-              </div>
-            </div>
-            <div className="absolute w-full h-full border-2 border-transparent peer-hover:border-primary-300/20 rounded-full top-0 left-0 peer-hover:animate-pingSlow pointer-events-none"></div>
-          </div>
-        </ScrollAnimationElement>
-      </div>
+      <ScrollAnimationElement initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} duration={0.8} delay={0.8}>
+        <div className="flex items-center gap-12 justify-center mt-120">
+          <SvgTokens />
+        </div>
+      </ScrollAnimationElement>
     </section>
   );
 };

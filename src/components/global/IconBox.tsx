@@ -4,11 +4,16 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 type Props = {
   icon: string;
   className?: string;
+  textColor?: string;
+  borderColor?: string;
+  backColor?: string;
 };
-const IconBox = ({ icon, className }: Props) => {
+const IconBox = ({ icon, textColor, borderColor, backColor }: Props) => {
   return (
-    <div className="flex-none p-8 rounded-8 border border-[#192d3c] bg-[#11212d]">
-      <Icon icon={icon} className={className || "w-24 h-24 text-secondary-main"} />
+    <div
+      className={`flex-none p-8 rounded-8 border ${borderColor || "border-[#192d3c]"} ${backColor || "bg-[#11212d]"}`}
+    >
+      <Icon icon={icon} className={`w-24 h-24 ${textColor || "text-secondary-main"} `} />
     </div>
   );
 };
