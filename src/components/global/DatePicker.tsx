@@ -8,10 +8,12 @@ type Props = {
   error?: string;
 };
 const DatePicker: React.FC<Props> = ({ selectedDate, setSelectedDate, error }) => {
+  const [isYearView, setIsYearView] = useState(true);
   const [inputValue, setInputValue] = useState<string>("");
   const [showCalendar, setShowCalendar] = useState<boolean>(false);
   const [currentMonth, setCurrentMonth] = useState<number>(new Date().getMonth() + 1);
   const [currentYear, setCurrentYear] = useState<number>(new Date().getFullYear());
+  const [currentYearView, setCurrentYearView] = useState<number>(new Date().getFullYear() - 6);
 
   const dateInputRef = useRef<HTMLInputElement>(null);
 
@@ -74,13 +76,8 @@ const DatePicker: React.FC<Props> = ({ selectedDate, setSelectedDate, error }) =
     }
   };
 
-  const handlePrevYear = () => {
-    setCurrentYear(currentYear - 1);
-  };
-
-  const handleNextYear = () => {
-    setCurrentYear(currentYear + 1);
-  };
+  const handlePrevYearView = () => setCurrentYearView(currentYearView - 12);
+  const handleNextYearView = () => setCurrentYearView(currentYearView + 12);
 
   const renderDays = () => {
     const days = [];
@@ -136,28 +133,66 @@ const DatePicker: React.FC<Props> = ({ selectedDate, setSelectedDate, error }) =
         placeholder="YYYY-MM-DD"
       />
       {showCalendar && (
-        <div className="absolute z-20 top-full left-0 p-16 bg-[#192C37] text-input-text rounded-lg border border-[#213541] shadow-tab">
+        <div className="absolute z-20 top-full left-0 p-16 bg-[#192C37] text-input-text rounded-lg border border-[#213541] shadow-tab w-full max-w-280">
           <div className="flex justify-between items-center mb-4">
             <div className="flex items-center justify-evenly w-full gap-8">
-              <Icon icon="uiw:d-arrow-left" onClick={handlePrevYear} className="w-12 h-12 cursor-pointer" />
-              <Icon icon="uiw:left" onClick={handlePrevMonth} className="w-12 h-12 cursor-pointer" />
-              <span className="text-14">
-                {currentYear} - {currentMonth}
+              <Icon
+                icon="uiw:left"
+                onClick={isYearView ? handlePrevYearView : handlePrevMonth}
+                className="w-12 h-12 cursor-pointer"
+              />
+              <span
+                className="text-14 cursor-pointer"
+                onClick={() => {
+                  if (!isYearView) setIsYearView(true);
+                }}
+              >
+                {!isYearView ? (
+                  <>
+                    {currentYear} - {currentMonth > 9 ? currentMonth : "0" + currentMonth}
+                  </>
+                ) : (
+                  <>
+                    {currentYearView} - {currentYearView + 11}
+                  </>
+                )}
               </span>
-              <Icon icon="uiw:right" onClick={handleNextMonth} className="w-12 h-12 cursor-pointer" />
-              <Icon icon="uiw:d-arrow-right" onClick={handleNextYear} className="w-12 h-12 cursor-pointer" />
+              <Icon
+                icon="uiw:right"
+                onClick={isYearView ? handleNextYearView : handleNextMonth}
+                className="w-12 h-12 cursor-pointer"
+              />
             </div>
           </div>
-          <div className="grid grid-cols-7 gap-2 text-center mt-16">
-            <div className="text-12 flex items-center justify-center w-32 h-32">Su</div>
-            <div className="text-12 flex items-center justify-center w-32 h-32">Mo</div>
-            <div className="text-12 flex items-center justify-center w-32 h-32">Tu</div>
-            <div className="text-12 flex items-center justify-center w-32 h-32">We</div>
-            <div className="text-12 flex items-center justify-center w-32 h-32">Th</div>
-            <div className="text-12 flex items-center justify-center w-32 h-32">Fr</div>
-            <div className="text-12 flex items-center justify-center w-32 h-32">Sa</div>
-            {renderDays()}
-          </div>
+          {isYearView ? (
+            <div className="grid grid-cols-3 text-center mt-16">
+              {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((item) => {
+                return (
+                  <div
+                    key={item}
+                    className="text-12 flex items-center justify-center p-10 cursor-pointer"
+                    onClick={() => {
+                      setCurrentYear(currentYearView + item);
+                      setIsYearView(false);
+                    }}
+                  >
+                    {currentYearView + item}
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="grid grid-cols-7 gap-2 text-center mt-16">
+              <div className="text-12 flex items-center justify-center w-32 h-32">Su</div>
+              <div className="text-12 flex items-center justify-center w-32 h-32">Mo</div>
+              <div className="text-12 flex items-center justify-center w-32 h-32">Tu</div>
+              <div className="text-12 flex items-center justify-center w-32 h-32">We</div>
+              <div className="text-12 flex items-center justify-center w-32 h-32">Th</div>
+              <div className="text-12 flex items-center justify-center w-32 h-32">Fr</div>
+              <div className="text-12 flex items-center justify-center w-32 h-32">Sa</div>
+              {renderDays()}
+            </div>
+          )}
         </div>
       )}
     </div>
