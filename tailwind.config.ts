@@ -75,7 +75,7 @@ module.exports = {
           main: "#dead3d",
         },
         error: {
-          DEFAULT: "#FD7325",
+          DEFAULT: "#F26161",
         },
         success: {
           DEFAULT: "#45c931",
