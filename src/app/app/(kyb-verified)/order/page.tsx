@@ -47,9 +47,11 @@ const OrderPage = () => {
       if (role === ROLES.ADMIN) {
         const result = await apiAdminPaymentHistory();
         setPaymentOrders(result);
-      } else {
+      } else if (role === ROLES.BUSINESS) {
         const result = await apiPaymentHistory();
         setPaymentOrders(result);
+      } else {
+        setPaymentOrders([]);
       }
     } catch (error) {
       toast.error("Server error.");
