@@ -19,7 +19,12 @@ const ConclusionSection = () => {
             <img
               src="/assets/landing/conclusion-bg.png"
               alt=""
-              className="absolute top-0 left-0 w-full h-full object-cover"
+              className="absolute top-0 left-0 w-full h-full object-cover hidden md:block"
+            />{" "}
+            <img
+              src="/assets/landing/conclusion-bg-mobile.png"
+              alt=""
+              className="absolute top-0 left-0 w-full h-full object-cover md:hidden"
             />
             <IconBox icon="hugeicons:dollar-receive-01" />
             <div className="w-full max-w-640 flex flex-col gap-12 text-center relative">
