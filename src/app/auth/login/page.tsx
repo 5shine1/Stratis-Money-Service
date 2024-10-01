@@ -3,6 +3,7 @@ import React, { useContext, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import { jwtDecode } from "jwt-decode";
 
 import SvgLogo from "@/assets/SvgLogo";
 import { LoadingContext } from "@/components/providers/LoadingProvider";
@@ -33,11 +34,22 @@ const LoginPage = () => {
       if (result?.isSucceed) {
         localStorage.setItem("stratis-auth-token", result?.data?.accessToken);
         localStorage.setItem("stratis-auth-refresh", result?.data?.refreshToken);
+        const decoded = jwtDecode(result?.data?.accessToken);
+        const role = decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
         dispatch(
           setAuth({
             ...result?.data,
             email: email.value,
-            role: result?.data?.isAdmin ? ROLES.ADMIN : result?.data?.isBusiness ? ROLES.BUSINESS : ROLES.GUEST,
+            role:
+              role === "Administrator"
+                ? ROLES.ADMIN
+                : role === "Agent"
+                ? ROLES.AGENT
+                : role === "Compliance"
+                ? ROLES.COMPLIANCE
+                : decoded["UserName"] && !role
+                ? ROLES.BUSINESS
+                : ROLES.GUEST,
           })
         );
 

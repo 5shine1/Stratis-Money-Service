@@ -3,6 +3,7 @@ import React, { PropsWithChildren, useEffect } from "react";
 import { Provider } from "react-redux";
 import { Toaster } from "react-hot-toast";
 import Modal from "react-modal";
+import { jwtDecode } from "jwt-decode";
 import { store } from "@/store";
 import { ScrollProvider } from "@/components/providers/ScrollProvider";
 import LoadingProvider from "@/components/providers/LoadingProvider";
@@ -44,11 +45,22 @@ const MainComponent = () => {
     try {
       const token = localStorage.getItem("stratis-auth-token");
       if (!token || (token && email)) return dispatch(setAuthLoading());
+      const decoded = jwtDecode(token);
+      const role = decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
       const result = await apiUserInfo();
       dispatch(
         setAuth({
           ...result,
-          role: result?.isAdmin ? ROLES.ADMIN : result?.isBusiness ? ROLES.BUSINESS : ROLES.GUEST,
+          role:
+            role === "Administrator"
+              ? ROLES.ADMIN
+              : role === "Agent"
+              ? ROLES.AGENT
+              : role === "Compliance"
+              ? ROLES.COMPLIANCE
+              : decoded["UserName"] && !role
+              ? ROLES.BUSINESS
+              : ROLES.GUEST,
         })
       );
     } catch (error) {

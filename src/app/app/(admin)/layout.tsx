@@ -9,7 +9,7 @@ const AdminLayout: React.FC<PropsWithChildren> = ({ children }) => {
   const router = useRouter();
   const { role, isAuthLoading } = useAppSelector((state) => state.auth);
   if (isAuthLoading) return;
-  if (role !== ROLES.ADMIN) {
+  if (role !== ROLES.ADMIN && role !== ROLES.COMPLIANCE) {
     router.push("404");
     return;
   }

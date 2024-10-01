@@ -35,7 +35,7 @@ export interface IInputSelectItem {
 export enum ROLES {
   ADMIN = "Admin", //eslint-disable-line
   BUSINESS = "Business", //eslint-disable-line
-  COMPLIANCE = "Complience", //eslint-disable-line
+  COMPLIANCE = "Compliance", //eslint-disable-line
   AGENT = "Agent", //eslint-disable-line
   GUEST = "Guest", //eslint-disable-line
 }

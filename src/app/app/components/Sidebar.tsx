@@ -50,28 +50,32 @@ const AppSidebar: React.FC<PropsWithChildren> = ({ children }) => {
           </Link>
 
           <div className="mt-36 flex flex-col gap-8 text-14">
-            <Link
-              href="/app/order"
-              className={`p-9 flex items-center justify-start gap-12  u-transition-color rounded-8 overflow-hidden ${
-                pathname.includes("/app/order")
-                  ? "bg-secondary-400/80 dark:bg-primary-700"
-                  : "hover:bg-white/30 dark:hover:bg-primary-700/40"
-              }`}
-            >
-              <Icon icon="lets-icons:order-light" className="w-30 h-30 flex-none" />
-              <div className={` ${isWrapped ? "block" : "hidden"}`}>Order</div>
-            </Link>
-            <Link
-              href="/app/withdraw"
-              className={`p-9 flex items-center justify-start gap-12  u-transition-color rounded-8 overflow-hidden ${
-                pathname.includes("/app/withdraw")
-                  ? "bg-secondary-400/80 dark:bg-primary-700"
-                  : "hover:bg-white/30 dark:hover:bg-primary-700/40"
-              }`}
-            >
-              <Icon icon="ph:hand-withdraw-thin" className="w-30 h-30 flex-none" />
-              <div className={` ${isWrapped ? "block" : "hidden"}`}>Withdraw</div>
-            </Link>
+            {role !== ROLES.COMPLIANCE && (
+              <Link
+                href="/app/order"
+                className={`p-9 flex items-center justify-start gap-12  u-transition-color rounded-8 overflow-hidden ${
+                  pathname.includes("/app/order")
+                    ? "bg-secondary-400/80 dark:bg-primary-700"
+                    : "hover:bg-white/30 dark:hover:bg-primary-700/40"
+                }`}
+              >
+                <Icon icon="lets-icons:order-light" className="w-30 h-30 flex-none" />
+                <div className={` ${isWrapped ? "block" : "hidden"}`}>Order</div>
+              </Link>
+            )}{" "}
+            {role !== ROLES.COMPLIANCE && (
+              <Link
+                href="/app/withdraw"
+                className={`p-9 flex items-center justify-start gap-12  u-transition-color rounded-8 overflow-hidden ${
+                  pathname.includes("/app/withdraw")
+                    ? "bg-secondary-400/80 dark:bg-primary-700"
+                    : "hover:bg-white/30 dark:hover:bg-primary-700/40"
+                }`}
+              >
+                <Icon icon="ph:hand-withdraw-thin" className="w-30 h-30 flex-none" />
+                <div className={` ${isWrapped ? "block" : "hidden"}`}>Withdraw</div>
+              </Link>
+            )}
             {role === ROLES.BUSINESS && (
               <Link
                 href="/app/agent"
@@ -85,7 +89,7 @@ const AppSidebar: React.FC<PropsWithChildren> = ({ children }) => {
                 <div className={` ${isWrapped ? "block" : "hidden"}`}>Agent</div>
               </Link>
             )}
-            {role === ROLES.ADMIN && (
+            {(role === ROLES.ADMIN || role === ROLES.COMPLIANCE) && (
               <Link
                 href="/app/user"
                 className={`p-9 flex items-center justify-start gap-12  u-transition-color rounded-8 overflow-hidden ${
