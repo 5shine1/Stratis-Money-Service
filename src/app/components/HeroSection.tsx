@@ -41,12 +41,12 @@ const HeroSection = () => {
             duration={0.8}
             delay={0.8}
           >
-            <div className="flex flex-col lg:gap-24 gap-16 mt-8 md:mt-28">
+            <div className="flex flex-col gap-24 mt-8 md:mt-28">
               {featurePoints.map((item, i) => (
                 <div key={i} className="flex items-start gap-12">
                   <IconBox icon="ph:check-circle" borderColor="border-[#374F64]" backColor="bg-[#062A42]" />
                   <div className="flex flex-col gap-6">
-                    <div className="font-semibold text-20 md:text-24">{item.key}</div>
+                    <div className="font-semibold text-18 md:text-24">{item.key}</div>
                     <div className="text-14 md:text-16 text-[#788F99]">{item.text}</div>
                   </div>
                 </div>
