@@ -120,22 +120,24 @@ const Header = () => {
             </button>
           </Link>
         </ul>
-        <div className="mt-auto flex flex-col gap-24 items-end">
-          <Link
-            href={"/app/account"}
-            className="flex items-center gap-8 u-transition-color cursor-pointer rounded-4 whitespace-nowrap"
-          >
-            <Icon icon="ph:user" className="w-20 h-20 flex-none" />
-            My Account
-          </Link>
-          <div
-            className="flex items-center gap-8 font-medium u-transition-color cursor-pointer rounded-4 text-[#FF2F2F]"
-            onClick={handleLogout}
-          >
-            <Icon icon="material-symbols:logout" className="w-20 h-20" />
-            Logout
+        {email && (
+          <div className="mt-auto flex flex-col gap-24 items-end">
+            <Link
+              href={"/app/account"}
+              className="flex items-center gap-8 u-transition-color cursor-pointer rounded-4 whitespace-nowrap"
+            >
+              <Icon icon="ph:user" className="w-20 h-20 flex-none" />
+              My Account
+            </Link>
+            <div
+              className="flex items-center gap-8 font-medium u-transition-color cursor-pointer rounded-4 text-[#FF2F2F]"
+              onClick={handleLogout}
+            >
+              <Icon icon="material-symbols:logout" className="w-20 h-20" />
+              Logout
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </>
   );
