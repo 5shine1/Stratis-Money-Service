@@ -8,14 +8,14 @@ import IconBox from "@/components/global/IconBox";
 
 const ConclusionSection = () => {
   return (
-    <section className="lg:py-80 py-60 px-16">
+    <section className="lg:py-80 py-40 px-16">
       <div className="w-full max-w-1520 mx-auto relative">
         <ScrollAnimationElement
           initial={{ opacity: 0, filter: "blur(12px)", y: 40 }}
           animate={{ opacity: 1, filter: "blur(0px)", y: 0 }}
           duration={0.5}
         >
-          <div className="relative flex flex-col items-center gap-40 w-full g-box-back p-40 border overflow-hidden border-[#07263C] rounded-20">
+          <div className="relative flex flex-col items-center gap-32 md:gap-40 w-full g-box-back p-24 md:p-40 border overflow-hidden border-[#07263C] rounded-20">
             <img
               src="/assets/landing/conclusion-bg.png"
               alt=""
@@ -23,10 +23,10 @@ const ConclusionSection = () => {
             />
             <IconBox icon="hugeicons:dollar-receive-01" />
             <div className="w-full max-w-640 flex flex-col gap-12 text-center relative">
-              <div className="g-button-text text-36 font-semibold w-full text-center">
+              <div className="g-button-text text-24 md:text-36 font-semibold w-full text-center">
                 Ready to Accept Crypto Payments?
               </div>
-              <div>
+              <div className="font-light md:font-normal">
                 Join the growing number of businesses embracing the future of payments. Get started with a secure,
                 compliant solution today.
               </div>
