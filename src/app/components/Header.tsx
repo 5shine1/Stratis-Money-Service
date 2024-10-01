@@ -5,7 +5,6 @@ import { Icon } from "@iconify/react";
 import toast from "react-hot-toast";
 
 import { APP_ROUTES } from "@/config/constants";
-import { ScrollContext } from "@/components/providers/ScrollProvider";
 import { LoadingContext } from "@/components/providers/LoadingProvider";
 import useClickOutside from "@/hooks/global/useClickOutside";
 import useAppSelector from "@/hooks/global/useAppSelector";
@@ -16,7 +15,6 @@ import { formattedUsername } from "@/utils/string.utils";
 import SvgLogoApp from "@/assets/SvgLogoApp";
 
 const Header = () => {
-  const { scroll } = useContext(ScrollContext);
   const dispatch = useAppDispatch();
   const { setLoading } = useContext(LoadingContext);
   const { email } = useAppSelector((state) => state.auth);
@@ -69,24 +67,22 @@ const Header = () => {
               />
             </div>
             <div
-              className={`absolute right-0 transition-all duration-200 flex flex-col gap-4 bg-primary-600 shadow-lg p-6 rounded-8 ${
-                openUserMenu
-                  ? "opacity-100 pointer-events-auto " + (scroll > 0 ? "top-48 md:top-54" : "top-36")
-                  : "opacity-0 pointer-events-none top-64"
+              className={`absolute right-0 transition-all duration-200 flex flex-col bg-gradient-to-r from-button-from/10 to-button-to/10 backdrop-blur-sm rounded-12 border border-[#95845C] ${
+                openUserMenu ? "opacity-100 pointer-events-auto top-36" : "opacity-0 pointer-events-none top-64"
               }`}
             >
               <Link
                 href={"/app/account"}
-                className="flex items-center gap-6 u-transition-color hover:bg-white/10 cursor-pointer p-6 px-12 rounded-4 whitespace-nowrap"
+                className="flex items-center gap-8 u-transition-color cursor-pointer px-16 py-12 rounded-4 whitespace-nowrap border-b border-[#95845C] text-white"
               >
-                <Icon icon="ph:user" className="w-16 h-16 flex-none" />
+                <Icon icon="ph:user" className="w-20 h-20 flex-none" />
                 My Account
               </Link>
               <div
-                className="flex items-center gap-6 u-transition-color hover:bg-white/10 cursor-pointer p-6 px-12 rounded-4"
+                className="flex items-center gap-8 font-medium u-transition-color cursor-pointer px-16 py-12 rounded-4 text-[#FF2F2F]"
                 onClick={handleLogout}
               >
-                <Icon icon="material-symbols:logout" className="w-16 h-16" />
+                <Icon icon="material-symbols:logout" className="w-20 h-20" />
                 Logout
               </div>
             </div>
