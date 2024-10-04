@@ -10,10 +10,13 @@ import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
 import { LoadingContext } from "@/components/providers/LoadingProvider";
 import { apiLogout } from "@/api/auth.api";
 import { logout } from "@/store/slices/auth.slice";
+import { ROLES } from "@/@types/common";
 
 const AppLayout: React.FC<PropsWithChildren> = ({ children }) => {
   const router = useRouter();
-  const { email, isAuthLoading, isVerifiedEmail, isKnowYourBusinessPassed } = useAppSelector((state) => state.auth);
+  const { email, role, isAuthLoading, isVerifiedEmail, isKnowYourBusinessPassed } = useAppSelector(
+    (state) => state.auth
+  );
   const { setLoading } = useContext(LoadingContext);
   const dispatch = useAppDispatch();
 
@@ -38,7 +41,7 @@ const AppLayout: React.FC<PropsWithChildren> = ({ children }) => {
   }
   return (
     <>
-      {!isKnowYourBusinessPassed && (
+      {role !== ROLES.AGENT && !isKnowYourBusinessPassed && (
         <div className="bg-black/50 fixed top-0 left-0 w-full h-full z-50 flex items-center justify-center p-16 backdrop-blur-lg">
           <div className="bg-white rounded-8 overflow-hidden">
             <div className=" dark:bg-primary-800 bg-secondary-100/20 p-24 w-full max-w-480">
