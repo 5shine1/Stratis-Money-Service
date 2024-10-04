@@ -1,23 +1,43 @@
 "use client";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Pagination from "rc-pagination";
 import { Icon } from "@iconify/react";
 
 import AppInput from "@/components/global/AppInput";
 import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
 import InviteModal from "./components/InviteModal";
+import { apiUserInfo } from "@/api/auth.api";
 
 const OrderPage = () => {
-  const [paymentOrders] = useState<any[]>([]);
+  const [agents, setAgents] = useState<any[]>([]);
   const [searchIndex, setSearchIndex] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [isInviteModalOpen, setIsInviteModalOpen] = useState(false);
-  const [isLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const filteredData = useMemo(
-    () => paymentOrders.sort((a, b) => new Date(b.requested).getTime() - new Date(a.requested).getTime()),
-    [paymentOrders]
+    () =>
+      agents.filter((item) => {
+        return (
+          item.name.toUpperCase().includes(searchIndex.toUpperCase()) ||
+          item.email.toUpperCase().includes(searchIndex.toUpperCase())
+        );
+      }),
+    [agents, searchIndex]
   );
+
+  const handleGetAgents = async () => {
+    setIsLoading(true);
+    try {
+      const result = await apiUserInfo();
+      setAgents(result.agents || []);
+      console.log(result.agents);
+    } catch (error) {}
+    setIsLoading(false);
+  };
+  useEffect(() => {
+    handleGetAgents();
+  }, []);
 
   return (
     <>
@@ -49,7 +69,7 @@ const OrderPage = () => {
             </div>
           ) : (
             <>
-              <div className="w-full overflow-x-auto hidden lg:block">
+              <div className="w-full overflow-x-auto ">
                 <table className="w-full text-primary-200 dark:text-white/70">
                   <thead>
                     <tr className="border-b border-primary-200/20 dark:border-white/10">
@@ -68,11 +88,16 @@ const OrderPage = () => {
                       </tr>
                     ) : (
                       <>
-                        <tr>
-                          <td colSpan={4} className="text-error p-24 text-center">
-                            No Agents
-                          </td>
-                        </tr>
+                        {filteredData.slice(currentPage * 10 - 10, currentPage * 10).map((item, i) => {
+                          return (
+                            <tr key={i} className="even:bg-secondary-100/10 dark:even:bg-[#ffffff04]">
+                              <td className="px-8 py-16">{item.name}</td>
+                              <td className="px-8 py-16">{item.email}</td>
+                              <td className="px-8 py-16">{item.country}</td>
+                              <td className="px-8 py-16">{item.mobileNumber}</td>
+                            </tr>
+                          );
+                        })}
                       </>
                     )}
                   </tbody>
