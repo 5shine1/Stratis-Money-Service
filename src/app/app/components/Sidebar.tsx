@@ -63,7 +63,7 @@ const AppSidebar: React.FC<PropsWithChildren> = ({ children }) => {
                 <div className={` ${isWrapped ? "block" : "hidden"}`}>Order</div>
               </Link>
             )}{" "}
-            {role !== ROLES.COMPLIANCE && (
+            {role !== ROLES.COMPLIANCE && role !== ROLES.AGENT && (
               <Link
                 href="/app/withdraw"
                 className={`p-9 flex items-center justify-start gap-12  u-transition-color rounded-8 overflow-hidden ${
