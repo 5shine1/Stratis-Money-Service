@@ -93,12 +93,12 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
   const handleMakePayment = async () => {
     setLoading(true);
     try {
-      const result = await apiMakePayment(id, currencyList[currency].text);
-      setDepositInfo(result);
-
       const selectedCurrency = paymentInfo.acceptableCurrencies.find(
         (item) => item.currencyId === currencies[currency].key
       );
+
+      const result = await apiMakePayment(id, currencyList[currency].text, selectedCurrency.chainId);
+      setDepositInfo(result);
 
       const link = !selectedCurrency
         ? result?.paymentDestination
