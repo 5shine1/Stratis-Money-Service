@@ -63,11 +63,12 @@ export const apiPaymentStart = async (paymentId: string) => {
   }
 };
 
-export const apiMakePayment = async (paymentId: string, paymentCurrencySymbol: string) => {
+export const apiMakePayment = async (paymentId: string, paymentCurrencySymbol: string, paymentChainId : number) => {
   try {
     const result = await axiosInstance.post(`api/Payment/MakePayment`, {
       paymentId,
       paymentCurrencySymbol,
+      paymentChainId,
     });
     return result.data;
   } catch (error) {
