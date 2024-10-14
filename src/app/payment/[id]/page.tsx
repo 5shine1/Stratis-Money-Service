@@ -62,6 +62,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
             text: item?.symbol,
             icon: item?.icon,
             chainName: chain.name,
+            chainId: item?.chainId,
           };
         });
         const resolvedCurrencies = await Promise.all(currencyPromises);
@@ -94,7 +95,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
     setLoading(true);
     try {
       const selectedCurrency = paymentInfo.acceptableCurrencies.find(
-        (item) => item.currencyId === currencies[currency].key
+        (item) => item.currencyId === currencies[currency].key && item.chainId === currencies[currency].chainId
       );
 
       const result = await apiMakePayment(id, currencyList[currency].text, selectedCurrency.chainId);
