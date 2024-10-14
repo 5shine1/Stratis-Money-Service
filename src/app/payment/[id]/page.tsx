@@ -94,7 +94,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
     setLoading(true);
     try {
       const selectedCurrency = paymentInfo.acceptableCurrencies.find(
-        (item) => item.currencyId === currencies[currency].key
+        (item) => item.currencyId === currencies[currency].key && item.chainId === currencies[currency].value.chainId
       );
 
       const result = await apiMakePayment(id, currencyList[currency].text, selectedCurrency.chainId);
