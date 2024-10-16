@@ -80,6 +80,7 @@ const OrderPage = () => {
         payerDOB,
         payerPOB
       );
+      if (!result.paymentId) throw "no result";
       setPaymentOrders([
         {
           paymentId: result?.paymentId,
@@ -95,10 +96,7 @@ const OrderPage = () => {
       ]);
       toast.success("Generated new link successfully.");
       setControlModalOpen(null);
-
-      if (!!result.paymentId) {
-        location.href = `/payment/${result.paymentId}`;
-      }
+      location.href = `/payment/${result.paymentId}`;
     } catch (error) {
       toast.error("Server error.");
     }
