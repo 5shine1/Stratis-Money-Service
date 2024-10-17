@@ -3,6 +3,8 @@ import Modal from "react-modal";
 import { Icon } from "@iconify/react";
 
 import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
+import useAppSelector from "@/hooks/global/useAppSelector";
+import { ROLES } from "@/@types/common";
 
 type Props = {
   isOpen: null | string;
@@ -10,6 +12,8 @@ type Props = {
   onNext: () => void;
 };
 const DeleteModal: React.FC<Props> = ({ isOpen, onClose, onNext }) => {
+  const { role } = useAppSelector((state) => state.auth);
+
   return (
     <Modal
       isOpen={isOpen !== null}
@@ -24,13 +28,15 @@ const DeleteModal: React.FC<Props> = ({ isOpen, onClose, onNext }) => {
       />
       <div className="p-12 py-24 md:p-32 bg-secondary-100/20 dark:bg-transparent  flex flex-col gap-24  items-center">
         <Icon icon="line-md:question-circle" className="w-80 h-80 text-info"></Icon>
-        <p className="bold text-center text-primary-600 dark:text-white">Are you sure you want to delete this item?</p>
+        <p className="bold text-center text-primary-600 dark:text-white">
+          Are you sure you want to {role === ROLES.ADMIN ? "delete" : "cancel"} this item?
+        </p>
         <AnimatedSlideButton
           onClick={onNext}
           className="text-primary-200 dark:text-white text-16 py-12 px-48 border border-primary-200 dark:border-secondary-300 rounded-full"
           backClassName="from-primary-100 to-secondary-100 dark:from-primary-400 dark:to-secondary-300 "
         >
-          Delete
+          {role === ROLES.ADMIN ? "Delete" : "Cancel Order"}
         </AnimatedSlideButton>
       </div>
     </Modal>
