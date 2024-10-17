@@ -47,7 +47,7 @@ const OrderPage = () => {
       if (role === ROLES.ADMIN) {
         const result = await apiAdminPaymentHistory();
         setPaymentOrders(result);
-      } else if (role === ROLES.BUSINESS) {
+      } else if (role === ROLES.BUSINESS || role === ROLES.AGENT) {
         const result = await apiPaymentHistory();
         setPaymentOrders(result);
       } else {
