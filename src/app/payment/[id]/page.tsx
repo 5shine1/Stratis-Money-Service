@@ -104,7 +104,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
 
       const link = !selectedCurrency
         ? result?.paymentDestination
-        : `ethereum:${selectedCurrency.tokenContract}@${selectedCurrency.chainId}/transfer?address=${result?.paymentDestination}&uint256=${paymentInfo?.amount}e18`;
+        : `ethereum:${selectedCurrency.tokenContract}@${selectedCurrency.chainId}/transfer?address=${result?.paymentDestination}&uint256=${paymentInfo?.amount}e${(selectedCurrency?.decimals ?? 18)}`;
 
       setPaymentLinkData(link);
 
