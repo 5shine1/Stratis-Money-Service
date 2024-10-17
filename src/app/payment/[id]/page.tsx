@@ -39,7 +39,10 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
   const [confirmStep, setConfirmStep] = useState(0);
   const [currencies, setCurrencies] = useState([]);
   const [paymentLinkData, setPaymentLinkData] = useState("");
-  const currencyList = useMemo(() => Array.from(new Set(currencies)), [currencies]);
+  const currencyList = useMemo(
+    () => currencies.filter((item, index, self) => index === self.findIndex((t) => t.text === item.text)),
+    [currencies]
+  );
   const networkList = useMemo(
     () =>
       currencies
@@ -72,7 +75,6 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
 
     fetchCurrencies();
   }, [paymentInfo?.acceptableCurrencies]);
-
   const handleGetInfo = async () => {
     setIsLoading(true);
     try {
@@ -95,10 +97,9 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
     setLoading(true);
     try {
       const selectedCurrency = paymentInfo.acceptableCurrencies.find(
-        (item) => item.currencyId === currencies[currency].key && item.chainId === currencies[currency].chainId
+        (item) => item.symbol === currencyList[currency].text && item.chainId === networkList[network].chainId
       );
-
-      const result = await apiMakePayment(id, currencyList[currency].text, selectedCurrency.chainId);
+      const result = await apiMakePayment(id, selectedCurrency.symbol, selectedCurrency.chainId);
       setDepositInfo(result);
 
       const link = !selectedCurrency
@@ -249,7 +250,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
                         <div className="flex flex-col gap-6">
                           <span className="text-[#6B7A87]  text-14">Amount</span>
                           <div className="font-medium text-[#BDCCD8] text-20 md:text-24 flex items-center gap-8">
-                            {depositInfo?.paymentAmount} {currencies[currency].text}
+                            {depositInfo?.paymentAmount} {currencyList[currency].text}
                             <div
                               className="cursor-pointer"
                               onClick={() => {
