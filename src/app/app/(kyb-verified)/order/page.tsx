@@ -5,7 +5,7 @@ import Pagination from "rc-pagination";
 import toast from "react-hot-toast";
 import { Icon } from "@iconify/react";
 
-import { apiGenerate, apiPaymentHistory } from "@/api/payment.api";
+import { apiCancelPayment, apiGenerate, apiPaymentHistory } from "@/api/payment.api";
 import { PAYMENT_STATE, ROLES } from "@/@types/common";
 import AppInput from "@/components/global/AppInput";
 import { LoadingContext } from "@/components/providers/LoadingProvider";
@@ -110,15 +110,22 @@ const OrderPage = () => {
     try {
       if (role === ROLES.ADMIN) {
         await apiAdminDeleteOrder(id);
+        toast.success("Order deleted successfully.");
+        setPaymentOrders(paymentOrders.filter((item) => item.paymentId !== id));
       } else {
-        throw "403 error";
+        await apiCancelPayment(id);
+        toast.success("Order canceled successfully.");
+        setPaymentOrders(
+          paymentOrders.map((item) => {
+            if (item.paymentId === id) return { ...item, state: 5 };
+            return item;
+          })
+        );
       }
-      toast.success("Detail deleted successfully.");
-      setPaymentOrders(paymentOrders.filter((item) => item.paymentId !== id));
-      setDeleteModalOpen(null);
     } catch (error) {
       toast.error("Server error.");
     }
+    setDeleteModalOpen(null);
     setLoading(false);
   };
 
@@ -193,14 +200,15 @@ const OrderPage = () => {
                                   <Link
                                     href={`/app/order/${item.paymentId}`}
                                     target="_blank"
-                                    className="text-primary-200/30 dark:text-white/40 u-transition-color hover:text-info"
+                                    className="text-white/40 u-transition-color hover:text-info"
                                   >
                                     <Icon icon="ph:eye-fill" className="w-18 h-18"></Icon>
                                   </Link>
 
                                   <button
                                     onClick={() => setDeleteModalOpen(item.paymentId)}
-                                    className="text-primary-200/30 dark:text-white/40 u-transition-color hover:text-error"
+                                    disabled={role !== ROLES.ADMIN && (item.state <= 5 || item.state > 40)}
+                                    className="text-white/40 u-transition-color hover:text-error disabled:cursor-not-allowed disabled:hover:text-white/40"
                                   >
                                     <Icon icon="bxs:trash" className="w-18 h-18"></Icon>
                                   </button>
@@ -253,14 +261,14 @@ const OrderPage = () => {
                               <Link
                                 href={`/app/order/${item.paymentId}`}
                                 target="_blank"
-                                className="text-primary-200/30 dark:text-white/40 u-transition-color hover:text-info"
+                                className="text-white/40 u-transition-color hover:text-info"
                               >
                                 <Icon icon="ph:eye-fill" className="w-18 h-18"></Icon>
                               </Link>
 
                               <button
                                 onClick={() => setDeleteModalOpen(item.paymentId)}
-                                className="text-primary-200/30 dark:text-white/40 u-transition-color hover:text-error"
+                                className="text-white/40 u-transition-color hover:text-error"
                               >
                                 <Icon icon="bxs:trash" className="w-18 h-18"></Icon>
                               </button>

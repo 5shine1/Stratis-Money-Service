@@ -47,6 +47,7 @@ export const WITHDRAW_STATE = {
 };
 
 export const PAYMENT_STATE = {
+  5: "Canceled",
   10: "Requested",
   20: "LinkCreated",
   30: "KycNewUser",
