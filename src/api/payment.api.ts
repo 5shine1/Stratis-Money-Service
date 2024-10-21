@@ -63,7 +63,7 @@ export const apiPaymentStart = async (paymentId: string) => {
   }
 };
 
-export const apiMakePayment = async (paymentId: string, paymentCurrencySymbol: string, paymentChainId : number) => {
+export const apiMakePayment = async (paymentId: string, paymentCurrencySymbol: string, paymentChainId: number) => {
   try {
     const result = await axiosInstance.post(`api/Payment/MakePayment`, {
       paymentId,
@@ -98,6 +98,15 @@ export const apiRequestWithdraw = async (currency: string, amount: number) => {
   try {
     const result = await axiosInstance.post(`api/Payment/Withdrawal`, { currency, amount });
     if (!result.data.isSucceed) throw "Something went wrong";
+  } catch (error) {
+    throw error;
+  }
+};
+export const apiCancelPayment = async (id: string) => {
+  try {
+    const result = await axiosInstance.get(`api/Payment/Cancel?paymentId=${id}`);
+    if (!result.data) throw "Error";
+    return result.data;
   } catch (error) {
     throw error;
   }
