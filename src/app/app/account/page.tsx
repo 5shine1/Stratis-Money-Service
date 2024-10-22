@@ -90,7 +90,7 @@ const AccountPage = () => {
               </div>
             </div>
           </div>
-          {role !== ROLES.AGENT && (
+          {role !== ROLES.AGENT && role !== ROLES.COMPLIANCE && (
             <>
               <div className="p-24 md:p-32 rounded-8 bg-secondary-100/20 dark:bg-white/5 w-full">
                 <div className="text-20 font-bold text-primary-200 dark:text-secondary-200"> KYB Status</div>
