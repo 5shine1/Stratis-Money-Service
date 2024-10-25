@@ -11,6 +11,7 @@ import { apiActivateUser, apiAdminUsers } from "@/api/admin.api";
 import { IUser } from "@/@types/data";
 import { ROLES } from "@/@types/common";
 import { LoadingContext } from "@/components/providers/LoadingProvider";
+import useAppSelector from "@/hooks/global/useAppSelector";
 
 const UserPage = () => {
   const sortData = [
@@ -26,10 +27,15 @@ const UserPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [currentSort, setCurrentSort] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const { role } = useAppSelector((state) => state.auth);
 
   const filteredData = useMemo(
     () =>
       users
+        .filter((item) => {
+          if (role === ROLES.COMPLIANCE && item.isAdmin) return false;
+          return true;
+        })
         .filter((item) => {
           return (
             item.email.toUpperCase().includes(searchIndex.toUpperCase()) ||
@@ -43,7 +49,7 @@ const UserPage = () => {
           if (currentSort === 3) return a.country.localeCompare(b.country);
           return 0;
         }),
-    [users, searchIndex, currentSort]
+    [users, role, searchIndex, currentSort]
   );
 
   const handleGetOrders = async () => {
