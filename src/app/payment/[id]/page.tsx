@@ -54,27 +54,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
         }),
     [currencies, currency, currencyList]
   );
-  useEffect(() => {
-    const fetchCurrencies = async () => {
-      if (paymentInfo?.acceptableCurrencies) {
-        const currencyPromises = paymentInfo.acceptableCurrencies.map(async (item, i) => {
-          const chain = await getChainInfo(item?.chainId);
-          return {
-            id: i,
-            key: item?.currencyId,
-            text: item?.symbol,
-            icon: item?.icon,
-            chainName: chain.name,
-            chainId: item?.chainId,
-          };
-        });
-        const resolvedCurrencies = await Promise.all(currencyPromises);
-        setCurrencies(resolvedCurrencies);
-      }
-    };
 
-    fetchCurrencies();
-  }, [paymentInfo?.acceptableCurrencies]);
   const handleGetInfo = async () => {
     setIsLoading(true);
     try {
@@ -82,6 +62,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
       setPaymentInfo(result);
       if (result?.state === 200) setStatus(200);
       else if (result?.state === 55) setStatus(55);
+      else if (result?.state === 5) setStatus(5);
       else setStatus(10);
       const response = await apiPaymentStatus(id);
       setHash(response.transactionHash);
@@ -104,7 +85,9 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
 
       const link = !selectedCurrency
         ? result?.paymentDestination
-        : `ethereum:${selectedCurrency.tokenContract}@${selectedCurrency.chainId}/transfer?address=${result?.paymentDestination}&uint256=${paymentInfo?.amount}e${(selectedCurrency?.decimals ?? 18)}`;
+        : `ethereum:${selectedCurrency.tokenContract}@${selectedCurrency.chainId}/transfer?address=${
+            result?.paymentDestination
+          }&uint256=${paymentInfo?.amount}e${selectedCurrency?.decimals ?? 18}`;
 
       setPaymentLinkData(link);
 
@@ -115,6 +98,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
     }
     setLoading(false);
   };
+
   const handleGetStatus = async () => {
     if (status === 60) {
       const result = await apiPaymentStatus(id);
@@ -136,6 +120,28 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
       }
     }
   };
+
+  useEffect(() => {
+    const fetchCurrencies = async () => {
+      if (paymentInfo?.acceptableCurrencies) {
+        const currencyPromises = paymentInfo.acceptableCurrencies.map(async (item, i) => {
+          const chain = await getChainInfo(item?.chainId);
+          return {
+            id: i,
+            key: item?.currencyId,
+            text: item?.symbol,
+            icon: item?.icon,
+            chainName: chain.name,
+            chainId: item?.chainId,
+          };
+        });
+        const resolvedCurrencies = await Promise.all(currencyPromises);
+        setCurrencies(resolvedCurrencies);
+      }
+    };
+
+    fetchCurrencies();
+  }, [paymentInfo?.acceptableCurrencies]);
 
   useEffect(() => {
     handleGetInfo();
@@ -354,7 +360,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
               </div>
             </section>
           ) : status === 55 ? (
-            <section className="relative g-box-back rounded-20 border border-modal-border py-24 px-24 md:px-40 flex flex-col gap-40 w-full max-w-820 items-center">
+            <section className="relative g-box-back rounded-20 border border-modal-border py-24 px-24 md:px-40 flex flex-col gap-40 w-full max-w-820 items-center overflow-hidden">
               <img src="/assets/global/back_pattern.png" draggable={false} alt="" className="absolute left-0 top-0" />
               <img
                 src="/assets/global/back_pattern.png"
@@ -366,6 +372,26 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
                 <IconBox icon="carbon:warning" />
                 <div className="text-24 text-center g-button-text font-semibold">
                   This transaction already has been expired!
+                </div>
+              </div>
+              <Link href={"/"} className="flex items-center gap-8 text-[#DDAC3E]">
+                <Icon icon={"octicon:arrow-left-16"} className="w-16 h-16" />
+                Go Back
+              </Link>
+            </section>
+          ) : status === 5 ? (
+            <section className="relative g-box-back rounded-20 border border-modal-border py-24 px-24 md:px-40 flex flex-col gap-40 w-full max-w-820 items-center overflow-hidden">
+              <img src="/assets/global/back_pattern.png" draggable={false} alt="" className="absolute left-0 top-0" />
+              <img
+                src="/assets/global/back_pattern.png"
+                draggable={false}
+                alt=""
+                className="absolute bottom-0 right-0 scale-y-[-1] scale-x-[-1] hidden md:block"
+              />
+              <div className="relative max-w-540 w-full flex items-center flex-col gap-12">
+                <IconBox icon="carbon:warning" />
+                <div className="text-24 text-center g-button-text font-semibold">
+                  This transaction already has been canceled!
                 </div>
               </div>
               <Link href={"/"} className="flex items-center gap-8 text-[#DDAC3E]">
