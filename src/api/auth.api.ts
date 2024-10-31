@@ -188,3 +188,13 @@ export const apiCompleteInvitation = async (
     throw error;
   }
 };
+
+export const apiRemoveAgent = async (agentUserId: string) => {
+  try {
+    const result = await axiosInstance.post(`/api/Identity/RemoveAgent`, { agentUserId });
+    if (result?.data?.isSucceed === false) throw "Something went wrong";
+    return result?.data?.data;
+  } catch (error) {
+    throw error;
+  }
+};
