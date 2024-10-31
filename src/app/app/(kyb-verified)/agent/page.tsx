@@ -1,19 +1,25 @@
 "use client";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import Pagination from "rc-pagination";
 import { Icon } from "@iconify/react";
 
 import AppInput from "@/components/global/AppInput";
 import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
 import InviteModal from "./components/InviteModal";
-import { apiUserInfo } from "@/api/auth.api";
+import { apiRemoveAgent, apiUserInfo } from "@/api/auth.api";
+import DeleteModal from "./components/DeleteModal";
+import { LoadingContext } from "@/components/providers/LoadingProvider";
+import toast from "react-hot-toast";
+import { IAgent } from "@/@types/data";
 
 const OrderPage = () => {
-  const [agents, setAgents] = useState<any[]>([]);
+  const [agents, setAgents] = useState<IAgent[]>([]);
   const [searchIndex, setSearchIndex] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [isInviteModalOpen, setIsInviteModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState<string | null>(null);
+  const { setLoading } = useContext(LoadingContext);
 
   const filteredData = useMemo(
     () =>
@@ -31,10 +37,23 @@ const OrderPage = () => {
     try {
       const result = await apiUserInfo();
       setAgents(result.agents || []);
-      console.log(result.agents);
     } catch (error) {}
     setIsLoading(false);
   };
+
+  const handleDeleteAgent = async (id: string) => {
+    setLoading(true);
+    try {
+      await apiRemoveAgent(id);
+      toast.success("Agent removed successfully.");
+      setAgents(agents.filter((item) => item.agentId !== id));
+    } catch (error) {
+      toast.error("Server error.");
+    }
+    setDeleteModalOpen(null);
+    setLoading(false);
+  };
+
   useEffect(() => {
     handleGetAgents();
   }, []);
@@ -77,6 +96,7 @@ const OrderPage = () => {
                       <th className="px-8 py-16 text-left w-160">Email</th>
                       <th className="px-8 py-16 text-left w-160">Location</th>
                       <th className="px-8 py-16 text-left w-160">Phone</th>
+                      <th className="px-8 py-16 text-left w-60"></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -95,6 +115,14 @@ const OrderPage = () => {
                               <td className="px-8 py-16">{item.email}</td>
                               <td className="px-8 py-16">{item.country}</td>
                               <td className="px-8 py-16">{item.mobileNumber}</td>
+                              <td className="px-8 py-16 text-right">
+                                <button
+                                  onClick={() => setDeleteModalOpen(item.agentId)}
+                                  className="text-white/40 u-transition-color hover:text-error disabled:cursor-not-allowed disabled:hover:text-white/40"
+                                >
+                                  <Icon icon="bxs:trash" className="w-18 h-18"></Icon>
+                                </button>
+                              </td>
                             </tr>
                           );
                         })}
@@ -120,6 +148,11 @@ const OrderPage = () => {
         </div>
       </div>
       <InviteModal isOpen={isInviteModalOpen} onClose={() => setIsInviteModalOpen(false)} />
+      <DeleteModal
+        isOpen={deleteModalOpen}
+        onClose={() => setDeleteModalOpen(null)}
+        onNext={() => handleDeleteAgent(deleteModalOpen)}
+      />
     </>
   );
 };

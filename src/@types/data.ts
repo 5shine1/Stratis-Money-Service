@@ -48,3 +48,11 @@ export interface IWithdrawHistory {
   fee: number;
   currency: string;
 }
+
+export interface IAgent {
+  agentId: string;
+  country: string;
+  email: string;
+  mobileNumber: string;
+  name: string;
+}
