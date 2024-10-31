@@ -24,6 +24,7 @@ export interface IUser {
   country: string;
   email: string;
   isAdmin: boolean;
+  role: string;
   isBusiness: boolean;
   isKnowYourBusinessCompleted: boolean;
   isKnowYourBusinessPassed: boolean;
