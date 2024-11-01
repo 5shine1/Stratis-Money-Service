@@ -26,23 +26,6 @@ const NotFoundPage = () => {
               Go back Home
             </AnimatedSlideButton>
           </Link>
-          <div className="flex gap-24 lg:gap-36 items-center justify-center">
-            {SOCIAL_LINKS.map((item) => (
-              <Link key={item.id} href={item.link}>
-                <Icon
-                  icon={item.icon}
-                  className="w-24 h-24 lg:w-32 lg:h-32 text-gray-400 cursor-pointer hover:text-secondary-300 u-transition-color"
-                />
-              </Link>
-            ))}
-          </div>
-        </div>
-        <div className="w-full">
-          <div className="aspect-square w-full max-w-400 mx-auto relative">
-            <div className="absolute w-full top-10 aspect-square rounded-40 bg-primary-300/10 animate-spinSlow"></div>
-            <div className="absolute w-[90%] -translate-x-1/2 left-1/2 aspect-square bottom-0 rounded-40 bg-gradient-to-tr from-secondary-100 to-secondary-300"></div>
-            <img src="/assets/global/404.png" alt="" className="absolute bottom-0 w-full left-[10%]" />
-          </div>
         </div>
       </div>
       <p className="w-full absolute bottom-0 left-0 p-24 text-gray-400 text-12 text-center lg:text-left ">
