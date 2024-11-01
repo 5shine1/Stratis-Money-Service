@@ -14,9 +14,8 @@ import { ROLES } from "@/@types/common";
 
 const AppLayout: React.FC<PropsWithChildren> = ({ children }) => {
   const router = useRouter();
-  const { email, role, isAuthLoading, isVerifiedEmail, isKnowYourBusinessPassed, isKnowYourBusinessCompleted } = useAppSelector(
-    (state) => state.auth
-  );
+  const { email, role, isAuthLoading, isVerifiedEmail, isKnowYourBusinessPassed, isKnowYourBusinessCompleted } =
+    useAppSelector((state) => state.auth);
   const { setLoading } = useContext(LoadingContext);
   const dispatch = useAppDispatch();
 
@@ -41,21 +40,23 @@ const AppLayout: React.FC<PropsWithChildren> = ({ children }) => {
   }
   return (
     <>
-      {role !== ROLES.AGENT && (!isKnowYourBusinessPassed || !isKnowYourBusinessCompleted) && (
+      {role !== ROLES.AGENT && role !== ROLES.ADMIN && (!isKnowYourBusinessPassed || !isKnowYourBusinessCompleted) && (
         <div className="bg-black/50 fixed top-0 left-0 w-full h-full z-50 flex items-center justify-center p-16 backdrop-blur-lg">
           <div className="bg-white rounded-8 overflow-hidden">
             <div className=" dark:bg-primary-800 bg-secondary-100/20 p-24 w-full max-w-480">
               <div className="text-error flex items-center gap-8 text-16 pb-12 border-b border-primary-800/5 dark:border-white/5">
                 <Icon icon="ph:warning-duotone" className="w-20 h-20 hidden md:block" />
-                { !isKnowYourBusinessCompleted ? "You need to pass KYB verification" : "Your KYB application was declined" }
+                {!isKnowYourBusinessCompleted
+                  ? "You need to pass KYB verification"
+                  : "Your KYB application was declined"}
               </div>
               <p className="mt-16 text-primary-200 dark:text-white/70 text-14">
-                { !isKnowYourBusinessCompleted
+                {!isKnowYourBusinessCompleted
                   ? "To ensure compliance and security, KYB verification is mandatory for all users. Please complete your KYB verification promptly to continue using our services without interruption."
-                  : "Please contact our Compliance Officer for further details regarding the status of your Know Your Business application and guidance on restoring compliance." }               
+                  : "Please contact our Compliance Officer for further details regarding the status of your Know Your Business application and guidance on restoring compliance."}
               </p>
               <div className="flex items-center  justify-end gap-8 flex-wrap  mt-24">
-                {!isKnowYourBusinessCompleted &&
+                {!isKnowYourBusinessCompleted && (
                   <Link href="/app/account">
                     <AnimatedSlideButton
                       className=" text-primary-200 dark:text-white text-16 py-12 px-32 border border-primary-200 dark:border-secondary-300 rounded-full "
@@ -64,7 +65,7 @@ const AppLayout: React.FC<PropsWithChildren> = ({ children }) => {
                       Start KYB
                     </AnimatedSlideButton>
                   </Link>
-                }
+                )}
                 <AnimatedSlideButton
                   onClick={() => {
                     handleLogout();
