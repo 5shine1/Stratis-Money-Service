@@ -61,3 +61,20 @@ export const apiActivateUser = async (userId: string, status: boolean) => {
     throw error;
   }
 };
+export const apiAdminWithdrawHistory = async () => {
+  try {
+    const result = await axiosInstance.get(`api/Admin/WithdrawalHistory`);
+    return result.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const apiAdminWithdrawalStatus = async (id, status) => {
+  try {
+    const result = await axiosInstance.get(`api/Admin/WithdrawalStatus?withdrawalId=${id}&status=${status}`);
+    if (result.data.success !== true) throw "Something went wrong.";
+  } catch (error) {
+    throw error;
+  }
+};
