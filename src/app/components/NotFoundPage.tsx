@@ -1,9 +1,7 @@
 "use client";
 import React from "react";
 import Link from "next/link";
-import { Icon } from "@iconify/react";
 
-import { SOCIAL_LINKS } from "@/config/constants";
 import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
 
 const NotFoundPage = () => {

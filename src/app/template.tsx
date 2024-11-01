@@ -54,7 +54,7 @@ const MainComponent = () => {
           role:
             role === "Administrator"
               ? ROLES.ADMIN
-              : role === "Agent"
+              : role[0] && role[0] === "Agent"
               ? ROLES.AGENT
               : role === "Compliance"
               ? ROLES.COMPLIANCE
