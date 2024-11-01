@@ -391,7 +391,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
               <div className="relative max-w-540 w-full flex items-center flex-col gap-12">
                 <IconBox icon="carbon:warning" />
                 <div className="text-24 text-center g-button-text font-semibold">
-                  This transaction already has been canceled!
+                  This transaction already has been cancelled!
                 </div>
               </div>
               <Link href={"/"} className="flex items-center gap-8 text-[#DDAC3E]">

@@ -112,7 +112,7 @@ const OrderPage = () => {
         setPaymentOrders(paymentOrders.filter((item) => item.paymentId !== id));
       } else {
         await apiCancelPayment(id);
-        toast.success("Order canceled successfully.");
+        toast.success("Order cancelled successfully.");
         setPaymentOrders(
           paymentOrders.map((item) => {
             if (item.paymentId === id) return { ...item, state: 5 };
