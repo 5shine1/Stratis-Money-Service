@@ -58,6 +58,8 @@ const MainComponent = () => {
               ? ROLES.AGENT
               : role === "Compliance"
               ? ROLES.COMPLIANCE
+              : role === "BusinessAdmin"
+              ? ROLES.BUSINESS
               : decoded["UserName"] && !role
               ? ROLES.BUSINESS
               : ROLES.GUEST,
