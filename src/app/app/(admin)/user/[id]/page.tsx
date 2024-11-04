@@ -80,7 +80,7 @@ const UserDetailPage: React.FC<Props> = ({ params }) => {
                       userInfo.isAdmin ? "text-info border-info" : "border-success text-success"
                     }`}
                   >
-                    {userInfo.isAdmin ? "Admin" : "Business"}
+                    {userInfo?.role || "Business"}
                   </span>
                 </span>
                 <span>
