@@ -48,6 +48,7 @@ export interface IWithdrawHistory {
   amount: number;
   fee: number;
   currency: string;
+  status: number;
 }
 
 export interface IAgent {
