@@ -54,12 +54,10 @@ const MainComponent = () => {
           role:
             role === "Administrator"
               ? ROLES.ADMIN
-              : role[0] && role[0] === "Agent"
+              : Array.isArray(role) && role[0] === "Agent"
               ? ROLES.AGENT
               : role === "Compliance"
               ? ROLES.COMPLIANCE
-              : role === "BusinessAdmin"
-              ? ROLES.BUSINESS
               : decoded["UserName"] && !role
               ? ROLES.BUSINESS
               : ROLES.GUEST,
