@@ -33,7 +33,8 @@ const UserPage = () => {
     () =>
       users
         .filter((item) => {
-          if (role === ROLES.COMPLIANCE && item.isAdmin) return false;
+          if (role === ROLES.COMPLIANCE && (item?.role === "Compliance" || item?.role === "Administrator"))
+            return false;
           return true;
         })
         .filter((item) => {
