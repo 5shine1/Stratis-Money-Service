@@ -146,7 +146,9 @@ const UserPage = () => {
                             <td className="px-8 py-16">{item.name}</td>
                             <td className="px-8 py-16">{item.mobileNumber}</td>
                             <td className="px-8 py-16">{item.country}</td>
-                            <td className={`px-8 py-16 ${item.isAdmin ? "text-info" : ""}`}>{item.role}</td>
+                            <td className={`px-8 py-16 ${item.isAdmin ? "text-info" : ""}`}>
+                              {item.role || "Business"}
+                            </td>
                             <td className={`px-8`}>
                               {item.isVerifiedEmail ? (
                                 <Icon icon="icon-park-outline:check-one" className="w-16 h-16 text-success mx-auto" />
