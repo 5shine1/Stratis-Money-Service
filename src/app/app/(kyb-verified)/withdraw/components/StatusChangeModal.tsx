@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import { Icon } from "@iconify/react";
 
 import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
 import CustomSelect from "@/components/global/CustomSelect";
+import { IWithdrawHistory } from "@/@types/data";
 
 type Props = {
-  isOpen: null | string;
+  isOpen: null | IWithdrawHistory;
   onClose: () => void;
   onNext: (id: string, status: number) => void; //eslint-disable-line
 };
@@ -18,6 +19,11 @@ const StatusChangeModal: React.FC<Props> = ({ isOpen, onClose, onNext }) => {
   ];
 
   const [currentSort, setCurrentSort] = useState(0);
+
+  useEffect(() => {
+    setCurrentSort(isOpen?.status || 0);
+  }, [isOpen]);
+
   return (
     <Modal
       isOpen={isOpen !== null}
@@ -46,7 +52,7 @@ const StatusChangeModal: React.FC<Props> = ({ isOpen, onClose, onNext }) => {
 
           <AnimatedSlideButton
             onClick={() => {
-              onNext(isOpen, currentSort);
+              onNext(isOpen.withdrawalId, currentSort);
             }}
             className="text-primary-200 dark:text-white text-20 py-12 px-32 border border-primary-200 dark:border-secondary-300  rounded-full mt-8"
             backClassName="from-primary-100 to-secondary-100 dark:from-primary-400 dark:to-secondary-300 "

@@ -16,9 +16,10 @@ import { ROLES, WITHDRAW_STATE } from "@/@types/common";
 import { apiAdminWithdrawalStatus, apiAdminWithdrawHistory } from "@/api/admin.api";
 import StatusChangeModal from "./components/StatusChangeModal";
 import { LoadingContext } from "@/components/providers/LoadingProvider";
+import { IWithdrawHistory } from "@/@types/data";
 
 const WithdrawPage = () => {
-  const [withdrawHistory, setWithdrawHistory] = useState([]);
+  const [withdrawHistory, setWithdrawHistory] = useState<IWithdrawHistory[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const auth = useAppSelector((state) => state.auth);
@@ -157,7 +158,7 @@ const WithdrawPage = () => {
                             {auth?.role === ROLES.ADMIN && (
                               <td className="px-8 py-16 text-right">
                                 <button
-                                  onClick={() => setIsStatusModalOpen(item.withdrawalId)}
+                                  onClick={() => setIsStatusModalOpen(item)}
                                   className="text-white/40 u-transition-color hover:text-info disabled:cursor-not-allowed disabled:hover:text-white/40"
                                 >
                                   <Icon icon="fluent:edit-settings-24-filled" className="w-18 h-18"></Icon>
