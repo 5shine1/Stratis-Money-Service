@@ -47,6 +47,7 @@ const MainComponent = () => {
       if (!token || (token && email)) return dispatch(setAuthLoading());
       const decoded = jwtDecode(token);
       const role = decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
+      console.log(decoded, role);
       const result = await apiUserInfo();
       dispatch(
         setAuth({
@@ -58,6 +59,8 @@ const MainComponent = () => {
               ? ROLES.AGENT
               : role === "Compliance"
               ? ROLES.COMPLIANCE
+              : role === "BusinessAdmin"
+              ? ROLES.BUSINESS
               : decoded["UserName"] && !role
               ? ROLES.BUSINESS
               : ROLES.GUEST,
