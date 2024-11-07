@@ -12,6 +12,7 @@ const initialState: IAuth = {
   role: ROLES.GUEST,
   country: "",
   mobileNumber: "",
+  kybApplicationStatus: 1,
 };
 
 export const authSlice = createSlice({
