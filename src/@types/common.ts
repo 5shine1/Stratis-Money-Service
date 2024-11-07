@@ -25,6 +25,7 @@ export interface IAuth {
   country: string;
   mobileNumber: string;
   totalBalance?: { EUR: number; USD: number };
+  kybApplicationStatus?: number;
 }
 
 export interface IInputSelectItem {
@@ -63,4 +64,13 @@ export const PAYMENT_STATE = {
   120: "InitiateFiatTransfer",
   130: "FiatTransferComplete",
   200: "Completed",
+};
+
+export const KYB_STATUS = {
+  1: "Pending", // KYB process hasn't started
+  2: "TimedOutByKybProvider", // KYB process timed out
+  3: "DeclinedByKybProvider", // KYB verification was declined by Shufti
+  4: "AcceptedByKybProvider", // KYB verification is accepted and verified by Shufti
+  5: "ApprovedByCompliance", // KYB verification was manually approved by Compliance officer
+  6: "RejectedByCompliance", // KYB verification was manually rejected by Compliance officer
 };

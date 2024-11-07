@@ -17,8 +17,9 @@ const AccountPage = () => {
   const { setLoading } = useContext(LoadingContext);
   const [isKycAsk, setIsKycAsk] = useState(true);
   const [bankModalShow, setBankModalShow] = useState(false);
-  const { userId, name, role, email, isKnowYourBusinessCompleted, isKnowYourBusinessPassed, mobileNumber, country } =
-    useAppSelector((state) => state.auth);
+  const { userId, name, role, email, kybApplicationStatus, mobileNumber, country } = useAppSelector(
+    (state) => state.auth
+  );
   const { bankAccountHolder, bankIban, bankBic } = useAppSelector((state) => state.setting);
   const dispatch = useAppDispatch();
 
@@ -95,21 +96,26 @@ const AccountPage = () => {
               <div className="p-24 md:p-32 rounded-8 bg-secondary-100/20 dark:bg-white/5 w-full">
                 <div className="text-20 font-bold text-primary-200 dark:text-secondary-200"> KYB Status</div>
                 <div className="mt-18 flex items-center gap-12">
-                  {isKnowYourBusinessPassed ? (
+                  {kybApplicationStatus === 5 ? (
                     <div className="flex items-center gap-4 border border-success text-success rounded-4 px-8 py-4">
                       <Icon icon="ph:seal-check-bold" className="w-20 h-20" />
-                      Verified
+                      Approved
                     </div>
-                  ) : isKnowYourBusinessCompleted ? (
-                    <div className="flex items-center gap-4 border border-info text-info rounded-4 px-8 py-4">
+                  ) : kybApplicationStatus === 6 || kybApplicationStatus === 4 ? (
+                    <div className="flex items-center gap-4 border border-error text-error rounded-4 px-8 py-4">
                       <Icon icon="bi:hourglass" className="w-20 h-20" />
                       Pending
+                    </div>
+                  ) : kybApplicationStatus === 3 ? (
+                    <div className="flex items-center gap-4 border border-error text-error rounded-4 px-8 py-4">
+                      <Icon icon="jam:close-circle" className="w-20 h-20" />
+                      Declined
                     </div>
                   ) : (
                     <>
                       <div className="flex items-center gap-4 border border-error text-error rounded-4 px-8 py-4">
                         <Icon icon="jam:close-circle" className="w-18 h-18" />
-                        Not Verified
+                        {kybApplicationStatus === 1 ? "Not Started" : "Timed Out"}
                       </div>
                       <div
                         onClick={handleStartKYB}
