@@ -72,7 +72,7 @@ export default function CurrencyInputSelect({
             }}
             className="text-14 placeholder:text-input-placeholder p-12 w-full text-input-text outline-none bg-transparent "
             placeholder={placeholder}
-            pattern="^([0-9]+(?:[.,][0-9]*)?)$"
+            pattern="^([0-9]+(?:[.][0-9]*)?)$"
             inputMode="decimal"
           />
           <div
