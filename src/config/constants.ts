@@ -136,7 +136,7 @@ export const KYB_FAIL_MESSAGES = {
     text: "Your KYB application has been successfully verified. Our Compliance Officer will review and approve your applications soon.",
   },
   6: {
-    title: "Your Compliance Check Failed",
-    text: "Your compliance check has been failed by our Compliance Officer. Please reach out for further guidance on how to meet the necessary compliance requirements.",
+    title: "Your compliance check was disapproved",
+    text: "Your compliance check was disapproved by our Compliance Officer. Please reach out for further guidance on meeting the necessary compliance requirements",
   },
 };

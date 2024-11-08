@@ -86,7 +86,7 @@ const RequestWithdrawModal: React.FC<Props> = ({ isOpen, onClose }) => {
             placeholder="0"
             label="Amount"
             error={amount.error}
-            pattern="^([0-9]+(?:[.,][0-9]*)?)$"
+            pattern="^([0-9]+(?:[.][0-9]*)?)$"
             inputMode="decimal"
           />
           {!bankAccountHolder && (
