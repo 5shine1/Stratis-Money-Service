@@ -105,21 +105,21 @@ const UserPage = () => {
                 onChange={(selected) => {
                   setCurrentSort(selected.id);
                 }}
-                mainClass="text-primary-500 dark:text-white border border-secondary-400 dark:border-primary-500 rounded-6 py-12 px-16 cursor-pointer u-text-overflow"
-                padClass="absolute top-full left-0 w-full max-h-[240px] overflow-auto shadow-lg rounded-8 mt-6 bg-secondary-100 dark:bg-primary-900 text-primary-500/80 dark:text-white/70 flex flex-col gap-4 overflow-y-auto  z-10 p-8"
+                mainClass="text-white border border-primary-500 rounded-6 py-12 px-16 cursor-pointer u-text-overflow"
+                padClass="absolute top-full left-0 w-full max-h-[240px] overflow-auto shadow-lg rounded-8 mt-6 bg-primary-900 text-white/70 flex flex-col gap-4 overflow-y-auto  z-10 p-8"
                 listClass=" py-12 px-10 cursor-pointer u-text-overflow rounded-4"
               />
             </div>
           </div>
           {isLoading ? (
-            <div className="text-primary-200 dark:text-white/70 p-12 text-center">
+            <div className="text-white/70 p-12 text-center">
               <Icon icon="eos-icons:three-dots-loading" className="w-64 h-64 mx-auto" />
             </div>
           ) : (
             <div className="w-full overflow-x-auto">
-              <table className="w-full table-fixed min-w-800 text-primary-200 dark:text-white/70">
+              <table className="w-full table-fixed min-w-800 text-white/70">
                 <thead>
-                  <tr className="border-b border-primary-200/20 dark:border-white/10">
+                  <tr className="border-b border-white/10">
                     <th className="px-8 py-16 text-left w-200">Email</th>
                     <th className="px-8 py-16 text-left w-140">Name</th>
                     <th className="px-8 py-16 text-left w-160">Phone</th>
@@ -142,7 +142,7 @@ const UserPage = () => {
                     <>
                       {filteredData.slice(currentPage * 10 - 10, currentPage * 10).map((item, i) => {
                         return (
-                          <tr key={i} className="even:bg-secondary-100/10 dark:even:bg-[#ffffff04]">
+                          <tr key={i} className="even:bg-[#ffffff04]">
                             <td className="px-8 py-16">{item.email}</td>
                             <td className="px-8 py-16">{item.name}</td>
                             <td className="px-8 py-16">{item.mobileNumber}</td>
@@ -175,7 +175,7 @@ const UserPage = () => {
                               <div className="flex items-center gap-12 justify-end">
                                 <Link
                                   href={`/app/user/${item.userId}`}
-                                  className="text-primary-200/30 dark:text-white/40 u-transition-color hover:text-info"
+                                  className="text-white/40 u-transition-color hover:text-info"
                                 >
                                   <Icon icon="ph:eye-fill" className="w-20 h-20"></Icon>
                                 </Link>
@@ -184,7 +184,7 @@ const UserPage = () => {
                                     onClick={() => {
                                       handleActiveUser(item.userId, false);
                                     }}
-                                    className="text-primary-200/30 dark:text-white/40 u-transition-color hover:text-error"
+                                    className="text-white/40 u-transition-color hover:text-error"
                                   >
                                     <Icon icon="heroicons-solid:ban" className="w-20 h-20"></Icon>
                                   </button>
@@ -193,7 +193,7 @@ const UserPage = () => {
                                     onClick={() => {
                                       handleActiveUser(item.userId, true);
                                     }}
-                                    className="text-primary-200/30 dark:text-white/40 u-transition-color hover:text-success"
+                                    className="text-white/40 u-transition-color hover:text-success"
                                   >
                                     <Icon icon="mdi:approve" className="w-20 h-20"></Icon>
                                   </button>
