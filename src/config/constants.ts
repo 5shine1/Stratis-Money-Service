@@ -137,6 +137,6 @@ export const KYB_FAIL_MESSAGES = {
   },
   6: {
     title: "Your compliance check was disapproved",
-    text: "Your compliance check was disapproved by our Compliance Officer. Please reach out for further guidance on meeting the necessary compliance requirements",
+    text: "Please contact our Compliance Officer for further details regarding the status of your compliance check and guidance on restoring compliance status.",
   },
 };
