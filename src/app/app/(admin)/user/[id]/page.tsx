@@ -63,15 +63,15 @@ const UserDetailPage: React.FC<Props> = ({ params }) => {
       <h4 className="w-fit g-header-app">Company Detail</h4>
 
       {isLoading ? (
-        <div className="text-primary-200 dark:text-white/70 p-12 text-center">
+        <div className="text-white/70 p-12 text-center">
           <Icon icon="eos-icons:three-dots-loading" className="w-64 h-64 mx-auto" />
         </div>
       ) : userInfo ? (
         <div className="flex flex-col gap-32">
           <div className="flex flex-col md:flex-row gap-16">
-            <div className="p-24 md:p-32 rounded-8 bg-secondary-100/20 dark:bg-white/5 w-full">
-              <div className="text-20 font-bold text-primary-200 dark:text-secondary-200"> Summary</div>
-              <div className="flex flex-col gap-12 mt-18 text-primary-200 dark:text-white">
+            <div className="p-24 md:p-32 rounded-8 bg-white/5 w-full">
+              <div className="text-20 font-bold text-secondary-200"> Summary</div>
+              <div className="flex flex-col gap-12 mt-18 text-white">
                 <span>
                   <span className="opacity-60">Name: </span>
                   {userInfo.name}{" "}
@@ -109,9 +109,9 @@ const UserDetailPage: React.FC<Props> = ({ params }) => {
                 </span>
               </div>
             </div>
-            <div className="p-24 md:p-32 rounded-8 bg-secondary-100/20 dark:bg-white/5 w-full">
-              <div className="text-20 font-bold text-primary-200 dark:text-secondary-200"> Balances</div>
-              <div className="flex flex-col gap-16 mt-18 text-primary-200 dark:text-white">
+            <div className="p-24 md:p-32 rounded-8 bg-white/5 w-full">
+              <div className="text-20 font-bold text-secondary-200"> Balances</div>
+              <div className="flex flex-col gap-16 mt-18 text-white">
                 <div className="flex  items-center gap-8">
                   <Icon icon={"cryptocurrency-color:usd"} className="w-24 h-24" />
                   <span>
@@ -125,7 +125,7 @@ const UserDetailPage: React.FC<Props> = ({ params }) => {
                   </span>
                 </div>
               </div>
-              <div className="flex flex-col gap-16 mt-18 text-primary-200 dark:text-white">
+              <div className="flex flex-col gap-16 mt-18 text-white">
                 <span>
                   <span className="opacity-60">Total Transactions: </span>
                   {userInfo.transactionCount} Transactions
@@ -136,9 +136,9 @@ const UserDetailPage: React.FC<Props> = ({ params }) => {
                 </span>
               </div>
             </div>
-            <div className="p-24 md:p-32 rounded-8 bg-secondary-100/20 dark:bg-white/5 w-full">
-              <div className="text-20 font-bold text-primary-200 dark:text-secondary-200"> Verification</div>
-              <div className="flex flex-col gap-16 mt-18 text-primary-200 dark:text-white">
+            <div className="p-24 md:p-32 rounded-8 bg-white/5 w-full">
+              <div className="text-20 font-bold text-secondary-200"> Verification</div>
+              <div className="flex flex-col gap-16 mt-18 text-white">
                 <span>
                   <span className="opacity-60">Email Verification: </span>
                   <span className={`${userInfo.isVerifiedEmail ? "text-success" : "text-error"}`}>
@@ -161,8 +161,8 @@ const UserDetailPage: React.FC<Props> = ({ params }) => {
                   onClick={() => {
                     handleActiveUser();
                   }}
-                  className=" w-fit text-primary-200 dark:text-white text-14 font-normal py-12 px-24 border border-primary-200 dark:border-secondary-300 rounded-full"
-                  backClassName="from-primary-100 to-secondary-100 dark:from-primary-400 dark:to-secondary-300 "
+                  className=" w-fit text-white text-14 font-normal py-12 px-24 border border-secondary-300 rounded-full"
+                  backClassName="from-primary-400 to-secondary-300 "
                 >
                   {userInfo.isKnowYourBusinessPassed ? "Disapprove Compliance" : "Approve Compliance"}
                 </AnimatedSlideButton>
@@ -170,9 +170,9 @@ const UserDetailPage: React.FC<Props> = ({ params }) => {
             </div>
           </div>
           <div className="w-full overflow-x-auto hidden lg:block">
-            <table className="w-full text-primary-200 dark:text-white/70">
+            <table className="w-full text-white/70">
               <thead>
-                <tr className="border-b border-primary-200/20 dark:border-white/10">
+                <tr className="border-b border-white/10">
                   <th className="px-8 py-16 text-left w-200">Payer</th>
                   <th className="px-8 py-16 text-left w-160">Amount</th>
                   <th className="px-8 py-16 text-left w-160">Reference</th>
@@ -192,7 +192,7 @@ const UserDetailPage: React.FC<Props> = ({ params }) => {
                   <>
                     {paymentOrders.slice(currentPage * 10 - 10, currentPage * 10).map((item, i) => {
                       return (
-                        <tr key={i} className="odd:bg-secondary-100/10 dark:odd:bg-[#ffffff04]">
+                        <tr key={i} className="odd:bg-[#ffffff04]">
                           <td className="px-8 py-16">{item.payer}</td>
                           <td className="px-8 py-16">
                             {item.amount} <span className="opacity-50">{item.currency}</span>
@@ -205,7 +205,7 @@ const UserDetailPage: React.FC<Props> = ({ params }) => {
                               <Link
                                 href={`/app/order/${item.paymentId}`}
                                 target="_blank"
-                                className="text-primary-200/30 dark:text-white/40 u-transition-color hover:text-info"
+                                className="text-white/40 u-transition-color hover:text-info"
                               >
                                 <Icon icon="ph:eye-fill" className="w-18 h-18"></Icon>
                               </Link>
@@ -233,7 +233,7 @@ const UserDetailPage: React.FC<Props> = ({ params }) => {
           />
         </div>
       ) : (
-        <div className="text-primary-200 dark:text-white/70">Something went wrong. Please check the link again.</div>
+        <div className="text-white/70">Something went wrong. Please check the link again.</div>
       )}
     </div>
   );

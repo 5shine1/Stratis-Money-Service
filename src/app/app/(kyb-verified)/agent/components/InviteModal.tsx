@@ -45,12 +45,12 @@ const InviteModal: React.FC<Props> = ({ isOpen, onClose }) => {
       isOpen={isOpen}
       onRequestClose={onClose}
       onAfterClose={() => setEmail({ value: "", error: "" })}
-      className="relative z-50 overflow-hidden bg-white dark:bg-primary-800 w-full max-w-400 p-24 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-12 shadow-md"
+      className="relative z-50 overflow-hidden bg-primary-800 w-full max-w-400 p-24 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-12 shadow-md"
       overlayClassName="bg-black/50 backdrop-blur-md fixed left-0 top-0 w-full h-full z-40 px-8 py-32"
     >
       <Icon
         icon="zondicons:close-outline"
-        className="w-32 h-32 text-primary-200 dark:text-white/50 dark:hover:text-white/80 hover:text-primary-500 u-transition-color cursor-pointer absolute right-20 top-20"
+        className="w-32 h-32 hover:text-white/80 hover:text-primary-500 u-transition-color cursor-pointer absolute right-20 top-20"
         onClick={onClose}
       />
       <div className="flex flex-col gap-32">
@@ -74,8 +74,8 @@ const InviteModal: React.FC<Props> = ({ isOpen, onClose }) => {
           {!bankAccountHolder ? (
             <Link href={"/app/account"} className="w-full">
               <AnimatedSlideButton
-                className="w-full text-primary-200 dark:text-white text-20 py-12 px-32 border border-primary-200 dark:border-secondary-300  rounded-full mt-8"
-                backClassName="from-primary-100 to-secondary-100 dark:from-primary-400 dark:to-secondary-300 "
+                className="w-full text-white text-20 py-12 px-32 border border-secondary-300  rounded-full mt-8"
+                backClassName="from-primary-400 to-secondary-300 "
               >
                 Connect Bank
               </AnimatedSlideButton>
@@ -85,8 +85,8 @@ const InviteModal: React.FC<Props> = ({ isOpen, onClose }) => {
               onClick={() => {
                 handleInviteAgent();
               }}
-              className="text-primary-200 dark:text-white text-20 py-12 px-32 border border-primary-200 dark:border-secondary-300  rounded-full mt-8"
-              backClassName="from-primary-100 to-secondary-100 dark:from-primary-400 dark:to-secondary-300 "
+              className="text-white text-20 py-12 px-32 border border-secondary-300  rounded-full mt-8"
+              backClassName="from-primary-400 to-secondary-300 "
             >
               Send Invite Email
             </AnimatedSlideButton>
