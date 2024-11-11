@@ -61,40 +61,40 @@ const AccountPage = () => {
         <h4 className="w-fit g-header-app">My Account</h4>
 
         <div className="flex flex-col gap-16">
-          <div className="p-24 md:p-32 rounded-8 bg-secondary-100/20 dark:bg-white/5 w-full">
-            <div className="text-20 font-bold text-primary-200 dark:text-secondary-200"> Profile</div>
-            <div className="flex flex-col gap-16 mt-18 text-primary-200 dark:text-white">
+          <div className="p-24 md:p-32 rounded-8 bg-white/5 w-full">
+            <div className="text-20 font-bold text-secondary-200"> Profile</div>
+            <div className="flex flex-col gap-16 mt-18 text-white">
               <div className="flex gap-4 flex-col sm:flex-row break-all">
-                <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">User ID</span>
+                <span className="opacity-60 text-white flex-none w-200">User ID</span>
                 {userId}
               </div>
               <div className="flex gap-4 flex-col sm:flex-row break-all">
-                <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Email</span>
+                <span className="opacity-60 text-white flex-none w-200">Email</span>
                 {email}
               </div>
               <div className="flex gap-4 flex-col sm:flex-row break-all">
-                <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Name</span>
+                <span className="opacity-60 text-white flex-none w-200">Name</span>
                 {name}
               </div>
               <div className={`flex gap-4 flex-col sm:flex-row break-all ${role === ROLES.ADMIN ? "text-info" : ""}`}>
-                <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Role</span>
+                <span className="opacity-60 text-white flex-none w-200">Role</span>
                 {role}
               </div>
 
               <div className="flex gap-4 flex-col sm:flex-row break-all">
-                <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Phone number</span>
+                <span className="opacity-60 text-white flex-none w-200">Phone number</span>
                 {mobileNumber}
               </div>
               <div className="flex gap-4 flex-col sm:flex-row break-all">
-                <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Address</span>
+                <span className="opacity-60 text-white flex-none w-200">Address</span>
                 {country}
               </div>
             </div>
           </div>
           {role !== ROLES.AGENT && role !== ROLES.COMPLIANCE && (
             <>
-              <div className="p-24 md:p-32 rounded-8 bg-secondary-100/20 dark:bg-white/5 w-full">
-                <div className="text-20 font-bold text-primary-200 dark:text-secondary-200"> KYB Status</div>
+              <div className="p-24 md:p-32 rounded-8 bg-white/5 w-full">
+                <div className="text-20 font-bold text-secondary-200"> KYB Status</div>
                 <div className="mt-18 flex items-center gap-12">
                   {kybApplicationStatus === 5 ? (
                     <div className="flex items-center gap-4 border border-success text-success rounded-4 px-8 py-4">
@@ -119,7 +119,7 @@ const AccountPage = () => {
                       </div>
                       <div
                         onClick={handleStartKYB}
-                        className=" text-primary-200 dark:text-white text-1 flex items-center gap-2 cursor-pointer u-transition-color hover:text-info"
+                        className=" text-white text-1 flex items-center gap-2 cursor-pointer u-transition-color hover:text-info"
                       >
                         Start KYB
                         <Icon icon={"ep:right"}></Icon>
@@ -129,14 +129,14 @@ const AccountPage = () => {
                 </div>
               </div>
 
-              <div className="p-24 md:p-32 rounded-8 bg-secondary-100/20 dark:bg-white/5 w-full">
-                <div className="text-20 font-bold text-primary-200 dark:text-secondary-200"> Setting</div>
+              <div className="p-24 md:p-32 rounded-8 bg-white/5 w-full">
+                <div className="text-20 font-bold text-secondary-200"> Setting</div>
                 <div className="flex md:items-center gap-12 md:gap-32 mt-18 flex-col md:flex-row items-start">
-                  <div className=" text-primary-200 dark:text-white">
+                  <div className=" text-white">
                     <span>Accept non-stable coin for payment </span>
                     <Icon icon="fe:question" className="text-info w-17 h-17 mb-1 cursor-pointer inline" />
                   </div>
-                  <div className="flex items-center gap-6 text-12 dark:text-white text-primary-200">
+                  <div className="flex items-center gap-6 text-12 text-white ">
                     OFF
                     <CustomSwitch
                       value={isKycAsk}
@@ -149,8 +149,8 @@ const AccountPage = () => {
                 </div>
               </div>
 
-              <div className="p-24 md:p-32 rounded-8 bg-secondary-100/20 dark:bg-white/5 w-full">
-                <div className="text-20 font-bold text-primary-200 dark:text-secondary-200"> Bank Detail</div>
+              <div className="p-24 md:p-32 rounded-8 bg-white/5 w-full">
+                <div className="text-20 font-bold text-secondary-200"> Bank Detail</div>
                 {!bankAccountHolder ? (
                   <div className="mt-12 text-info cursor-pointer" onClick={() => setBankModalShow(true)}>
                     Connect Bank
@@ -158,15 +158,15 @@ const AccountPage = () => {
                 ) : (
                   <div className="flex gap-12 mt-18 flex-col items-start">
                     <div className="flex gap-4 flex-col sm:flex-row break-all">
-                      <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Account Name</span>
+                      <span className="opacity-60 text-white flex-none w-200">Account Name</span>
                       {bankAccountHolder}
                     </div>
                     <div className="flex gap-4 flex-col sm:flex-row break-all">
-                      <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">IBAN</span>
+                      <span className="opacity-60 text-white flex-none w-200">IBAN</span>
                       {bankIban}
                     </div>
                     <div className="flex gap-4 flex-col sm:flex-row break-all">
-                      <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">BIC</span>
+                      <span className="opacity-60 text-white flex-none w-200">BIC</span>
                       {bankBic}
                     </div>
                   </div>

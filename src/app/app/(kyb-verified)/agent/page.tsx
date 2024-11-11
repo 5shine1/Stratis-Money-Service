@@ -76,22 +76,22 @@ const OrderPage = () => {
               onClick={() => {
                 setIsInviteModalOpen(true);
               }}
-              className=" text-primary-200 dark:text-white text-16 py-12 px-32 border border-primary-200 dark:border-secondary-300 rounded-full"
-              backClassName="from-primary-100 to-secondary-100 dark:from-primary-400 dark:to-secondary-300 "
+              className=" text-white text-16 py-12 px-32 border border-secondary-300 rounded-full"
+              backClassName="from-primary-400 to-secondary-300 "
             >
               Invite agent
             </AnimatedSlideButton>
           </div>
           {isLoading ? (
-            <div className="text-primary-200 dark:text-white/70 p-12 text-center">
+            <div className="text-white/70 p-12 text-center">
               <Icon icon="eos-icons:three-dots-loading" className="w-64 h-64 mx-auto" />
             </div>
           ) : (
             <>
               <div className="w-full overflow-x-auto ">
-                <table className="w-full text-primary-200 dark:text-white/70">
+                <table className="w-full text-white/70">
                   <thead>
-                    <tr className="border-b border-primary-200/20 dark:border-white/10">
+                    <tr className="border-b border-white/10">
                       <th className="px-8 py-16 text-left w-200">Name</th>
                       <th className="px-8 py-16 text-left w-160">Email</th>
                       <th className="px-8 py-16 text-left w-160">Location</th>
@@ -110,7 +110,7 @@ const OrderPage = () => {
                       <>
                         {filteredData.slice(currentPage * 10 - 10, currentPage * 10).map((item, i) => {
                           return (
-                            <tr key={i} className="even:bg-secondary-100/10 dark:even:bg-[#ffffff04]">
+                            <tr key={i} className="even:bg-[#ffffff04]">
                               <td className="px-8 py-16">{item.name}</td>
                               <td className="px-8 py-16">{item.email}</td>
                               <td className="px-8 py-16">{item.country}</td>
