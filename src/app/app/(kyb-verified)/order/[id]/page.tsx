@@ -47,20 +47,20 @@ const OrderDetailPage: React.FC<Props> = ({ params }) => {
       <h4 className="w-fit g-header-app">Transaction Detail</h4>
 
       {isLoading ? (
-        <div className="text-primary-200 dark:text-white/70 p-12 text-center">
+        <div className="text-white/70 p-12 text-center">
           <Icon icon="eos-icons:three-dots-loading" className="w-64 h-64 mx-auto" />
         </div>
       ) : payment ? (
         <div className="flex flex-col gap-16">
-          <div className="p-24 md:p-32 rounded-8 bg-secondary-100/20 dark:bg-white/5 w-full">
-            <div className="text-20 font-bold text-primary-200 dark:text-secondary-200"> Summary</div>
-            <div className="flex flex-col gap-16 mt-18 text-primary-200 dark:text-white">
+          <div className="p-24 md:p-32 rounded-8 bg-white/5 w-full">
+            <div className="text-20 font-bold text-secondary-200"> Summary</div>
+            <div className="flex flex-col gap-16 mt-18 text-white">
               <div className="flex gap-4 flex-col sm:flex-row break-all">
-                <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Order ID</span>
+                <span className="opacity-60 text-white flex-none w-200">Order ID</span>
                 {payment?.paymentId}
               </div>
               <div className="flex gap-4 flex-col sm:flex-row break-all">
-                <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Order Link</span>
+                <span className="opacity-60 text-white flex-none w-200">Order Link</span>
                 <a
                   target="_blank"
                   href={`/payment/${payment?.paymentId}`}
@@ -70,13 +70,13 @@ const OrderDetailPage: React.FC<Props> = ({ params }) => {
                 </a>
               </div>
               <div className="flex gap-4 flex-col sm:flex-row break-all">
-                <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Amount</span>
+                <span className="opacity-60 text-white flex-none w-200">Amount</span>
                 <span>
                   {payment?.amount} <span className="opacity-60">{payment?.currency}</span>
                 </span>
               </div>
               <div className="flex gap-4 flex-col sm:flex-row break-all">
-                <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Created At</span>
+                <span className="opacity-60 text-white flex-none w-200">Created At</span>
                 <span>
                   {payment?.requested?.replace("T", " ").split(".")[0]}
                   &nbsp;&nbsp;&nbsp;
@@ -86,18 +86,18 @@ const OrderDetailPage: React.FC<Props> = ({ params }) => {
             </div>
           </div>
 
-          <div className="p-24 md:p-32 rounded-8 bg-secondary-100/20 dark:bg-white/5 w-full">
-            <div className="text-20 font-bold text-primary-200 dark:text-secondary-200"> Description</div>
-            <div className=" mt-18 text-primary-200 dark:text-white">{payment?.description}</div>
+          <div className="p-24 md:p-32 rounded-8 bg-white/5 w-full">
+            <div className="text-20 font-bold text-secondary-200"> Description</div>
+            <div className=" mt-18 text-white">{payment?.description}</div>
           </div>
 
-          <div className="p-24 md:p-32 rounded-8 bg-secondary-100/20 dark:bg-white/5 w-full">
-            <div className="text-20 font-bold text-primary-200 dark:text-secondary-200"> Payer Info</div>
-            <div className="flex flex-col gap-16 mt-18 text-primary-200 dark:text-white">
+          <div className="p-24 md:p-32 rounded-8 bg-white/5 w-full">
+            <div className="text-20 font-bold text-secondary-200"> Payer Info</div>
+            <div className="flex flex-col gap-16 mt-18 text-white">
               <div className="flex gap-4 flex-col sm:flex-row break-all">
                 {payment?.payer ? (
                   <>
-                    <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Email</span>
+                    <span className="opacity-60 text-white flex-none w-200">Email</span>
                     {payment?.payer}
                   </>
                 ) : (
@@ -105,7 +105,7 @@ const OrderDetailPage: React.FC<Props> = ({ params }) => {
                 )}
               </div>
               <div className="flex gap-4 flex-col sm:flex-row break-all">
-                <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Name</span>
+                <span className="opacity-60 text-white flex-none w-200">Name</span>
                 {payment?.customerName ? (
                   <span> {payment?.customerName}</span>
                 ) : (
@@ -113,7 +113,7 @@ const OrderDetailPage: React.FC<Props> = ({ params }) => {
                 )}
               </div>
               <div className="flex gap-4 flex-col sm:flex-row break-all">
-                <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Address</span>
+                <span className="opacity-60 text-white flex-none w-200">Address</span>
                 {payment?.customerAddress ? (
                   <span> {payment?.customerAddress}</span>
                 ) : (
@@ -121,7 +121,7 @@ const OrderDetailPage: React.FC<Props> = ({ params }) => {
                 )}
               </div>
               <div className="flex gap-4 flex-col sm:flex-row break-all">
-                <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Date of Birth</span>
+                <span className="opacity-60 text-white flex-none w-200">Date of Birth</span>
                 {payment?.customerDateOfBirth && payment?.customerDateOfBirth !== "0001-01-01T00:00:00" ? (
                   <span>{payment?.customerDateOfBirth?.split("T")[0]}</span>
                 ) : (
@@ -129,7 +129,7 @@ const OrderDetailPage: React.FC<Props> = ({ params }) => {
                 )}
               </div>
               <div className="flex gap-4 flex-col sm:flex-row break-all">
-                <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Place of Birth</span>
+                <span className="opacity-60 text-white flex-none w-200">Place of Birth</span>
                 {payment?.customerPlaceOfBirth ? (
                   <span> {payment?.customerPlaceOfBirth}</span>
                 ) : (
@@ -139,29 +139,29 @@ const OrderDetailPage: React.FC<Props> = ({ params }) => {
             </div>
           </div>
 
-          <div className="p-24 md:p-32 rounded-8 bg-secondary-100/20 dark:bg-white/5 w-full">
-            <div className="text-20 font-bold text-primary-200 dark:text-secondary-200"> Transaction Status</div>
-            <div className="flex flex-col gap-16 mt-18 text-primary-200 dark:text-white">
+          <div className="p-24 md:p-32 rounded-8 bg-white/5 w-full">
+            <div className="text-20 font-bold text-secondary-200"> Transaction Status</div>
+            <div className="flex flex-col gap-16 mt-18 text-white">
               <div className="flex gap-4 flex-col sm:flex-row break-all">
-                <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Status</span>
+                <span className="opacity-60 text-white flex-none w-200">Status</span>
                 {PAYMENT_STATE[payment?.state] || "Error"}
               </div>
               {payment?.paymentAddress && (
                 <>
                   <div className="flex gap-4 flex-col sm:flex-row break-all">
-                    <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Payment Address</span>
+                    <span className="opacity-60 text-white flex-none w-200">Payment Address</span>
                     <span>{payment?.paymentAddress}</span>
                   </div>
                   <div className="flex gap-4 flex-col sm:flex-row break-all">
-                    <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Payment Amount</span>
+                    <span className="opacity-60 text-white flex-none w-200">Payment Amount</span>
                     {payment?.paymentAmount} <span className="opacity-60">{payment?.paymentCurrency}</span>
                   </div>
                   <div className="flex gap-4 flex-col sm:flex-row break-all">
-                    <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Transaction ID</span>
+                    <span className="opacity-60 text-white flex-none w-200">Transaction ID</span>
                     <span>{payment?.paymentTransaction}</span>
                   </div>
                   <div className="flex gap-4 flex-col sm:flex-row break-all">
-                    <span className="opacity-60 text-primary-200 dark:text-white flex-none w-200">Completed At</span>
+                    <span className="opacity-60 text-white flex-none w-200">Completed At</span>
                     <span>
                       {payment?.lastConfirmationCheck?.replace("T", " ").split(".")[0]}
                       &nbsp;&nbsp;&nbsp;
@@ -174,7 +174,7 @@ const OrderDetailPage: React.FC<Props> = ({ params }) => {
           </div>
         </div>
       ) : (
-        <div className="text-primary-200 dark:text-white/70">Something went wrong. Please check the link again.</div>
+        <div className="text-white/70">Something went wrong. Please check the link again.</div>
       )}
     </div>
   );
