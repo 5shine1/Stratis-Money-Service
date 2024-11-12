@@ -6,11 +6,12 @@ import { Icon } from "@iconify/react";
 import AppInput from "@/components/global/AppInput";
 import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
 import InviteModal from "./components/InviteModal";
-import { apiRemoveAgent, apiUserInfo } from "@/api/auth.api";
+import { apiActivateAgent, apiRemoveAgent, apiUserInfo } from "@/api/auth.api";
 import DeleteModal from "./components/DeleteModal";
 import { LoadingContext } from "@/components/providers/LoadingProvider";
 import toast from "react-hot-toast";
 import { IAgent } from "@/@types/data";
+import ActiveModal from "./components/ActiveModal";
 
 const OrderPage = () => {
   const [agents, setAgents] = useState<IAgent[]>([]);
@@ -19,16 +20,21 @@ const OrderPage = () => {
   const [isInviteModalOpen, setIsInviteModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState<string | null>(null);
+  const [activeModalOpen, setActiveModalOpen] = useState<string | null>(null);
   const { setLoading } = useContext(LoadingContext);
 
   const filteredData = useMemo(
     () =>
-      agents.filter((item) => {
-        return (
-          item.name.toUpperCase().includes(searchIndex.toUpperCase()) ||
-          item.email.toUpperCase().includes(searchIndex.toUpperCase())
-        );
-      }),
+      agents
+        .filter((item) => {
+          return (
+            item.name.toUpperCase().includes(searchIndex.toUpperCase()) ||
+            item.email.toUpperCase().includes(searchIndex.toUpperCase())
+          );
+        })
+        .sort((a, b) => {
+          return Number(a.isDeleted) - Number(b.isDeleted);
+        }),
     [agents, searchIndex]
   );
 
@@ -46,11 +52,34 @@ const OrderPage = () => {
     try {
       await apiRemoveAgent(id);
       toast.success("Agent removed successfully.");
-      setAgents(agents.filter((item) => item.agentId !== id));
+      setAgents(
+        agents.map((item) => {
+          if (item.agentId === id) return { ...item, isDeleted: true };
+          return item;
+        })
+      );
     } catch (error) {
       toast.error("Server error.");
     }
     setDeleteModalOpen(null);
+    setLoading(false);
+  };
+
+  const handleActivateAgent = async (id: string) => {
+    setLoading(true);
+    try {
+      await apiActivateAgent(id);
+      toast.success("Agent re-enabled successfully.");
+      setAgents(
+        agents.map((item) => {
+          if (item.agentId === id) return { ...item, isDeleted: false };
+          return item;
+        })
+      );
+    } catch (error) {
+      toast.error("Server error.");
+    }
+    setActiveModalOpen(null);
     setLoading(false);
   };
 
@@ -110,18 +139,27 @@ const OrderPage = () => {
                       <>
                         {filteredData.slice(currentPage * 10 - 10, currentPage * 10).map((item, i) => {
                           return (
-                            <tr key={i} className="even:bg-[#ffffff04]">
+                            <tr key={i} className={`even:bg-[#ffffff04] ${item.isDeleted ? "text-white/30" : ""}`}>
                               <td className="px-8 py-16">{item.name}</td>
                               <td className="px-8 py-16">{item.email}</td>
                               <td className="px-8 py-16">{item.country}</td>
                               <td className="px-8 py-16">{item.mobileNumber}</td>
                               <td className="px-8 py-16 text-right">
-                                <button
-                                  onClick={() => setDeleteModalOpen(item.agentId)}
-                                  className="text-white/40 u-transition-color hover:text-error disabled:cursor-not-allowed disabled:hover:text-white/40"
-                                >
-                                  <Icon icon="bxs:trash" className="w-18 h-18"></Icon>
-                                </button>
+                                {item.isDeleted ? (
+                                  <button
+                                    onClick={() => setActiveModalOpen(item.agentId)}
+                                    className="text-white/40 u-transition-color hover:text-info disabled:cursor-not-allowed disabled:hover:text-white/40"
+                                  >
+                                    <Icon icon="mdi:restore-clock" className="w-20 h-20"></Icon>
+                                  </button>
+                                ) : (
+                                  <button
+                                    onClick={() => setDeleteModalOpen(item.agentId)}
+                                    className="text-white/40 u-transition-color hover:text-error disabled:cursor-not-allowed disabled:hover:text-white/40"
+                                  >
+                                    <Icon icon="bxs:trash" className="w-18 h-18"></Icon>
+                                  </button>
+                                )}
                               </td>
                             </tr>
                           );
@@ -152,6 +190,11 @@ const OrderPage = () => {
         isOpen={deleteModalOpen}
         onClose={() => setDeleteModalOpen(null)}
         onNext={() => handleDeleteAgent(deleteModalOpen)}
+      />
+      <ActiveModal
+        isOpen={activeModalOpen}
+        onClose={() => setActiveModalOpen(null)}
+        onNext={() => handleActivateAgent(activeModalOpen)}
       />
     </>
   );
