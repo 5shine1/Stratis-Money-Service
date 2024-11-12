@@ -150,22 +150,22 @@ const OrderPage = () => {
               onClick={() => {
                 setControlModalOpen(true);
               }}
-              className=" text-primary-200 dark:text-white text-16 py-12 px-32 border border-primary-200 dark:border-secondary-300 rounded-full"
-              backClassName="from-primary-100 to-secondary-100 dark:from-primary-400 dark:to-secondary-300 "
+              className=" text-white text-16 py-12 px-32 border border-secondary-300 rounded-full"
+              backClassName="from-primary-400 to-secondary-300 "
             >
               Generate New
             </AnimatedSlideButton>
           </div>
           {isLoading ? (
-            <div className="text-primary-200 dark:text-white/70 p-12 text-center">
+            <div className="text-white/70 p-12 text-center">
               <Icon icon="eos-icons:three-dots-loading" className="w-64 h-64 mx-auto" />
             </div>
           ) : (
             <>
               <div className="w-full overflow-x-auto hidden lg:block">
-                <table className="w-full text-primary-200 dark:text-white/70">
+                <table className="w-full text-white/70">
                   <thead>
-                    <tr className="border-b border-primary-200/20 dark:border-white/10">
+                    <tr className="border-b border-white/10">
                       <th className="px-8 py-16 text-left w-200">Payer</th>
                       <th className="px-8 py-16 text-left w-160">Amount</th>
                       <th className="px-8 py-16 text-left w-160">Reference</th>
@@ -185,7 +185,7 @@ const OrderPage = () => {
                       <>
                         {filteredData.slice(currentPage * 10 - 10, currentPage * 10).map((item, i) => {
                           return (
-                            <tr key={i} className="odd:bg-secondary-100/10 dark:odd:bg-[#ffffff04]">
+                            <tr key={i} className="odd:bg-[#ffffff04]">
                               <td className="px-8 py-16">{item.payer}</td>
                               <td className="px-8 py-16">
                                 {item.amount} <span className="opacity-50">{item.currency}</span>
@@ -220,17 +220,14 @@ const OrderPage = () => {
                   </tbody>
                 </table>
               </div>
-              <div className="text-primary-200 dark:text-white/70 lg:hidden flex flex-col gap-6">
+              <div className="text-white/70 lg:hidden flex flex-col gap-6">
                 {!filteredData.length ? (
                   <div className="text-error p-24 text-center">No Order Links</div>
                 ) : (
                   <>
                     {filteredData.slice(currentPage * 10 - 10, currentPage * 10).map((item, i) => {
                       return (
-                        <div
-                          key={i}
-                          className="bg-secondary-100/10 dark:bg-[#ffffff04] p-12 flex flex-col gap-12 rounded-6"
-                        >
+                        <div key={i} className="bg-[#ffffff04] p-12 flex flex-col gap-12 rounded-6">
                           <div className="flex justify-between items-center gap-72 overflow-hidden">
                             <div className="flex-none opacity-70">Payer</div>
                             <div className="u-text-overflow">{item.payer}</div>

@@ -14,11 +14,7 @@ const SwitchDarkmode: React.FC<Props> = ({ isWrapped }) => {
     <div className="flex items-center">
       {!(!isWrapped && isDarkMode) && (
         <div
-          className={`p-4 ${
-            isWrapped
-              ? ""
-              : "cursor-pointer hover:bg-white/20 dark:hover:bg-primary-700/30 rounded-6 u-transition-color"
-          }`}
+          className={`p-4 ${isWrapped ? "" : "cursor-pointer hover:bg-primary-700/30 rounded-6 u-transition-color"}`}
           onClick={() => {
             if (isWrapped) return;
             toggleTheme();
