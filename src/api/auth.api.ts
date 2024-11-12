@@ -198,3 +198,13 @@ export const apiRemoveAgent = async (agentUserId: string) => {
     throw error;
   }
 };
+
+export const apiActivateAgent = async (agentUserId: string) => {
+  try {
+    const result = await axiosInstance.post(`/api/Identity/ActivateAgent`, { agentUserId });
+    if (result?.data?.isSucceed === false) throw "Something went wrong";
+    return result?.data?.data;
+  } catch (error) {
+    throw error;
+  }
+};

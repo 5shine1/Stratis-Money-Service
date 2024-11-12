@@ -57,4 +57,5 @@ export interface IAgent {
   email: string;
   mobileNumber: string;
   name: string;
+  isDeleted: boolean;
 }
