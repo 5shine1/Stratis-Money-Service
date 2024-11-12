@@ -43,7 +43,7 @@ const LoginPage = () => {
             role:
               role === "Administrator"
                 ? ROLES.ADMIN
-                : Array.isArray(role) && role[0] === "Agent"
+                : role === "Agent"
                 ? ROLES.AGENT
                 : role === "Compliance"
                 ? ROLES.COMPLIANCE
