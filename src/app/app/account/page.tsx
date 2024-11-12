@@ -91,41 +91,59 @@ const AccountPage = () => {
               </div>
             </div>
           </div>
-          {role !== ROLES.AGENT && role !== ROLES.COMPLIANCE && (
+          {role === ROLES.BUSINESS && (
             <>
-              <div className="p-24 md:p-32 rounded-8 bg-white/5 w-full">
-                <div className="text-20 font-bold text-secondary-200"> KYB Status</div>
-                <div className="mt-18 flex items-center gap-12">
-                  {kybApplicationStatus === 5 ? (
-                    <div className="flex items-center gap-4 border border-success text-success rounded-4 px-8 py-4">
-                      <Icon icon="ph:seal-check-bold" className="w-20 h-20" />
-                      Approved
-                    </div>
-                  ) : kybApplicationStatus === 6 || kybApplicationStatus === 4 ? (
-                    <div className="flex items-center gap-4 border border-error text-error rounded-4 px-8 py-4">
-                      <Icon icon="bi:hourglass" className="w-20 h-20" />
-                      Pending
-                    </div>
-                  ) : kybApplicationStatus === 3 ? (
-                    <div className="flex items-center gap-4 border border-error text-error rounded-4 px-8 py-4">
-                      <Icon icon="jam:close-circle" className="w-20 h-20" />
-                      Declined
-                    </div>
-                  ) : (
-                    <>
+              <div className="flex flex-col md:flex-row gap-16">
+                <div className="p-24 md:p-32 rounded-8 bg-white/5 w-full">
+                  <div className="text-20 font-bold text-secondary-200"> KYB Status</div>
+                  <div className="mt-18 flex items-center gap-12">
+                    {kybApplicationStatus > 3 ? (
+                      <div className="flex items-center gap-4 border border-success text-success rounded-4 px-8 py-4">
+                        <Icon icon="ph:seal-check-bold" className="w-20 h-20" />
+                        Approved
+                      </div>
+                    ) : kybApplicationStatus === 3 ? (
                       <div className="flex items-center gap-4 border border-error text-error rounded-4 px-8 py-4">
-                        <Icon icon="jam:close-circle" className="w-18 h-18" />
-                        {kybApplicationStatus === 1 ? "Not Started" : "Timed Out"}
+                        <Icon icon="jam:close-circle" className="w-20 h-20" />
+                        Declined
                       </div>
-                      <div
-                        onClick={handleStartKYB}
-                        className=" text-white text-1 flex items-center gap-2 cursor-pointer u-transition-color hover:text-info"
-                      >
-                        Start KYB
-                        <Icon icon={"ep:right"}></Icon>
+                    ) : (
+                      <>
+                        <div className="flex items-center gap-4 border border-error text-error rounded-4 px-8 py-4">
+                          <Icon icon="jam:close-circle" className="w-18 h-18" />
+                          {kybApplicationStatus === 1 ? "Not Started" : "Timed Out"}
+                        </div>
+                        <div
+                          onClick={handleStartKYB}
+                          className=" text-white text-1 flex items-center gap-2 cursor-pointer u-transition-color hover:text-info"
+                        >
+                          Start KYB
+                          <Icon icon={"ep:right"}></Icon>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                </div>
+                <div className="p-24 md:p-32 rounded-8 bg-white/5 w-full">
+                  <div className="text-20 font-bold text-secondary-200"> Compliance Status</div>
+                  <div className="mt-18 flex items-center gap-12">
+                    {kybApplicationStatus === 5 ? (
+                      <div className="flex items-center gap-4 border border-success text-success rounded-4 px-8 py-4">
+                        <Icon icon="ph:seal-check-bold" className="w-20 h-20" />
+                        Approved
                       </div>
-                    </>
-                  )}
+                    ) : kybApplicationStatus === 6 ? (
+                      <div className="flex items-center gap-4 border border-error text-error rounded-4 px-8 py-4">
+                        <Icon icon="jam:close-circle" className="w-20 h-20" />
+                        Disapproved
+                      </div>
+                    ) : (
+                      <div className="flex items-center gap-4 border border-error text-error rounded-4 px-8 py-4">
+                        <Icon icon="bi:hourglass" className="w-20 h-20" />
+                        Pending
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
 

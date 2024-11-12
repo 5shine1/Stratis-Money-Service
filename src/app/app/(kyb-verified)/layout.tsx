@@ -55,7 +55,7 @@ const AppLayout: React.FC<PropsWithChildren> = ({ children }) => {
                     className=" text-white text-16 py-12 px-32 border border-secondary-300 rounded-full "
                     backClassName="from-primary-400 to-secondary-300 "
                   >
-                    {kybApplicationStatus < 3 ? "Start KYB" : "KYB Status"}
+                    {kybApplicationStatus < 3 ? "Start KYB" : kybApplicationStatus > 5 ? "Check Details" : "KYB Status"}
                   </AnimatedSlideButton>
                 </Link>
 
