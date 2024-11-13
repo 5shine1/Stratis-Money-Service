@@ -34,7 +34,7 @@ const OrderPage = () => {
         .filter((item) => {
           return (
             item?.payer?.toUpperCase().includes(searchIndex.toUpperCase()) ||
-            item?.paymentId?.toUpperCase().includes(searchIndex.toUpperCase())
+            item?.description?.toUpperCase().includes(searchIndex.toUpperCase())
           );
         })
         .sort((a, b) => new Date(b.requested).getTime() - new Date(a.requested).getTime()),
@@ -143,7 +143,7 @@ const OrderPage = () => {
                 value={searchIndex}
                 onChange={setSearchIndex}
                 icon="ic:outline-search"
-                placeholder="Search by payment ID and payer"
+                placeholder="Search by payer and reference"
               ></AppInput>
             </div>
             <AnimatedSlideButton
