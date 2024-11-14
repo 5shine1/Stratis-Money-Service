@@ -17,12 +17,14 @@ import DeleteModal from "./components/DeleteModal";
 import { IPayment } from "@/@types/data";
 import useAppSelector from "@/hooks/global/useAppSelector";
 import { apiAdminDeleteOrder, apiAdminPaymentHistory } from "@/api/admin.api";
+import StatusFilterSelect from "@/components/global/StatusFilterSelect";
 
 const OrderPage = () => {
   const { setLoading } = useContext(LoadingContext);
   const [paymentOrders, setPaymentOrders] = useState<IPayment[]>([]);
   const [searchIndex, setSearchIndex] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const [statusDisableFilter, setStatusDisableFilter] = useState([]);
   const [controlModalOpen, setControlModalOpen] = useState<boolean>(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -37,8 +39,16 @@ const OrderPage = () => {
             item?.description?.toUpperCase().includes(searchIndex.toUpperCase())
           );
         })
+        .filter((item) => {
+          if (statusDisableFilter.includes(0) && item.state !== 5 && item.state !== 55 && item.state !== 200)
+            return false;
+          if (statusDisableFilter.includes(1) && item.state === 200) return false;
+          if (statusDisableFilter.includes(2) && item.state === 55) return false;
+          if (statusDisableFilter.includes(3) && item.state === 5) return false;
+          return true;
+        })
         .sort((a, b) => new Date(b.requested).getTime() - new Date(a.requested).getTime()),
-    [paymentOrders, searchIndex]
+    [paymentOrders, searchIndex, statusDisableFilter]
   );
 
   const handleGetOrders = async () => {
@@ -58,6 +68,7 @@ const OrderPage = () => {
     }
     setIsLoading(false);
   };
+
   const handleCreateOrder = async (
     amount: number,
     currencySymbol: string,
@@ -137,8 +148,8 @@ const OrderPage = () => {
       <div className="flex flex-col gap-24 lg:gap-32 lg:px-48 lg:py-64 py-32 p-8 text-14">
         <h4 className="w-fit g-header-app">Payment Orders</h4>
         <div className="flex flex-col gap-32">
-          <div className="flex items-stretch md:items-center justify-between gap-12  md:flex-row flex-col-reverse ">
-            <div className="w-full md:max-w-320">
+          <div className="flex items-stretch md:items-center gap-12  md:flex-row flex-col-reverse ">
+            <div className="w-full md:max-w-280">
               <AppInput
                 value={searchIndex}
                 onChange={setSearchIndex}
@@ -146,11 +157,14 @@ const OrderPage = () => {
                 placeholder="Search by payer and reference"
               ></AppInput>
             </div>
+            <div className="w-full md:max-w-280">
+              <StatusFilterSelect value={statusDisableFilter} onChange={setStatusDisableFilter} />
+            </div>
             <AnimatedSlideButton
               onClick={() => {
                 setControlModalOpen(true);
               }}
-              className=" text-white text-16 py-12 px-32 border border-secondary-300 rounded-full"
+              className=" text-white text-16 py-12 px-32 border border-secondary-300 rounded-full md:ml-auto"
               backClassName="from-primary-400 to-secondary-300 "
             >
               Generate New
