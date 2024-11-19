@@ -164,7 +164,7 @@ const OrderPage = () => {
               onClick={() => {
                 setControlModalOpen(true);
               }}
-              className=" text-white text-16 py-12 px-32 border border-secondary-300 rounded-full md:ml-auto"
+              className=" text-white text-16 py-12 px-32 border border-secondary-300 rounded-full md:ml-auto w-full md:max-w-180"
               backClassName="from-primary-400 to-secondary-300 "
             >
               Generate New
