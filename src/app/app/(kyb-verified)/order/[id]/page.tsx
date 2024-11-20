@@ -83,6 +83,14 @@ const OrderDetailPage: React.FC<Props> = ({ params }) => {
                   <span className="opacity-60">{formattedTime(payment?.requested)}</span>
                 </span>
               </div>
+              <div className="flex gap-4 flex-col sm:flex-row break-all">
+                <span className="opacity-60 text-white flex-none w-200">Created By</span>
+                <span>
+                  {role === ROLES.AGENT
+                    ? "Me"
+                    : payment.agentName || (role === ROLES.ADMIN ? payment.businessName : "Me")}
+                </span>
+              </div>
             </div>
           </div>
 
