@@ -17,6 +17,13 @@ export interface IPayment {
   paymentTransaction?: string;
   paymentChainId?: number;
   lastConfirmationCheck?: string;
+  agentName?: string | null;
+  agentCountry?: string | null;
+  agentEmailAddress?: string | null;
+  agentMobileNumber?: string | null;
+  businessName?: string | null;
+  businessEmailAddress?: string | null;
+  businessMobileNumber?: string | null;
 }
 
 export interface IUser {

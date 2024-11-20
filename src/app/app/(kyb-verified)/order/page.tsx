@@ -185,13 +185,14 @@ const OrderPage = () => {
                       <th className="px-8 py-16 text-left w-160">Reference</th>
                       <th className="px-8 py-16 text-left w-160">State</th>
                       <th className="px-8 py-16 text-left w-120">Date</th>
+                      <th className="px-8 py-16 text-left w-120">Creator</th>
                       <th className="px-8 py-16 text-right w-120">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
                     {!filteredData.length ? (
                       <tr>
-                        <td colSpan={6} className="text-error p-24 text-center">
+                        <td colSpan={7} className="text-error p-24 text-center">
                           No Order Links
                         </td>
                       </tr>
@@ -207,6 +208,11 @@ const OrderPage = () => {
                               <td className="px-8 py-16">{item.description}</td>
                               <td className={`px-8 py-16`}>{PAYMENT_STATE[item.state] || "Error"}</td>
                               <td className="px-8 py-16">{formattedTime(item.requested)}</td>
+                              <td className="px-8 py-16">
+                                {role === ROLES.AGENT
+                                  ? "Me"
+                                  : item.agentName || (role === ROLES.ADMIN ? item.businessName : "Me")}
+                              </td>
                               <td className="px-8">
                                 <div className="flex items-center gap-16 justify-end">
                                   <Link
@@ -263,6 +269,14 @@ const OrderPage = () => {
                           <div className="flex justify-between items-center gap-72 overflow-hidden">
                             <div className="flex-none opacity-70">Date</div>
                             <div className="u-text-overflow">{formattedTime(item.requested)}</div>
+                          </div>
+                          <div className="flex justify-between items-center gap-72 overflow-hidden">
+                            <div className="flex-none opacity-70">Creator</div>
+                            <div className="u-text-overflow">
+                              {role === ROLES.AGENT
+                                ? "Me"
+                                : item.agentName || (role === ROLES.ADMIN ? item.businessName : "Me")}
+                            </div>
                           </div>
                           <div className="flex justify-between items-center gap-24 overflow-hidden">
                             <div className="flex-none opacity-70">Actions</div>
