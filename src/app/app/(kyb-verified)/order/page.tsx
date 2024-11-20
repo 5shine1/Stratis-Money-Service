@@ -176,7 +176,7 @@ const OrderPage = () => {
             </div>
           ) : (
             <>
-              <div className="w-full overflow-x-auto hidden lg:block">
+              <div className="w-full overflow-x-auto hidden sm:block">
                 <table className="w-full text-white/70">
                   <thead>
                     <tr className="border-b border-white/10">
@@ -234,7 +234,7 @@ const OrderPage = () => {
                   </tbody>
                 </table>
               </div>
-              <div className="text-white/70 lg:hidden flex flex-col gap-6">
+              <div className="text-white/70 sm:hidden flex flex-col gap-6">
                 {!filteredData.length ? (
                   <div className="text-error p-24 text-center">No Order Links</div>
                 ) : (
