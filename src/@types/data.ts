@@ -24,6 +24,7 @@ export interface IPayment {
   businessName?: string | null;
   businessEmailAddress?: string | null;
   businessMobileNumber?: string | null;
+  creator?: string;
 }
 
 export interface IUser {

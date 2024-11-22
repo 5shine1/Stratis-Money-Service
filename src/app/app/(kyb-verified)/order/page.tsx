@@ -18,6 +18,7 @@ import { IPayment } from "@/@types/data";
 import useAppSelector from "@/hooks/global/useAppSelector";
 import { apiAdminDeleteOrder, apiAdminPaymentHistory } from "@/api/admin.api";
 import StatusFilterSelect from "@/components/global/StatusFilterSelect";
+import CreatorFilterSelect from "@/components/global/CreatorFilterSelect";
 
 const OrderPage = () => {
   const { setLoading } = useContext(LoadingContext);
@@ -25,10 +26,13 @@ const OrderPage = () => {
   const [searchIndex, setSearchIndex] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [statusDisableFilter, setStatusDisableFilter] = useState([]);
+  const [creatorFilter, setCreatorFilter] = useState([]);
   const [controlModalOpen, setControlModalOpen] = useState<boolean>(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const { role } = useAppSelector((state) => state.auth);
+
+  const creatorsList = useMemo(() => Array.from(new Set(paymentOrders.map((item) => item.creator))), [paymentOrders]);
 
   const filteredData = useMemo(
     () =>
@@ -47,8 +51,11 @@ const OrderPage = () => {
           if (statusDisableFilter.includes(3) && item.state === 5) return false;
           return true;
         })
+        .filter((item) => {
+          return !creatorFilter.includes(item.creator);
+        })
         .sort((a, b) => new Date(b.requested).getTime() - new Date(a.requested).getTime()),
-    [paymentOrders, searchIndex, statusDisableFilter]
+    [creatorFilter, paymentOrders, searchIndex, statusDisableFilter]
   );
 
   const handleGetOrders = async () => {
@@ -56,10 +63,18 @@ const OrderPage = () => {
     try {
       if (role === ROLES.ADMIN) {
         const result = await apiAdminPaymentHistory();
-        setPaymentOrders(result);
+        setPaymentOrders(
+          result.map((item) => {
+            return { ...item, creator: item.agentName || item.businessName };
+          })
+        );
       } else if (role === ROLES.BUSINESS || role === ROLES.AGENT) {
         const result = await apiPaymentHistory();
-        setPaymentOrders(result);
+        setPaymentOrders(
+          result.map((item) => {
+            return { ...item, creator: role === ROLES.AGENT ? "Me" : item.agentName || "Me" };
+          })
+        );
       } else {
         setPaymentOrders([]);
       }
@@ -148,8 +163,14 @@ const OrderPage = () => {
       <div className="flex flex-col gap-24 lg:gap-32 lg:px-48 lg:py-64 py-32 p-8 text-14">
         <h4 className="w-fit g-header-app">Payment Orders</h4>
         <div className="flex flex-col gap-32">
-          <div className="flex items-stretch md:items-center gap-12  md:flex-row flex-col-reverse ">
-            <div className="w-full md:max-w-280">
+          <div className="flex items-stretch xl:items-center gap-12  xl:flex-row flex-col-reverse ">
+            <div className="w-full xl:max-w-280">
+              <StatusFilterSelect value={statusDisableFilter} onChange={setStatusDisableFilter} />
+            </div>
+            <div className="w-full xl:max-w-280">
+              <CreatorFilterSelect data={creatorsList} value={creatorFilter} onChange={setCreatorFilter} />
+            </div>
+            <div className="w-full xl:max-w-280">
               <AppInput
                 value={searchIndex}
                 onChange={setSearchIndex}
@@ -157,14 +178,11 @@ const OrderPage = () => {
                 placeholder="Search by payer and reference"
               ></AppInput>
             </div>
-            <div className="w-full md:max-w-280">
-              <StatusFilterSelect value={statusDisableFilter} onChange={setStatusDisableFilter} />
-            </div>
             <AnimatedSlideButton
               onClick={() => {
                 setControlModalOpen(true);
               }}
-              className=" text-white text-16 py-12 px-32 border border-secondary-300 rounded-full md:ml-auto w-full md:max-w-180"
+              className=" text-white text-16 py-12 px-32 border border-secondary-300 rounded-full xl:ml-auto w-full xl:max-w-180"
               backClassName="from-primary-400 to-secondary-300 "
             >
               Generate New
@@ -209,9 +227,7 @@ const OrderPage = () => {
                               <td className={`px-8 py-16`}>{PAYMENT_STATE[item.state] || "Error"}</td>
                               <td className="px-8 py-16">{formattedTime(item.requested)}</td>
                               <td className="px-8 py-16">
-                                {role === ROLES.AGENT
-                                  ? "Me"
-                                  : item.agentName || (role === ROLES.ADMIN ? item.businessName : "Me")}
+                                {item.creator} {item.agentName && "(Agent)"}
                               </td>
                               <td className="px-8">
                                 <div className="flex items-center gap-16 justify-end">
@@ -273,9 +289,7 @@ const OrderPage = () => {
                           <div className="flex justify-between items-center gap-72 overflow-hidden">
                             <div className="flex-none opacity-70">Creator</div>
                             <div className="u-text-overflow">
-                              {role === ROLES.AGENT
-                                ? "Me"
-                                : item.agentName || (role === ROLES.ADMIN ? item.businessName : "Me")}
+                              {item.creator} {item.agentName && "(Agent)"}
                             </div>
                           </div>
                           <div className="flex justify-between items-center gap-24 overflow-hidden">
