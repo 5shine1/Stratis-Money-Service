@@ -89,6 +89,8 @@ const OrderDetailPage: React.FC<Props> = ({ params }) => {
                   {role === ROLES.AGENT
                     ? "Me"
                     : payment.agentName || (role === ROLES.ADMIN ? payment.businessName : "Me")}
+
+                  {payment.agentName && " (Agent)"}
                 </span>
               </div>
             </div>
@@ -168,14 +170,18 @@ const OrderDetailPage: React.FC<Props> = ({ params }) => {
                     <span className="opacity-60 text-white flex-none w-200">Transaction ID</span>
                     <span>{payment?.paymentTransaction}</span>
                   </div>
-                  <div className="flex gap-4 flex-col sm:flex-row break-all">
+                  {/* <div className="flex gap-4 flex-col sm:flex-row break-all">
                     <span className="opacity-60 text-white flex-none w-200">Completed At</span>
-                    <span>
-                      {payment?.lastConfirmationCheck?.replace("T", " ").split(".")[0]}
-                      &nbsp;&nbsp;&nbsp;
-                      <span className="opacity-60">{formattedTime(payment?.lastConfirmationCheck)}</span>
-                    </span>
-                  </div>
+                    {payment.lastConfirmationCheck ? (
+                      <span>
+                        {payment?.lastConfirmationCheck?.replace("T", " ").split(".")[0]}
+                        &nbsp;&nbsp;&nbsp;
+                        <span className="opacity-60">{formattedTime(payment?.lastConfirmationCheck)}</span>
+                      </span>
+                    ) : (
+                      <span>N/A</span>
+                    )}
+                  </div> */}
                 </>
               )}
             </div>
