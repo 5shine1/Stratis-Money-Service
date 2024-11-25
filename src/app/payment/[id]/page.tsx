@@ -85,6 +85,10 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
 
       const link = !selectedCurrency
         ? result?.paymentDestination
+        : selectedCurrency.isNative
+        ? `ethereum:${result?.paymentDestination}@${selectedCurrency.chainId}?value=${paymentInfo?.amount}e${
+            selectedCurrency.decimals ?? 18
+          }`
         : `ethereum:${selectedCurrency.tokenContract}@${selectedCurrency.chainId}/transfer?address=${
             result?.paymentDestination
           }&uint256=${paymentInfo?.amount}e${selectedCurrency?.decimals ?? 18}`;
