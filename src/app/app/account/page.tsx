@@ -150,11 +150,18 @@ const AccountPage = () => {
               <div className="p-24 md:p-32 rounded-8 bg-white/5 w-full">
                 <div className="text-20 font-bold text-secondary-200"> Setting</div>
                 <div className="flex md:items-center gap-12 md:gap-32 mt-18 flex-col md:flex-row items-start">
-                  <div className=" text-white">
+                  <div className=" flex items-center gap-4">
                     <span>Accept non-stable coin for payment </span>
-                    <Icon icon="fe:question" className="text-info w-17 h-17 mb-1 cursor-pointer inline" />
+                    <div className="relative group">
+                      <Icon icon="fe:question" className="text-info w-17 h-17 cursor-pointer inline" />
+                      <div className="absolute left-1/2 bottom-full -translate-x-1/2 w-280 text-12 bg-primary-700 p-12 rounded-8 transition-all duration-100 group-hover:opacity-100 group-hover:pointer-events-auto group-hover:mb-4 -mb-4 pointer-events-none opacity-0">
+                        Enable this option to allow customers to pay with any cryptocurrency, including non-stable coins
+                        that may experience significant price volatility. When disabled, only stablecoins with more
+                        stable values are accepted for payments.
+                      </div>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-6 text-12 text-white ">
+                  <div className="flex items-center gap-6 text-12 ">
                     OFF
                     <CustomSwitch
                       value={isKycAsk}
