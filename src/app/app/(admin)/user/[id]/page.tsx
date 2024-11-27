@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import toast from "react-hot-toast";
 import { Icon } from "@iconify/react";
 
@@ -23,8 +23,17 @@ const UserDetailPage: React.FC<Props> = ({ params }) => {
   const [paymentOrders, setPaymentOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [currentPageAgent, setCurrentPageAgent] = useState(1);
   const { setLoading } = useContext(LoadingContext);
   const id = params.id;
+
+  const filteredData = useMemo(
+    () =>
+      userInfo?.agents.sort((a, b) => {
+        return Number(a.isDeleted) - Number(b.isDeleted);
+      }),
+    [userInfo?.agents]
+  );
 
   const handleGetUser = async () => {
     setIsLoading(true);
@@ -169,7 +178,73 @@ const UserDetailPage: React.FC<Props> = ({ params }) => {
               </div>
             </div>
           </div>
-          <div className="w-full overflow-x-auto hidden lg:block">
+          <div className="w-full overflow-x-auto">
+            <div className="text-20 font-bold text-secondary-200"> Agents</div>
+            <table className="w-full text-white/70">
+              <thead>
+                <tr className="border-b border-white/10">
+                  <th className="px-8 py-16 text-left w-200">Name</th>
+                  <th className="px-8 py-16 text-left w-160">Email</th>
+                  <th className="px-8 py-16 text-left w-160">Location</th>
+                  <th className="px-8 py-16 text-left w-160">Phone</th>
+                  <th className="px-8 py-16 text-left w-60"></th>
+                </tr>
+              </thead>
+              <tbody>
+                {!filteredData.length ? (
+                  <tr>
+                    <td colSpan={4} className="text-error p-24 text-center">
+                      No Agents
+                    </td>
+                  </tr>
+                ) : (
+                  <>
+                    {filteredData.slice(currentPage * 10 - 10, currentPage * 10).map((item, i) => {
+                      return (
+                        <tr key={i} className={`even:bg-[#ffffff04] ${item.isDeleted ? "text-white/30" : ""}`}>
+                          <td className="px-8 py-16">{item.name}</td>
+                          <td className="px-8 py-16">{item.email}</td>
+                          <td className="px-8 py-16">{item.country}</td>
+                          <td className="px-8 py-16">{item.mobileNumber}</td>
+                          <td className="px-8 py-16 text-right">
+                            {item.isDeleted ? (
+                              <button
+                                // onClick={() => setActiveModalOpen(item.agentId)}
+                                className="text-white/40 u-transition-color hover:text-info disabled:cursor-not-allowed disabled:hover:text-white/40"
+                              >
+                                <Icon icon="mdi:restore-clock" className="w-20 h-20"></Icon>
+                              </button>
+                            ) : (
+                              <button
+                                // onClick={() => setDeleteModalOpen(item.agentId)}
+                                className="text-white/40 u-transition-color hover:text-error disabled:cursor-not-allowed disabled:hover:text-white/40"
+                              >
+                                <Icon icon="bxs:trash" className="w-18 h-18"></Icon>
+                              </button>
+                            )}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </>
+                )}
+              </tbody>
+            </table>
+          </div>
+          <Pagination
+            current={currentPageAgent}
+            onChange={setCurrentPageAgent}
+            showSizeChanger={false}
+            total={filteredData.length}
+            hideOnSinglePage={true}
+            className="flex items-center gap-8 text-14"
+            prevIcon={<Icon icon="icon-park-outline:left" />}
+            nextIcon={<Icon icon="icon-park-outline:right" />}
+            showLessItems
+            showTitle={false}
+          />
+          <div className="w-full overflow-x-auto">
+            <div className="text-20 font-bold text-secondary-200">Order History</div>
             <table className="w-full text-white/70">
               <thead>
                 <tr className="border-b border-white/10">
