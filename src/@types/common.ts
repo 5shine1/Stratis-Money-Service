@@ -26,6 +26,7 @@ export interface IAuth {
   mobileNumber: string;
   totalBalance?: { EUR: number; USD: number };
   kybApplicationStatus?: number;
+  acceptNonStablecoinPayments?: boolean;
 }
 
 export interface IInputSelectItem {

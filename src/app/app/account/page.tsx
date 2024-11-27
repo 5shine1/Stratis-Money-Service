@@ -15,12 +15,13 @@ import { setSettings } from "@/store/slices/setting.slice";
 
 const AccountPage = () => {
   const { setLoading } = useContext(LoadingContext);
-  const [isKycAsk, setIsKycAsk] = useState(true);
   const [bankModalShow, setBankModalShow] = useState(false);
   const { userId, name, role, email, kybApplicationStatus, mobileNumber, country } = useAppSelector(
     (state) => state.auth
   );
-  const { bankAccountHolder, bankIban, bankBic } = useAppSelector((state) => state.setting);
+  const { bankAccountHolder, bankIban, bankBic, acceptNonStablecoinPayments } = useAppSelector(
+    (state) => state.setting
+  );
   const dispatch = useAppDispatch();
 
   const handleStartKYB = async () => {
@@ -41,6 +42,7 @@ const AccountPage = () => {
       dispatch(setSettings(result?.businessSettings));
     } catch (error) {}
   };
+
   const setSetting = async (account: string, iban: string, bic: string) => {
     setLoading(true);
     try {
@@ -48,6 +50,26 @@ const AccountPage = () => {
       if (result) toast.success("Bank connected successfully");
       getSetting();
       setBankModalShow(false);
+    } catch (error) {
+      console.log(error);
+      toast.error("Server error.");
+    }
+    setLoading(false);
+  };
+
+  const setNonStableCoinsSetting = async () => {
+    setLoading(true);
+    try {
+      const result = await apiSetSetting(
+        userId,
+        true,
+        bankAccountHolder,
+        bankIban,
+        bankBic,
+        !acceptNonStablecoinPayments
+      );
+      if (result) toast.success("Setting changed successfully");
+      getSetting();
     } catch (error) {
       console.log(error);
       toast.error("Server error.");
@@ -163,12 +185,7 @@ const AccountPage = () => {
                   </div>
                   <div className="flex items-center gap-6 text-12 ">
                     OFF
-                    <CustomSwitch
-                      value={isKycAsk}
-                      onChange={() => {
-                        setIsKycAsk(!isKycAsk);
-                      }}
-                    />
+                    <CustomSwitch value={acceptNonStablecoinPayments} onChange={setNonStableCoinsSetting} />
                     ON
                   </div>
                 </div>
