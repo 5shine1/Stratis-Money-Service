@@ -46,6 +46,7 @@ export interface IUser {
   totalBalance?: { EUR: number; USD: number };
   transactionCount?: number;
   transactionVolume?: { EUR: number; USD: number };
+  agents?: null | IAgent[];
 }
 
 export interface IWithdrawHistory {
