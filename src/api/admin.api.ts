@@ -78,3 +78,23 @@ export const apiAdminWithdrawalStatus = async (id, status) => {
     throw error;
   }
 };
+
+export const apiAdminRemoveAgent = async (agentUserId: string) => {
+  try {
+    const result = await axiosInstance.post(`/api/Admin/RemoveAgent`, { agentUserId });
+    if (result?.data?.isSucceed === false) throw "Something went wrong";
+    return result?.data?.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const apiAdminActivateAgent = async (agentUserId: string) => {
+  try {
+    const result = await axiosInstance.post(`/api/Admin/ActivateAgent`, { agentUserId });
+    if (result?.data?.isSucceed === false) throw "Something went wrong";
+    return result?.data?.data;
+  } catch (error) {
+    throw error;
+  }
+};

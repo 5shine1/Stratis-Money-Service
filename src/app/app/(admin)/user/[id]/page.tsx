@@ -3,8 +3,14 @@ import React, { useContext, useEffect, useMemo, useState } from "react";
 import toast from "react-hot-toast";
 import { Icon } from "@iconify/react";
 
-import { apiActivateUser, apiAdminPaymentHistoryByUser, apiAdminUserDetail } from "@/api/admin.api";
-import { IUser } from "@/@types/data";
+import {
+  apiActivateUser,
+  apiAdminActivateAgent,
+  apiAdminPaymentHistoryByUser,
+  apiAdminRemoveAgent,
+  apiAdminUserDetail,
+} from "@/api/admin.api";
+import { IAgent, IUser } from "@/@types/data";
 import Link from "next/link";
 import { formattedTime } from "@/utils/string.utils";
 import { PAYMENT_STATE } from "@/@types/common";
@@ -20,6 +26,7 @@ type Props = {
 
 const UserDetailPage: React.FC<Props> = ({ params }) => {
   const [userInfo, setUserInfo] = useState<IUser | null>(null);
+  const [agents, setAgents] = useState<IAgent[] | null>(null);
   const [paymentOrders, setPaymentOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -29,17 +36,52 @@ const UserDetailPage: React.FC<Props> = ({ params }) => {
 
   const filteredData = useMemo(
     () =>
-      userInfo?.agents.sort((a, b) => {
+      agents?.sort((a, b) => {
         return Number(a.isDeleted) - Number(b.isDeleted);
       }),
-    [userInfo?.agents]
+    [agents]
   );
+
+  const handleDeleteAgent = async (id: string) => {
+    setLoading(true);
+    try {
+      await apiAdminRemoveAgent(id);
+      toast.success("Agent removed successfully.");
+      setAgents(
+        agents.map((item) => {
+          if (item.agentId === id) return { ...item, isDeleted: true };
+          return item;
+        })
+      );
+    } catch (error) {
+      toast.error("Server error.");
+    }
+    setLoading(false);
+  };
+
+  const handleActivateAgent = async (id: string) => {
+    setLoading(true);
+    try {
+      await apiAdminActivateAgent(id);
+      toast.success("Agent re-enabled successfully.");
+      setAgents(
+        agents.map((item) => {
+          if (item.agentId === id) return { ...item, isDeleted: false };
+          return item;
+        })
+      );
+    } catch (error) {
+      toast.error("Server error.");
+    }
+    setLoading(false);
+  };
 
   const handleGetUser = async () => {
     setIsLoading(true);
     try {
       const result = await apiAdminUserDetail(id);
       setUserInfo(result);
+      setAgents(result?.agents);
       const payments = await apiAdminPaymentHistoryByUser(id);
       setPaymentOrders(payments);
     } catch (error) {
@@ -209,14 +251,14 @@ const UserDetailPage: React.FC<Props> = ({ params }) => {
                           <td className="px-8 py-16 text-right">
                             {item.isDeleted ? (
                               <button
-                                // onClick={() => setActiveModalOpen(item.agentId)}
+                                onClick={() => handleActivateAgent(item.agentId)}
                                 className="text-white/40 u-transition-color hover:text-info disabled:cursor-not-allowed disabled:hover:text-white/40"
                               >
                                 <Icon icon="mdi:restore-clock" className="w-20 h-20"></Icon>
                               </button>
                             ) : (
                               <button
-                                // onClick={() => setDeleteModalOpen(item.agentId)}
+                                onClick={() => handleDeleteAgent(item.agentId)}
                                 className="text-white/40 u-transition-color hover:text-error disabled:cursor-not-allowed disabled:hover:text-white/40"
                               >
                                 <Icon icon="bxs:trash" className="w-18 h-18"></Icon>
