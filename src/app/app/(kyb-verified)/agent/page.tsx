@@ -131,7 +131,7 @@ const OrderPage = () => {
                   <tbody>
                     {!filteredData.length ? (
                       <tr>
-                        <td colSpan={4} className="text-error p-24 text-center">
+                        <td colSpan={5} className="text-error p-24 text-center">
                           No Agents
                         </td>
                       </tr>
