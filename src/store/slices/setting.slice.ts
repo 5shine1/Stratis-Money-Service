@@ -5,6 +5,7 @@ const initialState = {
   bankIban: "",
   bankBic: "",
   kycEnabled: true,
+  acceptNonStablecoinPayments: true,
 };
 
 export const settingSlice = createSlice({

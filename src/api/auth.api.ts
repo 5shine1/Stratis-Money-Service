@@ -128,7 +128,8 @@ export const apiSetSetting = async (
   kycEnabled: boolean,
   bankAccountHolder: string,
   bankIban: string,
-  bankBic: string
+  bankBic: string,
+  acceptNonStablecoinPayments?: boolean
 ) => {
   try {
     const result = await axiosInstance.post("/api/User/ChangeSettings", {
@@ -138,8 +139,10 @@ export const apiSetSetting = async (
         bankAccountHolder,
         bankIban,
         bankBic,
+        acceptNonStablecoinPayments,
       },
     });
+    if (!result.data) throw "Server Error";
     return result?.data;
   } catch (error) {
     throw error;
