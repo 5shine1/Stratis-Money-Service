@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 const RootLayout: React.FC<PropsWithChildren> = ({ children }) => {
   return (
-    <html lang="en">
+    <html className="notranslate" translate="no">
       <body>{children}</body>
     </html>
   );
