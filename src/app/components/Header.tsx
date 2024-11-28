@@ -92,7 +92,7 @@ const Header = () => {
                 }}
                 className="text-16 p-12 text-left"
               >
-                española
+                Española
               </button>
             </div>
           </div>
