@@ -15,7 +15,6 @@
     "@types/qrcode.react": "^1.0.5",
     "axios": "^1.6.8",
     "framer-motion": "^11.1.7",
-    "jwt-decode": "^4.0.0",
     "lottie-react": "^2.4.0",
     "next": "14.2.1",
     "rc-pagination": "^4.1.0",
