@@ -121,3 +121,21 @@ export const dictionaryLanding = {
   privacy: { EN: "Privacy Policy", ES: "política de privacidad" },
   copy: { EN: "© 2024 All right reserved", ES: "© 2024 Todos los derechos reservados" },
 };
+
+export const dictionaryAuth = {
+  login: {
+    title: { EN: "Sign In Your Account", ES: "Iniciar sesión en su cuenta" },
+    subtitle: {
+      EN: "Welcome to stratis money service. Enjoy now!",
+      ES: "Bienvenido al servicio de dinero Stratis. ¡Disfrútelo ahora!",
+    },
+    forgot: { EN: "Forgot Password?", ES: "¿Has olvidado tu contraseña?" },
+    button: { EN: "Login with Email", ES: "Iniciar sesión con correo electrónico" },
+    donhave: { EN: `Don't have your account?`, ES: "¿No tienes cuenta?" },
+    signup: { EN: "Sign Up", ES: "Regístrate" },
+    emailPlace: { EN: "Email Address", ES: "Dirección de correo electrónico" },
+    pwdPlace: { EN: "Password", ES: "Contraseña" },
+    errorRequire: { EN: "This field required.", ES: "Este campo es obligatorio." },
+    errorInvalid: { EN: "Invalid email.", ES: "Correo electrónico no válido." },
+  },
+};
