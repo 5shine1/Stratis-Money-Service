@@ -54,7 +54,7 @@ const Header = () => {
             ))}
           </ul>
           <div
-            className={`relative `}
+            className={`relative hidden lg:flex `}
             ref={useClickOutside(() => {
               setOpenLocale(false);
             })}
@@ -167,6 +167,21 @@ const Header = () => {
               {dictionaryLanding.signin[locale]}
             </button>
           </Link>
+          <div className="flex items-center gap-4">
+            <button
+              className={`${locale === "EN" ? "text-secondary-200" : "hover:text-white"}`}
+              onClick={() => dispatch(setLocale("EN"))}
+            >
+              English
+            </button>
+            <hr className="rotate-90 w-16" />
+            <button
+              className={`${locale === "ES" ? "text-secondary-200" : "hover:text-white"}`}
+              onClick={() => dispatch(setLocale("ES"))}
+            >
+              Española
+            </button>
+          </div>
         </ul>
         {email && (
           <div className="mt-auto flex flex-col gap-24 items-end">
