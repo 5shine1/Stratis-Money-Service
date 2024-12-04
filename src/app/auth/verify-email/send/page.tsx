@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import toast from "react-hot-toast";
@@ -8,24 +8,25 @@ import SvgLogo from "@/assets/SvgLogo";
 import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
 import { LoadingContext } from "@/components/providers/LoadingProvider";
 import { apiResendVerificationEmail } from "@/api/auth.api";
+import useAppSelector from "@/hooks/global/useAppSelector";
+import { dictionaryAuth } from "@/config/dictionary";
 
 const VerifyEmailSendPage = () => {
-  const [isSent, setIsSent] = useState(false);
+  const { locale } = useAppSelector((state) => state.locale);
   const searchParams = useSearchParams();
   const email = searchParams.get("email");
   const { setLoading } = useContext(LoadingContext);
 
   const handleResendEmail = async () => {
-    if (!email) return toast.error("Email not exist.");
+    if (!email) return toast.error(dictionaryAuth.verifySend.errors.emailNotExist[locale]);
     setLoading(true);
     try {
       const result = await apiResendVerificationEmail(email);
       if (result) {
-        toast.success("Sent an email successfully.");
-        setIsSent(true);
-      } else toast.error("Something went wrong.");
+        toast.success(dictionaryAuth.verifySend.toastMessages.emailSent[locale]);
+      } else toast.error(dictionaryAuth.verifySend.errors.somethingWentWrong[locale]);
     } catch (error) {
-      toast.error("Something went wrong.");
+      toast.error(dictionaryAuth.verifySend.errors.somethingWentWrong[locale]);
     }
     setLoading(false);
   };
@@ -41,21 +42,20 @@ const VerifyEmailSendPage = () => {
               <SvgLogo className="w-50 h-50" />
             </Link>
             <div>
-              <h4 className="g-button-text text-center">Verify Your Email</h4>
+              <h4 className="g-button-text text-center">{dictionaryAuth.verifySend.title[locale]}</h4>
               <p className="text-gray-400 text-16 mt-24 text-center">
-                A verification email has been sent <span className="text-success">{email}</span>. Please check your
-                email inbox and click the link to verify your email.
+                {dictionaryAuth.verifySend.subtitle0[locale]} <span className="text-success">{email}</span>
+                {dictionaryAuth.verifySend.subtitle1[locale]}
               </p>
             </div>
 
             <div className="text-center text-14 text-gray-500 flex flex-col items-center w-full max-w-400 mx-auto">
-              If you do not receive the email within the next 5 minutes, use the button below to resend verification
-              email.
+              {dictionaryAuth.verifySend.resendInfo[locale]}
               <AnimatedSlideButton
                 onClick={handleResendEmail}
                 className=" text-18 py-12 px-32 w-fit border border-secondary-300 rounded-full mt-16 text-white"
               >
-                {isSent ? "Resend" : "Send"} Email
+                {dictionaryAuth.verifySend.buttons.resendEmail[locale]}
               </AnimatedSlideButton>
             </div>
           </div>
