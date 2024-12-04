@@ -30,10 +30,10 @@ const ResetPasswordPage = () => {
     e.preventDefault();
     if (!password.value)
       return setPassword({ ...password, error: dictionaryAuth.resetPassword.errors.passwordRequired[locale] });
-    if (isValidPassword(password.value))
+    if (isValidPassword(password.value, locale))
       return setPassword({
         ...password,
-        error: isValidPassword(password.value),
+        error: isValidPassword(password.value, locale),
       });
     if (passwordConfirm.value !== password.value)
       return setPasswordConfirm({
