@@ -92,16 +92,15 @@ const RegisterPage = () => {
     if (temp > 0) return;
 
     setLoading(true);
-    const industryData = dictionaryAuth.register.industries[locale]
-      .at(industry.value.split("-")[0])
-      ?.items?.at(industry.value.split("-")[1]);
-    const activityData = dictionaryAuth.register.activities[locale]
-      .at(activity.value.split("-")[0])
-      ?.items?.at(activity.value.split("-")[1]);
-    const volumeData = dictionaryAuth.register.volumes[locale]
-      .at(volume.value.split("-")[0])
-      ?.items?.at(volume.value.split("-")[1]);
-    console.log(industryData, activityData, volumeData);
+    const industryData = dictionaryAuth.register.industries["EN"]
+      .at(Number(industry.value.split("-")[0]))
+      ?.items?.at(Number(industry.value.split("-")[1]));
+    const activityData = dictionaryAuth.register.activities["EN"]
+      .at(Number(activity.value.split("-")[0]))
+      ?.items?.at(Number(activity.value.split("-")[1]));
+    const volumeData = dictionaryAuth.register.volumes["EN"]
+      .at(Number(volume.value.split("-")[0]))
+      ?.items?.at(Number(volume.value.split("-")[1]));
     try {
       const result = await apiRegister(
         email.value,
