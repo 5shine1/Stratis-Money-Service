@@ -437,4 +437,50 @@ export const dictionaryAuth = {
       ],
     },
   },
+  forgotPassword: {
+    title: {
+      EN: "Forgot Password?",
+      ES: "¿Olvidaste tu contraseña?",
+    },
+    subtitle: {
+      EN: "Please enter your email address and we will send you a link to reset your password.",
+      ES: "Por favor, introduce tu dirección de correo electrónico y te enviaremos un enlace para restablecer tu contraseña.",
+    },
+    placeholders: {
+      email: {
+        EN: "Email Address",
+        ES: "Dirección de correo electrónico",
+      },
+    },
+    errors: {
+      emailRequired: {
+        EN: "Email required.",
+        ES: "Correo electrónico requerido.",
+      },
+      emailInvalid: {
+        EN: "Invalid email.",
+        ES: "Correo electrónico no válido.",
+      },
+    },
+    success: {
+      emailSent: {
+        EN: "Password reset email sent.",
+        ES: "Correo de restablecimiento de contraseña enviado.",
+      },
+    },
+    noti: {
+      success: {
+        EN: "Password reset email sent.",
+        ES: "Correo de restablecimiento de contraseña enviado.",
+      },
+      fail: {
+        EN: "Something went wrong.",
+        ES: "Algo salió mal.",
+      },
+    },
+    button: {
+      EN: "Send Link",
+      ES: "Enviar enlace",
+    },
+  },
 };

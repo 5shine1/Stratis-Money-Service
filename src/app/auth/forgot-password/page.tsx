@@ -9,22 +9,26 @@ import CustomInput from "@/components/global/CustomInput";
 import { isValidEmail } from "@/utils/string.utils";
 import { LoadingContext } from "@/components/providers/LoadingProvider";
 import { apiForgotPassword } from "@/api/auth.api";
+import { dictionaryAuth } from "@/config/dictionary";
+import useAppSelector from "@/hooks/global/useAppSelector";
 
 const ForgotPasswordPage = () => {
+  const { locale } = useAppSelector((state) => state.locale);
   const { setLoading } = useContext(LoadingContext);
   const [email, setEmail] = useState({ value: "", error: "" });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!email.value) return setEmail({ ...email, error: "Email required" });
-    if (!isValidEmail(email.value)) return setEmail({ ...email, error: "Invalid email" });
+    if (!email.value) return setEmail({ ...email, error: dictionaryAuth.forgotPassword.errors.emailRequired[locale] });
+    if (!isValidEmail(email.value))
+      return setEmail({ ...email, error: dictionaryAuth.forgotPassword.errors.emailInvalid[locale] });
     setLoading(true);
     try {
       const result = await apiForgotPassword(email.value);
-      if (result) toast.success("Password reset email sent.");
-      else toast.error("Something went wrong.");
+      if (result) toast.success(dictionaryAuth.forgotPassword.noti.success[locale]);
+      else toast.error(dictionaryAuth.forgotPassword.noti.fail[locale]);
     } catch (error) {
-      toast.error("Something went wrong.");
+      toast.error(dictionaryAuth.forgotPassword.noti.fail[locale]);
     }
     setLoading(false);
   };
@@ -43,17 +47,15 @@ const ForgotPasswordPage = () => {
               <SvgLogo className="w-50 h-50" />
             </Link>
             <div className="w-full">
-              <h4 className="g-button-text w-fit mx-auto text-center">Forgot Password?</h4>
-              <p className="text-gray-400 text-14 mt-8 text-center">
-                Please enter your email address and we will send you a link to reset your password.
-              </p>
+              <h4 className="g-button-text w-fit mx-auto text-center">{dictionaryAuth.forgotPassword.title[locale]}</h4>
+              <p className="text-gray-400 text-14 mt-8 text-center">{dictionaryAuth.forgotPassword.subtitle[locale]}</p>
             </div>
             <div className="w-full">
               <CustomInput
                 value={email.value}
                 onChange={(e) => setEmail({ error: "", value: e })}
                 icon="ic:round-alternate-email"
-                placeholder="Email Address"
+                placeholder={dictionaryAuth.forgotPassword.placeholders.email[locale]}
                 error={email.error}
               />
             </div>
@@ -62,7 +64,7 @@ const ForgotPasswordPage = () => {
               isSubmit={true}
               className="w-full text-18 py-14 border border-secondary-300 rounded-full "
             >
-              Send Link
+              {dictionaryAuth.forgotPassword.button[locale]}
             </AnimatedSlideButton>
           </form>
         </div>
