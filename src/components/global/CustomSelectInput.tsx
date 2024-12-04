@@ -22,12 +22,12 @@ const CustomSelectInput: React.FC<Props> = ({
   icon = "",
   placeholder,
 }) => {
-  const [isOpen, setisOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   return (
     <div
       className="w-full relative"
       ref={useClickOutside(() => {
-        setisOpen(false);
+        setIsOpen(false);
       })}
     >
       <div
@@ -47,7 +47,7 @@ const CustomSelectInput: React.FC<Props> = ({
           value={value}
           type={type}
           readOnly
-          onFocus={() => setisOpen(true)}
+          onFocus={() => setIsOpen(true)}
           className={`text-16 placeholder:text-gray-500 p-12 w-full text-gray-200 outline-none bg-transparent ${
             icon ? "pl-40" : ""
           }`}
@@ -66,8 +66,8 @@ const CustomSelectInput: React.FC<Props> = ({
                       key={`${i}-${j}`}
                       className="p-8 py-12 rounded-6 text-14 text-gray-400 cursor-pointer hover:bg-white/10"
                       onClick={() => {
-                        onChange(subItem);
-                        setisOpen(false);
+                        onChange(`${i}-${j}`);
+                        setIsOpen(false);
                       }}
                     >
                       {subItem}
