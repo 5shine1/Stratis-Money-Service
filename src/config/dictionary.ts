@@ -639,3 +639,78 @@ export const dictionaryAuth = {
     },
   },
 };
+
+export const dictionaryApp = {
+  appLayout: {
+    actions: {
+      startKyb: {
+        EN: "Start KYB",
+        ES: "Iniciar KYB",
+      },
+      checkDetails: {
+        EN: "Check Details",
+        ES: "Ver Detalles",
+      },
+      kybStatus: {
+        EN: "KYB Status",
+        ES: "Estado de KYB",
+      },
+      logout: {
+        EN: "Logout",
+        ES: "Cerrar sesión",
+      },
+    },
+    toastMessages: {
+      logoutSuccess: {
+        EN: "Logout successfully.",
+        ES: "Cierre de sesión exitoso.",
+      },
+    },
+    kybFailMessages: {
+      EN: {
+        1: {
+          title: "You need to pass KYB verification",
+          text: "Your KYB application has not yet started. Please complete your KYB verification to continue using our services without interruption",
+        },
+        2: {
+          title: "KYB Application Timed Out",
+          text: "Your KYB application has timed out. Please resubmit your application or reach out to support if you need assistance in restarting the process.",
+        },
+        3: {
+          title: "Your KYB Application was Declined",
+          text: "Please contact our Compliance Officer for further details regarding the status of your Know Your Business application and guidance on restoring compliance.",
+        },
+        4: {
+          title: "KYB Application Successfully Verified",
+          text: "Your KYB application has been successfully verified. Our Compliance Officer will review and approve your applications soon.",
+        },
+        6: {
+          title: "Your compliance check was disapproved",
+          text: "Please contact our Compliance Officer for further details regarding the status of your compliance check and guidance on restoring compliance status.",
+        },
+      },
+      ES: {
+        1: {
+          title: "Debe completar la verificación KYB",
+          text: "Su solicitud KYB aún no ha comenzado. Por favor, complete su verificación KYB para continuar utilizando nuestros servicios sin interrupciones.",
+        },
+        2: {
+          title: "La solicitud KYB expiró",
+          text: "Su solicitud KYB ha expirado. Por favor, vuelva a enviar su solicitud o comuníquese con soporte si necesita ayuda para reiniciar el proceso.",
+        },
+        3: {
+          title: "Su solicitud KYB fue rechazada",
+          text: "Por favor, contacte a nuestro Oficial de Cumplimiento para obtener más detalles sobre el estado de su solicitud de Conozca Su Negocio y orientación sobre cómo restaurar el cumplimiento.",
+        },
+        4: {
+          title: "La solicitud KYB fue verificada con éxito",
+          text: "Su solicitud KYB ha sido verificada con éxito. Nuestro Oficial de Cumplimiento revisará y aprobará sus solicitudes pronto.",
+        },
+        6: {
+          title: "La verificación de cumplimiento fue desaprobada",
+          text: "Por favor, contacte a nuestro Oficial de Cumplimiento para obtener más detalles sobre el estado de su verificación de cumplimiento y orientación sobre cómo restaurar el estado de cumplimiento.",
+        },
+      },
+    },
+  },
+};
