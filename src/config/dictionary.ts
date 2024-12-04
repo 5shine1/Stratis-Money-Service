@@ -483,4 +483,88 @@ export const dictionaryAuth = {
       ES: "Enviar enlace",
     },
   },
+  verifySend: {
+    title: {
+      EN: "Verify Your Email",
+      ES: "Verifica tu correo electrónico",
+    },
+    subtitle0: {
+      EN: "A verification email has been sent to ",
+      ES: "Se ha enviado un correo electrónico de verificación a ",
+    },
+    subtitle1: {
+      EN: ". Please check your email inbox and click the link to verify your email.",
+      ES: ". Por favor, revisa tu bandeja de entrada y haz clic en el enlace para verificar tu correo electrónico.",
+    },
+    resendInfo: {
+      EN: "If you do not receive the email within the next 5 minutes, use the button below to resend the verification email.",
+      ES: "Si no recibes el correo electrónico en los próximos 5 minutos, utiliza el botón de abajo para reenviar el correo de verificación.",
+    },
+    buttons: {
+      resendEmail: {
+        EN: "Resend Email",
+        ES: "Reenviar correo electrónico",
+      },
+    },
+    errors: {
+      emailNotExist: {
+        EN: "Email not exist.",
+        ES: "El correo electrónico no existe.",
+      },
+      somethingWentWrong: {
+        EN: "Something went wrong.",
+        ES: "Algo salió mal.",
+      },
+    },
+    toastMessages: {
+      emailSent: {
+        EN: "Sent an email successfully.",
+        ES: "Correo electrónico enviado con éxito.",
+      },
+    },
+  },
+  verifyEmail: {
+    loading: {
+      title: {
+        EN: "We are checking your email.",
+        ES: "Estamos verificando tu correo electrónico.",
+      },
+    },
+    success: {
+      title: {
+        EN: "Your email has been verified successfully.",
+        ES: "Tu correo electrónico ha sido verificado con éxito.",
+      },
+      button: {
+        EN: "Go To Dashboard",
+        ES: "Ir al Panel",
+      },
+    },
+    failure: {
+      title: {
+        EN: "Email verification failed.",
+        ES: "La verificación del correo electrónico falló.",
+      },
+      button: {
+        EN: "Go To Home",
+        ES: "Ir a la página principal",
+      },
+    },
+    errors: {
+      somethingWentWrong: {
+        EN: "Something went wrong.",
+        ES: "Algo salió mal.",
+      },
+    },
+    toastMessages: {
+      success: {
+        EN: "Email has been verified.",
+        ES: "El correo electrónico ha sido verificado.",
+      },
+      failure: {
+        EN: "Email verification failed.",
+        ES: "La verificación del correo electrónico falló.",
+      },
+    },
+  },
 };
