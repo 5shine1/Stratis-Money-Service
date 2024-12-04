@@ -11,9 +11,11 @@ import CustomInput from "@/components/global/CustomInput";
 import { isValidPassword, isValidEmail, isValidPhoneNumber } from "@/utils/string.utils";
 import { apiRegister } from "@/api/auth.api";
 import CustomSelectInput from "@/components/global/CustomSelectInput";
-import { ACTIVITIES, INDUSTRIES, VOLUMES } from "@/config/constants";
+import useAppSelector from "@/hooks/global/useAppSelector";
+import { dictionaryAuth } from "@/config/dictionary";
 
 const RegisterPage = () => {
+  const { locale } = useAppSelector((state) => state.locale);
   const router = useRouter();
   const { setLoading } = useContext(LoadingContext);
   const [email, setEmail] = useState({ value: "", error: "" });
@@ -35,77 +37,87 @@ const RegisterPage = () => {
 
     if (!isValidEmail(email.value)) {
       temp++;
-      setEmail({ ...email, error: "Invalid email." });
+      setEmail({ ...email, error: dictionaryAuth.register.errors.emailInvalid[locale] });
     }
     if (!email.value) {
       temp++;
-      setEmail({ ...email, error: "Email required." });
+      setEmail({ ...email, error: dictionaryAuth.register.errors.emailRequired[locale] });
     }
     if (!name.value) {
       temp++;
-      setName({ ...name, error: "Name required." });
+      setName({ ...name, error: dictionaryAuth.register.errors.nameRequired[locale] });
     }
     if (!industry.value) {
       temp++;
-      setIndustry({ ...industry, error: "This field required." });
+      setIndustry({ ...industry, error: dictionaryAuth.register.errors.fieldRequired[locale] });
     }
     if (!activity.value) {
       temp++;
-      setActivity({ ...activity, error: "This field required." });
+      setActivity({ ...activity, error: dictionaryAuth.register.errors.fieldRequired[locale] });
     }
     if (!volume.value) {
       temp++;
-      setVolume({ ...volume, error: "This field required." });
+      setVolume({ ...volume, error: dictionaryAuth.register.errors.fieldRequired[locale] });
     }
     if (!country.value) {
       temp++;
-      setCountry({ ...country, error: "Country required." });
+      setCountry({ ...country, error: dictionaryAuth.register.errors.countryRequired[locale] });
     }
     if (!phone.value) {
       temp++;
-      setPhone({ ...phone, error: "Mobile phone required." });
+      setPhone({ ...phone, error: dictionaryAuth.register.errors.phoneRequired[locale] });
     }
     if (!isValidPhoneNumber(phone.value)) {
       temp++;
-      setPhone({ ...phone, error: "Incorrect phone number" });
+      setPhone({ ...phone, error: dictionaryAuth.register.errors.phoneInvalid[locale] });
     }
     if (!password.value) {
       temp++;
-      setPassword({ ...password, error: "Password required." });
+      setPassword({ ...password, error: dictionaryAuth.register.errors.passwordRequired[locale] });
     }
     if (isValidPassword(password.value)) {
       temp++;
       setPassword({
         ...password,
-        error: isValidPassword(password.value),
+        error: dictionaryAuth.register.errors.passwordInvalid[locale],
       });
     }
     if (passwordConfirm.value !== password.value) {
       temp++;
       setPasswordConfirm({
         ...passwordConfirm,
-        error: "Password confirmation does not match.",
+        error: dictionaryAuth.register.errors.passwordMismatch[locale],
       });
     }
     if (temp > 0) return;
 
     setLoading(true);
+    const industryData = dictionaryAuth.register.industries[locale]
+      .at(industry.value.split("-")[0])
+      ?.items?.at(industry.value.split("-")[1]);
+    const activityData = dictionaryAuth.register.activities[locale]
+      .at(activity.value.split("-")[0])
+      ?.items?.at(activity.value.split("-")[1]);
+    const volumeData = dictionaryAuth.register.volumes[locale]
+      .at(volume.value.split("-")[0])
+      ?.items?.at(volume.value.split("-")[1]);
+    console.log(industryData, activityData, volumeData);
     try {
       const result = await apiRegister(
         email.value,
         password.value,
         name.value,
         country.value,
-        industry.value,
-        activity.value,
-        volume.value,
+        industryData,
+        activityData,
+        volumeData,
         phone.value
       );
       if (result === true) {
         toast.success("Registered successfully.");
         router.push(`/auth/login`);
       } else {
-        if (result?.duplicate) setEmail({ ...email, error: "User is already exist." });
+        if (result?.duplicate) setEmail({ ...email, error: dictionaryAuth.register.errors.duplicateUser[locale] });
         else
           setPassword({
             ...password,
@@ -131,53 +143,71 @@ const RegisterPage = () => {
               <SvgLogo className="w-50 h-50" />
             </Link>
             <div>
-              <h4 className="g-button-text w-fit  mx-auto text-center ">Create Your Account</h4>
-              <p className="text-gray-400 text-14 mt-8 text-center">Setting up an account takes only a few minutes.</p>
+              <h4 className="g-button-text w-fit  mx-auto text-center ">{dictionaryAuth.register.title[locale]}</h4>
+              <p className="text-gray-400 text-14 mt-8 text-center">{dictionaryAuth.register.subtitle[locale]}</p>
             </div>
             <form onSubmit={handleSubmit} className="flex flex-col gap-24 mt-12 w-full">
               <CustomInput
                 value={name.value}
                 onChange={(e) => setName({ error: "", value: e })}
                 icon="solar:user-outline"
-                placeholder="Company Name"
+                placeholder={dictionaryAuth.register.placeholders.name[locale]}
                 error={name.error}
               />
               <CustomSelectInput
-                value={industry.value}
+                value={
+                  industry.value
+                    ? dictionaryAuth.register.industries[locale]
+                        .at(industry.value.split("-")[0])
+                        ?.items?.at(industry.value.split("-")[1])
+                    : ""
+                }
                 onChange={(e) => setIndustry({ error: "", value: e })}
                 icon="ph:buildings-light"
-                placeholder="Industry or Sector"
-                data={INDUSTRIES}
+                placeholder={dictionaryAuth.register.placeholders.industry[locale]}
+                data={dictionaryAuth.register.industries[locale]}
                 error={industry.error}
               />
               <CustomSelectInput
-                value={activity.value}
+                value={
+                  activity.value
+                    ? dictionaryAuth.register.activities[locale]
+                        .at(activity.value.split("-")[0])
+                        ?.items?.at(activity.value.split("-")[1])
+                    : ""
+                }
                 onChange={(e) => setActivity({ error: "", value: e })}
                 icon="material-symbols-light:service-toolbox-outline-rounded"
-                placeholder="Type of Activity"
-                data={ACTIVITIES}
+                placeholder={dictionaryAuth.register.placeholders.activity[locale]}
+                data={dictionaryAuth.register.activities[locale]}
                 error={activity.error}
               />
               <CustomSelectInput
-                value={volume.value}
+                value={
+                  volume.value
+                    ? dictionaryAuth.register.volumes[locale]
+                        .at(volume.value.split("-")[0])
+                        ?.items?.at(volume.value.split("-")[1])
+                    : ""
+                }
                 onChange={(e) => setVolume({ error: "", value: e })}
                 icon="solar:chat-round-money-linear"
-                placeholder="Expected Monthly Volume"
-                data={VOLUMES}
+                placeholder={dictionaryAuth.register.placeholders.volume[locale]}
+                data={dictionaryAuth.register.volumes[locale]}
                 error={volume.error}
               />
               <CustomInput
                 value={country.value}
                 onChange={(e) => setCountry({ error: "", value: e })}
                 icon="carbon:location"
-                placeholder="Country"
+                placeholder={dictionaryAuth.register.placeholders.country[locale]}
                 error={country.error}
               />
               <CustomInput
                 value={phone.value}
                 onChange={(e) => setPhone({ error: "", value: e })}
                 icon="radix-icons:mobile"
-                placeholder="Mobile Number"
+                placeholder={dictionaryAuth.register.placeholders.phone[locale]}
                 error={phone.error}
               />
               <CustomInput
@@ -185,7 +215,7 @@ const RegisterPage = () => {
                 onChange={(e) => setEmail({ error: "", value: e })}
                 type="email"
                 icon="ic:round-alternate-email"
-                placeholder="Email Address"
+                placeholder={dictionaryAuth.register.placeholders.email[locale]}
                 error={email.error}
               />
               <CustomInput
@@ -193,7 +223,7 @@ const RegisterPage = () => {
                 onChange={(e) => setPassword({ error: "", value: e })}
                 type="password"
                 icon="solar:shield-keyhole-outline"
-                placeholder="Password"
+                placeholder={dictionaryAuth.register.placeholders.password[locale]}
                 error={password.error}
               />
               <CustomInput
@@ -201,22 +231,22 @@ const RegisterPage = () => {
                 onChange={(e) => setPasswordConfirm({ error: "", value: e })}
                 type="password"
                 icon="solar:shield-keyhole-outline"
-                placeholder="Confirm Password"
+                placeholder={dictionaryAuth.register.placeholders.confirmPassword[locale]}
                 error={passwordConfirm.error}
               />
               <AnimatedSlideButton
                 className=" text-18 py-14 border border-secondary-300 rounded-full mt-16"
                 isSubmit={true}
               >
-                Register
+                {dictionaryAuth.register.button[locale]}
               </AnimatedSlideButton>
               <div className="text-center text-14 text-gray-500">
-                Already have an account?{" "}
+                {dictionaryAuth.register.alreadyHaveAccount[locale]}{" "}
                 <Link
                   href="/auth/login"
                   className="underline text-primary-400/80 u-transition-color hover:text-primary-400 focus:text-primary-400 outline-none"
                 >
-                  Login
+                  {dictionaryAuth.register.login[locale]}
                 </Link>
               </div>
             </form>
