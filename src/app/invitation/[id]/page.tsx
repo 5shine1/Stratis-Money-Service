@@ -66,11 +66,11 @@ const AgentInvitationPage = ({ params }: Props) => {
       temp++;
       setPassword({ ...password, error: "Password required." });
     }
-    if (isValidPassword(password.value)) {
+    if (isValidPassword(password.value, "EN")) {
       temp++;
       setPassword({
         ...password,
-        error: isValidPassword(password.value),
+        error: isValidPassword(password.value, "EN"),
       });
     }
     if (passwordConfirm.value !== password.value) {

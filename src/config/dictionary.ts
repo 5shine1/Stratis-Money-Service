@@ -1,3 +1,28 @@
+export const dictionaryGlobal = {
+  passwordErrors: {
+    digit: {
+      EN: "Passwords must have at least one digit ('0'-'9').",
+      ES: "Las contraseñas deben tener al menos un dígito ('0'-'9').",
+    },
+    nonAlphanumeric: {
+      EN: "Passwords must have at least one non-alphanumeric character.",
+      ES: "Las contraseñas deben tener al menos un carácter no alfanumérico.",
+    },
+    uppercase: {
+      EN: "Passwords must have at least one uppercase letter ('A'-'Z').",
+      ES: "Las contraseñas deben tener al menos una letra mayúscula ('A'-'Z').",
+    },
+    lowercase: {
+      EN: "Passwords must have at least one lowercase letter ('a'-'z').",
+      ES: "Las contraseñas deben tener al menos una letra minúscula ('a'-'z').",
+    },
+    minLength: {
+      EN: "Passwords must be at least 6 characters.",
+      ES: "Las contraseñas deben tener al menos 6 caracteres.",
+    },
+  },
+};
+
 export const dictionaryLanding = {
   dashboard: { EN: "Dashboard", ES: "Panel" },
   contact: { EN: "Contact Us", ES: "Contáctenos" },

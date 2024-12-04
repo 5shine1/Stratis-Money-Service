@@ -75,11 +75,11 @@ const RegisterPage = () => {
       temp++;
       setPassword({ ...password, error: dictionaryAuth.register.errors.passwordRequired[locale] });
     }
-    if (isValidPassword(password.value)) {
+    if (isValidPassword(password.value, locale)) {
       temp++;
       setPassword({
         ...password,
-        error: dictionaryAuth.register.errors.passwordInvalid[locale],
+        error: isValidPassword(password.value, locale),
       });
     }
     if (passwordConfirm.value !== password.value) {
