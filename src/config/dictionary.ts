@@ -567,4 +567,50 @@ export const dictionaryAuth = {
       },
     },
   },
+  resetPassword: {
+    title: {
+      EN: "Reset Your Password",
+      ES: "Restablece tu contraseña",
+    },
+    subtitle: {
+      EN: "Reset your password for the account associated with",
+      ES: "Restablece tu contraseña para la cuenta asociada con",
+    },
+    placeholders: {
+      password: {
+        EN: "Password",
+        ES: "Contraseña",
+      },
+      confirmPassword: {
+        EN: "Confirm Password",
+        ES: "Confirmar contraseña",
+      },
+    },
+    errors: {
+      passwordRequired: {
+        EN: "Password required",
+        ES: "Contraseña requerida",
+      },
+      passwordMismatch: {
+        EN: "Password confirmation does not match",
+        ES: "La confirmación de la contraseña no coincide",
+      },
+    },
+    buttons: {
+      resetPassword: {
+        EN: "Reset Password",
+        ES: "Restablecer contraseña",
+      },
+    },
+    toastMessages: {
+      success: {
+        EN: "Password reset completed.",
+        ES: "Restablecimiento de contraseña completado.",
+      },
+      error: {
+        EN: "Something went wrong.",
+        ES: "Algo salió mal.",
+      },
+    },
+  },
 };
