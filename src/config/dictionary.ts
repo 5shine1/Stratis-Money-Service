@@ -1055,4 +1055,119 @@ export const dictionaryOrder = {
       ES: "Generar Nuevo",
     },
   },
+  controlModal: {
+    title: {
+      EN: "Generate New Order Link",
+      ES: "Generar Nuevo Enlace de Orden",
+    },
+    labels: {
+      amount: {
+        EN: "Amount",
+        ES: "Monto",
+      },
+      currency: {
+        EN: "Currency",
+        ES: "Moneda",
+      },
+      reference: {
+        EN: "Order Reference",
+        ES: "Referencia de Orden",
+      },
+      firstName: {
+        EN: "Customer First Name",
+        ES: "Nombre del Cliente",
+      },
+      lastName: {
+        EN: "Customer Last Name",
+        ES: "Apellido del Cliente",
+      },
+      dob: {
+        EN: "Customer Date of Birth",
+        ES: "Fecha de Nacimiento del Cliente",
+      },
+      pob: {
+        EN: "Customer Place of Birth",
+        ES: "Lugar de Nacimiento del Cliente",
+      },
+      email: {
+        EN: "Customer Email",
+        ES: "Correo Electrónico del Cliente",
+      },
+      address: {
+        EN: "Customer Address",
+        ES: "Dirección del Cliente",
+      },
+    },
+    placeholders: {
+      amount: {
+        EN: "0",
+        ES: "0",
+      },
+      reference: {
+        EN: "Reference",
+        ES: "Referencia",
+      },
+      firstName: {
+        EN: "Customer First Name",
+        ES: "Nombre del Cliente",
+      },
+      lastName: {
+        EN: "Customer Last Name",
+        ES: "Apellido del Cliente",
+      },
+      dob: {
+        EN: "Customer Date of Birth",
+        ES: "Fecha de Nacimiento del Cliente",
+      },
+      pob: {
+        EN: "Customer Place of Birth",
+        ES: "Lugar de Nacimiento del Cliente",
+      },
+      email: {
+        EN: "Email address",
+        ES: "Dirección de correo electrónico",
+      },
+      address: {
+        EN: "Customer Address",
+        ES: "Dirección del Cliente",
+      },
+    },
+    errors: {
+      required: {
+        EN: "This field required.",
+        ES: "Este campo es obligatorio.",
+      },
+      invalidEmail: {
+        EN: "Invalid email.",
+        ES: "Correo electrónico no válido.",
+      },
+    },
+    buttons: {
+      generate: {
+        EN: "Generate",
+        ES: "Generar",
+      },
+    },
+  },
+  deleteModal: {
+    delete: {
+      EN: "Are you sure you want to delete this item?",
+      ES: "¿Estás segura de que quieres eliminar este artículo?",
+    },
+    cancel: {
+      EN: "Are you sure you want to cancel this item?",
+      ES: "¿Estás segura de que deseas cancelar este artículo?",
+    },
+
+    buttons: {
+      delete: {
+        EN: "Delete",
+        ES: "Eliminar",
+      },
+      cancelOrder: {
+        EN: "Cancel Order",
+        ES: "Cancelar Orden",
+      },
+    },
+  },
 };
