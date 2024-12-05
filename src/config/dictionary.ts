@@ -284,6 +284,28 @@ export const dictionaryAuth = {
     pwdPlace: { EN: "Password", ES: "Contraseña" },
     errorRequire: { EN: "This field required.", ES: "Este campo es obligatorio." },
     errorInvalid: { EN: "Invalid email.", ES: "Correo electrónico no válido." },
+    emailNotFound: {
+      EN: "Email not found.",
+      ES: "Correo no encontrado.",
+    },
+    incorrectPassword: {
+      EN: "Incorrect password.",
+      ES: "Contraseña incorrecta.",
+    },
+    toast: {
+      success: {
+        EN: "Logged in successfully.",
+        ES: "Inicio de sesión exitoso.",
+      },
+      failure: {
+        EN: "Login failed.",
+        ES: "Error al iniciar sesión.",
+      },
+      generalError: {
+        EN: "Something went wrong.",
+        ES: "Algo salió mal.",
+      },
+    },
   },
   register: {
     title: {
