@@ -66,7 +66,7 @@ export const dictionaryGlobal = {
     },
     hourAgo: {
       EN: "${number} hour${s} ago",
-      ES: "hace ${number} horas${s}",
+      ES: "hace ${number} hora${s}",
     },
     minuteAgo: {
       EN: "${number} minute${s} ago",
