@@ -12,7 +12,7 @@ import { apiGetSetting, apiSetSetting } from "@/api/auth.api";
 import BankModal from "./components/BankModal";
 import useAppDispatch from "@/hooks/global/useAppDispatch";
 import { setSettings } from "@/store/slices/setting.slice";
-import { dictionaryProfile } from "@/config/dictionary";
+import { dictionaryGlobal, dictionaryProfile } from "@/config/dictionary";
 
 const AccountPage = () => {
   const { locale } = useAppSelector((state) => state.locale);
@@ -110,7 +110,7 @@ const AccountPage = () => {
                 <span className="opacity-60 text-white flex-none w-200">
                   {dictionaryProfile.profileLabels.role[locale]}
                 </span>
-                {role}
+                {dictionaryGlobal.roles[locale][role]}
               </div>
 
               <div className="flex gap-4 flex-col sm:flex-row break-all">

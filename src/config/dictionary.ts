@@ -115,6 +115,22 @@ export const dictionaryGlobal = {
       200: "Completado",
     },
   },
+  roles: {
+    EN: {
+      Admin: "Admin",
+      Business: "Business",
+      Compliance: "Compliance",
+      Agent: "Agent",
+      Guest: "Guest",
+    },
+    ES: {
+      Admin: "Administrador",
+      Business: "Negocio",
+      Compliance: "Cumplimiento",
+      Agent: "Agente",
+      Guest: "Invitado",
+    },
+  },
 };
 
 export const dictionaryLanding = {
