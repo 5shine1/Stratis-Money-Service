@@ -1472,3 +1472,142 @@ export const dictionaryWithdraw = {
     },
   },
 };
+
+export const dictionaryAgent = {
+  agentsPage: {
+    headings: {
+      title: {
+        EN: "Agents",
+        ES: "Agentes",
+      },
+    },
+    placeholders: {
+      search: {
+        EN: "Search by name and email",
+        ES: "Buscar por nombre y correo electrónico",
+      },
+    },
+    buttons: {
+      inviteAgent: {
+        EN: "Invite agent",
+        ES: "Invitar agente",
+      },
+    },
+    tableHeaders: {
+      name: {
+        EN: "Name",
+        ES: "Nombre",
+      },
+      email: {
+        EN: "Email",
+        ES: "Correo Electrónico",
+      },
+      location: {
+        EN: "Location",
+        ES: "Ubicación",
+      },
+      phone: {
+        EN: "Phone",
+        ES: "Teléfono",
+      },
+      actions: {
+        EN: "Actions",
+        ES: "Acciones",
+      },
+    },
+    messages: {
+      noAgents: {
+        EN: "No Agents",
+        ES: "No hay Agentes",
+      },
+      agentRemoved: {
+        EN: "Agent removed successfully.",
+        ES: "Agente eliminado con éxito.",
+      },
+      agentRestored: {
+        EN: "Agent re-enabled successfully.",
+        ES: "Agente restaurado con éxito.",
+      },
+      serverError: {
+        EN: "Server error.",
+        ES: "Error del servidor.",
+      },
+    },
+  },
+  activeModal: {
+    message: {
+      EN: "Are you sure you want to activate this agent?",
+      ES: "¿Estás seguro de que deseas activar a este agente?",
+    },
+    buttons: {
+      activate: {
+        EN: "Activate Agent",
+        ES: "Activar Agente",
+      },
+    },
+  },
+  deleteModal: {
+    message: {
+      EN: "Are you sure you want to remove this agent?",
+      ES: "¿Estás seguro de que deseas eliminar a este agente?",
+    },
+    buttons: {
+      remove: {
+        EN: "Remove Agent",
+        ES: "Eliminar Agente",
+      },
+    },
+  },
+  inviteModal: {
+    title: {
+      EN: "Invite agent",
+      ES: "Invitar agente",
+    },
+    labels: {
+      agentEmail: {
+        EN: "Agent email",
+        ES: "Correo del agente",
+      },
+    },
+    placeholders: {
+      agentEmail: {
+        EN: "Agent email",
+        ES: "Correo del agente",
+      },
+    },
+    errors: {
+      emailRequired: {
+        EN: "Agent email required.",
+        ES: "Correo del agente requerido.",
+      },
+      invalidEmail: {
+        EN: "Invalid email.",
+        ES: "Correo electrónico no válido.",
+      },
+      connectBank: {
+        EN: "Please connect your bank detail first.",
+        ES: "Por favor, conecta los detalles de tu banco primero.",
+      },
+      somethingWrong: {
+        EN: "Something went wrong.",
+        ES: "Algo salió mal.",
+      },
+    },
+    messages: {
+      invitationSent: {
+        EN: "Invitation email sent successfully.",
+        ES: "Correo de invitación enviado con éxito.",
+      },
+    },
+    buttons: {
+      connectBank: {
+        EN: "Connect Bank",
+        ES: "Conectar Banco",
+      },
+      sendInvite: {
+        EN: "Send Invite Email",
+        ES: "Enviar Correo de Invitación",
+      },
+    },
+  },
+};

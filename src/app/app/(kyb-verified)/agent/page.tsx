@@ -12,8 +12,11 @@ import { LoadingContext } from "@/components/providers/LoadingProvider";
 import toast from "react-hot-toast";
 import { IAgent } from "@/@types/data";
 import ActiveModal from "./components/ActiveModal";
+import useAppSelector from "@/hooks/global/useAppSelector";
+import { dictionaryAgent } from "@/config/dictionary";
 
 const OrderPage = () => {
+  const { locale } = useAppSelector((state) => state.locale);
   const [agents, setAgents] = useState<IAgent[]>([]);
   const [searchIndex, setSearchIndex] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -51,7 +54,7 @@ const OrderPage = () => {
     setLoading(true);
     try {
       await apiRemoveAgent(id);
-      toast.success("Agent removed successfully.");
+      toast.success(dictionaryAgent.agentsPage.messages.agentRemoved[locale]);
       setAgents(
         agents.map((item) => {
           if (item.agentId === id) return { ...item, isDeleted: true };
@@ -59,7 +62,7 @@ const OrderPage = () => {
         })
       );
     } catch (error) {
-      toast.error("Server error.");
+      toast.error(dictionaryAgent.agentsPage.messages.serverError[locale]);
     }
     setDeleteModalOpen(null);
     setLoading(false);
@@ -69,7 +72,7 @@ const OrderPage = () => {
     setLoading(true);
     try {
       await apiActivateAgent(id);
-      toast.success("Agent re-enabled successfully.");
+      toast.success(dictionaryAgent.agentsPage.messages.agentRestored[locale]);
       setAgents(
         agents.map((item) => {
           if (item.agentId === id) return { ...item, isDeleted: false };
@@ -77,7 +80,7 @@ const OrderPage = () => {
         })
       );
     } catch (error) {
-      toast.error("Server error.");
+      toast.error(dictionaryAgent.agentsPage.messages.serverError[locale]);
     }
     setActiveModalOpen(null);
     setLoading(false);
@@ -90,7 +93,7 @@ const OrderPage = () => {
   return (
     <>
       <div className="flex flex-col gap-24 lg:gap-32 lg:px-48 lg:py-64 py-32 p-8 text-14">
-        <h4 className="w-fit g-header-app">Agents</h4>
+        <h4 className="w-fit g-header-app">{dictionaryAgent.agentsPage.headings.title[locale]}</h4>
         <div className="flex flex-col gap-32">
           <div className="flex items-stretch md:items-center justify-between gap-12  md:flex-row flex-col-reverse ">
             <div className="w-full md:max-w-320">
@@ -108,7 +111,7 @@ const OrderPage = () => {
               className=" text-white text-16 py-12 px-32 border border-secondary-300 rounded-full"
               backClassName="from-primary-400 to-secondary-300 "
             >
-              Invite agent
+              {dictionaryAgent.agentsPage.buttons.inviteAgent[locale]}
             </AnimatedSlideButton>
           </div>
           {isLoading ? (
@@ -121,10 +124,18 @@ const OrderPage = () => {
                 <table className="w-full text-white/70">
                   <thead>
                     <tr className="border-b border-white/10">
-                      <th className="px-8 py-16 text-left w-200">Name</th>
-                      <th className="px-8 py-16 text-left w-160">Email</th>
-                      <th className="px-8 py-16 text-left w-160">Location</th>
-                      <th className="px-8 py-16 text-left w-160">Phone</th>
+                      <th className="px-8 py-16 text-left w-200">
+                        {dictionaryAgent.agentsPage.tableHeaders.name[locale]}
+                      </th>
+                      <th className="px-8 py-16 text-left w-160">
+                        {dictionaryAgent.agentsPage.tableHeaders.email[locale]}
+                      </th>
+                      <th className="px-8 py-16 text-left w-160">
+                        {dictionaryAgent.agentsPage.tableHeaders.location[locale]}
+                      </th>
+                      <th className="px-8 py-16 text-left w-160">
+                        {dictionaryAgent.agentsPage.tableHeaders.phone[locale]}
+                      </th>
                       <th className="px-8 py-16 text-left w-60"></th>
                     </tr>
                   </thead>
@@ -132,7 +143,7 @@ const OrderPage = () => {
                     {!filteredData.length ? (
                       <tr>
                         <td colSpan={5} className="text-error p-24 text-center">
-                          No Agents
+                          {dictionaryAgent.agentsPage.messages.noAgents[locale]}
                         </td>
                       </tr>
                     ) : (
