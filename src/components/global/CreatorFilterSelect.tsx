@@ -1,3 +1,5 @@
+import { dictionaryGlobal } from "@/config/dictionary";
+import useAppSelector from "@/hooks/global/useAppSelector";
 import useClickOutside from "@/hooks/global/useClickOutside";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import React, { useState } from "react";
@@ -8,6 +10,7 @@ type Props = {
   data: string[];
 };
 const CreatorFilterSelect = ({ value, onChange, data }: Props) => {
+  const { locale } = useAppSelector((state) => state.locale);
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div
@@ -20,7 +23,8 @@ const CreatorFilterSelect = ({ value, onChange, data }: Props) => {
         className="relative flex justify-between items-center gap-2 w-full bg-primary-700 rounded-6 py-12 px-16 cursor-pointer u-text-overflow"
         onClick={() => setIsOpen(!isOpen)}
       >
-        Filter by Creators: {value.length ? "Filtered" : "All"}
+        {dictionaryGlobal.creatorFilter.label[locale]}{" "}
+        {value.length ? dictionaryGlobal.filtered[locale] : dictionaryGlobal.all[locale]}
         <Icon
           icon={`ep:arrow-down`}
           className={`w-16 h-16 transition-transform duration-300 ${isOpen ? " rotate-180" : ""}`}

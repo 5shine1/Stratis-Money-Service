@@ -25,7 +25,7 @@ export const formattedUsername = (username: string) => {
   return username.slice(0, 6) + "..." + username.slice(-3);
 };
 
-export const formattedTime = (timestamp: string) => {
+export const formattedTime = (timestamp: string, locale: string) => {
   if (timestamp === "now") return "now";
   const now = new Date();
   const diff = now.getTimezoneOffset() * 60000;
@@ -35,20 +35,27 @@ export const formattedTime = (timestamp: string) => {
   let interval;
   interval = Math.floor(seconds / 86400);
   if (interval >= 1) {
-    return interval + " day" + (interval > 1 ? "s" : "") + " ago";
+    return dictionaryGlobal.timeFormat.dayAgo[locale]
+      .replace("${number}", interval)
+      .replace("${s}", interval > 1 ? "s" : "");
   }
 
   interval = Math.floor(seconds / 3600);
   if (interval >= 1) {
-    return interval + " hour" + (interval > 1 ? "s" : "") + " ago";
+    return dictionaryGlobal.timeFormat.hourAgo[locale]
+      .replace("${number}", interval)
+      .replace("${s}", interval > 1 ? "s" : "");
   }
 
   interval = Math.floor(seconds / 60);
   if (interval >= 1) {
-    return interval + " minute" + (interval > 1 ? "s" : "") + " ago";
+    return dictionaryGlobal.timeFormat.minuteAgo[locale]
+      .replace("${number}", interval)
+      .replace("${s}", interval > 1 ? "s" : "");
   }
-
-  return seconds + " second" + (seconds > 1 ? "s" : "") + " ago";
+  return dictionaryGlobal.timeFormat.secondAgo[locale]
+    .replace("${number}", seconds)
+    .replace("${s}", seconds > 1 ? "s" : "");
 };
 
 export const isValidReference = (link: string) => {

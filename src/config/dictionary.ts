@@ -21,6 +21,62 @@ export const dictionaryGlobal = {
       ES: "Las contraseñas deben tener al menos 6 caracteres.",
     },
   },
+  all: {
+    EN: "All",
+    ES: "Todos",
+  },
+  filtered: {
+    EN: "Filtered",
+    ES: "Filtrado",
+  },
+  statusFilter: {
+    statusFilterItems: {
+      EN: [
+        { id: 0, text: "In Process" },
+        { id: 1, text: "Completed" },
+        { id: 2, text: "Expired" },
+        { id: 3, text: "Cancelled" },
+      ],
+      ES: [
+        { id: 0, text: "En Proceso" },
+        { id: 1, text: "Completado" },
+        { id: 2, text: "Expirado" },
+        { id: 3, text: "Cancelado" },
+      ],
+    },
+    label: {
+      EN: "Filter by Status:",
+      ES: "Filtrar por Estado:",
+    },
+  },
+  creatorFilter: {
+    label: {
+      EN: "Filter by Creators:",
+      ES: "Filtrar por creadoras:",
+    },
+  },
+  timeFormat: {
+    now: {
+      EN: "now",
+      ES: "ahora",
+    },
+    dayAgo: {
+      EN: "${number} day${s} ago",
+      ES: "hace ${number} día${s}",
+    },
+    hourAgo: {
+      EN: "${number} hour${s} ago",
+      ES: "hace ${number} horas${s}",
+    },
+    minuteAgo: {
+      EN: "${number} minute${s} ago",
+      ES: "hace ${number} minuto${s}",
+    },
+    secondAgo: {
+      EN: "${number} second${s} ago",
+      ES: "hace ${number} segundo${s}",
+    },
+  },
 };
 
 export const dictionaryLanding = {
@@ -711,6 +767,292 @@ export const dictionaryApp = {
           text: "Por favor, contacte a nuestro Oficial de Cumplimiento para obtener más detalles sobre el estado de su verificación de cumplimiento y orientación sobre cómo restaurar el estado de cumplimiento.",
         },
       },
+    },
+  },
+  appSidebar: {
+    menu: {
+      order: {
+        EN: "Order",
+        ES: "Pedido",
+      },
+      withdraw: {
+        EN: "Withdraw",
+        ES: "Retirar",
+      },
+      agent: {
+        EN: "Agent",
+        ES: "Agente",
+      },
+      companies: {
+        EN: "Companies",
+        ES: "Empresas",
+      },
+      profile: {
+        EN: "Profile",
+        ES: "Perfil",
+      },
+    },
+    buttons: {
+      logout: {
+        EN: "Logout",
+        ES: "Cerrar sesión",
+      },
+    },
+    toastMessages: {
+      logoutSuccess: {
+        EN: "Logout successfully",
+        ES: "Cierre de sesión exitoso",
+      },
+    },
+  },
+};
+
+export const dictionaryProfile = {
+  headings: {
+    myAccount: {
+      EN: "My Account",
+      ES: "Mi Cuenta",
+    },
+    profile: {
+      EN: "Profile",
+      ES: "Perfil",
+    },
+    kybStatus: {
+      EN: "KYB Status",
+      ES: "Estado KYB",
+    },
+    complianceStatus: {
+      EN: "Compliance Status",
+      ES: "Estado de Cumplimiento",
+    },
+    setting: {
+      EN: "Setting",
+      ES: "Configuración",
+    },
+    bankDetail: {
+      EN: "Bank Detail",
+      ES: "Detalle Bancario",
+    },
+  },
+  profileLabels: {
+    userId: {
+      EN: "User ID",
+      ES: "ID de Usuario",
+    },
+    email: {
+      EN: "Email",
+      ES: "Correo Electrónico",
+    },
+    name: {
+      EN: "Name",
+      ES: "Nombre",
+    },
+    role: {
+      EN: "Role",
+      ES: "Rol",
+    },
+    phoneNumber: {
+      EN: "Phone Number",
+      ES: "Número de Teléfono",
+    },
+    address: {
+      EN: "Address",
+      ES: "Dirección",
+    },
+  },
+  kybStatusMessages: {
+    approved: {
+      EN: "Approved",
+      ES: "Aprobado",
+    },
+    declined: {
+      EN: "Declined",
+      ES: "Rechazado",
+    },
+    notStarted: {
+      EN: "Not Started",
+      ES: "No Comenzado",
+    },
+    timedOut: {
+      EN: "Timed Out",
+      ES: "Tiempo Agotado",
+    },
+    startKyb: {
+      EN: "Start KYB",
+      ES: "Iniciar KYB",
+    },
+  },
+  complianceStatusMessages: {
+    approved: {
+      EN: "Approved",
+      ES: "Aprobado",
+    },
+    disapproved: {
+      EN: "Disapproved",
+      ES: "Rechazado",
+    },
+    pending: {
+      EN: "Pending",
+      ES: "Pendiente",
+    },
+  },
+  settings: {
+    acceptNonStablecoin: {
+      EN: "Accept non-stable coin for payment",
+      ES: "Aceptar monedas no estables para el pago",
+    },
+    tooltip: {
+      EN: "Enable this option to allow customers to pay with any cryptocurrency, including non-stable coins that may experience significant price volatility. When disabled, only stablecoins with more stable values are accepted for payments.",
+      ES: "Habilite esta opción para permitir que los clientes paguen con cualquier criptomoneda, incluidas las monedas no estables que pueden experimentar una volatilidad significativa en el precio. Cuando está deshabilitado, solo se aceptan monedas estables con valores más estables para los pagos.",
+    },
+  },
+  bankDetail: {
+    connectBank: {
+      EN: "Connect Bank",
+      ES: "Conectar Banco",
+    },
+    accountName: {
+      EN: "Account Name",
+      ES: "Nombre de la Cuenta",
+    },
+    iban: {
+      EN: "IBAN",
+      ES: "IBAN",
+    },
+    bic: {
+      EN: "BIC",
+      ES: "BIC",
+    },
+  },
+  toastMessages: {
+    serverError: {
+      EN: "Server error.",
+      ES: "Error del servidor.",
+    },
+    bankConnected: {
+      EN: "Bank connected successfully",
+      ES: "Banco conectado con éxito",
+    },
+    settingChanged: {
+      EN: "Setting changed successfully",
+      ES: "Configuración cambiada con éxito",
+    },
+  },
+  bankModal: {
+    title: {
+      EN: "Your Bank Details",
+      ES: "Tus Detalles Bancarios",
+    },
+    labels: {
+      bankAccount: {
+        EN: "Bank Account",
+        ES: "Cuenta Bancaria",
+      },
+      bankIBAN: {
+        EN: "Bank IBAN",
+        ES: "IBAN Bancario",
+      },
+      bankBIC: {
+        EN: "Bank BIC",
+        ES: "BIC Bancario",
+      },
+    },
+    errors: {
+      fieldRequired: {
+        EN: "This field required.",
+        ES: "Este campo es obligatorio.",
+      },
+      invalidIBAN: {
+        EN: "Invalid Bank IBAN.",
+        ES: "IBAN Bancario no válido.",
+      },
+      invalidBIC: {
+        EN: "Invalid Bank BIC.",
+        ES: "BIC Bancario no válido.",
+      },
+    },
+    buttons: {
+      save: {
+        EN: "Save",
+        ES: "Guardar",
+      },
+    },
+  },
+};
+
+export const dictionaryOrder = {
+  agent: {
+    EN: "Agent",
+    ES: "Agente",
+  },
+  headings: {
+    paymentOrders: {
+      EN: "Payment Orders",
+      ES: "Órdenes de Pago",
+    },
+  },
+  placeholders: {
+    search: {
+      EN: "Search by payer and reference",
+      ES: "Buscar por pagador y referencia",
+    },
+  },
+  tableHeaders: {
+    payer: {
+      EN: "Payer",
+      ES: "Pagador",
+    },
+    amount: {
+      EN: "Amount",
+      ES: "Monto",
+    },
+    reference: {
+      EN: "Reference",
+      ES: "Referencia",
+    },
+    state: {
+      EN: "State",
+      ES: "Estado",
+    },
+    date: {
+      EN: "Date",
+      ES: "Fecha",
+    },
+    creator: {
+      EN: "Creator",
+      ES: "Creador",
+    },
+    actions: {
+      EN: "Actions",
+      ES: "Acciones",
+    },
+  },
+  messages: {
+    noOrders: {
+      EN: "No Order Links",
+      ES: "No hay enlaces de órdenes",
+    },
+    generatedSuccess: {
+      EN: "Generated new link successfully.",
+      ES: "Enlace nuevo generado exitosamente.",
+    },
+    orderDeleted: {
+      EN: "Order deleted successfully.",
+      ES: "Orden eliminada con éxito.",
+    },
+    orderCancelled: {
+      EN: "Order cancelled successfully.",
+      ES: "Orden cancelada con éxito.",
+    },
+    serverError: {
+      EN: "Server error.",
+      ES: "Error del servidor.",
+    },
+  },
+  buttons: {
+    generateNew: {
+      EN: "Generate New",
+      ES: "Generar Nuevo",
     },
   },
 };
