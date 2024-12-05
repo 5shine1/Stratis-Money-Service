@@ -30,7 +30,7 @@ const Header = () => {
     setLoading(true);
     try {
       await apiLogout();
-      toast.success("Logout successfully");
+      toast.success(dictionaryLanding.logoutSuccess[locale]);
     } catch (error) {}
     dispatch(logout());
     setLoading(false);
@@ -128,10 +128,10 @@ const Header = () => {
                 {dictionaryLanding.account[locale]}
               </Link>
               <div
-                className="flex items-center gap-8 font-medium u-transition-color cursor-pointer px-16 py-12 rounded-4 text-[#FF2F2F]"
+                className="flex items-center gap-8 font-medium u-transition-color cursor-pointer px-16 py-12 rounded-4 text-[#FF2F2F] whitespace-nowrap"
                 onClick={handleLogout}
               >
-                <Icon icon="material-symbols:logout" className="w-20 h-20" />
+                <Icon icon="material-symbols:logout" className="w-20 h-20 flex-none" />
                 {dictionaryLanding.logout[locale]}
               </div>
             </div>
