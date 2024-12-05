@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 import { Icon } from "@iconify/react";
 
 import { apiCancelPayment, apiGenerate, apiPaymentHistory } from "@/api/payment.api";
-import { PAYMENT_STATE, ROLES } from "@/@types/common";
+import { ROLES } from "@/@types/common";
 import AppInput from "@/components/global/AppInput";
 import { LoadingContext } from "@/components/providers/LoadingProvider";
 import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
@@ -226,7 +226,9 @@ const OrderPage = () => {
                                 {item.amount} <span className="opacity-50">{item.currency}</span>
                               </td>
                               <td className="px-8 py-16">{item.description}</td>
-                              <td className={`px-8 py-16`}>{PAYMENT_STATE[item.state] || "Error"}</td>
+                              <td className={`px-8 py-16`}>
+                                {dictionaryGlobal.paymentStatus[locale][item.state] || "Error"}
+                              </td>
                               <td className="px-8 py-16">{formattedTime(item.requested, locale)}</td>
                               <td className="px-8 py-16">
                                 {item.creator} {item.agentName && ` (${dictionaryOrder.agent[locale]})`}
@@ -282,7 +284,9 @@ const OrderPage = () => {
                           </div>
                           <div className="flex justify-between items-center gap-72 overflow-hidden">
                             <div className="flex-none opacity-70">{dictionaryOrder.tableHeaders.state[locale]}</div>
-                            <div className="u-text-overflow">{PAYMENT_STATE[item.state] || "Error"}</div>
+                            <div className="u-text-overflow">
+                              {dictionaryGlobal.paymentStatus[locale][item.state] || "Error"}
+                            </div>
                           </div>
                           <div className="flex justify-between items-center gap-72 overflow-hidden">
                             <div className="flex-none opacity-70">{dictionaryOrder.tableHeaders.date[locale]}</div>
