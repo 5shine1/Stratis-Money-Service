@@ -19,8 +19,10 @@ import useAppSelector from "@/hooks/global/useAppSelector";
 import { apiAdminDeleteOrder, apiAdminPaymentHistory } from "@/api/admin.api";
 import StatusFilterSelect from "@/components/global/StatusFilterSelect";
 import CreatorFilterSelect from "@/components/global/CreatorFilterSelect";
+import { dictionaryGlobal, dictionaryOrder } from "@/config/dictionary";
 
 const OrderPage = () => {
+  const { locale } = useAppSelector((state) => state.locale);
   const { setLoading } = useContext(LoadingContext);
   const [paymentOrders, setPaymentOrders] = useState<IPayment[]>([]);
   const [searchIndex, setSearchIndex] = useState("");
@@ -111,7 +113,7 @@ const OrderPage = () => {
         {
           paymentId: result?.paymentId,
           state: 10,
-          requested: "now",
+          requested: dictionaryGlobal.timeFormat.now[locale],
           description,
           payee: "",
           payer,
@@ -161,7 +163,7 @@ const OrderPage = () => {
   return (
     <>
       <div className="flex flex-col gap-24 lg:gap-32 lg:px-48 lg:py-64 py-32 p-8 text-14">
-        <h4 className="w-fit g-header-app">Payment Orders</h4>
+        <h4 className="w-fit g-header-app">{dictionaryOrder.headings.paymentOrders[locale]}</h4>
         <div className="flex flex-col gap-32">
           <div className="flex items-stretch xl:items-center gap-12  xl:flex-row flex-col-reverse ">
             <div className="w-full xl:max-w-280">
@@ -175,17 +177,17 @@ const OrderPage = () => {
                 value={searchIndex}
                 onChange={setSearchIndex}
                 icon="ic:outline-search"
-                placeholder="Search by payer and reference"
+                placeholder={dictionaryOrder.placeholders.search[locale]}
               ></AppInput>
             </div>
             <AnimatedSlideButton
               onClick={() => {
                 setControlModalOpen(true);
               }}
-              className=" text-white text-16 py-12 px-32 border border-secondary-300 rounded-full xl:ml-auto w-full xl:max-w-180"
+              className=" text-white text-16 py-12 px-32 border border-secondary-300 rounded-full xl:ml-auto w-full xl:max-w-200"
               backClassName="from-primary-400 to-secondary-300 "
             >
-              Generate New
+              {dictionaryOrder.buttons.generateNew[locale]}
             </AnimatedSlideButton>
           </div>
           {isLoading ? (
@@ -198,20 +200,20 @@ const OrderPage = () => {
                 <table className="w-full text-white/70">
                   <thead>
                     <tr className="border-b border-white/10">
-                      <th className="px-8 py-16 text-left w-200">Payer</th>
-                      <th className="px-8 py-16 text-left w-160">Amount</th>
-                      <th className="px-8 py-16 text-left w-160">Reference</th>
-                      <th className="px-8 py-16 text-left w-160">State</th>
-                      <th className="px-8 py-16 text-left w-120">Date</th>
-                      <th className="px-8 py-16 text-left w-120">Creator</th>
-                      <th className="px-8 py-16 text-right w-120">Actions</th>
+                      <th className="px-8 py-16 text-left w-200">{dictionaryOrder.tableHeaders.payer[locale]}</th>
+                      <th className="px-8 py-16 text-left w-160">{dictionaryOrder.tableHeaders.amount[locale]}</th>
+                      <th className="px-8 py-16 text-left w-160">{dictionaryOrder.tableHeaders.reference[locale]}</th>
+                      <th className="px-8 py-16 text-left w-160">{dictionaryOrder.tableHeaders.state[locale]}</th>
+                      <th className="px-8 py-16 text-left w-120">{dictionaryOrder.tableHeaders.date[locale]}</th>
+                      <th className="px-8 py-16 text-left w-120">{dictionaryOrder.tableHeaders.creator[locale]}</th>
+                      <th className="px-8 py-16 text-right w-120">{dictionaryOrder.tableHeaders.actions[locale]}</th>
                     </tr>
                   </thead>
                   <tbody>
                     {!filteredData.length ? (
                       <tr>
                         <td colSpan={7} className="text-error p-24 text-center">
-                          No Order Links
+                          {dictionaryOrder.messages.noOrders[locale]}
                         </td>
                       </tr>
                     ) : (
@@ -225,9 +227,9 @@ const OrderPage = () => {
                               </td>
                               <td className="px-8 py-16">{item.description}</td>
                               <td className={`px-8 py-16`}>{PAYMENT_STATE[item.state] || "Error"}</td>
-                              <td className="px-8 py-16">{formattedTime(item.requested)}</td>
+                              <td className="px-8 py-16">{formattedTime(item.requested, locale)}</td>
                               <td className="px-8 py-16">
-                                {item.creator} {item.agentName && "(Agent)"}
+                                {item.creator} {item.agentName && `(${dictionaryOrder.agent[locale]})`}
                               </td>
                               <td className="px-8">
                                 <div className="flex items-center gap-16 justify-end">
@@ -258,42 +260,42 @@ const OrderPage = () => {
               </div>
               <div className="text-white/70 sm:hidden flex flex-col gap-6">
                 {!filteredData.length ? (
-                  <div className="text-error p-24 text-center">No Order Links</div>
+                  <div className="text-error p-24 text-center">{dictionaryOrder.messages.noOrders[locale]}</div>
                 ) : (
                   <>
                     {filteredData.slice(currentPage * 10 - 10, currentPage * 10).map((item, i) => {
                       return (
                         <div key={i} className="bg-[#ffffff04] p-12 flex flex-col gap-12 rounded-6">
                           <div className="flex justify-between items-center gap-72 overflow-hidden">
-                            <div className="flex-none opacity-70">Payer</div>
+                            <div className="flex-none opacity-70">{dictionaryOrder.tableHeaders.payer[locale]}</div>
                             <div className="u-text-overflow">{item.payer}</div>
                           </div>
                           <div className="flex justify-between items-center gap-72 overflow-hidden">
-                            <div className="flex-none opacity-70">Amount</div>
+                            <div className="flex-none opacity-70">{dictionaryOrder.tableHeaders.amount[locale]}</div>
                             <div className="u-text-overflow">
                               {item.amount} <span className="opacity-50">{item.currency}</span>
                             </div>
                           </div>
                           <div className="flex justify-between items-center gap-72 overflow-hidden">
-                            <div className="flex-none opacity-70">Reference</div>
+                            <div className="flex-none opacity-70">{dictionaryOrder.tableHeaders.reference[locale]}</div>
                             <div className="u-text-overflow">{item.description}</div>
                           </div>
                           <div className="flex justify-between items-center gap-72 overflow-hidden">
-                            <div className="flex-none opacity-70">State</div>
+                            <div className="flex-none opacity-70">{dictionaryOrder.tableHeaders.state[locale]}</div>
                             <div className="u-text-overflow">{PAYMENT_STATE[item.state] || "Error"}</div>
                           </div>
                           <div className="flex justify-between items-center gap-72 overflow-hidden">
-                            <div className="flex-none opacity-70">Date</div>
-                            <div className="u-text-overflow">{formattedTime(item.requested)}</div>
+                            <div className="flex-none opacity-70">{dictionaryOrder.tableHeaders.date[locale]}</div>
+                            <div className="u-text-overflow">{formattedTime(item.requested, locale)}</div>
                           </div>
                           <div className="flex justify-between items-center gap-72 overflow-hidden">
-                            <div className="flex-none opacity-70">Creator</div>
+                            <div className="flex-none opacity-70">{dictionaryOrder.tableHeaders.creator[locale]}</div>
                             <div className="u-text-overflow">
-                              {item.creator} {item.agentName && "(Agent)"}
+                              {item.creator} {item.agentName && `(${dictionaryOrder.agent[locale]})`}
                             </div>
                           </div>
                           <div className="flex justify-between items-center gap-24 overflow-hidden">
-                            <div className="flex-none opacity-70">Actions</div>
+                            <div className="flex-none opacity-70">{dictionaryOrder.tableHeaders.actions[locale]}</div>
                             <div className="flex items-center gap-16 justify-end">
                               <Link
                                 href={`/app/order/${item.paymentId}`}
