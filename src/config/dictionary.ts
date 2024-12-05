@@ -131,6 +131,18 @@ export const dictionaryGlobal = {
       Guest: "Invitado",
     },
   },
+  withdrawStatus: {
+    EN: {
+      0: "Pending",
+      1: "Completed",
+      2: "Cancelled",
+    },
+    ES: {
+      0: "Pendiente",
+      1: "Completado",
+      2: "Cancelado",
+    },
+  },
 };
 
 export const dictionaryLanding = {
@@ -1321,6 +1333,141 @@ export const dictionaryOrder = {
       serverError: {
         EN: "Server error.",
         ES: "Error del servidor.",
+      },
+    },
+  },
+};
+
+export const dictionaryWithdraw = {
+  withdrawPage: {
+    headings: {
+      title: {
+        EN: "Withdraw",
+        ES: "Retirar",
+      },
+      balances: {
+        EN: "My Balances",
+        ES: "Mis Saldos",
+      },
+    },
+    tableHeaders: {
+      withdrawId: {
+        EN: "Withdraw ID",
+        ES: "ID de Retiro",
+      },
+      amount: {
+        EN: "Amount",
+        ES: "Monto",
+      },
+      fee: {
+        EN: "Fee",
+        ES: "Comisión",
+      },
+      status: {
+        EN: "Status",
+        ES: "Estado",
+      },
+      date: {
+        EN: "Date",
+        ES: "Fecha",
+      },
+      actions: {
+        EN: "Actions",
+        ES: "Acciones",
+      },
+    },
+    buttons: {
+      withdraw: {
+        EN: "Withdraw",
+        ES: "Retirar",
+      },
+    },
+    messages: {
+      noHistory: {
+        EN: "No History",
+        ES: "Sin Historial",
+      },
+      loading: {
+        EN: "Loading...",
+        ES: "Cargando...",
+      },
+      statusChanged: {
+        EN: "Status changed successfully.",
+        ES: "Estado cambiado con éxito.",
+      },
+      serverError: {
+        EN: "Server error.",
+        ES: "Error del servidor.",
+      },
+    },
+    pagination: {
+      prev: {
+        EN: "Previous",
+        ES: "Anterior",
+      },
+      next: {
+        EN: "Next",
+        ES: "Siguiente",
+      },
+    },
+  },
+  requestModal: {
+    title: {
+      EN: "Request Withdraw",
+      ES: "Solicitar Retiro",
+    },
+    labels: {
+      currency: {
+        EN: "Currency",
+        ES: "Moneda",
+      },
+      amount: {
+        EN: "Amount",
+        ES: "Monto",
+      },
+    },
+    placeholders: {
+      selectCurrency: {
+        EN: "Select Currency",
+        ES: "Seleccionar Moneda",
+      },
+    },
+    errors: {
+      currencyRequired: {
+        EN: "Currency required.",
+        ES: "Moneda requerida.",
+      },
+      amountRequired: {
+        EN: "Amount required.",
+        ES: "Monto requerido.",
+      },
+      insufficientBalance: {
+        EN: "Sufficient balance.",
+        ES: "Saldo insuficiente.",
+      },
+      connectBank: {
+        EN: "Please connect your bank detail first.",
+        ES: "Por favor, conecta los detalles de tu banco primero.",
+      },
+      somethingWrong: {
+        EN: "Something went wrong.",
+        ES: "Algo salió mal.",
+      },
+    },
+    buttons: {
+      connectBank: {
+        EN: "Connect Bank",
+        ES: "Conectar Banco",
+      },
+      requestWithdraw: {
+        EN: "Request Withdraw",
+        ES: "Solicitar Retiro",
+      },
+    },
+    messages: {
+      withdrawSuccess: {
+        EN: "Withdraw requested successfully.",
+        ES: "Retiro solicitado con éxito.",
       },
     },
   },
