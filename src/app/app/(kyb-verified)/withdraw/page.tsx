@@ -12,13 +12,15 @@ import { setAuth } from "@/store/slices/auth.slice";
 import useAppDispatch from "@/hooks/global/useAppDispatch";
 import { apiUserInfo } from "@/api/auth.api";
 import { formattedTime } from "@/utils/string.utils";
-import { ROLES, WITHDRAW_STATE } from "@/@types/common";
+import { ROLES } from "@/@types/common";
 import { apiAdminWithdrawalStatus, apiAdminWithdrawHistory } from "@/api/admin.api";
 import StatusChangeModal from "./components/StatusChangeModal";
 import { LoadingContext } from "@/components/providers/LoadingProvider";
 import { IWithdrawHistory } from "@/@types/data";
+import { dictionaryGlobal, dictionaryWithdraw } from "@/config/dictionary";
 
 const WithdrawPage = () => {
+  const { locale } = useAppSelector((state) => state.locale);
   const [withdrawHistory, setWithdrawHistory] = useState<IWithdrawHistory[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
@@ -84,11 +86,13 @@ const WithdrawPage = () => {
   return (
     <>
       <div className="flex flex-col gap-24 lg:gap-32 lg:px-48 lg:py-64 py-32 p-8 text-14">
-        <h4 className="w-fit g-header-app">Withdraw</h4>
+        <h4 className="w-fit g-header-app">{dictionaryWithdraw.withdrawPage.headings.title[locale]}</h4>
         <div className="flex flex-col gap-32">
           {auth?.role === ROLES.BUSINESS && (
             <div className="bg-white/5 rounded-8 p-16 py-24 md:p-32">
-              <div className="text-24 text-secondary-200 font-bold mb-16 md:mb-0">My Balances</div>
+              <div className="text-24 text-secondary-200 font-bold mb-16 md:mb-0">
+                {dictionaryWithdraw.withdrawPage.headings.balances[locale]}
+              </div>
               <div className="flex flex-col md:flex-row md:items-end gap-16 md:gap-32 text-14 text-white">
                 <div className="flex  items-center gap-8">
                   <Icon icon={"cryptocurrency-color:usd"} className="w-24 h-24" />
@@ -110,7 +114,7 @@ const WithdrawPage = () => {
                   className="text-white text-16 py-12 px-32 border border-secondary-300 rounded-full md:ml-auto mt-16 md:mt-0"
                   backClassName="from-primary-400 to-secondary-300 "
                 >
-                  Withdraw
+                  {dictionaryWithdraw.withdrawPage.buttons.withdraw[locale]}
                 </AnimatedSlideButton>
               </div>
             </div>
@@ -124,12 +128,26 @@ const WithdrawPage = () => {
               <table className="w-full table-fixed min-w-800 text-white/70">
                 <thead>
                   <tr className="border-b border-white/10">
-                    <th className="px-8 py-16 text-left w-320">Withdraw ID</th>
-                    <th className="px-8 py-16 text-left w-140">Amount</th>
-                    <th className="px-8 py-16 text-left w-120">Fee</th>
-                    <th className="px-8 py-16 text-left w-120">Status</th>
-                    <th className="px-8 py-16 text-left w-160">Date</th>
-                    {auth?.role === ROLES.ADMIN && <th className="px-8 py-16 text-right w-80">Actions</th>}
+                    <th className="px-8 py-16 text-left w-320">
+                      {dictionaryWithdraw.withdrawPage.tableHeaders.withdrawId[locale]}
+                    </th>
+                    <th className="px-8 py-16 text-left w-140">
+                      {dictionaryWithdraw.withdrawPage.tableHeaders.amount[locale]}
+                    </th>
+                    <th className="px-8 py-16 text-left w-120">
+                      {dictionaryWithdraw.withdrawPage.tableHeaders.fee[locale]}
+                    </th>
+                    <th className="px-8 py-16 text-left w-120">
+                      {dictionaryWithdraw.withdrawPage.tableHeaders.status[locale]}
+                    </th>
+                    <th className="px-8 py-16 text-left w-160">
+                      {dictionaryWithdraw.withdrawPage.tableHeaders.date[locale]}
+                    </th>
+                    {auth?.role === ROLES.ADMIN && (
+                      <th className="px-8 py-16 text-right w-80">
+                        {dictionaryWithdraw.withdrawPage.tableHeaders.date[locale]}
+                      </th>
+                    )}
                   </tr>
                 </thead>
                 <tbody>
@@ -151,8 +169,8 @@ const WithdrawPage = () => {
                             <td className="px-8 py-16">
                               {item.fee} <span className="opacity-50">{item.currency}</span>
                             </td>
-                            <td className="px-8 py-16">{WITHDRAW_STATE[item.status]}</td>
-                            <td className={`px-8 py-16`}>{formattedTime(item.requested)}</td>
+                            <td className="px-8 py-16">{dictionaryGlobal.withdrawStatus[locale][item.status]}</td>
+                            <td className={`px-8 py-16`}>{formattedTime(item.requested, locale)}</td>
                             {auth?.role === ROLES.ADMIN && (
                               <td className="px-8 py-16 text-right">
                                 <button

@@ -42,12 +42,6 @@ export enum ROLES {
   GUEST = "Guest", //eslint-disable-line
 }
 
-export const WITHDRAW_STATE = {
-  0: "Pending",
-  1: "Completed",
-  2: "Cancelled",
-};
-
 export const KYB_STATUS = {
   1: "Pending", // KYB process hasn't started
   2: "TimedOutByKybProvider", // KYB process timed out
