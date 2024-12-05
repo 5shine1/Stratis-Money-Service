@@ -13,7 +13,7 @@ import { logout } from "@/store/slices/auth.slice";
 import { apiLogout } from "@/api/auth.api";
 
 import { ROLES } from "@/@types/common";
-import { dictionaryApp } from "@/config/dictionary";
+import { dictionaryApp, dictionaryGlobal } from "@/config/dictionary";
 import { setLocale } from "@/store/slices/locale.slice";
 
 const AppSidebar: React.FC<PropsWithChildren> = ({ children }) => {
@@ -132,7 +132,7 @@ const AppSidebar: React.FC<PropsWithChildren> = ({ children }) => {
                   isWrapped ? "block" : "hidden"
                 }`}
               >
-                {role}
+                {dictionaryGlobal.roles[locale][role]}
               </div>
             </Link>
             <div
