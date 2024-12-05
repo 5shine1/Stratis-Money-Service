@@ -267,6 +267,10 @@ export const dictionaryLanding = {
   term: { EN: "Terms & Conditions", ES: "Términos y condiciones" },
   privacy: { EN: "Privacy Policy", ES: "política de privacidad" },
   copy: { EN: "© 2024 All right reserved", ES: "© 2024 Todos los derechos reservados" },
+  logoutSuccess: {
+    EN: "Logout successfully.",
+    ES: "Cierre de sesión exitoso.",
+  },
 };
 
 export const dictionaryAuth = {
