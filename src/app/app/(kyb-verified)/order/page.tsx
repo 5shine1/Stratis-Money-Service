@@ -81,7 +81,7 @@ const OrderPage = () => {
         setPaymentOrders([]);
       }
     } catch (error) {
-      toast.error("Server error.");
+      toast.error(dictionaryOrder.messages.serverError[locale]);
     }
     setIsLoading(false);
   };
@@ -122,11 +122,11 @@ const OrderPage = () => {
         },
         ...paymentOrders,
       ]);
-      toast.success("Generated new link successfully.");
+      toast.success(dictionaryOrder.messages.generatedSuccess[locale]);
       setControlModalOpen(null);
       location.href = `/payment/${result.paymentId}`;
     } catch (error) {
-      toast.error("Server error.");
+      toast.error(dictionaryOrder.messages.serverError[locale]);
     }
     setLoading(false);
   };
@@ -136,11 +136,11 @@ const OrderPage = () => {
     try {
       if (role === ROLES.ADMIN) {
         await apiAdminDeleteOrder(id);
-        toast.success("Order deleted successfully.");
+        toast.success(dictionaryOrder.messages.orderDeleted[locale]);
         setPaymentOrders(paymentOrders.filter((item) => item.paymentId !== id));
       } else {
         await apiCancelPayment(id);
-        toast.success("Order cancelled successfully.");
+        toast.success(dictionaryOrder.messages.orderCancelled[locale]);
         setPaymentOrders(
           paymentOrders.map((item) => {
             if (item.paymentId === id) return { ...item, state: 5 };
@@ -149,7 +149,7 @@ const OrderPage = () => {
         );
       }
     } catch (error) {
-      toast.error("Server error.");
+      toast.error(dictionaryOrder.messages.serverError[locale]);
     }
     setDeleteModalOpen(null);
     setLoading(false);
