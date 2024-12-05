@@ -13,8 +13,11 @@ import { logout } from "@/store/slices/auth.slice";
 import { apiLogout } from "@/api/auth.api";
 
 import { ROLES } from "@/@types/common";
+import { dictionaryApp } from "@/config/dictionary";
+import { setLocale } from "@/store/slices/locale.slice";
 
 const AppSidebar: React.FC<PropsWithChildren> = ({ children }) => {
+  const { locale } = useAppSelector((state) => state.locale);
   const [isWrapped, setIsWrapped] = useState(true);
   const [isOpenMobileMenu, setIsOpenMobileMenu] = useState(false);
   const { setLoading } = useContext(LoadingContext);
@@ -26,7 +29,7 @@ const AppSidebar: React.FC<PropsWithChildren> = ({ children }) => {
     setLoading(true);
     try {
       await apiLogout();
-      toast.success("Logout successfully");
+      toast.success(dictionaryApp.appSidebar.toastMessages.logoutSuccess[locale]);
     } catch (error) {}
     dispatch(logout());
     setLoading(false);
@@ -57,9 +60,11 @@ const AppSidebar: React.FC<PropsWithChildren> = ({ children }) => {
                 }`}
               >
                 <Icon icon="lets-icons:order-light" className="w-30 h-30 flex-none" />
-                <div className={` ${isWrapped ? "block" : "hidden"}`}>Order</div>
+                <div className={` ${isWrapped ? "block" : "hidden"}`}>
+                  {dictionaryApp.appSidebar.menu.order[locale]}
+                </div>
               </Link>
-            )}{" "}
+            )}
             {role !== ROLES.COMPLIANCE && role !== ROLES.AGENT && (
               <Link
                 href="/app/withdraw"
@@ -68,7 +73,9 @@ const AppSidebar: React.FC<PropsWithChildren> = ({ children }) => {
                 }`}
               >
                 <Icon icon="ph:hand-withdraw-thin" className="w-30 h-30 flex-none" />
-                <div className={` ${isWrapped ? "block" : "hidden"}`}>Withdraw</div>
+                <div className={` ${isWrapped ? "block" : "hidden"}`}>
+                  {dictionaryApp.appSidebar.menu.withdraw[locale]}
+                </div>
               </Link>
             )}
             {role === ROLES.BUSINESS && (
@@ -79,7 +86,9 @@ const AppSidebar: React.FC<PropsWithChildren> = ({ children }) => {
                 }`}
               >
                 <Icon icon="material-symbols-light:real-estate-agent-outline-rounded" className="w-30 h-30 flex-none" />
-                <div className={` ${isWrapped ? "block" : "hidden"}`}>Agent</div>
+                <div className={` ${isWrapped ? "block" : "hidden"}`}>
+                  {dictionaryApp.appSidebar.menu.agent[locale]}
+                </div>
               </Link>
             )}
             {(role === ROLES.ADMIN || role === ROLES.COMPLIANCE) && (
@@ -90,7 +99,9 @@ const AppSidebar: React.FC<PropsWithChildren> = ({ children }) => {
                 }`}
               >
                 <Icon icon="ph:users-three-thin" className="w-30 h-30 flex-none" />
-                <div className={` ${isWrapped ? "block" : "hidden"}`}>Companies</div>
+                <div className={` ${isWrapped ? "block" : "hidden"}`}>
+                  {dictionaryApp.appSidebar.menu.companies[locale]}
+                </div>
               </Link>
             )}
             <Link
@@ -100,7 +111,9 @@ const AppSidebar: React.FC<PropsWithChildren> = ({ children }) => {
               }`}
             >
               <Icon icon="ph:user-list-thin" className="w-30 h-30 flex-none" />
-              <div className={` ${isWrapped ? "block" : "hidden"}`}>Profile</div>
+              <div className={` ${isWrapped ? "block" : "hidden"}`}>
+                {dictionaryApp.appSidebar.menu.profile[locale]}
+              </div>
             </Link>
           </div>
 
@@ -122,12 +135,39 @@ const AppSidebar: React.FC<PropsWithChildren> = ({ children }) => {
                 {role}
               </div>
             </Link>
-            <div className={`flex items-center w-full overflow-hidden ${isWrapped ? "justify-end" : "justify-center"}`}>
+            <div
+              className={`flex items-center w-full overflow-hidden px-8 ${
+                isWrapped ? "justify-between" : "justify-center"
+              }`}
+            >
+              {isWrapped && (
+                <div className="text-14 flex items-center text-input-text">
+                  <div
+                    className={`cursor-pointer ${locale === "EN" ? "text-secondary-400" : "hover:text-white"}`}
+                    onClick={() => dispatch(setLocale("EN"))}
+                  >
+                    EN
+                  </div>
+                  <hr className="rotate-90 w-16" />
+                  <div
+                    className={`cursor-pointer ${locale === "ES" ? "text-secondary-400" : "hover:text-white"}`}
+                    onClick={() => dispatch(setLocale("ES"))}
+                  >
+                    ES
+                  </div>
+                  <hr className="rotate-90 w-16" />
+                  <div
+                    className={`cursor-pointer ${locale === "FR" ? "text-secondary-400" : "hover:text-white"}`}
+                    onClick={() => dispatch(setLocale("EN"))}
+                  >
+                    FR
+                  </div>
+                </div>
+              )}
               <div
                 onClick={handleLogout}
                 className={`cursor-pointer p-4 rounded-6 hover:bg-primary-700/30 u-transition-color flex items-center `}
               >
-                {isWrapped && <span className="text-14 px-4">Logout</span>}
                 <Icon icon={"material-symbols:logout"} className="w-20 h-20" />
               </div>
             </div>
