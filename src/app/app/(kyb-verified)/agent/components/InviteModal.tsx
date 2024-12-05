@@ -10,12 +10,14 @@ import toast from "react-hot-toast";
 import { apiInviteAgent } from "@/api/auth.api";
 import { LoadingContext } from "@/components/providers/LoadingProvider";
 import Link from "next/link";
+import { dictionaryAgent } from "@/config/dictionary";
 
 type Props = {
   isOpen: boolean;
   onClose: () => void;
 };
 const InviteModal: React.FC<Props> = ({ isOpen, onClose }) => {
+  const { locale } = useAppSelector((state) => state.locale);
   const [email, setEmail] = useState({ value: "", error: "" });
   const { userId } = useAppSelector((state) => state.auth);
   const { bankAccountHolder } = useAppSelector((state) => state.setting);
@@ -23,20 +25,20 @@ const InviteModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
   const handleInviteAgent = async () => {
     if (!email.value) {
-      setEmail({ ...email, error: "Agent email required." });
+      setEmail({ ...email, error: dictionaryAgent.inviteModal.errors.emailRequired[locale] });
       return;
     }
     if (!isValidEmail(email.value)) {
-      setEmail({ ...email, error: "Invalid email." });
+      setEmail({ ...email, error: dictionaryAgent.inviteModal.errors.invalidEmail[locale] });
       return;
     }
     setLoading(true);
     try {
       await apiInviteAgent(email.value, userId);
-      toast.success("Invitation email sent successfully.");
+      toast.success(dictionaryAgent.inviteModal.messages.invitationSent[locale]);
       onClose();
     } catch (error) {
-      toast.error("Some thing went wrong.");
+      toast.error(dictionaryAgent.inviteModal.errors.somethingWrong[locale]);
     }
     setLoading(false);
   };
@@ -54,21 +56,21 @@ const InviteModal: React.FC<Props> = ({ isOpen, onClose }) => {
         onClick={onClose}
       />
       <div className="flex flex-col gap-32">
-        <h4 className="g-button-text w-fit pr-30">Invite agent</h4>
+        <h4 className="g-button-text w-fit pr-30">{dictionaryAgent.inviteModal.title[locale]}</h4>
         <div className="flex flex-col gap-16">
           <AppInput
             value={email.value}
             onChange={(e) => {
               setEmail({ error: "", value: e });
             }}
-            placeholder="Agent email"
-            label="Agent email"
+            placeholder={dictionaryAgent.inviteModal.placeholders.agentEmail[locale]}
+            label={dictionaryAgent.inviteModal.labels.agentEmail[locale]}
             error={email.error}
           />
           {!bankAccountHolder && (
             <div className="text-14 text-error border border-error rounded-6 p-12 bg-error/10 flex gap-6 items-center">
               <Icon icon={"iconoir:warning-circle"} className="text-20" />
-              Please connect your bank detail first.
+              {dictionaryAgent.inviteModal.errors.connectBank[locale]}
             </div>
           )}
           {!bankAccountHolder ? (
@@ -77,7 +79,7 @@ const InviteModal: React.FC<Props> = ({ isOpen, onClose }) => {
                 className="w-full text-white text-20 py-12 px-32 border border-secondary-300  rounded-full mt-8"
                 backClassName="from-primary-400 to-secondary-300 "
               >
-                Connect Bank
+                {dictionaryAgent.inviteModal.buttons.connectBank[locale]}
               </AnimatedSlideButton>
             </Link>
           ) : (
@@ -88,7 +90,7 @@ const InviteModal: React.FC<Props> = ({ isOpen, onClose }) => {
               className="text-white text-20 py-12 px-32 border border-secondary-300  rounded-full mt-8"
               backClassName="from-primary-400 to-secondary-300 "
             >
-              Send Invite Email
+              {dictionaryAgent.inviteModal.buttons.sendInvite[locale]}
             </AnimatedSlideButton>
           )}
         </div>
