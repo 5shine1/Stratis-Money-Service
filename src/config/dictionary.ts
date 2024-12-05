@@ -1170,4 +1170,100 @@ export const dictionaryOrder = {
       },
     },
   },
+  orderDetail: {
+    headings: {
+      transactionDetail: {
+        EN: "Transaction Detail",
+        ES: "Detalle de la Transacción",
+      },
+      summary: {
+        EN: "Summary",
+        ES: "Resumen",
+      },
+      description: {
+        EN: "Description",
+        ES: "Descripción",
+      },
+      payerInfo: {
+        EN: "Payer Info",
+        ES: "Información del Pagador",
+      },
+      transactionStatus: {
+        EN: "Transaction Status",
+        ES: "Estado de la Transacción",
+      },
+    },
+    labels: {
+      orderId: {
+        EN: "Order ID",
+        ES: "ID de la Orden",
+      },
+      orderLink: {
+        EN: "Order Link",
+        ES: "Enlace de la Orden",
+      },
+      amount: {
+        EN: "Amount",
+        ES: "Monto",
+      },
+      createdAt: {
+        EN: "Created At",
+        ES: "Creado En",
+      },
+      createdBy: {
+        EN: "Created By",
+        ES: "Creado Por",
+      },
+      email: {
+        EN: "Email",
+        ES: "Correo Electrónico",
+      },
+      name: {
+        EN: "Name",
+        ES: "Nombre",
+      },
+      address: {
+        EN: "Address",
+        ES: "Dirección",
+      },
+      dob: {
+        EN: "Date of Birth",
+        ES: "Fecha de Nacimiento",
+      },
+      pob: {
+        EN: "Place of Birth",
+        ES: "Lugar de Nacimiento",
+      },
+      status: {
+        EN: "Status",
+        ES: "Estado",
+      },
+      paymentAddress: {
+        EN: "Payment Address",
+        ES: "Dirección de Pago",
+      },
+      paymentAmount: {
+        EN: "Payment Amount",
+        ES: "Monto del Pago",
+      },
+      transactionId: {
+        EN: "Transaction ID",
+        ES: "ID de la Transacción",
+      },
+    },
+    messages: {
+      loading: {
+        EN: "Loading...",
+        ES: "Cargando...",
+      },
+      error: {
+        EN: "Something went wrong. Please check the link again.",
+        ES: "Algo salió mal. Por favor revisa el enlace nuevamente.",
+      },
+      na: {
+        EN: "N/A",
+        ES: "N/D",
+      },
+    },
+  },
 };
