@@ -5,11 +5,11 @@ import { Icon } from "@iconify/react";
 
 import { IPayment } from "@/@types/data";
 import { apiPaymentHistoryDetail } from "@/api/payment.api";
-import { PAYMENT_STATE, ROLES } from "@/@types/common";
+import { ROLES } from "@/@types/common";
 import { formattedTime } from "@/utils/string.utils";
 import useAppSelector from "@/hooks/global/useAppSelector";
 import { apiAdminPaymentHistoryDetail } from "@/api/admin.api";
-import { dictionaryOrder } from "@/config/dictionary";
+import { dictionaryGlobal, dictionaryOrder } from "@/config/dictionary";
 
 type Props = {
   params: {
@@ -34,7 +34,7 @@ const OrderDetailPage: React.FC<Props> = ({ params }) => {
         setPayment(result);
       }
     } catch (error) {
-      toast.error("Server error.");
+      toast.error(dictionaryOrder.orderDetail.messages.serverError[locale]);
     }
     setIsLoading(false);
   };
@@ -186,7 +186,7 @@ const OrderDetailPage: React.FC<Props> = ({ params }) => {
                 <span className="opacity-60 text-white flex-none w-200">
                   {dictionaryOrder.orderDetail.labels.status[locale]}
                 </span>
-                {PAYMENT_STATE[payment?.state] || "Error"}
+                {dictionaryGlobal.paymentStatus[locale][payment?.state] || "Error"}
               </div>
               {payment?.paymentAddress && (
                 <>
@@ -208,18 +208,6 @@ const OrderDetailPage: React.FC<Props> = ({ params }) => {
                     </span>
                     <span>{payment?.paymentTransaction}</span>
                   </div>
-                  {/* <div className="flex gap-4 flex-col sm:flex-row break-all">
-                    <span className="opacity-60 text-white flex-none w-200">Completed At</span>
-                    {payment.lastConfirmationCheck ? (
-                      <span>
-                        {payment?.lastConfirmationCheck?.replace("T", " ").split(".")[0]}
-                        &nbsp;&nbsp;&nbsp;
-                        <span className="opacity-60">{formattedTime(payment?.lastConfirmationCheck)}</span>
-                      </span>
-                    ) : (
-                      <span>{dictionaryOrder.orderDetail.messages.na[locale]}</span>
-                    )}
-                  </div> */}
                 </>
               )}
             </div>
