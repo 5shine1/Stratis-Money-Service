@@ -113,7 +113,7 @@ const RegisterPage = () => {
         phone.value
       );
       if (result === true) {
-        toast.success("Registered successfully.");
+        toast.success(dictionaryAuth.register.toast.successRegister[locale]);
         router.push(`/auth/login`);
       } else {
         if (result?.duplicate) setEmail({ ...email, error: dictionaryAuth.register.errors.duplicateUser[locale] });
@@ -122,11 +122,11 @@ const RegisterPage = () => {
             ...password,
             error: String(Object.values(result)[0]) || "",
           });
-        toast.error("Register failed.");
+        toast.error(dictionaryAuth.register.toast.registerFailed[locale]);
       }
     } catch (error: any) {
       console.log(error);
-      toast.error("Something went wrong.");
+      toast.error(dictionaryAuth.register.toast.somethingWrong[locale]);
     }
     setLoading(false);
   };
