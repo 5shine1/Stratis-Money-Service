@@ -229,7 +229,7 @@ const OrderPage = () => {
                               <td className={`px-8 py-16`}>{PAYMENT_STATE[item.state] || "Error"}</td>
                               <td className="px-8 py-16">{formattedTime(item.requested, locale)}</td>
                               <td className="px-8 py-16">
-                                {item.creator} {item.agentName && `(${dictionaryOrder.agent[locale]})`}
+                                {item.creator} {item.agentName && ` (${dictionaryOrder.agent[locale]})`}
                               </td>
                               <td className="px-8">
                                 <div className="flex items-center gap-16 justify-end">
