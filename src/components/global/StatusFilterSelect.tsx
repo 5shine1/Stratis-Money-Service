@@ -1,3 +1,5 @@
+import { dictionaryGlobal } from "@/config/dictionary";
+import useAppSelector from "@/hooks/global/useAppSelector";
 import useClickOutside from "@/hooks/global/useClickOutside";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import React, { useState } from "react";
@@ -7,12 +9,7 @@ type Props = {
   onChange: (value: number[]) => void; //eslint-disable-line
 };
 const StatusFilterSelect = ({ value, onChange }: Props) => {
-  const data = [
-    { id: 0, text: "In Process" },
-    { id: 1, text: "Completed" },
-    { id: 2, text: "Expired" },
-    { id: 3, text: "Cancelled" },
-  ];
+  const { locale } = useAppSelector((state) => state.locale);
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div
@@ -25,7 +22,8 @@ const StatusFilterSelect = ({ value, onChange }: Props) => {
         className="relative flex justify-between items-center gap-2 w-full bg-primary-700 rounded-6 py-12 px-16 cursor-pointer u-text-overflow"
         onClick={() => setIsOpen(!isOpen)}
       >
-        Filter by Status: {value.length ? "Filtered" : "All"}
+        {dictionaryGlobal.statusFilter.label[locale]}{" "}
+        {value.length ? dictionaryGlobal.filtered[locale] : dictionaryGlobal.all[locale]}
         <Icon
           icon={`ep:arrow-down`}
           className={`w-16 h-16 transition-transform duration-300 ${isOpen ? " rotate-180" : ""}`}
@@ -36,7 +34,7 @@ const StatusFilterSelect = ({ value, onChange }: Props) => {
           isOpen ? "opacity-100 scale-100 pointer-events-auto" : "opacity-0 scale-90 pointer-events-none "
         }`}
       >
-        {data.map((item) => {
+        {dictionaryGlobal.statusFilter.statusFilterItems[locale].map((item) => {
           return (
             <div
               className="p-8 cursor-pointer u-text-overflow rounded-4 flex items-center gap-6"

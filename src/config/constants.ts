@@ -22,3 +22,5 @@ export const SOCIAL_LINKS = [
     link: "https://twitter.com",
   },
 ];
+
+export const LOCALES = ["EN", "ES", "FR"];
