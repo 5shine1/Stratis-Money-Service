@@ -58,20 +58,21 @@ const LoginPage = () => {
           })
         );
 
-        toast.success("Logged in successfully.");
+        toast.success(dictionaryAuth.login.toast.success[locale]);
         if (result?.data?.isVerifiedEmail) {
           router.push(role !== ROLES.COMPLIANCE ? "/app/order" : "/app/user");
         } else {
           router.push(`/auth/verify-email/send?email=${email.value}`);
         }
       } else {
-        if (result?.messages.email) setEmail({ ...email, error: "Email not found." });
-        if (result?.messages?.password) setPassword({ ...password, error: "Incorrect password." });
-        toast.error("Login failed.");
+        if (result?.messages.email) setEmail({ ...email, error: dictionaryAuth.login.emailNotFound[locale] });
+        if (result?.messages?.password)
+          setPassword({ ...password, error: dictionaryAuth.login.incorrectPassword[locale] });
+        toast.error(dictionaryAuth.login.toast.failure[locale]);
       }
     } catch (error) {
       console.log(error);
-      toast.error("Something went wrong.");
+      toast.error(dictionaryAuth.login.toast.generalError[locale]);
     }
     setLoading(false);
   };
