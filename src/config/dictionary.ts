@@ -605,6 +605,20 @@ export const dictionaryAuth = {
         },
       ],
     },
+    toast: {
+      successRegister: {
+        EN: "Registered successfully.",
+        ES: "Registrado con éxito.",
+      },
+      registerFailed: {
+        EN: "Register failed.",
+        ES: "El registro falló.",
+      },
+      somethingWrong: {
+        EN: "Something went wrong.",
+        ES: "Algo salió mal.",
+      },
+    },
   },
   forgotPassword: {
     title: {
