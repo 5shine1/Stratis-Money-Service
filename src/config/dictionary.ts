@@ -1657,9 +1657,9 @@ export const dictionaryPayment = {
       EN: "Server error.",
       ES: "Error del servidor.",
     },
-    copiedAmount: {
-      EN: "Copied amount.",
-      ES: "Cantidad copiada.",
+    copied: {
+      EN: "Copied successfullly.",
+      ES: "copiado exitosamente.",
     },
     transactionExpired: {
       EN: "This transaction has been expired.",
