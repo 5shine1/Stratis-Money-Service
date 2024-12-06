@@ -1651,3 +1651,117 @@ export const dictionaryAgent = {
     },
   },
 };
+export const dictionaryPayment = {
+  toast: {
+    serverError: {
+      EN: "Server error.",
+      ES: "Error del servidor.",
+    },
+    copiedAmount: {
+      EN: "Copied amount.",
+      ES: "Cantidad copiada.",
+    },
+    transactionExpired: {
+      EN: "This transaction has been expired.",
+      ES: "Esta transacción ha expirado.",
+    },
+    transactionCompleted: {
+      EN: "Transaction completed successfully.",
+      ES: "Transacción completada con éxito.",
+    },
+  },
+  status: {
+    requested: {
+      EN: "Payment is requested",
+      ES: "Se ha solicitado el pago",
+    },
+    received: {
+      EN: "Payment is received, awaiting confirmation",
+      ES: "El pago ha sido recibido, esperando confirmación",
+    },
+    completed: {
+      EN: "Payment completed",
+      ES: "Pago completado",
+    },
+    expired: {
+      EN: "This transaction already has been expired!",
+      ES: "¡Esta transacción ya ha expirado!",
+    },
+    cancelled: {
+      EN: "This transaction already has been cancelled!",
+      ES: "¡Esta transacción ya ha sido cancelada!",
+    },
+  },
+  labels: {
+    transactionHash: {
+      EN: "Transaction Hash",
+      ES: "Hash de la transacción",
+    },
+    network: {
+      EN: "Network",
+      ES: "Red",
+    },
+    amount: {
+      EN: "Amount",
+      ES: "Cantidad",
+    },
+    depositAddress: {
+      EN: "Deposit Address",
+      ES: "Dirección de depósito",
+    },
+    confirmations: {
+      EN: "Confirmations",
+      ES: "Confirmaciones",
+    },
+    selectCurrency: {
+      EN: "Select currency you want to pay",
+      ES: "Seleccione la moneda que desea pagar",
+    },
+    selectNetwork: {
+      EN: "Select Network",
+      ES: "Seleccione la red",
+    },
+    warning: {
+      EN: "Be careful when choosing a network and currency when sending cryptocurrency. If you send cryptocurrency over the wrong network or wrong currency, then your money will not be credited or returned.",
+      ES: "Tenga cuidado al elegir una red y moneda al enviar criptomonedas. Si envía criptomonedas a través de la red o moneda equivocada, su dinero no será acreditado ni devuelto.",
+    },
+  },
+  buttons: {
+    continue: {
+      EN: "Continue",
+      ES: "Continuar",
+    },
+    goBack: {
+      EN: "Go Back",
+      ES: "Volver",
+    },
+  },
+  transactionCompletedMessage: {
+    EN: "Transaction has been completed successfully!",
+    ES: "¡La transacción se ha completado con éxito!",
+  },
+  paymentDescription: {
+    hasRequested: {
+      EN: "has requested",
+      ES: "ha solicitado a",
+    },
+    toPay: {
+      EN: "to pay",
+      ES: "pagar",
+    },
+    EN: "${payeeName}  ${customerName} to pay ${amount} ${currencySymbol}.",
+    ES: "${payeeName} ha solicitado a ${customerName} pagar ${amount} ${currencySymbol}.",
+  },
+  paymentDetails: {
+    paid: {
+      EN: "You have paid",
+      ES: "Has pagado",
+    },
+    to: {
+      EN: "to",
+      ES: "a",
+    },
+    EN: "You have paid {amount} {currencySymbol} to {payeeName}.",
+    ES: "Has pagado {amount} {currencySymbol} a {payeeName}.",
+  },
+};
