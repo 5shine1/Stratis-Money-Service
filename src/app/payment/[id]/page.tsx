@@ -75,7 +75,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
       const explorer = await getChainInfo(response.chainId);
       setExplorer(explorer?.explorers[0]?.url);
     } catch (error) {
-      toast.error("Server error.");
+      toast.error(dictionaryPayment.toast.serverError[locale]);
     }
     setIsLoading(false);
   };
@@ -103,7 +103,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
       setStatus(60);
     } catch (error) {
       console.log(error);
-      toast.error("Server error.");
+      toast.error(dictionaryPayment.toast.serverError[locale]);
     }
     setLoading(false);
   };
@@ -118,13 +118,13 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
       }
       setConfirmStep(result?.confirmations);
       if (result?.state === 55) {
-        toast.error("This transaction has been expired.");
+        toast.error(dictionaryPayment.toast.transactionExpired[locale]);
         setStatus(55);
       } else if (result?.state === 100) {
         setIsSpin2(true);
       } else if (result?.state === 200) {
         setIsSpin3(true);
-        toast.success("Transaction completed successfully.");
+        toast.success(dictionaryPayment.toast.transactionCompleted[locale]);
         setStatus(200);
       }
     }
@@ -230,7 +230,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
                           className="cursor-pointer"
                           onClick={() => {
                             navigator.clipboard.writeText(hash);
-                            toast.success("Copied amount.");
+                            toast.success(dictionaryPayment.toast.copied[locale]);
                           }}
                         >
                           <IconBoxSm icon="ph:copy-light" />
@@ -271,7 +271,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
                               onClick={() => {
                                 navigator.clipboard.writeText(depositInfo?.paymentAmount);
 
-                                toast.success("Copied amount.");
+                                toast.success(dictionaryPayment.toast.copied[locale]);
                               }}
                             >
                               <IconBoxSm icon="ph:copy-light" />
@@ -290,7 +290,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
                             className="cursor-pointer"
                             onClick={() => {
                               navigator.clipboard.writeText(depositInfo?.paymentDestination);
-                              toast.success("Copied amount.");
+                              toast.success(dictionaryPayment.toast.copied[locale]);
                             }}
                           >
                             <IconBoxSm icon="ph:copy-light" />
@@ -354,7 +354,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
                       className="cursor-pointer"
                       onClick={() => {
                         navigator.clipboard.writeText(hash);
-                        toast.success("Copied amount.");
+                        toast.success(dictionaryPayment.toast.copied[locale]);
                       }}
                     >
                       <IconBoxSm icon="ph:copy-light" />
