@@ -13,10 +13,11 @@ import {
 import { IAgent, IUser } from "@/@types/data";
 import Link from "next/link";
 import { formattedTime } from "@/utils/string.utils";
-import { PAYMENT_STATE } from "@/@types/common";
 import Pagination from "rc-pagination/lib/Pagination";
 import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
 import { LoadingContext } from "@/components/providers/LoadingProvider";
+import { dictionaryGlobal } from "@/config/dictionary";
+import useAppSelector from "@/hooks/global/useAppSelector";
 
 type Props = {
   params: {
@@ -25,6 +26,7 @@ type Props = {
 };
 
 const UserDetailPage: React.FC<Props> = ({ params }) => {
+  const { locale } = useAppSelector((state) => state.locale);
   const [userInfo, setUserInfo] = useState<IUser | null>(null);
   const [agents, setAgents] = useState<IAgent[] | null>(null);
   const [paymentOrders, setPaymentOrders] = useState([]);
@@ -315,8 +317,10 @@ const UserDetailPage: React.FC<Props> = ({ params }) => {
                             {item.amount} <span className="opacity-50">{item.currency}</span>
                           </td>
                           <td className="px-8 py-16">{item.description}</td>
-                          <td className={`px-8 py-16`}>{PAYMENT_STATE[item.state] || "Error"}</td>
-                          <td className="px-8 py-16">{formattedTime(item.requested)}</td>
+                          <td className={`px-8 py-16`}>
+                            {dictionaryGlobal.paymentStatus[locale][item.state] || "Error"}
+                          </td>
+                          <td className="px-8 py-16">{formattedTime(item.requested, locale)}</td>
                           <td className="px-8">
                             <div className="flex items-center gap-16 justify-end">
                               <Link
