@@ -8,7 +8,7 @@ const OrderLayout = ({ children }: PropsWithChildren) => {
   const { role } = useAppSelector((state) => state.auth);
   const router = useRouter();
   if (role === ROLES.COMPLIANCE) {
-    router.push("/404");
+    router.replace("/app/user");
     return;
   }
   return children;
