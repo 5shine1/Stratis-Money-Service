@@ -158,7 +158,7 @@ const AppSidebar: React.FC<PropsWithChildren> = ({ children }) => {
                   <hr className="rotate-90 w-16" />
                   <div
                     className={`cursor-pointer ${locale === "FR" ? "text-secondary-400" : "hover:text-white"}`}
-                    onClick={() => dispatch(setLocale("EN"))}
+                    onClick={() => dispatch(setLocale("FR"))}
                   >
                     FR
                   </div>

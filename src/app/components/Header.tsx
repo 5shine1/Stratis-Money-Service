@@ -90,9 +90,18 @@ const Header = () => {
                   dispatch(setLocale("ES"));
                   setOpenLocale(false);
                 }}
-                className="text-16 p-12 text-left"
+                className="text-16 p-12 text-left border-b border-[#95845C]"
               >
                 Española
+              </button>
+              <button
+                onClick={() => {
+                  dispatch(setLocale("FR"));
+                  setOpenLocale(false);
+                }}
+                className="text-16 p-12 text-left"
+              >
+                Français
               </button>
             </div>
           </div>
@@ -172,14 +181,21 @@ const Header = () => {
               className={`${locale === "EN" ? "text-secondary-200" : "hover:text-white"}`}
               onClick={() => dispatch(setLocale("EN"))}
             >
-              English
+              EN
             </button>
             <hr className="rotate-90 w-16" />
             <button
               className={`${locale === "ES" ? "text-secondary-200" : "hover:text-white"}`}
               onClick={() => dispatch(setLocale("ES"))}
             >
-              Española
+              ES
+            </button>
+            <hr className="rotate-90 w-16" />
+            <button
+              className={`${locale === "FR" ? "text-secondary-200" : "hover:text-white"}`}
+              onClick={() => dispatch(setLocale("FR"))}
+            >
+              FR
             </button>
           </div>
         </ul>
