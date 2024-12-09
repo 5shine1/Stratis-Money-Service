@@ -5,6 +5,8 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import AppInput from "@/components/global/AppInput";
 import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
 import { isValidBankIBAN, isValidBIC } from "@/utils/string.utils";
+import { dictionaryProfile } from "@/config/dictionary";
+import useAppSelector from "@/hooks/global/useAppSelector";
 
 type Props = {
   isOpen: boolean;
@@ -12,6 +14,7 @@ type Props = {
   onNext: (bankAccountHolder: string, bankIban: string, bankBic: string) => void; //eslint-disable-line
 };
 const BankModal: React.FC<Props> = ({ isOpen, onClose, onNext }) => {
+  const { locale } = useAppSelector((state) => state.locale);
   const [bankAccountHolder, setBankAccountHolder] = useState({ value: "", error: "" });
   const [bankIban, setBankIban] = useState({ value: "", error: "" });
   const [bankBic, setBankBic] = useState({ value: "", error: "" });
@@ -20,23 +23,23 @@ const BankModal: React.FC<Props> = ({ isOpen, onClose, onNext }) => {
     let temp = 0;
     if (!bankAccountHolder.value) {
       temp++;
-      setBankAccountHolder({ ...bankAccountHolder, error: "This field required." });
+      setBankAccountHolder({ ...bankAccountHolder, error: dictionaryProfile.bankModal.errors.fieldRequired[locale] });
     }
     if (!isValidBankIBAN(bankIban.value)) {
       temp++;
-      setBankIban({ ...bankIban, error: "Invalid Bank IBAN." });
+      setBankIban({ ...bankIban, error: dictionaryProfile.bankModal.errors.invalidIBAN[locale] });
     }
     if (!bankIban.value) {
       temp++;
-      setBankIban({ ...bankIban, error: "This field required." });
+      setBankIban({ ...bankIban, error: dictionaryProfile.bankModal.errors.fieldRequired[locale] });
     }
     if (!isValidBIC(bankBic.value)) {
       temp++;
-      setBankBic({ ...bankBic, error: "Invalid Bank BIC." });
+      setBankBic({ ...bankBic, error: dictionaryProfile.bankModal.errors.invalidBIC[locale] });
     }
     if (!bankBic.value) {
       temp++;
-      setBankBic({ ...bankBic, error: "This field required." });
+      setBankBic({ ...bankBic, error: dictionaryProfile.bankModal.errors.fieldRequired[locale] });
     }
 
     if (temp > 0) return;
@@ -61,15 +64,15 @@ const BankModal: React.FC<Props> = ({ isOpen, onClose, onNext }) => {
         onClick={onClose}
       />
       <div className="p-12 py-24 md:p-32 flex flex-col gap-16 md:gap-32 bg-transparent">
-        <h4 className="g-button-text w-fit pr-30">Input your Bank Details</h4>
+        <h4 className="g-button-text w-fit pr-30">{dictionaryProfile.bankModal.title[locale]}</h4>
         <div className="flex flex-col gap-16 md:gap-24">
           <AppInput
             value={bankAccountHolder.value}
             onChange={(e) => {
               setBankAccountHolder({ error: "", value: e });
             }}
-            placeholder="Bank Account"
-            label="Bank Account"
+            placeholder={dictionaryProfile.bankModal.labels.bankAccount[locale]}
+            label={dictionaryProfile.bankModal.labels.bankAccount[locale]}
             error={bankAccountHolder.error}
           />
           <AppInput
@@ -77,8 +80,8 @@ const BankModal: React.FC<Props> = ({ isOpen, onClose, onNext }) => {
             onChange={(e) => {
               setBankIban({ error: "", value: e });
             }}
-            placeholder="Bank IBAN"
-            label="Bank IBAN"
+            placeholder={dictionaryProfile.bankModal.labels.bankIBAN[locale]}
+            label={dictionaryProfile.bankModal.labels.bankIBAN[locale]}
             error={bankIban.error}
           />
           <AppInput
@@ -86,8 +89,8 @@ const BankModal: React.FC<Props> = ({ isOpen, onClose, onNext }) => {
             onChange={(e) => {
               setBankBic({ error: "", value: e });
             }}
-            placeholder="Bank BIC"
-            label="Bank BIC"
+            placeholder={dictionaryProfile.bankModal.labels.bankBIC[locale]}
+            label={dictionaryProfile.bankModal.labels.bankBIC[locale]}
             error={bankBic.error}
           />
 
@@ -96,7 +99,7 @@ const BankModal: React.FC<Props> = ({ isOpen, onClose, onNext }) => {
             className="text-white text-20 py-12 px-32 border border-secondary-300  rounded-full mt-8"
             backClassName="from-primary-400 to-secondary-300 "
           >
-            Save
+            {dictionaryProfile.bankModal.buttons.save[locale]}
           </AnimatedSlideButton>
         </div>
       </div>

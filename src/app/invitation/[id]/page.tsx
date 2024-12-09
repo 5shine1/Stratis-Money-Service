@@ -10,6 +10,10 @@ import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
 import CustomInput from "@/components/global/CustomInput";
 import { isValidPassword, isValidEmail, isValidPhoneNumber } from "@/utils/string.utils";
 import { apiCompleteInvitation, apiGetInviteInfo } from "@/api/auth.api";
+import useAppSelector from "@/hooks/global/useAppSelector";
+import { dictionaryInvitation } from "@/config/dictionary";
+import useAppDispatch from "@/hooks/global/useAppDispatch";
+import { setLocale } from "@/store/slices/locale.slice";
 
 type Props = {
   params: {
@@ -18,6 +22,8 @@ type Props = {
 };
 
 const AgentInvitationPage = ({ params }: Props) => {
+  const { locale } = useAppSelector((state) => state.locale);
+  const dispatch = useAppDispatch();
   const id = params.id;
   const router = useRouter();
   const { setLoading } = useContext(LoadingContext);
@@ -39,45 +45,45 @@ const AgentInvitationPage = ({ params }: Props) => {
 
     if (!isValidEmail(email.value)) {
       temp++;
-      setEmail({ ...email, error: "Invalid email." });
+      setEmail({ ...email, error: dictionaryInvitation.errors.invalidEmail[locale] });
     }
     if (!email.value) {
       temp++;
-      setEmail({ ...email, error: "Email required." });
+      setEmail({ ...email, error: dictionaryInvitation.errors.required[locale] });
     }
     if (!name.value) {
       temp++;
-      setName({ ...name, error: "Name required." });
+      setName({ ...name, error: dictionaryInvitation.errors.required[locale] });
     }
 
     if (!country.value) {
       temp++;
-      setCountry({ ...country, error: "Country required." });
+      setCountry({ ...country, error: dictionaryInvitation.errors.required[locale] });
     }
     if (!phone.value) {
       temp++;
-      setPhone({ ...phone, error: "Mobile phone required." });
+      setPhone({ ...phone, error: dictionaryInvitation.errors.required[locale] });
     }
     if (!isValidPhoneNumber(phone.value)) {
       temp++;
-      setPhone({ ...phone, error: "Incorrect phone number" });
+      setPhone({ ...phone, error: dictionaryInvitation.errors.invalidPhone[locale] });
     }
     if (!password.value) {
       temp++;
-      setPassword({ ...password, error: "Password required." });
+      setPassword({ ...password, error: dictionaryInvitation.errors.required[locale] });
     }
-    if (isValidPassword(password.value)) {
+    if (isValidPassword(password.value, locale)) {
       temp++;
       setPassword({
         ...password,
-        error: isValidPassword(password.value),
+        error: isValidPassword(password.value, locale),
       });
     }
     if (passwordConfirm.value !== password.value) {
       temp++;
       setPasswordConfirm({
         ...passwordConfirm,
-        error: "Password confirmation does not match.",
+        error: dictionaryInvitation.errors.passwordMismatch[locale],
       });
     }
     if (temp > 0) return;
@@ -93,20 +99,21 @@ const AgentInvitationPage = ({ params }: Props) => {
         password.value
       );
       if (result.isSucceed === true) {
-        toast.success("Invitation completed successfully.");
+        toast.success(dictionaryInvitation.toast.invitationCompleted[locale]);
         router.push(`/auth/login`);
       } else {
-        if (result?.messages?.duplicate) setEmail({ ...email, error: "User is already exist." });
+        if (result?.messages?.duplicate)
+          setEmail({ ...email, error: dictionaryInvitation.errors.duplicateUser[locale] });
         else
           setEmail({
             ...email,
             error: String(Object.values(result?.messages)[0]) || "",
           });
-        toast.error("Register failed.");
+        toast.error(dictionaryInvitation.errors.registerFailed[locale]);
       }
     } catch (error: any) {
       console.log(error);
-      toast.error("Something went wrong.");
+      toast.error(dictionaryInvitation.toast.serverError[locale]);
     }
     setLoading(false);
   };
@@ -140,38 +147,39 @@ const AgentInvitationPage = ({ params }: Props) => {
                   <SvgLogo className="w-50 h-50" />
                 </Link>
                 <div>
-                  <h4 className="g-button-text w-fit  mx-auto text-center ">Agent Invitation</h4>
+                  <h4 className="g-button-text w-fit  mx-auto text-center ">{dictionaryInvitation.title[locale]}</h4>
                   <p className="text-gray-400 text-14 mt-8 text-center">
-                    You were invited by <span className="text-secondary-200">{inviteInfo?.businessName}</span>. Please
-                    complete this form to be an agent.
+                    {dictionaryInvitation.subtitle1[locale]}{" "}
+                    <span className="text-secondary-200">{inviteInfo?.businessName}</span>
+                    {dictionaryInvitation.subtitle2[locale]}
                   </p>
                 </div>
 
                 {inviteInfo.isExpired ? (
-                  <div className="text-error">This transaction has been expired.</div>
+                  <div className="text-error">{dictionaryInvitation.status.expired[locale]}</div>
                 ) : inviteInfo.isCompleted ? (
-                  <div className="text-success">This transaction was already completed.</div>
+                  <div className="text-success">{dictionaryInvitation.status.completed[locale]}</div>
                 ) : (
                   <form onSubmit={handleSubmit} className="flex flex-col gap-24 mt-12 w-full">
                     <CustomInput
                       value={name.value}
                       onChange={(e) => setName({ error: "", value: e })}
                       icon="solar:user-outline"
-                      placeholder="Agent Name"
+                      placeholder={dictionaryInvitation.fields.agentName[locale]}
                       error={name.error}
                     />
                     <CustomInput
                       value={country.value}
                       onChange={(e) => setCountry({ error: "", value: e })}
                       icon="carbon:location"
-                      placeholder="Country"
+                      placeholder={dictionaryInvitation.fields.country[locale]}
                       error={country.error}
                     />
                     <CustomInput
                       value={phone.value}
                       onChange={(e) => setPhone({ error: "", value: e })}
                       icon="radix-icons:mobile"
-                      placeholder="Mobile Number"
+                      placeholder={dictionaryInvitation.fields.phone[locale]}
                       error={phone.error}
                     />
                     <CustomInput
@@ -179,7 +187,7 @@ const AgentInvitationPage = ({ params }: Props) => {
                       onChange={(e) => setEmail({ error: "", value: e })}
                       type="email"
                       icon="ic:round-alternate-email"
-                      placeholder="Email Address"
+                      placeholder={dictionaryInvitation.fields.email[locale]}
                       error={email.error}
                       readonly={true}
                     />
@@ -188,7 +196,7 @@ const AgentInvitationPage = ({ params }: Props) => {
                       onChange={(e) => setPassword({ error: "", value: e })}
                       type="password"
                       icon="solar:shield-keyhole-outline"
-                      placeholder="Password"
+                      placeholder={dictionaryInvitation.fields.password[locale]}
                       error={password.error}
                     />
                     <CustomInput
@@ -196,17 +204,39 @@ const AgentInvitationPage = ({ params }: Props) => {
                       onChange={(e) => setPasswordConfirm({ error: "", value: e })}
                       type="password"
                       icon="solar:shield-keyhole-outline"
-                      placeholder="Confirm Password"
+                      placeholder={dictionaryInvitation.fields.confirmPassword[locale]}
                       error={passwordConfirm.error}
                     />
                     <AnimatedSlideButton
                       className=" text-18 py-14 border border-secondary-300 rounded-full mt-16"
                       isSubmit={true}
                     >
-                      Continue
+                      {dictionaryInvitation.buttons.continue[locale]}
                     </AnimatedSlideButton>
                   </form>
                 )}
+                <div className="text-14 flex items-center text-input-text gap-8 p-12 rounded-6">
+                  <div
+                    className={`cursor-pointer ${locale === "EN" ? "text-secondary-400" : "hover:text-white"}`}
+                    onClick={() => dispatch(setLocale("EN"))}
+                  >
+                    EN
+                  </div>
+                  <hr className="rotate-90 w-16" />
+                  <div
+                    className={`cursor-pointer ${locale === "ES" ? "text-secondary-400" : "hover:text-white"}`}
+                    onClick={() => dispatch(setLocale("ES"))}
+                  >
+                    ES
+                  </div>
+                  <hr className="rotate-90 w-16" />
+                  <div
+                    className={`cursor-pointer ${locale === "FR" ? "text-secondary-400" : "hover:text-white"}`}
+                    onClick={() => dispatch(setLocale("EN"))}
+                  >
+                    FR
+                  </div>
+                </div>
               </div>
             </div>
           </div>

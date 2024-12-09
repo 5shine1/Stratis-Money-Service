@@ -3,31 +3,11 @@ import React from "react";
 
 import ScrollAnimationElement from "@/components/global/ScrollAnimatedElement";
 import IconBox from "@/components/global/IconBox";
-
-const processSteps = [
-  {
-    icon: "iconoir:square-cursor",
-    key: "Register your Business",
-    text: "Sign up and create your business account with us in just a few minutes",
-  },
-  {
-    icon: "solar:check-circle-outline",
-    key: "Verify your Business",
-    text: "Complete the Know your Business verification to ensure compliance with regulations.",
-  },
-  {
-    icon: "iconoir:link",
-    key: "Generate Payment Link",
-    text: "Create a payment link through our platform, we will share it with your customer.",
-  },
-  {
-    icon: "hugeicons:dollar-receive-01",
-    key: "Receive Payment & Transfer Funds",
-    text: "Once your customer pays, funds are instantly liquidated and ready to be withdrawn to your business bank account",
-  },
-];
+import useAppSelector from "@/hooks/global/useAppSelector";
+import { dictionaryLanding } from "@/config/dictionary";
 
 const ProcessSection = () => {
+  const { locale } = useAppSelector((state) => state.locale);
   return (
     <section className="px-16 py-40 lg:py-120 relative">
       <div className="relative items-center w-full  max-w-600 lg:max-w-1520 mx-auto flex gap-80 flex-col lg:flex-row">
@@ -38,7 +18,7 @@ const ProcessSection = () => {
             duration={0.5}
           >
             <div className="text-36 md:text-40 lg:text-52 w-fit g-button-text text-left uppercase font-semibold leading-[1.2]">
-              How our platform works
+              {dictionaryLanding.process.title[locale]}
             </div>
           </ScrollAnimationElement>
           <ScrollAnimationElement
@@ -47,14 +27,11 @@ const ProcessSection = () => {
             duration={0.5}
             delay={0.3}
           >
-            <p className="font-light md:font-normal">
-              Start accepting crypto payments in just a few simple steps. Our streamlined process ensures your business
-              is up and running quickly, with no hassle and full regulatory compliance.
-            </p>
+            <p className="font-light md:font-normal">{dictionaryLanding.process.subtitle[locale]}</p>
           </ScrollAnimationElement>
 
           <div className="flex flex-col gap-24 mt-32">
-            {processSteps.map((item, i) => (
+            {dictionaryLanding.process.processStep[locale].map((item, i) => (
               <ScrollAnimationElement
                 key={i}
                 initial={{ opacity: 0, filter: "blur(12px)", x: 40 }}

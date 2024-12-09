@@ -10,8 +10,11 @@ import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
 import CustomInput from "@/components/global/CustomInput";
 import { apiResetPassword } from "@/api/auth.api";
 import { isValidPassword } from "@/utils/string.utils";
+import useAppSelector from "@/hooks/global/useAppSelector";
+import { dictionaryAuth } from "@/config/dictionary";
 
 const ResetPasswordPage = () => {
+  const { locale } = useAppSelector((state) => state.locale);
   const router = useRouter();
   const { setLoading } = useContext(LoadingContext);
   const searchParams = useSearchParams();
@@ -25,26 +28,27 @@ const ResetPasswordPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!password.value) return setPassword({ ...password, error: "Password required" });
-    if (isValidPassword(password.value))
+    if (!password.value)
+      return setPassword({ ...password, error: dictionaryAuth.resetPassword.errors.passwordRequired[locale] });
+    if (isValidPassword(password.value, locale))
       return setPassword({
         ...password,
-        error: isValidPassword(password.value),
+        error: isValidPassword(password.value, locale),
       });
     if (passwordConfirm.value !== password.value)
       return setPasswordConfirm({
         ...passwordConfirm,
-        error: "Password confirmation does not match",
+        error: dictionaryAuth.resetPassword.errors.passwordMismatch[locale],
       });
     try {
       setLoading(true);
       const result = await apiResetPassword(code, password.value, email);
       if (result) {
-        toast.success("Password reset completed.");
+        toast.success(dictionaryAuth.resetPassword.toastMessages.success[locale]);
         router.push("/auth/login");
-      } else toast.error("Something went wrong.");
+      } else toast.error(dictionaryAuth.resetPassword.toastMessages.error[locale]);
     } catch (error) {
-      toast.error("Something went wrong.");
+      toast.error(dictionaryAuth.resetPassword.toastMessages.error[locale]);
     }
     setLoading(false);
   };
@@ -60,9 +64,9 @@ const ResetPasswordPage = () => {
               <SvgLogo className="w-50 h-50" />
             </Link>
             <div className="w-full">
-              <h4 className="g-button-text w-fit  mx-auto text-center">Reset Your Password</h4>
+              <h4 className="g-button-text w-fit  mx-auto text-center">{dictionaryAuth.resetPassword.title[locale]}</h4>
               <p className="text-gray-400 text-14 mt-8 text-center">
-                Reset your password of <span className="text-white">{email}</span> account.
+                {dictionaryAuth.resetPassword.subtitle[locale]} <span className="text-white">{email}</span>.
               </p>
             </div>
             <form onSubmit={handleSubmit} className="w-full flex flex-col gap-24 mt-12">
@@ -72,7 +76,7 @@ const ResetPasswordPage = () => {
                   onChange={(e) => setPassword({ error: "", value: e })}
                   type="password"
                   icon="solar:shield-keyhole-outline"
-                  placeholder="Password"
+                  placeholder={dictionaryAuth.resetPassword.placeholders.password[locale]}
                   error={password.error}
                 />
               </div>
@@ -82,7 +86,7 @@ const ResetPasswordPage = () => {
                   onChange={(e) => setPasswordConfirm({ error: "", value: e })}
                   type="password"
                   icon="solar:shield-keyhole-outline"
-                  placeholder="Confirm Password"
+                  placeholder={dictionaryAuth.resetPassword.placeholders.confirmPassword[locale]}
                   error={passwordConfirm.error}
                 />
               </div>
@@ -90,7 +94,7 @@ const ResetPasswordPage = () => {
                 isSubmit={true}
                 className=" text-18 py-14 border border-secondary-300 rounded-full mt-16"
               >
-                Reset Password
+                {dictionaryAuth.resetPassword.buttons.resetPassword[locale]}
               </AnimatedSlideButton>
             </form>
           </div>

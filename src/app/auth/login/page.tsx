@@ -14,8 +14,11 @@ import { setAuth } from "@/store/slices/auth.slice";
 import { isValidEmail } from "@/utils/string.utils";
 import { apiLogin } from "@/api/auth.api";
 import { ROLES } from "@/@types/common";
+import useAppSelector from "@/hooks/global/useAppSelector";
+import { dictionaryAuth } from "@/config/dictionary";
 
 const LoginPage = () => {
+  const { locale } = useAppSelector((state) => state.locale);
   const router = useRouter();
   const { setLoading } = useContext(LoadingContext);
   const dispatch = useAppDispatch();
@@ -24,9 +27,9 @@ const LoginPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!email.value) return setEmail({ ...email, error: "Email required." });
-    if (!isValidEmail(email.value)) return setEmail({ ...email, error: "Invalid email." });
-    if (!password.value) return setPassword({ ...password, error: "Password required." });
+    if (!email.value) return setEmail({ ...email, error: dictionaryAuth.login.errorRequire[locale] });
+    if (!isValidEmail(email.value)) return setEmail({ ...email, error: dictionaryAuth.login.errorInvalid[locale] });
+    if (!password.value) return setPassword({ ...password, error: dictionaryAuth.login.errorRequire[locale] });
 
     setLoading(true);
     try {
@@ -55,20 +58,21 @@ const LoginPage = () => {
           })
         );
 
-        toast.success("Logged in successfully.");
+        toast.success(dictionaryAuth.login.toast.success[locale]);
         if (result?.data?.isVerifiedEmail) {
           router.push(role !== ROLES.COMPLIANCE ? "/app/order" : "/app/user");
         } else {
           router.push(`/auth/verify-email/send?email=${email.value}`);
         }
       } else {
-        if (result?.messages.email) setEmail({ ...email, error: "Email not found." });
-        if (result?.messages?.password) setPassword({ ...password, error: "Incorrect password." });
-        toast.error("Login failed.");
+        if (result?.messages.email) setEmail({ ...email, error: dictionaryAuth.login.emailNotFound[locale] });
+        if (result?.messages?.password)
+          setPassword({ ...password, error: dictionaryAuth.login.incorrectPassword[locale] });
+        toast.error(dictionaryAuth.login.toast.failure[locale]);
       }
     } catch (error) {
       console.log(error);
-      toast.error("Something went wrong.");
+      toast.error(dictionaryAuth.login.toast.generalError[locale]);
     }
     setLoading(false);
   };
@@ -84,8 +88,8 @@ const LoginPage = () => {
               <SvgLogo className="w-50 h-50" />
             </Link>
             <div>
-              <h4 className="g-button-text w-fit mx-auto text-center">Sign In Your Account</h4>
-              <p className="text-gray-400 text-14 mt-8 text-center">Welcome to stratis money service. Enjoy now!</p>
+              <h4 className="g-button-text w-fit mx-auto text-center">{dictionaryAuth.login.title[locale]}</h4>
+              <p className="text-gray-400 text-14 mt-8 text-center">{dictionaryAuth.login.subtitle[locale]}</p>
             </div>
             <form onSubmit={handleSubmit} className="flex flex-col gap-24 mt-12 w-full">
               <div>
@@ -93,7 +97,7 @@ const LoginPage = () => {
                   value={email.value}
                   onChange={(e) => setEmail({ error: "", value: e })}
                   icon="ic:round-alternate-email"
-                  placeholder="Email Address"
+                  placeholder={dictionaryAuth.login.emailPlace[locale]}
                   error={email.error}
                 />
               </div>
@@ -103,27 +107,27 @@ const LoginPage = () => {
                   onChange={(e) => setPassword({ error: "", value: e })}
                   type="password"
                   icon="solar:shield-keyhole-outline"
-                  placeholder="Password"
+                  placeholder={dictionaryAuth.login.pwdPlace[locale]}
                   error={password.error}
                 />
                 <Link
                   className=" text-12 ml-12 text-right block mt-6 text-primary-400/80 u-transition-color hover:text-primary-400 focus:text-primary-400 outline-none"
                   href={"/auth/forgot-password"}
                 >
-                  Forgot Password?
+                  {dictionaryAuth.login.forgot[locale]}
                 </Link>
               </div>
 
               <AnimatedSlideButton className=" text-18 py-14 border border-secondary-300 rounded-full" isSubmit={true}>
-                Login with Email
+                {dictionaryAuth.login.button[locale]}
               </AnimatedSlideButton>
               <div className="text-center text-14 text-gray-500">
-                Don&apos;t have your account?{" "}
+                {dictionaryAuth.login.donhave[locale]}{" "}
                 <Link
                   href="/auth/register"
                   className="underline text-primary-400/80 u-transition-color hover:text-primary-400 focus:text-primary-400 outline-none"
                 >
-                  Sign Up
+                  {dictionaryAuth.login.signup[locale]}
                 </Link>
               </div>
             </form>

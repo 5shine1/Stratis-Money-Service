@@ -5,6 +5,7 @@ import { Icon } from "@iconify/react";
 import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
 import useAppSelector from "@/hooks/global/useAppSelector";
 import { ROLES } from "@/@types/common";
+import { dictionaryOrder } from "@/config/dictionary";
 
 type Props = {
   isOpen: null | string;
@@ -12,6 +13,7 @@ type Props = {
   onNext: () => void;
 };
 const DeleteModal: React.FC<Props> = ({ isOpen, onClose, onNext }) => {
+  const { locale } = useAppSelector((state) => state.locale);
   const { role } = useAppSelector((state) => state.auth);
 
   return (
@@ -29,14 +31,18 @@ const DeleteModal: React.FC<Props> = ({ isOpen, onClose, onNext }) => {
       <div className="p-12 py-24 md:p-32 bg-transparent  flex flex-col gap-24  items-center">
         <Icon icon="line-md:question-circle" className="w-80 h-80 text-info"></Icon>
         <p className="bold text-center text-white">
-          Are you sure you want to {role === ROLES.ADMIN ? "delete" : "cancel"} this item?
+          {role === ROLES.ADMIN
+            ? dictionaryOrder.deleteModal.delete[locale]
+            : dictionaryOrder.deleteModal.cancel[locale]}
         </p>
         <AnimatedSlideButton
           onClick={onNext}
           className="text-white text-16 py-12 px-48 border border-secondary-300 rounded-full"
           backClassName="from-primary-400 to-secondary-300 "
         >
-          {role === ROLES.ADMIN ? "Delete" : "Cancel Order"}
+          {role === ROLES.ADMIN
+            ? dictionaryOrder.deleteModal.buttons.delete[locale]
+            : dictionaryOrder.deleteModal.buttons.cancelOrder[locale]}
         </AnimatedSlideButton>
       </div>
     </Modal>

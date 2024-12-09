@@ -3,6 +3,8 @@ import Modal from "react-modal";
 import { Icon } from "@iconify/react";
 
 import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
+import useAppSelector from "@/hooks/global/useAppSelector";
+import { dictionaryAgent } from "@/config/dictionary";
 
 type Props = {
   isOpen: null | string;
@@ -10,6 +12,7 @@ type Props = {
   onNext: () => void;
 };
 const ActiveModal: React.FC<Props> = ({ isOpen, onClose, onNext }) => {
+  const { locale } = useAppSelector((state) => state.locale);
   return (
     <Modal
       isOpen={isOpen !== null}
@@ -24,13 +27,13 @@ const ActiveModal: React.FC<Props> = ({ isOpen, onClose, onNext }) => {
       />
       <div className="p-12 py-24 md:p-32 bg-transparent  flex flex-col gap-24  items-center">
         <Icon icon="line-md:question-circle" className="w-80 h-80 text-info"></Icon>
-        <p className="bold text-center text-white">Are you sure you want to activate this agent?</p>
+        <p className="bold text-center text-white">{dictionaryAgent.activeModal.message[locale]}</p>
         <AnimatedSlideButton
           onClick={onNext}
           className="text-white text-16 py-12 px-48 border border-secondary-300 rounded-full"
           backClassName="from-primary-400 to-secondary-300 "
         >
-          Activate Agent
+          {dictionaryAgent.activeModal.buttons.activate[locale]}
         </AnimatedSlideButton>
       </div>
     </Modal>

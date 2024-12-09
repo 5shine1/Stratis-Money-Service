@@ -1,14 +1,16 @@
+import { dictionaryGlobal } from "@/config/dictionary";
+
 export const isValidEmail = (email: string) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
 };
 
-export const isValidPassword = (password: string) => {
-  if (!/\d/.test(password)) return "Passwords must have at least one digit ('0'-'9').";
-  if (!/[^a-zA-Z0-9]/.test(password)) return "Passwords must have at least one non alphanumeric character.";
-  if (!/[A-Z]/.test(password)) return "Passwords must have at least one uppercase ('A'-'Z').";
-  if (!/[a-z]/.test(password)) return "Passwords must have at least one lowercase ('a'-'z').";
-  if (password.length < 6) return "Passwords must be at least 6 characters.";
+export const isValidPassword = (password: string, locale: string) => {
+  if (!/\d/.test(password)) return dictionaryGlobal.passwordErrors.digit[locale];
+  if (!/[^a-zA-Z0-9]/.test(password)) return dictionaryGlobal.passwordErrors.nonAlphanumeric[locale];
+  if (!/[A-Z]/.test(password)) return dictionaryGlobal.passwordErrors.uppercase[locale];
+  if (!/[a-z]/.test(password)) return dictionaryGlobal.passwordErrors.lowercase[locale];
+  if (password.length < 6) return dictionaryGlobal.passwordErrors.minLength[locale];
 
   return "";
 };
@@ -23,7 +25,7 @@ export const formattedUsername = (username: string) => {
   return username.slice(0, 6) + "..." + username.slice(-3);
 };
 
-export const formattedTime = (timestamp: string) => {
+export const formattedTime = (timestamp: string, locale: string) => {
   if (timestamp === "now") return "now";
   const now = new Date();
   const diff = now.getTimezoneOffset() * 60000;
@@ -33,20 +35,27 @@ export const formattedTime = (timestamp: string) => {
   let interval;
   interval = Math.floor(seconds / 86400);
   if (interval >= 1) {
-    return interval + " day" + (interval > 1 ? "s" : "") + " ago";
+    return dictionaryGlobal.timeFormat.dayAgo[locale]
+      .replace("${number}", interval)
+      .replace("${s}", interval > 1 ? "s" : "");
   }
 
   interval = Math.floor(seconds / 3600);
   if (interval >= 1) {
-    return interval + " hour" + (interval > 1 ? "s" : "") + " ago";
+    return dictionaryGlobal.timeFormat.hourAgo[locale]
+      .replace("${number}", interval)
+      .replace("${s}", interval > 1 ? "s" : "");
   }
 
   interval = Math.floor(seconds / 60);
   if (interval >= 1) {
-    return interval + " minute" + (interval > 1 ? "s" : "") + " ago";
+    return dictionaryGlobal.timeFormat.minuteAgo[locale]
+      .replace("${number}", interval)
+      .replace("${s}", interval > 1 ? "s" : "");
   }
-
-  return seconds + " second" + (seconds > 1 ? "s" : "") + " ago";
+  return dictionaryGlobal.timeFormat.secondAgo[locale]
+    .replace("${number}", seconds)
+    .replace("${s}", seconds > 1 ? "s" : "");
 };
 
 export const isValidReference = (link: string) => {

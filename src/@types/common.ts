@@ -42,31 +42,6 @@ export enum ROLES {
   GUEST = "Guest", //eslint-disable-line
 }
 
-export const WITHDRAW_STATE = {
-  0: "Pending",
-  1: "Completed",
-  2: "Cancelled",
-};
-
-export const PAYMENT_STATE = {
-  5: "Cancelled",
-  10: "Requested",
-  20: "LinkCreated",
-  30: "KycNewUser",
-  40: "KycExistingUser",
-  50: "Require Deposit Address",
-  55: "Expired",
-  60: "Awaiting Deposit",
-  70: "AddressComplianceCheck",
-  80: "ReferComplianceTeam",
-  90: "ComplianceCheckPassed",
-  100: "AwaitTransactionConfirmation",
-  110: "AwaitConversion",
-  120: "InitiateFiatTransfer",
-  130: "FiatTransferComplete",
-  200: "Completed",
-};
-
 export const KYB_STATUS = {
   1: "Pending", // KYB process hasn't started
   2: "TimedOutByKybProvider", // KYB process timed out
