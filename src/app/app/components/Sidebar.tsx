@@ -137,11 +137,11 @@ const AppSidebar: React.FC<PropsWithChildren> = ({ children }) => {
             </Link>
             <div
               className={`flex items-center w-full overflow-hidden px-8 ${
-                isWrapped ? "justify-between" : "justify-center"
+                isWrapped ? "justify-end" : "justify-center"
               }`}
             >
-              {isWrapped && (
-                <div className="text-14 flex items-center text-input-text">
+              {role !== ROLES.ADMIN && role !== ROLES.COMPLIANCE && isWrapped && (
+                <div className="text-14 flex items-center text-input-text mr-auto">
                   <div
                     className={`cursor-pointer ${locale === "EN" ? "text-secondary-400" : "hover:text-white"}`}
                     onClick={() => dispatch(setLocale("EN"))}

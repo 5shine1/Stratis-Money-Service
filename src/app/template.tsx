@@ -12,6 +12,7 @@ import { setAuth, setAuthLoading } from "@/store/slices/auth.slice";
 import { apiUserInfo } from "@/api/auth.api";
 import { ROLES } from "@/@types/common";
 import useAppSelector from "@/hooks/global/useAppSelector";
+import { setLocale } from "@/store/slices/locale.slice";
 
 const RootTemplate = ({ children }: PropsWithChildren) => {
   Modal.setAppElement("body");
@@ -38,11 +39,12 @@ const RootTemplate = ({ children }: PropsWithChildren) => {
 export default RootTemplate;
 
 const MainComponent = () => {
-  const { email } = useAppSelector((state) => state.auth);
+  const { email, role: roleRedux } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
 
   const handleGetAuth = async () => {
     try {
+      if (roleRedux === ROLES.ADMIN || roleRedux === ROLES.COMPLIANCE) dispatch(setLocale("EN"));
       const token = localStorage.getItem("stratis-auth-token");
       if (!token || (token && email)) return dispatch(setAuthLoading());
       const decoded = jwtDecode(token);
