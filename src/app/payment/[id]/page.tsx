@@ -474,7 +474,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
               </button>
             </section>
           )}
-          <div className="text-14 flex items-center text-input-text border border-modal-border g-box-back p-12 rounded-6">
+          <div className="text-14 flex items-center text-input-text border border-modal-border g-box-back p-12 rounded-6 gap-8">
             <div
               className={`cursor-pointer ${locale === "EN" ? "text-secondary-400" : "hover:text-white"}`}
               onClick={() => dispatch(setLocale("EN"))}

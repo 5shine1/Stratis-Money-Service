@@ -1651,6 +1651,7 @@ export const dictionaryAgent = {
     },
   },
 };
+
 export const dictionaryPayment = {
   toast: {
     serverError: {
@@ -1763,5 +1764,102 @@ export const dictionaryPayment = {
     },
     EN: "You have paid {amount} {currencySymbol} to {payeeName}.",
     ES: "Has pagado {amount} {currencySymbol} a {payeeName}.",
+  },
+};
+
+export const dictionaryInvitation = {
+  title: {
+    EN: "Agent Invitation",
+    ES: "Invitación de Agente",
+  },
+  subtitle1: {
+    EN: "You were invited by",
+    ES: "Has sido invitado por",
+  },
+  subtitle2: {
+    EN: ". Please complete this form to be an agent.",
+    ES: ". Por favor, completa este formulario para ser un agente.",
+  },
+  status: {
+    expired: {
+      EN: "This invitation has been expired.",
+      ES: "Esta invitación ha expirado.",
+    },
+    completed: {
+      EN: "This invitation was already completed.",
+      ES: "Esta invitación ya ha sido completada.",
+    },
+  },
+  fields: {
+    agentName: {
+      EN: "Agent Name",
+      ES: "Nombre del Agente",
+    },
+    country: {
+      EN: "Country",
+      ES: "País",
+    },
+    phone: {
+      EN: "Mobile Number",
+      ES: "Número de Móvil",
+    },
+    email: {
+      EN: "Email Address",
+      ES: "Dirección de Correo Electrónico",
+    },
+    password: {
+      EN: "Password",
+      ES: "Contraseña",
+    },
+    confirmPassword: {
+      EN: "Confirm Password",
+      ES: "Confirmar Contraseña",
+    },
+  },
+  errors: {
+    required: {
+      EN: "This field required.",
+      ES: "Este campo es obligatorio.",
+    },
+    invalidEmail: {
+      EN: "Invalid email.",
+      ES: "Correo electrónico no válido.",
+    },
+    invalidPhone: {
+      EN: "Incorrect phone number",
+      ES: "Número de teléfono incorrecto",
+    },
+    passwordMismatch: {
+      EN: "Password confirmation does not match.",
+      ES: "La confirmación de la contraseña no coincide.",
+    },
+    duplicateUser: {
+      EN: "User is already exist.",
+      ES: "El usuario ya existe.",
+    },
+    registerFailed: {
+      EN: "Register failed.",
+      ES: "El registro falló.",
+    },
+    generalError: {
+      EN: "Something went wrong.",
+      ES: "Algo salió mal.",
+    },
+  },
+  toast: {
+    invitationCompleted: {
+      EN: "Invitation completed successfully.",
+      ES: "Invitación completada con éxito.",
+    },
+    serverError: {
+      EN: "Server error.",
+      ES: "Error del servidor.",
+    },
+  },
+  buttons: {
+    continue: {
+      EN: "Continue",
+      ES: "Continuar",
+    },
   },
 };
