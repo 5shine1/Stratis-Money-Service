@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  locale: "EN",
+  locale: window.localStorage.getItem("stratis-locale") || "EN",
 };
 
 export const localeSlice = createSlice({
@@ -10,6 +10,7 @@ export const localeSlice = createSlice({
   reducers: {
     setLocale: (state, action) => {
       state.locale = action.payload;
+      window.localStorage.setItem("stratis-locale", state.locale);
       return state;
     },
   },
