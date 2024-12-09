@@ -184,7 +184,7 @@ const OrderPage = () => {
               onClick={() => {
                 setControlModalOpen(true);
               }}
-              className=" text-white text-16 py-12 px-32 border border-secondary-300 rounded-full xl:ml-auto w-full xl:max-w-200"
+              className=" text-white text-16 py-12 px-32 border border-secondary-300 rounded-full xl:ml-auto w-full xl:max-w-210"
               backClassName="from-primary-400 to-secondary-300 "
             >
               {dictionaryOrder.buttons.generateNew[locale]}
