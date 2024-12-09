@@ -11,9 +11,10 @@ import { LoadingContext } from "@/components/providers/LoadingProvider";
 import { apiLogout } from "@/api/auth.api";
 import { logout } from "@/store/slices/auth.slice";
 import { ROLES } from "@/@types/common";
-import { KYB_FAIL_MESSAGES } from "@/config/constants";
+import { dictionaryApp } from "@/config/dictionary";
 
 const AppLayout: React.FC<PropsWithChildren> = ({ children }) => {
+  const { locale } = useAppSelector((state) => state.locale);
   const router = useRouter();
   const { email, role, isAuthLoading, isVerifiedEmail, kybApplicationStatus } = useAppSelector((state) => state.auth);
   const { setLoading } = useContext(LoadingContext);
@@ -23,7 +24,7 @@ const AppLayout: React.FC<PropsWithChildren> = ({ children }) => {
     setLoading(true);
     try {
       await apiLogout();
-      toast.success("Logout successfully");
+      toast.success(dictionaryApp.appLayout.toastMessages.logoutSuccess[locale]);
     } catch (error) {}
     dispatch(logout());
     setLoading(false);
@@ -46,16 +47,22 @@ const AppLayout: React.FC<PropsWithChildren> = ({ children }) => {
             <div className=" bg-primary-800 p-24 w-full max-w-480">
               <div className="text-error flex items-center gap-8 text-16 pb-12 border-b border-white/5">
                 <Icon icon="ph:warning-duotone" className="w-20 h-20 hidden md:block" />
-                {KYB_FAIL_MESSAGES[kybApplicationStatus]?.title}
+                {dictionaryApp.appLayout.kybFailMessages[locale][kybApplicationStatus]?.title}
               </div>
-              <p className="mt-16 text-white/70 text-14">{KYB_FAIL_MESSAGES[kybApplicationStatus]?.text}</p>
+              <p className="mt-16 text-white/70 text-14">
+                {dictionaryApp.appLayout.kybFailMessages[locale][kybApplicationStatus]?.text}
+              </p>
               <div className="flex items-center  justify-end gap-8 flex-wrap  mt-24">
                 <Link href="/app/account">
                   <AnimatedSlideButton
                     className=" text-white text-16 py-12 px-32 border border-secondary-300 rounded-full "
                     backClassName="from-primary-400 to-secondary-300 "
                   >
-                    {kybApplicationStatus < 3 ? "Start KYB" : kybApplicationStatus > 5 ? "Check Details" : "KYB Status"}
+                    {kybApplicationStatus < 3
+                      ? dictionaryApp.appLayout.actions.startKyb[locale]
+                      : kybApplicationStatus > 5
+                      ? dictionaryApp.appLayout.actions.checkDetails[locale]
+                      : dictionaryApp.appLayout.actions.kybStatus[locale]}
                   </AnimatedSlideButton>
                 </Link>
 
@@ -66,7 +73,7 @@ const AppLayout: React.FC<PropsWithChildren> = ({ children }) => {
                   className=" text-white text-16 py-12 px-32 border border-secondary-300 rounded-full"
                   backClassName="from-primary-400 to-secondary-300 "
                 >
-                  Logout
+                  {dictionaryApp.appLayout.actions.logout[locale]}
                 </AnimatedSlideButton>
               </div>
             </div>

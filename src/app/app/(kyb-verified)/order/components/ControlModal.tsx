@@ -9,6 +9,7 @@ import { isValidEmail } from "@/utils/string.utils";
 import DatePicker from "@/components/global/DatePicker";
 import IconBox from "@/components/global/IconBox";
 import CurrencyInputSelect from "@/components/global/CurrencyInputSelect";
+import { dictionaryOrder } from "@/config/dictionary";
 
 type Props = {
   isOpen: boolean;
@@ -25,6 +26,7 @@ type Props = {
   ) => void;
 };
 const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext }) => {
+  const { locale } = useAppSelector((state) => state.locale);
   const { currencies } = useAppSelector((state) => state.payment);
   const [amount, setAmount] = useState({ value: "", error: "" });
   const [currency, setCurrency] = useState<{ value: ICurrency; error: string }>({ value: currencies[0], error: "" });
@@ -123,7 +125,7 @@ const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext }) => {
       <div className="p-12 py-24 md:p-40 flex flex-col gap-32">
         <div className="flex items-start gap-12">
           <IconBox icon="iconoir:link" />
-          <h4 className="g-button-text w-fit mt-4 md:mt-3 mr-30">Generate New Order Link</h4>
+          <h4 className="g-button-text w-fit mt-4 md:mt-3 mr-30">{dictionaryOrder.controlModal.title[locale]}</h4>
         </div>
         <div className="flex flex-col gap-16 md:gap-24">
           <div className="flex items-start gap-16 md:gap-12 md:flex-row flex-col">
@@ -132,7 +134,7 @@ const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext }) => {
               amount={amount.value}
               value={currency.value}
               placeholder="0"
-              label="Amount"
+              label={dictionaryOrder.controlModal.labels.amount[locale]}
               error={amount.error || currency.error}
               onAmountChange={(e) => {
                 setAmount({ value: e, error: "" });
@@ -146,8 +148,8 @@ const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext }) => {
               onChange={(e) => {
                 setReference({ error: "", value: e });
               }}
-              placeholder="Reference"
-              label="Order Reference"
+              placeholder={dictionaryOrder.controlModal.placeholders.reference[locale]}
+              label={dictionaryOrder.controlModal.labels.reference[locale]}
               error={reference.error}
               pattern="^[a-zA-Z0-9-]+$"
             />
@@ -158,8 +160,8 @@ const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext }) => {
               onChange={(e) => {
                 setPayerFirstName({ error: "", value: e });
               }}
-              placeholder="Customer First Name"
-              label="Customer First Name"
+              placeholder={dictionaryOrder.controlModal.placeholders.firstName[locale]}
+              label={dictionaryOrder.controlModal.labels.firstName[locale]}
               error={payerFirstName.error}
             />
             <AppInput
@@ -167,14 +169,14 @@ const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext }) => {
               onChange={(e) => {
                 setPayerLastName({ error: "", value: e });
               }}
-              placeholder="Customer Last Name"
-              label="Customer Last Name"
+              placeholder={dictionaryOrder.controlModal.placeholders.lastName[locale]}
+              label={dictionaryOrder.controlModal.labels.lastName[locale]}
               error={payerLastName.error}
             />
           </div>
           <div className="flex items-start gap-16 md:gap-12 md:flex-row flex-col">
             <div className="w-full flex flex-col gap-8">
-              <span className="text-input-label text-14">Customer Date of Birth</span>
+              <span className="text-input-label text-14">{dictionaryOrder.controlModal.labels.dob[locale]}</span>
               <DatePicker
                 selectedDate={payerDOB.value}
                 setSelectedDate={(d) => setPayerDOB({ error: "", value: d })}
@@ -187,8 +189,8 @@ const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext }) => {
               onChange={(e) => {
                 setPayerPOB({ error: "", value: e });
               }}
-              placeholder="Customer Place of Birth"
-              label="Customer Place of Birth"
+              placeholder={dictionaryOrder.controlModal.labels.pob[locale]}
+              label={dictionaryOrder.controlModal.placeholders.pob[locale]}
               error={payerPOB.error}
             />
           </div>
@@ -198,8 +200,8 @@ const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext }) => {
             onChange={(e) => {
               setPayerEmail({ error: "", value: e });
             }}
-            placeholder="Email address"
-            label="Customer Email"
+            placeholder={dictionaryOrder.controlModal.placeholders.email[locale]}
+            label={dictionaryOrder.controlModal.labels.email[locale]}
             error={payerEmail.error}
           />
           <AppInput
@@ -207,15 +209,15 @@ const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext }) => {
             onChange={(e) => {
               setPayerAddress({ error: "", value: e });
             }}
-            placeholder="Customer Address"
-            label="Customer Address"
+            placeholder={dictionaryOrder.controlModal.placeholders.address[locale]}
+            label={dictionaryOrder.controlModal.labels.address[locale]}
             error={payerAddress.error}
           />
           <button
             onClick={handleClick}
             className="mt-16 w-full md:w-300 text-button-text text-18 font-semibold py-16  rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50"
           >
-            Generate
+            {dictionaryOrder.controlModal.buttons.generate[locale]}
             <Icon icon={"akar-icons:arrow-cycle"} className="w-16 h-16" />
           </button>
         </div>

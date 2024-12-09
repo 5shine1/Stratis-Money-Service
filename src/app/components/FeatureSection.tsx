@@ -2,14 +2,11 @@
 import React from "react";
 
 import ScrollAnimationElement from "@/components/global/ScrollAnimatedElement";
-
-const featurePoints = [
-  { title: "Regulatory Compliance", text: "Trust in a solution regulated by the Bank of Spain." },
-  { title: "Hassle-Free Integration", text: "No complex setup required, start accepting crypto payments instantly" },
-  { title: "Rapid Settlement", text: "Crypto-assets are immediately liquidated, removing risk of volatility" },
-];
+import useAppSelector from "@/hooks/global/useAppSelector";
+import { dictionaryLanding } from "@/config/dictionary";
 
 const FeatureSection = () => {
+  const { locale } = useAppSelector((state) => state.locale);
   return (
     <section className="px-16 py-40 lg:py-120 relative">
       <div className="relative w-full  max-w-600 lg:max-w-1520 mx-auto flex items-center flex-col lg:flex-row gap-32 justify-between">
@@ -25,7 +22,7 @@ const FeatureSection = () => {
             duration={0.5}
           >
             <div className="text-36 md:text-40 lg:text-52 w-fit g-button-text text-center lg:text-left uppercase font-semibold leading-[1.2]">
-              Why Choose Us
+              {dictionaryLanding.feature.title[locale]}
             </div>
           </ScrollAnimationElement>
           <ScrollAnimationElement
@@ -35,7 +32,7 @@ const FeatureSection = () => {
             delay={0.4}
           >
             <div className="flex flex-col  gap-32 mt-24 lg:mt-60 ">
-              {featurePoints.map((item, i) => (
+              {dictionaryLanding.feature.featurePoints[locale].map((item, i) => (
                 <div
                   key={i}
                   className="flex items-start gap-36 pb-24 border-b border-[#213541] last:border-transparent"
