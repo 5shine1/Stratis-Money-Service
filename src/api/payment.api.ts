@@ -29,6 +29,7 @@ export const apiGenerate = async (
       customerAddress,
       customerDateOfBirth,
       customerPlaceOfBirth,
+      paymentLinkCulture: "EN",
     });
     return result?.data;
   } catch (error) {
