@@ -345,7 +345,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
                                       onClick={() => {
                                         window.location.href = paymentLinkData;
                                       }}>
-                                      Pay Now
+                                      {dictionaryPayment.buttons.payNow[locale]}
                                     </button>
                                   : <ConnectButton
                                         paymentDestination={paymentAddress}

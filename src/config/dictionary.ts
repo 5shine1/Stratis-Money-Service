@@ -2727,6 +2727,24 @@ export const dictionaryPayment = {
       FR: "Retourner",
       RO: "Înapoi",
     },
+    payNow: {
+      EN: "Pay Now",
+      ES: "Paga ahora",
+      FR: "Payez maintenant",
+      RO: "Plătește acum",
+    },
+    connectWallet: {
+      EN: "Connect Wallet",
+      ES: "Conectar billetera",
+      FR: "RetournConnecter le portefeuilleer",
+      RO: "Conectează portofelul",
+    },
+    confirming: {
+      EN: "Confirming...",
+      ES: "Confirmando…",
+      FR: "Confirmation en cours…",
+      RO: "Se confirmă…",
+    }
   },
   transactionCompletedMessage: {
     EN: "Transaction has been completed successfully!",
