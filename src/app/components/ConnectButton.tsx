@@ -2,6 +2,8 @@ import { useConnectModal } from "@rainbow-me/rainbowkit";
 import React from "react";
 import { useAccount, useSendTransaction, useWaitForTransactionReceipt, useWriteContract } from "wagmi";
 import { erc20Abi, parseEther } from "viem";
+import useAppSelector from "@/hooks/global/useAppSelector";
+import { dictionaryPayment } from "@/config/dictionary";
 
 const ConnectButton = ({ chain, amount, paymentDestination, selectedCurrency }) => {
 
@@ -14,6 +16,8 @@ const ConnectButton = ({ chain, amount, paymentDestination, selectedCurrency }) 
   const { isLoading: isContractConfirming, isSuccess: isContractConfirmed } = useWaitForTransactionReceipt({ hash: contractTxHash });
   
   const value = parseEther(amount.toString());
+
+  const { locale } = useAppSelector((state) => state.locale);
 
   const handleMakePayment = async () => {
     if (selectedCurrency.isNative) {
@@ -47,12 +51,12 @@ const ConnectButton = ({ chain, amount, paymentDestination, selectedCurrency }) 
           className="w-full max-w-320 text-button-text text-12 font-semibold py-12 rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50"
           onClick={handleMakePayment}
         >
-          {isPending || isConfirming || isContractPending || isContractConfirming ? 'Confirming...' : 'Pay Now'}
+          {isPending || isConfirming || isContractPending || isContractConfirming ? dictionaryPayment.buttons.confirming[locale] : dictionaryPayment.buttons.payNow[locale]}
         </button>)}
       </>
     ) : (
       <button className="w-full max-w-320 text-button-text text-12 font-semibold py-12  rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50" onClick={openConnectModal}>
-        Connect Wallet
+        {dictionaryPayment.buttons.connectWallet[locale]}
       </button>
     )
   );
