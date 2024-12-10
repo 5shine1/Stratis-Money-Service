@@ -54,7 +54,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
   const [confirmStep, setConfirmStep] = useState(0);
   const [currencies, setCurrencies] = useState([]);
   const [paymentLinkData, setPaymentLinkData] = useState("");
-  const [paymentAddress, setPaymentAddressa] = useState("");
+  const [paymentAddress, setPaymentAddress] = useState("");
   const [paymentAmount, setPaymentAmount] = useState(0);
   const [selectedCurrency, setSelectedCurrency] = useState<any>();
 
@@ -112,7 +112,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
             result?.paymentDestination
           }&uint256=${result?.paymentAmount}e${result?.decimals ?? 18}`;
       setPaymentLinkData(link);
-      setPaymentAddressa(result?.paymentDestination);
+      setPaymentAddress(result?.paymentDestination);
       setPaymentAmount(result?.paymentAmount);
       setSelectedCurrency(selectedCurrency);
 
