@@ -55,6 +55,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
   const [paymentLinkData, setPaymentLinkData] = useState("");
   const [paymentAddress, setPaymentAddressa] = useState("");
   const [paymentAmount, setPaymentAmount] = useState(0);
+  const [selectedCurrency, setSelectedCurrency] = useState<any>();
 
   const currencyList = useMemo(
     () => currencies.filter((item, index, self) => index === self.findIndex((t) => t.text === item.text)),
@@ -112,6 +113,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
       setPaymentLinkData(link);
       setPaymentAddressa(result?.paymentDestination);
       setPaymentAmount(result?.paymentAmount);
+      setSelectedCurrency(selectedCurrency);
 
       setStatus(60);
     } catch (error) {
@@ -344,7 +346,11 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
                                     }}>
                                     Pay Now
                                   </button>
-                                : <ConnectButton paymentDestination={paymentAddress} amount={paymentAmount} chain={networkList[network].chainId} /> } 
+                                : <ConnectButton
+                                      paymentDestination={paymentAddress}
+                                      amount={paymentAmount}
+                                      chain={networkList[network]}
+                                      selectedCurrency={selectedCurrency} /> } 
                             </div>
                         </div>
                       </div>

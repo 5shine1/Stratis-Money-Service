@@ -1,37 +1,54 @@
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 import React from "react";
-import { useAccount, useSendTransaction, createConfig, http } from "wagmi";
-import { ethers } from 'ethers';
-import { mainnet, sepolia } from "wagmi/chains";
+import { useAccount, useSendTransaction, useWaitForTransactionReceipt, useWriteContract } from "wagmi";
+import { erc20Abi, parseEther } from "viem";
 
-const ConnectButton = ({ chain, amount, paymentDestination }) => {
+const ConnectButton = ({ chain, amount, paymentDestination, selectedCurrency }) => {
 
   const account = useAccount();
   const { openConnectModal } = useConnectModal();
 
+  const { data: hash, isPending, sendTransaction } = useSendTransaction();
+  const { data: contractTxHash, isPending: isContractPending, writeContract } = useWriteContract();
+  const { isLoading: isConfirming, isSuccess: isConfirmed } = useWaitForTransactionReceipt({ hash });
+  const { isLoading: isContractConfirming, isSuccess: isContractConfirmed } = useWaitForTransactionReceipt({ hash: contractTxHash });
+  
+  const value = parseEther(amount.toString());
 
-  const config = createConfig({
-    chains: [mainnet, sepolia],
-    transports: {
-      [mainnet.id]: http(),
-      [sepolia.id]: http(),
-    },
-  })
+  const handleMakePayment = async () => {
+    if (selectedCurrency.isNative) {
+      sendTransaction({
+        to: paymentDestination,
+        value: value,
+        chainId: chain.id,
+      });
+    } else {
+      writeContract({
+        abi: erc20Abi,
+        address: selectedCurrency.tokenContract,
+        functionName: 'transferFrom',
+        args: [
+          account.address,
+          paymentDestination,
+          BigInt(amount * Math.pow(10, selectedCurrency.decimals)),
+        ],
+        chain: chain,
+        account: account.address
+      })
+    }
+  };
 
-  const { sendTransaction } = useSendTransaction({config});
   return (
     account.address ? (
       <>
-        <button
+        {!isConfirmed && !isContractConfirmed && (<button
+          type="button"
+          disabled={isPending || isConfirming || isContractPending || isContractConfirming}
           className="w-full max-w-320 text-button-text text-12 font-semibold py-12 rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50"
-          onClick={() => sendTransaction({
-            to: paymentDestination,
-            value: ethers.parseEther(amount.toString()),
-            chainId: chain,
-          })}
+          onClick={handleMakePayment}
         >
-          Pay Now
-        </button>
+          {isPending || isConfirming || isContractPending || isContractConfirming ? 'Confirming...' : 'Pay Now'}
+        </button>)}
       </>
     ) : (
       <button className="w-full max-w-320 text-button-text text-12 font-semibold py-12  rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50" onClick={openConnectModal}>
