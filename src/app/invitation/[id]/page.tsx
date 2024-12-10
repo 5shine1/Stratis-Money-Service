@@ -14,6 +14,7 @@ import useAppSelector from "@/hooks/global/useAppSelector";
 import { dictionaryInvitation } from "@/config/dictionary";
 import useAppDispatch from "@/hooks/global/useAppDispatch";
 import { setLocale } from "@/store/slices/locale.slice";
+import { LOCALES } from "@/config/constants";
 
 type Props = {
   params: {
@@ -216,26 +217,21 @@ const AgentInvitationPage = ({ params }: Props) => {
                   </form>
                 )}
                 <div className="text-14 flex items-center text-input-text gap-8 p-12 rounded-6">
-                  <div
-                    className={`cursor-pointer ${locale === "EN" ? "text-secondary-400" : "hover:text-white"}`}
-                    onClick={() => dispatch(setLocale("EN"))}
-                  >
-                    EN
-                  </div>
-                  <hr className="rotate-90 w-16" />
-                  <div
-                    className={`cursor-pointer ${locale === "ES" ? "text-secondary-400" : "hover:text-white"}`}
-                    onClick={() => dispatch(setLocale("ES"))}
-                  >
-                    ES
-                  </div>
-                  <hr className="rotate-90 w-16" />
-                  <div
-                    className={`cursor-pointer ${locale === "FR" ? "text-secondary-400" : "hover:text-white"}`}
-                    onClick={() => dispatch(setLocale("EN"))}
-                  >
-                    FR
-                  </div>
+                  {LOCALES.map((item, i) => {
+                    return (
+                      <>
+                        {i !== 0 && <hr className="rotate-90 w-16" />}
+                        <div
+                          className={`cursor-pointer ${
+                            locale === item.code ? "text-secondary-400" : "hover:text-white"
+                          }`}
+                          onClick={() => dispatch(setLocale(item.code))}
+                        >
+                          {item.code}
+                        </div>
+                      </>
+                    );
+                  })}
                 </div>
               </div>
             </div>
