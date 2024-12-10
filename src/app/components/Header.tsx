@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Icon } from "@iconify/react";
 import toast from "react-hot-toast";
 
-import { APP_ROUTES } from "@/config/constants";
+import { APP_ROUTES, LOCALES } from "@/config/constants";
 import { LoadingContext } from "@/components/providers/LoadingProvider";
 import useClickOutside from "@/hooks/global/useClickOutside";
 import useAppSelector from "@/hooks/global/useAppSelector";
@@ -76,24 +76,20 @@ const Header = () => {
                 openLocale ? "opacity-100 pointer-events-auto top-36" : "opacity-0 pointer-events-none top-64"
               }`}
             >
-              <button
-                onClick={() => {
-                  dispatch(setLocale("EN"));
-                  setOpenLocale(false);
-                }}
-                className="text-16 p-12 text-left border-b border-[#95845C]"
-              >
-                English
-              </button>
-              <button
-                onClick={() => {
-                  dispatch(setLocale("ES"));
-                  setOpenLocale(false);
-                }}
-                className="text-16 p-12 text-left"
-              >
-                Española
-              </button>
+              {LOCALES.map((item) => {
+                return (
+                  <button
+                    key={item.code}
+                    onClick={() => {
+                      dispatch(setLocale(item.code));
+                      setOpenLocale(false);
+                    }}
+                    className="text-16 p-12 text-left border-b border-[#95845C] last:border-0"
+                  >
+                    {item.lang}
+                  </button>
+                );
+              })}
             </div>
           </div>
 
@@ -168,19 +164,20 @@ const Header = () => {
             </button>
           </Link>
           <div className="flex items-center gap-4">
-            <button
-              className={`${locale === "EN" ? "text-secondary-200" : "hover:text-white"}`}
-              onClick={() => dispatch(setLocale("EN"))}
-            >
-              English
-            </button>
-            <hr className="rotate-90 w-16" />
-            <button
-              className={`${locale === "ES" ? "text-secondary-200" : "hover:text-white"}`}
-              onClick={() => dispatch(setLocale("ES"))}
-            >
-              Española
-            </button>
+            {LOCALES.map((item, i) => {
+              return (
+                <>
+                  {i !== 0 && <hr className="rotate-90 w-16" />}
+                  <button
+                    key={item.code}
+                    className={`${locale === item.code ? "text-secondary-200" : "hover:text-white"}`}
+                    onClick={() => dispatch(setLocale(item.code))}
+                  >
+                    {item.code}
+                  </button>
+                </>
+              );
+            })}
           </div>
         </ul>
         {email && (

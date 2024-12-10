@@ -19,6 +19,7 @@ import useAppSelector from "@/hooks/global/useAppSelector";
 import { dictionaryPayment } from "@/config/dictionary";
 import { setLocale } from "@/store/slices/locale.slice";
 import useAppDispatch from "@/hooks/global/useAppDispatch";
+import { LOCALES } from "@/config/constants";
 import { RainbowKitProvider, getDefaultConfig } from "@rainbow-me/rainbowkit";
 import { metaMaskWallet, rainbowWallet, bitgetWallet, walletConnectWallet } from "@rainbow-me/rainbowkit/wallets";
 import { WagmiProvider } from "wagmi";
@@ -510,43 +511,34 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
                     </div>
                   </div>
 
-                  <button
-                    onClick={handleMakePayment}
-                    className="w-full max-w-320 text-button-text text-18 font-semibold py-16  rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50"
-                  >
-                    {dictionaryPayment.buttons.continue[locale]}
-                    <Icon icon={"octicon:arrow-right-16"} className="w-16 h-16" />
-                  </button>
-                </section>
-              )}
-              <div className="text-14 flex items-center text-input-text border border-modal-border g-box-back p-12 rounded-6 gap-8">
-                <div
-                  className={`cursor-pointer ${locale === "EN" ? "text-secondary-400" : "hover:text-white"}`}
-                  onClick={() => dispatch(setLocale("EN"))}
-                >
-                  EN
-                </div>
-                <hr className="rotate-90 w-16" />
-                <div
-                  className={`cursor-pointer ${locale === "ES" ? "text-secondary-400" : "hover:text-white"}`}
-                  onClick={() => dispatch(setLocale("ES"))}
-                >
-                  ES
-                </div>
-                <hr className="rotate-90 w-16" />
-                <div
-                  className={`cursor-pointer ${locale === "FR" ? "text-secondary-400" : "hover:text-white"}`}
-                  onClick={() => dispatch(setLocale("EN"))}
-                >
-                  FR
-                </div>
-              </div>
-            </main>
+              <button
+                onClick={handleMakePayment}
+                className="w-full max-w-320 text-button-text text-18 font-semibold py-16  rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50"
+              >
+                {dictionaryPayment.buttons.continue[locale]}
+                <Icon icon={"octicon:arrow-right-16"} className="w-16 h-16" />
+              </button>
+            </section>
           )}
-      
-        </RainbowKitProvider>
-      </QueryClientProvider>
-    </WagmiProvider>
+          <div className="text-14 flex items-center text-input-text border border-modal-border g-box-back p-12 rounded-6 gap-8">
+            {LOCALES.map((item, i) => {
+              return (
+                <>
+                  {i !== 0 && <hr className="rotate-90 w-16" />}
+                  <div
+                    key={item.code}
+                    className={`cursor-pointer ${locale === item.code ? "text-secondary-400" : "hover:text-white"}`}
+                    onClick={() => dispatch(setLocale(item.code))}
+                  >
+                    {item.code}
+                  </div>
+                </>
+              );
+            })}
+          </div>
+        </main>
+      )}
+    </>
   );
 };
 
