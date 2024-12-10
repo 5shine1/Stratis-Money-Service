@@ -15,6 +15,7 @@ import { apiLogout } from "@/api/auth.api";
 import { ROLES } from "@/@types/common";
 import { dictionaryApp, dictionaryGlobal } from "@/config/dictionary";
 import { setLocale } from "@/store/slices/locale.slice";
+import { LOCALES } from "@/config/constants";
 
 const AppSidebar: React.FC<PropsWithChildren> = ({ children }) => {
   const { locale } = useAppSelector((state) => state.locale);
@@ -142,26 +143,22 @@ const AppSidebar: React.FC<PropsWithChildren> = ({ children }) => {
             >
               {role !== ROLES.ADMIN && role !== ROLES.COMPLIANCE && isWrapped && (
                 <div className="text-14 flex items-center text-input-text mr-auto">
-                  <div
-                    className={`cursor-pointer ${locale === "EN" ? "text-secondary-400" : "hover:text-white"}`}
-                    onClick={() => dispatch(setLocale("EN"))}
-                  >
-                    EN
-                  </div>
-                  <hr className="rotate-90 w-16" />
-                  <div
-                    className={`cursor-pointer ${locale === "ES" ? "text-secondary-400" : "hover:text-white"}`}
-                    onClick={() => dispatch(setLocale("ES"))}
-                  >
-                    ES
-                  </div>
-                  <hr className="rotate-90 w-16" />
-                  <div
-                    className={`cursor-pointer ${locale === "FR" ? "text-secondary-400" : "hover:text-white"}`}
-                    onClick={() => dispatch(setLocale("FR"))}
-                  >
-                    FR
-                  </div>
+                  {LOCALES.map((item, i) => {
+                    return (
+                      <>
+                        {i !== 0 && <hr className="rotate-90 w-16" />}
+                        <div
+                          key={item.code}
+                          className={`cursor-pointer ${
+                            locale === item.code ? "text-secondary-400" : "hover:text-white"
+                          }`}
+                          onClick={() => dispatch(setLocale(item.code))}
+                        >
+                          {item.code}
+                        </div>
+                      </>
+                    );
+                  })}
                 </div>
               )}
               <div

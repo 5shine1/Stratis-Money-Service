@@ -23,4 +23,9 @@ export const SOCIAL_LINKS = [
   },
 ];
 
-export const LOCALES = ["EN", "ES", "FR"];
+export const LOCALES = [
+  { code: "EN", lang: "English" },
+  { code: "ES", lang: "Española" },
+  { code: "FR", lang: "Français" },
+  { code: "RO", lang: "Română" },
+];
