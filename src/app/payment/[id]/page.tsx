@@ -19,6 +19,7 @@ import useAppSelector from "@/hooks/global/useAppSelector";
 import { dictionaryPayment } from "@/config/dictionary";
 import { setLocale } from "@/store/slices/locale.slice";
 import useAppDispatch from "@/hooks/global/useAppDispatch";
+import { LOCALES } from "@/config/constants";
 
 type Props = {
   params: {
@@ -475,26 +476,20 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
             </section>
           )}
           <div className="text-14 flex items-center text-input-text border border-modal-border g-box-back p-12 rounded-6 gap-8">
-            <div
-              className={`cursor-pointer ${locale === "EN" ? "text-secondary-400" : "hover:text-white"}`}
-              onClick={() => dispatch(setLocale("EN"))}
-            >
-              EN
-            </div>
-            <hr className="rotate-90 w-16" />
-            <div
-              className={`cursor-pointer ${locale === "ES" ? "text-secondary-400" : "hover:text-white"}`}
-              onClick={() => dispatch(setLocale("ES"))}
-            >
-              ES
-            </div>
-            <hr className="rotate-90 w-16" />
-            <div
-              className={`cursor-pointer ${locale === "FR" ? "text-secondary-400" : "hover:text-white"}`}
-              onClick={() => dispatch(setLocale("FR"))}
-            >
-              FR
-            </div>
+            {LOCALES.map((item, i) => {
+              return (
+                <>
+                  {i !== 0 && <hr className="rotate-90 w-16" />}
+                  <div
+                    key={item.code}
+                    className={`cursor-pointer ${locale === item.code ? "text-secondary-400" : "hover:text-white"}`}
+                    onClick={() => dispatch(setLocale(item.code))}
+                  >
+                    {item.code}
+                  </div>
+                </>
+              );
+            })}
           </div>
         </main>
       )}
