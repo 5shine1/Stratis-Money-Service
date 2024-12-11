@@ -10,7 +10,7 @@ import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
 import { LoadingContext } from "@/components/providers/LoadingProvider";
 import { apiLogout } from "@/api/auth.api";
 import { logout } from "@/store/slices/auth.slice";
-import { ROLES } from "@/@types/common";
+import { KYB_STATUS_IDS, ROLES } from "@/@types/common";
 import { dictionaryApp } from "@/config/dictionary";
 
 const AppLayout: React.FC<PropsWithChildren> = ({ children }) => {
@@ -41,7 +41,7 @@ const AppLayout: React.FC<PropsWithChildren> = ({ children }) => {
   }
   return (
     <>
-      {role === ROLES.BUSINESS && kybApplicationStatus !== 5 && (
+      {role === ROLES.BUSINESS && kybApplicationStatus !== KYB_STATUS_IDS.ApprovedByCompliance && (
         <div className="bg-black/50 fixed top-0 left-0 w-full h-full z-50 flex items-center justify-center p-16 backdrop-blur-lg">
           <div className="bg-white rounded-8 overflow-hidden">
             <div className=" bg-primary-800 p-24 w-full max-w-480">
@@ -58,9 +58,9 @@ const AppLayout: React.FC<PropsWithChildren> = ({ children }) => {
                     className=" text-white text-16 py-12 px-32 border border-secondary-300 rounded-full "
                     backClassName="from-primary-400 to-secondary-300 "
                   >
-                    {kybApplicationStatus < 3
+                    {kybApplicationStatus < KYB_STATUS_IDS.DeclinedByKybProvider
                       ? dictionaryApp.appLayout.actions.startKyb[locale]
-                      : kybApplicationStatus > 5
+                      : kybApplicationStatus > KYB_STATUS_IDS.ApprovedByCompliance
                       ? dictionaryApp.appLayout.actions.checkDetails[locale]
                       : dictionaryApp.appLayout.actions.kybStatus[locale]}
                   </AnimatedSlideButton>

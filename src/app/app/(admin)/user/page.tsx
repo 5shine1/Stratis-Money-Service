@@ -9,7 +9,7 @@ import AppInput from "@/components/global/AppInput";
 import CustomSelect from "@/components/global/CustomSelect";
 import { apiActivateUser, apiAdminUsers } from "@/api/admin.api";
 import { IUser } from "@/@types/data";
-import { ROLES } from "@/@types/common";
+import { KYB_STATUS_IDS, ROLES } from "@/@types/common";
 import { LoadingContext } from "@/components/providers/LoadingProvider";
 import useAppSelector from "@/hooks/global/useAppSelector";
 
@@ -158,14 +158,14 @@ const UserPage = () => {
                               )}
                             </td>
                             <td className={`px-8`}>
-                              {item.isKnowYourBusinessCompleted ? (
+                              {item.kybApplicationStatus >= KYB_STATUS_IDS.AcceptedByKybProvider ? (
                                 <Icon icon="icon-park-outline:check-one" className="w-16 h-16 text-success mx-auto" />
                               ) : (
                                 <Icon icon="icon-park-outline:close-one" className="w-16 h-16 text-error mx-auto" />
                               )}
                             </td>
                             <td className={`px-8`}>
-                              {item.isKnowYourBusinessPassed ? (
+                              {item.kybApplicationStatus === KYB_STATUS_IDS.ApprovedByCompliance ? (
                                 <Icon icon="icon-park-outline:check-one" className="w-16 h-16 text-success mx-auto" />
                               ) : (
                                 <Icon icon="icon-park-outline:close-one" className="w-16 h-16 text-error mx-auto" />
@@ -179,7 +179,7 @@ const UserPage = () => {
                                 >
                                   <Icon icon="ph:eye-fill" className="w-20 h-20"></Icon>
                                 </Link>
-                                {item.isKnowYourBusinessPassed ? (
+                                {item.kybApplicationStatus === KYB_STATUS_IDS.ApprovedByCompliance? (
                                   <button
                                     onClick={() => {
                                       handleActiveUser(item.userId, false);

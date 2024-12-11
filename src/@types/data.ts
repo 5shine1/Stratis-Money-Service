@@ -1,3 +1,5 @@
+import { KYB_STATUS_IDS } from "./common";
+
 export interface IPayment {
   paymentId: string;
   state: number;
@@ -34,10 +36,9 @@ export interface IUser {
   isAdmin: boolean;
   role: string;
   isBusiness: boolean;
-  isKnowYourBusinessCompleted: boolean;
-  isKnowYourBusinessPassed: boolean;
   isVerifiedEmail: boolean;
   knowYourBusinessLink: null | string;
+  kybApplicationStatus: KYB_STATUS_IDS;
   mobileNumber: string;
   name: string;
   industry?: string;

@@ -1,4 +1,4 @@
-import { IAuth, ROLES } from "@/@types/common";
+import { IAuth, KYB_STATUS_IDS, ROLES } from "@/@types/common";
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState: IAuth = {
@@ -7,12 +7,10 @@ const initialState: IAuth = {
   name: "",
   isAuthLoading: true,
   isVerifiedEmail: false,
-  isKnowYourBusinessCompleted: false,
-  isKnowYourBusinessPassed: false,
   role: ROLES.GUEST,
   country: "",
   mobileNumber: "",
-  kybApplicationStatus: 1,
+  kybApplicationStatus: KYB_STATUS_IDS.Pending,
 };
 
 export const authSlice = createSlice({
