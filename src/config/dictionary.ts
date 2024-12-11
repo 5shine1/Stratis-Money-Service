@@ -1933,6 +1933,12 @@ export const dictionaryOrder = {
         FR: "Devise",
         RO: "Monedă",
       },
+      language: {
+        EN: "Language",
+        ES: "Idioma",
+        FR: "Langue",
+        RO: "Limbă",
+      },
       reference: {
         EN: "Order Reference",
         ES: "Referencia de Orden",
@@ -2744,7 +2750,7 @@ export const dictionaryPayment = {
       ES: "Confirmando…",
       FR: "Confirmation en cours…",
       RO: "Se confirmă…",
-    }
+    },
   },
   transactionCompletedMessage: {
     EN: "Transaction has been completed successfully!",
