@@ -7,7 +7,7 @@ import CustomSwitch from "@/components/global/CustomSwitch";
 import { LoadingContext } from "@/components/providers/LoadingProvider";
 import useAppSelector from "@/hooks/global/useAppSelector";
 import { apiStartKYB } from "@/api/compliance.api";
-import { ROLES } from "@/@types/common";
+import { KYB_STATUS_IDS, ROLES } from "@/@types/common";
 import { apiGetSetting, apiSetSetting } from "@/api/auth.api";
 import BankModal from "./components/BankModal";
 import useAppDispatch from "@/hooks/global/useAppDispatch";
@@ -135,12 +135,12 @@ const AccountPage = () => {
                     {dictionaryProfile.headings.kybStatus[locale]}
                   </div>
                   <div className="mt-18 flex items-center gap-12">
-                    {kybApplicationStatus > 3 ? (
+                    {kybApplicationStatus > KYB_STATUS_IDS.DeclinedByKybProvider ? (
                       <div className="flex items-center gap-4 border border-success text-success rounded-4 px-8 py-4">
                         <Icon icon="ph:seal-check-bold" className="w-20 h-20" />
                         {dictionaryProfile.kybStatusMessages.approved[locale]}
                       </div>
-                    ) : kybApplicationStatus === 3 ? (
+                    ) : kybApplicationStatus === KYB_STATUS_IDS.DeclinedByKybProvider ? (
                       <div className="flex items-center gap-4 border border-error text-error rounded-4 px-8 py-4">
                         <Icon icon="jam:close-circle" className="w-20 h-20" />
                         {dictionaryProfile.kybStatusMessages.declined[locale]}
@@ -149,7 +149,7 @@ const AccountPage = () => {
                       <>
                         <div className="flex items-center gap-4 border border-error text-error rounded-4 px-8 py-4">
                           <Icon icon="jam:close-circle" className="w-18 h-18" />
-                          {kybApplicationStatus === 1
+                          {kybApplicationStatus === KYB_STATUS_IDS.Pending
                             ? dictionaryProfile.kybStatusMessages.notStarted[locale]
                             : dictionaryProfile.kybStatusMessages.timedOut[locale]}
                         </div>
@@ -169,12 +169,12 @@ const AccountPage = () => {
                     {dictionaryProfile.headings.complianceStatus[locale]}
                   </div>
                   <div className="mt-18 flex items-center gap-12">
-                    {kybApplicationStatus === 5 ? (
+                    {kybApplicationStatus === KYB_STATUS_IDS.ApprovedByCompliance ? (
                       <div className="flex items-center gap-4 border border-success text-success rounded-4 px-8 py-4">
                         <Icon icon="ph:seal-check-bold" className="w-20 h-20" />
                         {dictionaryProfile.complianceStatusMessages.approved[locale]}
                       </div>
-                    ) : kybApplicationStatus === 6 ? (
+                    ) : kybApplicationStatus === KYB_STATUS_IDS.RejectedByCompliance ? (
                       <div className="flex items-center gap-4 border border-error text-error rounded-4 px-8 py-4">
                         <Icon icon="jam:close-circle" className="w-20 h-20" />
                         {dictionaryProfile.complianceStatusMessages.disapproved[locale]}
