@@ -119,3 +119,7 @@ ul.rc-pagination li.rc-pagination-jump-prev button::after {
   content: "\2022\2022\2022";
   display: block;
 }
+
+._1ckjpok3 {
+  background: linear-gradient(#031420, #07272d, #031420) !important;
+}

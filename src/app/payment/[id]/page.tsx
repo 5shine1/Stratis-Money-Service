@@ -20,7 +20,7 @@ import { dictionaryPayment } from "@/config/dictionary";
 import { setLocale } from "@/store/slices/locale.slice";
 import useAppDispatch from "@/hooks/global/useAppDispatch";
 import { LOCALES } from "@/config/constants";
-import { RainbowKitProvider, getDefaultConfig } from "@rainbow-me/rainbowkit";
+import { RainbowKitProvider, darkTheme, getDefaultConfig } from "@rainbow-me/rainbowkit";
 import { metaMaskWallet, rainbowWallet, bitgetWallet, walletConnectWallet } from "@rainbow-me/rainbowkit/wallets";
 import { WagmiProvider } from "wagmi";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
@@ -183,7 +183,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
   }, [status]); //eslint-disable-line
 
   const config = getDefaultConfig({
-    appName: "masternode dAPP",
+    appName: "stratis money service",
     projectId: "YOUR_PROJECT_ID",
     chains: [sepolia, mainnet],
     wallets: [
@@ -199,7 +199,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
   return (
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
-        <RainbowKitProvider>
+        <RainbowKitProvider theme={darkTheme({ accentColor: "#cdb053" })}>
           {isLoading ? null : (
             <main className="overflow-x-hidden relative py-40 px-12 flex justify-between md:justify-center items-center h-full  min-h-screen m-auto flex-col gap-32 md:gap-60 w-full ">
               <Link href={"/"} className="flex flex-col md:flex-row items-center gap-16 justify-center">
