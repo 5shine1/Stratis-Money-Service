@@ -18,6 +18,7 @@ import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
 import { LoadingContext } from "@/components/providers/LoadingProvider";
 import { dictionaryGlobal } from "@/config/dictionary";
 import useAppSelector from "@/hooks/global/useAppSelector";
+import { KYB_STATUS_IDS } from "@/@types/common";
 
 type Props = {
   params: {
@@ -95,10 +96,10 @@ const UserDetailPage: React.FC<Props> = ({ params }) => {
   const handleActiveUser = async () => {
     setLoading(true);
     const userId = userInfo.userId;
-    const status = !userInfo.isKnowYourBusinessPassed;
+    const status = !(userInfo.kybApplicationStatus < KYB_STATUS_IDS.RejectedByCompliance);
     try {
       await apiActivateUser(userId, status);
-      setUserInfo({ ...userInfo, isKnowYourBusinessPassed: status });
+      setUserInfo({ ...userInfo, kybApplicationStatus: status ? KYB_STATUS_IDS.ApprovedByCompliance : KYB_STATUS_IDS.RejectedByCompliance });
       toast.success(`${status ? "Approved" : "Disapproved"} successfully.`);
     } catch (error) {
       toast.error("Server error.");
@@ -200,14 +201,14 @@ const UserDetailPage: React.FC<Props> = ({ params }) => {
                 </span>
                 <span>
                   <span className="opacity-60">KYB State: </span>
-                  <span className={`${userInfo.isKnowYourBusinessCompleted ? "text-success" : "text-error"}`}>
-                    {userInfo.isKnowYourBusinessCompleted ? "Verified" : "Not Verified"}
+                  <span className={`${userInfo.kybApplicationStatus >= KYB_STATUS_IDS.AcceptedByKybProvider ? "text-success" : "text-error"}`}>
+                    {userInfo.kybApplicationStatus >= KYB_STATUS_IDS.AcceptedByKybProvider ? "Verified" : "Not Verified"}
                   </span>
                 </span>
                 <span>
                   <span className="opacity-60">Compliance State: </span>
-                  <span className={`${userInfo.isKnowYourBusinessPassed ? "text-success" : "text-error"}`}>
-                    {userInfo.isKnowYourBusinessPassed ? "Verified" : "Not Verified"}
+                  <span className={`${userInfo.kybApplicationStatus === KYB_STATUS_IDS.ApprovedByCompliance ? "text-success" : "text-error"}`}>
+                    {userInfo.kybApplicationStatus === KYB_STATUS_IDS.ApprovedByCompliance ? "Verified" : "Not Verified"}
                   </span>
                 </span>
                 <AnimatedSlideButton
@@ -217,7 +218,7 @@ const UserDetailPage: React.FC<Props> = ({ params }) => {
                   className=" w-fit text-white text-14 font-normal py-12 px-24 border border-secondary-300 rounded-full"
                   backClassName="from-primary-400 to-secondary-300 "
                 >
-                  {userInfo.isKnowYourBusinessPassed ? "Disapprove Compliance" : "Approve Compliance"}
+                  {userInfo.kybApplicationStatus === KYB_STATUS_IDS.AcceptedByKybProvider ? "Disapprove Compliance" : "Approve Compliance"}
                 </AnimatedSlideButton>
               </div>
             </div>
