@@ -1511,9 +1511,9 @@ export const dictionaryApp = {
     menu: {
       order: {
         EN: "Order",
-        ES: "Pedido",
-        FR: "Commande",
-        RO: "Comandă",
+        ES: "Órden",
+        FR: "Ordres",
+        RO: "Ordine",
       },
       withdraw: {
         EN: "Withdraw",
