@@ -45,7 +45,7 @@ const ConnectButton = ({ chain, amount, paymentDestination, selectedCurrency }) 
         <button
           type="button"
           disabled={isPending || isConfirming || isContractPending || isContractConfirming}
-          className=" text-button-text text-14 font-semibold py-12 px-36 whitespace-nowrap rounded-12 gap-8 border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50"
+          className=" text-button-text w-full max-w-240 text-16 font-semibold py-12 px-36 whitespace-nowrap rounded-12 gap-8 border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50"
           onClick={handleMakePayment}
         >
           {isPending || isConfirming || isContractPending || isContractConfirming
@@ -56,7 +56,7 @@ const ConnectButton = ({ chain, amount, paymentDestination, selectedCurrency }) 
     </>
   ) : (
     <button
-      className=" text-button-text text-14 font-semibold py-12 px-36 whitespace-nowrap rounded-12 gap-8 border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50"
+      className=" text-button-text w-full max-w-240 text-16 font-semibold py-12 px-36 whitespace-nowrap rounded-12 gap-8 border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50"
       onClick={openConnectModal}
     >
       {dictionaryPayment.buttons.connectWallet[locale]}
