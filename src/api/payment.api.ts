@@ -17,7 +17,8 @@ export const apiGenerate = async (
   customerName: string,
   customerAddress: string,
   customerDateOfBirth: string,
-  customerPlaceOfBirth: string
+  customerPlaceOfBirth: string,
+  paymentLinkCulture:string
 ) => {
   try {
     const result = await axiosInstance.post("/api/Payment/Generate", {
@@ -29,7 +30,7 @@ export const apiGenerate = async (
       customerAddress,
       customerDateOfBirth,
       customerPlaceOfBirth,
-      paymentLinkCulture: "EN",
+      paymentLinkCulture,
     });
     return result?.data;
   } catch (error) {

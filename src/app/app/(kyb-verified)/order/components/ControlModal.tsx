@@ -10,6 +10,7 @@ import DatePicker from "@/components/global/DatePicker";
 import IconBox from "@/components/global/IconBox";
 import CurrencyInputSelect from "@/components/global/CurrencyInputSelect";
 import { dictionaryOrder } from "@/config/dictionary";
+import LanguageSelect from "@/components/global/AppLanguageSelect";
 
 type Props = {
   isOpen: boolean;
@@ -22,13 +23,15 @@ type Props = {
     payerName: string, //eslint-disable-line
     payerAddress: string, //eslint-disable-line
     payerDOB: string, //eslint-disable-line
-    payerPOB: string //eslint-disable-line
+    payerPOB: string, //eslint-disable-line
+    language: string //eslint-disable-line
   ) => void;
 };
 const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext }) => {
   const { locale } = useAppSelector((state) => state.locale);
   const { currencies } = useAppSelector((state) => state.payment);
   const [amount, setAmount] = useState({ value: "", error: "" });
+  const [language, setLanguage] = useState({ value: locale, error: "" });
   const [currency, setCurrency] = useState<{ value: ICurrency; error: string }>({ value: currencies[0], error: "" });
   const [reference, setReference] = useState({ value: "", error: "" });
   const [payerEmail, setPayerEmail] = useState({ value: "", error: "" });
@@ -42,44 +45,44 @@ const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext }) => {
     let temp = 0;
     if (!amount.value) {
       temp++;
-      setAmount({ ...amount, error: "Amount required." });
+      setAmount({ ...amount, error: dictionaryOrder.controlModal.errors.required[locale] });
     }
     if (!currency.value) {
       temp++;
-      setCurrency({ ...currency, error: "Currency required." });
+      setCurrency({ ...currency, error: dictionaryOrder.controlModal.errors.required[locale] });
     }
     if (!reference.value) {
       temp++;
-      setReference({ ...reference, error: "Link reference required." });
+      setReference({ ...reference, error: dictionaryOrder.controlModal.errors.required[locale] });
     }
 
     if (!isValidEmail(payerEmail.value)) {
       temp++;
-      setPayerEmail({ ...payerEmail, error: "Invalid email." });
+      setPayerEmail({ ...payerEmail, error: dictionaryOrder.controlModal.errors.invalidEmail[locale] });
     }
     if (!payerEmail.value) {
       temp++;
-      setPayerEmail({ ...payerEmail, error: "This field required." });
+      setPayerEmail({ ...payerEmail, error: dictionaryOrder.controlModal.errors.required[locale] });
     }
     if (!payerFirstName.value) {
       temp++;
-      setPayerFirstName({ ...payerFirstName, error: "This field required." });
+      setPayerFirstName({ ...payerFirstName, error: dictionaryOrder.controlModal.errors.required[locale] });
     }
     if (!payerLastName.value) {
       temp++;
-      setPayerLastName({ ...payerLastName, error: "This field required." });
+      setPayerLastName({ ...payerLastName, error: dictionaryOrder.controlModal.errors.required[locale] });
     }
     if (!payerAddress.value) {
       temp++;
-      setPayerAddress({ ...payerAddress, error: "This field required." });
+      setPayerAddress({ ...payerAddress, error: dictionaryOrder.controlModal.errors.required[locale] });
     }
     if (!payerDOB.value) {
       temp++;
-      setPayerDOB({ ...payerDOB, error: "This field required." });
+      setPayerDOB({ ...payerDOB, error: dictionaryOrder.controlModal.errors.required[locale] });
     }
     if (!payerPOB.value) {
       temp++;
-      setPayerPOB({ ...payerPOB, error: "This field required." });
+      setPayerPOB({ ...payerPOB, error: dictionaryOrder.controlModal.errors.required[locale] });
     }
 
     if (temp > 0) return;
@@ -91,7 +94,8 @@ const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext }) => {
       payerFirstName.value + " " + payerLastName.value,
       payerAddress.value,
       payerDOB.value,
-      payerPOB.value
+      payerPOB.value,
+      language.value
     );
   };
 
@@ -143,17 +147,23 @@ const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext }) => {
                 setCurrency({ value: selected, error: "" });
               }}
             ></CurrencyInputSelect>
-            <AppInput
-              value={reference.value}
-              onChange={(e) => {
-                setReference({ error: "", value: e });
-              }}
-              placeholder={dictionaryOrder.controlModal.placeholders.reference[locale]}
-              label={dictionaryOrder.controlModal.labels.reference[locale]}
-              error={reference.error}
-              pattern="^[a-zA-Z0-9-]+$"
+            <LanguageSelect
+              value={language.value}
+              onChange={(e) => setLanguage({ error: "", value: e })}
+              error={language.error}
+              label={dictionaryOrder.controlModal.labels.language[locale]}
             />
           </div>
+          <AppInput
+            value={reference.value}
+            onChange={(e) => {
+              setReference({ error: "", value: e });
+            }}
+            placeholder={dictionaryOrder.controlModal.placeholders.reference[locale]}
+            label={dictionaryOrder.controlModal.labels.reference[locale]}
+            error={reference.error}
+            pattern="^[a-zA-Z0-9-]+$"
+          />
           <div className="flex items-start gap-16 md:gap-12 md:flex-row flex-col">
             <AppInput
               value={payerFirstName.value}

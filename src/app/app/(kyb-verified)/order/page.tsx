@@ -94,7 +94,8 @@ const OrderPage = () => {
     payerName: string,
     payerAddress: string,
     payerDOB: string,
-    payerPOB: string
+    payerPOB: string,
+    language: string
   ) => {
     setLoading(true);
     try {
@@ -106,7 +107,8 @@ const OrderPage = () => {
         payerName,
         payerAddress,
         payerDOB,
-        payerPOB
+        payerPOB,
+        language
       );
       if (!result.paymentId) throw "no result";
       setPaymentOrders([
