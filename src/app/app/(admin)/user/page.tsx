@@ -70,7 +70,11 @@ const UserPage = () => {
       await apiActivateUser(userId, status);
       setUsers(
         users.map((user) => {
-          if (user.userId === userId) return { ...user, isKnowYourBusinessPassed: status };
+          if (user.userId === userId)
+            return {
+              ...user,
+              kybApplicationStatus: status ? KYB_STATUS_IDS.ApprovedByCompliance : KYB_STATUS_IDS.RejectedByCompliance,
+            };
           return user;
         })
       );
@@ -179,7 +183,7 @@ const UserPage = () => {
                                 >
                                   <Icon icon="ph:eye-fill" className="w-20 h-20"></Icon>
                                 </Link>
-                                {item.kybApplicationStatus === KYB_STATUS_IDS.ApprovedByCompliance? (
+                                {item.kybApplicationStatus === KYB_STATUS_IDS.ApprovedByCompliance ? (
                                   <button
                                     onClick={() => {
                                       handleActiveUser(item.userId, false);
