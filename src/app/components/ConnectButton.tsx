@@ -31,8 +31,8 @@ const ConnectButton = ({ chain, amount, paymentDestination, selectedCurrency }) 
       writeContract({
         abi: erc20Abi,
         address: selectedCurrency.tokenContract,
-        functionName: "transferFrom",
-        args: [account.address, paymentDestination, BigInt(amount * Math.pow(10, selectedCurrency.decimals))],
+        functionName: "transfer",
+        args: [paymentDestination, BigInt(amount * Math.pow(10, selectedCurrency.decimals))],
         chain: chain,
         account: account.address,
       });
