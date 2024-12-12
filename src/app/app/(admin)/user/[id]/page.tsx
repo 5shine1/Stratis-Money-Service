@@ -230,7 +230,7 @@ const UserDetailPage: React.FC<Props> = ({ params }) => {
                       : "Not Verified"}
                   </span>
                 </span>
-                <AnimatedSlideButton
+                {userInfo.kybApplicationStatus >= KYB_STATUS_IDS.AcceptedByKybProvider && <AnimatedSlideButton
                   onClick={() => {
                     handleActiveUser();
                   }}
@@ -240,7 +240,7 @@ const UserDetailPage: React.FC<Props> = ({ params }) => {
                   {userInfo.kybApplicationStatus === KYB_STATUS_IDS.ApprovedByCompliance
                     ? "Disapprove Compliance"
                     : "Approve Compliance"}
-                </AnimatedSlideButton>
+                </AnimatedSlideButton>}
               </div>
             </div>
           </div>
