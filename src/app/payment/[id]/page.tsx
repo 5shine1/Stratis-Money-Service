@@ -16,7 +16,6 @@ import IconBox from "@/components/global/IconBox";
 import ChainLine from "./components/ChainLine";
 import IconBoxSm from "@/components/global/IconBoxSm";
 import { dictionaryPayment } from "@/config/dictionary";
-import useAppDispatch from "@/hooks/global/useAppDispatch";
 import { LOCALES } from "@/config/constants";
 import { RainbowKitProvider, darkTheme, getDefaultConfig } from "@rainbow-me/rainbowkit";
 import { metaMaskWallet, rainbowWallet, bitgetWallet, walletConnectWallet } from "@rainbow-me/rainbowkit/wallets";
@@ -36,7 +35,6 @@ type Props = {
 const PaymentPage: React.FC<Props> = ({ params }) => {
   // const { locale } = useAppSelector((state) => state.locale);
   const [locale, setLocale] = useState("EN");
-  const dispatch = useAppDispatch();
   const totalConfirmations = 6;
   const id = params.id;
   const { setLoading } = useContext(LoadingContext);
