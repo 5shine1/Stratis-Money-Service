@@ -15,9 +15,7 @@ import ProgressBar from "@/app/components/ProgressBar";
 import IconBox from "@/components/global/IconBox";
 import ChainLine from "./components/ChainLine";
 import IconBoxSm from "@/components/global/IconBoxSm";
-import useAppSelector from "@/hooks/global/useAppSelector";
 import { dictionaryPayment } from "@/config/dictionary";
-import { setLocale } from "@/store/slices/locale.slice";
 import useAppDispatch from "@/hooks/global/useAppDispatch";
 import { LOCALES } from "@/config/constants";
 import { RainbowKitProvider, darkTheme, getDefaultConfig } from "@rainbow-me/rainbowkit";
@@ -36,7 +34,8 @@ type Props = {
 };
 
 const PaymentPage: React.FC<Props> = ({ params }) => {
-  const { locale } = useAppSelector((state) => state.locale);
+  // const { locale } = useAppSelector((state) => state.locale);
+  const [locale, setLocale] = useState("EN");
   const dispatch = useAppDispatch();
   const totalConfirmations = 6;
   const id = params.id;
@@ -78,6 +77,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
     setIsLoading(true);
     try {
       const result = await apiPaymentStart(id);
+      setLocale(result.paymentLinkCulture);
       setPaymentInfo(result);
       if (result?.state === 200) setStatus(200);
       else if (result?.state === 55) setStatus(55);
@@ -575,7 +575,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
                       <div
                         key={item.code}
                         className={`cursor-pointer ${locale === item.code ? "text-secondary-400" : "hover:text-white"}`}
-                        onClick={() => dispatch(setLocale(item.code))}
+                        onClick={() => setLocale(item.code)}
                       >
                         {item.code}
                       </div>
