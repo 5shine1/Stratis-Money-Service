@@ -14,7 +14,7 @@ import { dictionaryAuth } from "@/config/dictionary";
 const VerifyEmailSendPage = () => {
   const { locale } = useAppSelector((state) => state.locale);
   const searchParams = useSearchParams();
-  const email = searchParams.get("email");
+  const email = searchParams.get("email").replace(" ", "+");
   const { setLoading } = useContext(LoadingContext);
 
   const handleResendEmail = async () => {

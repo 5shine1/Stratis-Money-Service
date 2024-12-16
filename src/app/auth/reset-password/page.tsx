@@ -18,7 +18,7 @@ const ResetPasswordPage = () => {
   const router = useRouter();
   const { setLoading } = useContext(LoadingContext);
   const searchParams = useSearchParams();
-  const email = searchParams.get("email");
+  const email = searchParams.get("email").replace(" ", "+");
   const code = searchParams.get("code");
   const [password, setPassword] = useState({ value: "", error: "" });
   const [passwordConfirm, setPasswordConfirm] = useState({
