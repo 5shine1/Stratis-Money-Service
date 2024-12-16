@@ -103,6 +103,10 @@ const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext }) => {
     setCurrency({ value: currencies[0], error: "" });
   }, [currencies]);
 
+  useEffect(() => {
+    setLanguage({ value: locale, error: "" });
+  }, [isOpen]); //eslint-disable-line
+
   return (
     <Modal
       isOpen={isOpen}
@@ -117,6 +121,7 @@ const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext }) => {
         setPayerLastName({ value: "", error: "" });
         setPayerDOB({ value: null, error: "" });
         setPayerPOB({ value: "", error: "" });
+        setLanguage({ value: locale, error: "" });
       }}
       className="relative z-50 g-box-back w-full max-w-740  rounded-20 shadow-md m-auto border border-modal-border"
       overlayClassName="bg-black/50 backdrop-blur-md fixed left-0 top-0 w-full h-full z-40 px-8 py-32 overflow-y-auto flex items-start justify-center"
