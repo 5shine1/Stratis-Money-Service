@@ -182,7 +182,7 @@ const UserPage = () => {
                                   className="text-white/40 u-transition-color hover:text-info"
                                 >
                                   <Icon icon="ph:eye-fill" className="w-20 h-20"></Icon>
-                                </Link>                                
+                                </Link>
                                 {item.kybApplicationStatus === KYB_STATUS_IDS.ApprovedByCompliance ? (
                                   <button
                                     onClick={() => {
