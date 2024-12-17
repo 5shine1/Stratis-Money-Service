@@ -64,7 +64,15 @@ const UserPage = () => {
     setIsLoading(false);
   };
 
-  const handleActiveUser = async (userId: string, status: boolean) => {
+  const approveCompliance = async (userId: string) => {
+    await this,handleComplianceStatus(userId, true);
+  };
+
+  const declineCompliance = async (userId: string) => {
+    await this,handleComplianceStatus(userId, false);
+  };
+
+  const handleComplianceStatus = async (userId: string, status: boolean) => {
     setLoading(true);
     try {
       await apiActivateUser(userId, status);
@@ -186,7 +194,7 @@ const UserPage = () => {
                                 {item.kybApplicationStatus === KYB_STATUS_IDS.ApprovedByCompliance ? (
                                   <button
                                     onClick={() => {
-                                      handleActiveUser(item.userId, false);
+                                      declineCompliance(item.userId);
                                     }}
                                     className="text-white/40 u-transition-color hover:text-error"
                                   >
@@ -196,7 +204,7 @@ const UserPage = () => {
                                   <button
                                     disabled={item.kybApplicationStatus < KYB_STATUS_IDS.AcceptedByKybProvider}
                                     onClick={() => {
-                                      handleActiveUser(item.userId, true);
+                                      approveCompliance(item.userId);
                                     }}
                                     className={`text-white/40 u-transition-color ${item.kybApplicationStatus < KYB_STATUS_IDS.AcceptedByKybProvider ? "cursor-not-allowed " : "hover:text-success"}`}
                                   >
