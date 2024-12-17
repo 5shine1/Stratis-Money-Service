@@ -182,7 +182,7 @@ const UserPage = () => {
                                   className="text-white/40 u-transition-color hover:text-info"
                                 >
                                   <Icon icon="ph:eye-fill" className="w-20 h-20"></Icon>
-                                </Link>
+                                </Link>                                
                                 {item.kybApplicationStatus === KYB_STATUS_IDS.ApprovedByCompliance ? (
                                   <button
                                     onClick={() => {
@@ -194,10 +194,11 @@ const UserPage = () => {
                                   </button>
                                 ) : (
                                   <button
+                                    disabled={item.kybApplicationStatus < KYB_STATUS_IDS.AcceptedByKybProvider}
                                     onClick={() => {
                                       handleActiveUser(item.userId, true);
                                     }}
-                                    className="text-white/40 u-transition-color hover:text-success"
+                                    className={`text-white/40 u-transition-color ${item.kybApplicationStatus < KYB_STATUS_IDS.AcceptedByKybProvider ? "cursor-not-allowed " : "hover:text-success"}`}
                                   >
                                     <Icon icon="mdi:approve" className="w-20 h-20"></Icon>
                                   </button>
