@@ -65,11 +65,11 @@ const UserPage = () => {
   };
 
   const approveCompliance = async (userId: string) => {
-    await this,handleComplianceStatus(userId, true);
+    await handleComplianceStatus(userId, true);
   };
 
   const declineCompliance = async (userId: string) => {
-    await this,handleComplianceStatus(userId, false);
+    await handleComplianceStatus(userId, false);
   };
 
   const handleComplianceStatus = async (userId: string, status: boolean) => {
