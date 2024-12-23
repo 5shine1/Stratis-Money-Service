@@ -121,12 +121,13 @@ const OrderPage = () => {
           payer,
           currency: currencySymbol,
           amount,
+          creator: "Me",
         },
         ...paymentOrders,
       ]);
       toast.success(dictionaryOrder.messages.generatedSuccess[locale]);
       setControlModalOpen(null);
-      location.href = `/payment/${result.paymentId}`;
+      window.open(`/payment/${result.paymentId}`, "_blank", "noopener,noreferrer");
     } catch (error) {
       toast.error(dictionaryOrder.messages.serverError[locale]);
     }
