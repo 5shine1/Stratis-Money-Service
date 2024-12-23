@@ -238,6 +238,14 @@ const OrderPage = () => {
                               <td className="px-8">
                                 <div className="flex items-center gap-16 justify-end">
                                   <Link
+                                    href={`/payment/${item.paymentId}`}
+                                    target="_blank"
+                                    className="text-white/40 u-transition-color hover:text-info"
+                                  >
+                                    <Icon icon="fluent:play-12-filled" className="w-18 h-18"></Icon>
+                                  </Link>
+
+                                  <Link
                                     href={`/app/order/${item.paymentId}`}
                                     target="_blank"
                                     className="text-white/40 u-transition-color hover:text-info"
@@ -303,6 +311,14 @@ const OrderPage = () => {
                           <div className="flex justify-between items-center gap-24 overflow-hidden">
                             <div className="flex-none opacity-70">{dictionaryOrder.tableHeaders.actions[locale]}</div>
                             <div className="flex items-center gap-16 justify-end">
+                              <Link
+                                href={`/payment/${item.paymentId}`}
+                                target="_blank"
+                                className="text-white/40 u-transition-color hover:text-info"
+                              >
+                                <Icon icon="fluent:play-12-filled" className="w-18 h-18"></Icon>
+                              </Link>
+
                               <Link
                                 href={`/app/order/${item.paymentId}`}
                                 target="_blank"
