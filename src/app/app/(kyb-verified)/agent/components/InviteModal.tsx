@@ -9,7 +9,6 @@ import { isValidEmail } from "@/utils/string.utils";
 import toast from "react-hot-toast";
 import { apiInviteAgent } from "@/api/auth.api";
 import { LoadingContext } from "@/components/providers/LoadingProvider";
-import Link from "next/link";
 import { dictionaryAgent } from "@/config/dictionary";
 
 type Props = {
@@ -20,7 +19,6 @@ const InviteModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const { locale } = useAppSelector((state) => state.locale);
   const [email, setEmail] = useState({ value: "", error: "" });
   const { userId } = useAppSelector((state) => state.auth);
-  const { bankAccountHolder } = useAppSelector((state) => state.setting);
   const { setLoading } = useContext(LoadingContext);
 
   const handleInviteAgent = async () => {
@@ -67,32 +65,16 @@ const InviteModal: React.FC<Props> = ({ isOpen, onClose }) => {
             label={dictionaryAgent.inviteModal.labels.agentEmail[locale]}
             error={email.error}
           />
-          {!bankAccountHolder && (
-            <div className="text-14 text-error border border-error rounded-6 p-12 bg-error/10 flex gap-6 items-center">
-              <Icon icon={"iconoir:warning-circle"} className="text-20" />
-              {dictionaryAgent.inviteModal.errors.connectBank[locale]}
-            </div>
-          )}
-          {!bankAccountHolder ? (
-            <Link href={"/app/account"} className="w-full">
-              <AnimatedSlideButton
-                className="w-full text-white text-20 py-12 px-32 border border-secondary-300  rounded-full mt-8"
-                backClassName="from-primary-400 to-secondary-300 "
-              >
-                {dictionaryAgent.inviteModal.buttons.connectBank[locale]}
-              </AnimatedSlideButton>
-            </Link>
-          ) : (
-            <AnimatedSlideButton
-              onClick={() => {
-                handleInviteAgent();
-              }}
-              className="text-white text-20 py-12 px-32 border border-secondary-300  rounded-full mt-8"
-              backClassName="from-primary-400 to-secondary-300 "
-            >
-              {dictionaryAgent.inviteModal.buttons.sendInvite[locale]}
-            </AnimatedSlideButton>
-          )}
+
+          <AnimatedSlideButton
+            onClick={() => {
+              handleInviteAgent();
+            }}
+            className="text-white text-20 py-12 px-32 border border-secondary-300  rounded-full mt-8"
+            backClassName="from-primary-400 to-secondary-300 "
+          >
+            {dictionaryAgent.inviteModal.buttons.sendInvite[locale]}
+          </AnimatedSlideButton>
         </div>
       </div>
     </Modal>
