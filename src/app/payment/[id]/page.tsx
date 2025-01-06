@@ -568,16 +568,15 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
               <div className="text-14 flex items-center text-input-text border border-modal-border g-box-back p-12 rounded-6 gap-8">
                 {LOCALES.map((item, i) => {
                   return (
-                    <>
+                    <React.Fragment key={item.code}>
                       {i !== 0 && <hr className="rotate-90 w-16" />}
                       <div
-                        key={item.code}
                         className={`cursor-pointer ${locale === item.code ? "text-secondary-400" : "hover:text-white"}`}
                         onClick={() => setLocale(item.code)}
                       >
                         {item.code}
                       </div>
-                    </>
+                    </React.Fragment>
                   );
                 })}
               </div>

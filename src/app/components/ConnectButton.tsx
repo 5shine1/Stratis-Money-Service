@@ -4,10 +4,11 @@ import { useAccount, useSendTransaction, useWaitForTransactionReceipt, useWriteC
 import { erc20Abi, parseEther } from "viem";
 import useAppSelector from "@/hooks/global/useAppSelector";
 import { dictionaryPayment } from "@/config/dictionary";
+import { polygonAmoy } from "viem/chains";
 
 const ConnectButton = ({ chainProp, amount, paymentDestination, selectedCurrency }) => {
   const account = useAccount();
-  const { switchChain } = useSwitchChain();
+  const { switchChainAsync } = useSwitchChain();
   const [chain, setChain] = useState(chainProp);
   const { openConnectModal } = useConnectModal();
 
@@ -27,12 +28,13 @@ const ConnectButton = ({ chainProp, amount, paymentDestination, selectedCurrency
   const { locale } = useAppSelector((state) => state.locale);
 
   const handleMakePayment = async () => {
-    switchChain({ chainId: chain.id });
+    console.log(chain, { ...chain, id: chain.chainId }, polygonAmoy);
+    await switchChainAsync({ chainId: chain.chainId });
     if (selectedCurrency.isNative) {
       sendTransaction({
         to: paymentDestination,
         value: value,
-        chainId: chain.id,
+        chainId: chain.chainId,
       });
     } else {
       writeContract({
@@ -40,7 +42,7 @@ const ConnectButton = ({ chainProp, amount, paymentDestination, selectedCurrency
         address: selectedCurrency.tokenContract,
         functionName: "transfer",
         args: [paymentDestination, BigInt(amount * Math.pow(10, selectedCurrency.decimals))],
-        chain: chain,
+        chain,
         account: account.address,
       });
     }
