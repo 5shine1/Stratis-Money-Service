@@ -4,7 +4,6 @@ import { useAccount, useSendTransaction, useWaitForTransactionReceipt, useWriteC
 import { erc20Abi, parseEther } from "viem";
 import useAppSelector from "@/hooks/global/useAppSelector";
 import { dictionaryPayment } from "@/config/dictionary";
-import { polygonAmoy } from "viem/chains";
 
 const ConnectButton = ({ chainProp, amount, paymentDestination, selectedCurrency }) => {
   const account = useAccount();
