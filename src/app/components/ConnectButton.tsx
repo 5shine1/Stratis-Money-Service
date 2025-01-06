@@ -28,7 +28,6 @@ const ConnectButton = ({ chainProp, amount, paymentDestination, selectedCurrency
   const { locale } = useAppSelector((state) => state.locale);
 
   const handleMakePayment = async () => {
-    console.log(chain, { ...chain, id: chain.chainId }, polygonAmoy);
     await switchChainAsync({ chainId: chain.chainId });
     if (selectedCurrency.isNative) {
       sendTransaction({
