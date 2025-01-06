@@ -7,7 +7,7 @@ import { dictionaryPayment } from "@/config/dictionary";
 
 const ConnectButton = ({ chainProp, amount, paymentDestination, selectedCurrency }) => {
   const account = useAccount();
-  const { switchChainAsync } = useSwitchChain();
+  const { chains, switchChainAsync } = useSwitchChain();
   const [chain, setChain] = useState(chainProp);
   const { openConnectModal } = useConnectModal();
 
@@ -40,7 +40,7 @@ const ConnectButton = ({ chainProp, amount, paymentDestination, selectedCurrency
         address: selectedCurrency.tokenContract,
         functionName: "transfer",
         args: [paymentDestination, BigInt(amount * Math.pow(10, selectedCurrency.decimals))],
-        chain,
+        chain: chains.find((item) => item.id === chain.chainId),
         account: account.address,
       });
     }
