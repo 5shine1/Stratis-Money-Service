@@ -1,12 +1,14 @@
 import { useConnectModal } from "@rainbow-me/rainbowkit";
-import React from "react";
-import { useAccount, useSendTransaction, useWaitForTransactionReceipt, useWriteContract } from "wagmi";
+import React, { useEffect, useState } from "react";
+import { useAccount, useSendTransaction, useWaitForTransactionReceipt, useWriteContract, useSwitchChain } from "wagmi";
 import { erc20Abi, parseEther } from "viem";
 import useAppSelector from "@/hooks/global/useAppSelector";
 import { dictionaryPayment } from "@/config/dictionary";
 
-const ConnectButton = ({ chain, amount, paymentDestination, selectedCurrency }) => {
+const ConnectButton = ({ chainProp, amount, paymentDestination, selectedCurrency }) => {
   const account = useAccount();
+  const { switchChain } = useSwitchChain();
+  const [chain, setChain] = useState(chainProp);
   const { openConnectModal } = useConnectModal();
 
   const { data: hash, isPending, sendTransaction } = useSendTransaction();
@@ -16,11 +18,16 @@ const ConnectButton = ({ chain, amount, paymentDestination, selectedCurrency }) 
     hash: contractTxHash,
   });
 
+  useEffect(() => {
+    setChain(chainProp);
+  }, [chainProp]);
+
   const value = parseEther(amount.toString());
 
   const { locale } = useAppSelector((state) => state.locale);
 
   const handleMakePayment = async () => {
+    switchChain({ chainId: chain.id });
     if (selectedCurrency.isNative) {
       sendTransaction({
         to: paymentDestination,
