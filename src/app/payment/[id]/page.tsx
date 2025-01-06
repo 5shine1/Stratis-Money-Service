@@ -21,7 +21,7 @@ import { RainbowKitProvider, darkTheme, getDefaultConfig } from "@rainbow-me/rai
 import { metaMaskWallet, rainbowWallet, bitgetWallet, walletConnectWallet } from "@rainbow-me/rainbowkit/wallets";
 import { WagmiProvider } from "wagmi";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
-import { mainnet, sepolia } from "viem/chains";
+import { arbitrumSepolia, mainnet, optimismSepolia, polygonAmoy, sepolia } from "viem/chains";
 import ConnectButton from "@/app/components/ConnectButton";
 import "@rainbow-me/rainbowkit/styles.css";
 import { isMobile } from "react-device-detect";
@@ -183,7 +183,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
   const config = getDefaultConfig({
     appName: "stratis money service",
     projectId: "YOUR_PROJECT_ID",
-    chains: [sepolia, mainnet],
+    chains: [sepolia, mainnet, polygonAmoy, arbitrumSepolia, optimismSepolia],
     wallets: [
       {
         groupName: "Recommended",
@@ -369,7 +369,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
                             <ConnectButton
                               paymentDestination={paymentAddress}
                               amount={paymentAmount}
-                              chain={networkList[network]}
+                              chainProp={networkList[network]}
                               selectedCurrency={selectedCurrency}
                             />
                           )}
