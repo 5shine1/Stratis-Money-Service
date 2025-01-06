@@ -238,13 +238,15 @@ const OrderPage = () => {
                               </td>
                               <td className="px-8">
                                 <div className="flex items-center gap-16 justify-end">
-                                  <Link
-                                    href={`/payment/${item.paymentId}`}
-                                    target="_blank"
-                                    className="text-white/40 u-transition-color hover:text-info"
-                                  >
-                                    <Icon icon="fluent:play-12-filled" className="w-18 h-18"></Icon>
-                                  </Link>
+                                  {item.state !== 55 && item.state !== 200 && (
+                                    <Link
+                                      href={`/payment/${item.paymentId}`}
+                                      target="_blank"
+                                      className="text-white/40 u-transition-color hover:text-info"
+                                    >
+                                      <Icon icon="fluent:play-12-filled" className="w-18 h-18"></Icon>
+                                    </Link>
+                                  )}
 
                                   <Link
                                     href={`/app/order/${item.paymentId}`}
