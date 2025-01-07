@@ -75,7 +75,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
     setIsLoading(true);
     try {
       const result = await apiPaymentStart(id);
-      setLocale(result.paymentLinkCulture);
+      setLocale(result?.paymentLinkCulture || "EN");
       setPaymentInfo(result);
       if (result?.state === 200) setStatus(200);
       else if (result?.state === 55) setStatus(55);
