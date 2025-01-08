@@ -2054,6 +2054,30 @@ export const dictionaryOrder = {
         RO: "Generați",
       },
     },
+    alert: {
+      EN: "You set $1 for the payment. You can change setting",
+      FR: "Vous avez défini $1 pour le paiement. Vous pouvez modifier ce paramètre",
+      ES: "Has configurado $1 para el pago. Puedes cambiar la configuración",
+      RO: "Ați setat $1 pentru plată. Puteți modifica setarea",
+    },
+    here: {
+      EN: "here",
+      FR: "ici",
+      ES: "aquí",
+      RO: "aici",
+    },
+    stableonly: {
+      EN: "stable coins only",
+      FR: "uniquement des stablecoins",
+      ES: "solo monedas estables",
+      RO: "doar monede stabile",
+    },
+    allcoin: {
+      EN: "all kind of coins",
+      FR: "tous types de monnaies",
+      ES: "todo tipo de monedas",
+      RO: "toate tipurile de monede",
+    },
   },
   deleteModal: {
     delete: {
