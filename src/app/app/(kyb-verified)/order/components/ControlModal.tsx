@@ -11,6 +11,7 @@ import IconBox from "@/components/global/IconBox";
 import CurrencyInputSelect from "@/components/global/CurrencyInputSelect";
 import { dictionaryOrder } from "@/config/dictionary";
 import LanguageSelect from "@/components/global/AppLanguageSelect";
+import Link from "next/link";
 
 type Props = {
   isOpen: boolean;
@@ -30,6 +31,7 @@ type Props = {
 const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext }) => {
   const { locale } = useAppSelector((state) => state.locale);
   const { currencies } = useAppSelector((state) => state.payment);
+  const { acceptNonStablecoinPayments } = useAppSelector((state) => state.setting);
   const [amount, setAmount] = useState({ value: "", error: "" });
   const [language, setLanguage] = useState({ value: locale, error: "" });
   const [currency, setCurrency] = useState<{ value: ICurrency; error: string }>({ value: currencies[0], error: "" });
@@ -228,6 +230,21 @@ const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext }) => {
             label={dictionaryOrder.controlModal.labels.address[locale]}
             error={payerAddress.error}
           />
+          <div className="text-input-label text-14 flex gap-8">
+            <Icon icon={"material-symbols:info"} className="text-18 flex-none" />
+            <span>
+              {dictionaryOrder.controlModal.alert[locale].replace(
+                "$1",
+                acceptNonStablecoinPayments
+                  ? dictionaryOrder.controlModal.allcoin[locale]
+                  : dictionaryOrder.controlModal.stableonly[locale]
+              )}{" "}
+              <Link href={"/app/account"} className="text-[#7fa0b4] underline hover:text-info">
+                {dictionaryOrder.controlModal.here[locale]}
+              </Link>
+              .
+            </span>
+          </div>
           <button
             onClick={handleClick}
             className="mt-16 w-full md:w-300 text-button-text text-18 font-semibold py-16  rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50"
