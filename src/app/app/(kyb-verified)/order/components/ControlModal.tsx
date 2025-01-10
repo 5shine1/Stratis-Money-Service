@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import { Icon } from "@iconify/react/dist/iconify.js";
 
-import { ICurrency } from "@/@types/common";
+import { ICurrency, ROLES } from "@/@types/common";
 import useAppSelector from "@/hooks/global/useAppSelector";
 import AppInput from "@/components/global/AppInput";
 import { isValidEmail } from "@/utils/string.utils";
@@ -32,6 +32,7 @@ const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext }) => {
   const { locale } = useAppSelector((state) => state.locale);
   const { currencies } = useAppSelector((state) => state.payment);
   const { acceptNonStablecoinPayments } = useAppSelector((state) => state.setting);
+  const { role } = useAppSelector((state) => state.auth);
   const [amount, setAmount] = useState({ value: "", error: "" });
   const [language, setLanguage] = useState({ value: locale, error: "" });
   const [currency, setCurrency] = useState<{ value: ICurrency; error: string }>({ value: currencies[0], error: "" });
@@ -230,21 +231,23 @@ const ControlModal: React.FC<Props> = ({ isOpen, onClose, onNext }) => {
             label={dictionaryOrder.controlModal.labels.address[locale]}
             error={payerAddress.error}
           />
-          <div className="text-input-label text-14 flex gap-8">
-            <Icon icon={"material-symbols:info"} className="text-18 flex-none" />
-            <span>
-              {dictionaryOrder.controlModal.alert[locale].replace(
-                "$1",
-                acceptNonStablecoinPayments
-                  ? dictionaryOrder.controlModal.allcoin[locale]
-                  : dictionaryOrder.controlModal.stableonly[locale]
-              )}{" "}
-              <Link href={"/app/account"} className="text-[#7fa0b4] underline hover:text-info">
-                {dictionaryOrder.controlModal.here[locale]}
-              </Link>
-              .
-            </span>
-          </div>
+          {role === ROLES.BUSINESS && (
+            <div className="text-input-label text-14 flex gap-8">
+              <Icon icon={"material-symbols:info"} className="text-18 flex-none" />
+              <span>
+                {dictionaryOrder.controlModal.alert[locale].replace(
+                  "$1",
+                  acceptNonStablecoinPayments
+                    ? dictionaryOrder.controlModal.allcoin[locale]
+                    : dictionaryOrder.controlModal.stableonly[locale]
+                )}{" "}
+                <Link href={"/app/account"} className="text-[#7fa0b4] underline hover:text-info">
+                  {dictionaryOrder.controlModal.here[locale]}
+                </Link>
+                .
+              </span>
+            </div>
+          )}
           <button
             onClick={handleClick}
             className="mt-16 w-full md:w-300 text-button-text text-18 font-semibold py-16  rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50"
