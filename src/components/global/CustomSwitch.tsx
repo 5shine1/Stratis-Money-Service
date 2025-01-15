@@ -4,6 +4,7 @@ type Props = {
   value: boolean;
   onChange: (value: boolean) => void; // eslint-disable-line
   className?: string;
+  clickable?: boolean;
   activeClassName?: string;
   passiveClassName?: string;
   thumbClassName?: string;
@@ -15,6 +16,7 @@ const CustomSwitch: React.FC<Props> = ({
   value,
   onChange,
   className,
+  clickable = true,
   activeClassName,
   passiveClassName,
   thumbClassName,
@@ -23,10 +25,11 @@ const CustomSwitch: React.FC<Props> = ({
 }) => {
   return (
     <div
-      className={`${className || "w-32 h-16 p-2 rounded-full relative flex-none"} cursor-pointer m-transition-color ${
-        value ? activeClassName || "bg-secondary-100" : passiveClassName || "bg-secondary-400"
-      }`}
+      className={`${className || "w-32 h-16 p-2 rounded-full relative flex-none"} m-transition-color ${
+        clickable ? "cursor-pointer" : ""
+      } ${value ? activeClassName || "bg-secondary-100" : passiveClassName || "bg-secondary-400"}`}
       onClick={() => {
+        if (!clickable) return;
         onChange(!value);
       }}
     >

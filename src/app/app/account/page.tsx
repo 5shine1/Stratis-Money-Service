@@ -127,120 +127,130 @@ const AccountPage = () => {
               </div>
             </div>
           </div>
+
           {role === ROLES.BUSINESS && (
-            <>
-              <div className="flex flex-col md:flex-row gap-16">
-                <div className="p-24 md:p-32 rounded-8 bg-white/5 w-full">
-                  <div className="text-20 font-bold text-secondary-200">
-                    {dictionaryProfile.headings.kybStatus[locale]}
-                  </div>
-                  <div className="mt-18 flex items-center gap-12">
-                    {kybApplicationStatus > KYB_STATUS_IDS.DeclinedByKybProvider ? (
-                      <div className="flex items-center gap-4 border border-success text-success rounded-4 px-8 py-4">
-                        <Icon icon="ph:seal-check-bold" className="w-20 h-20" />
-                        {dictionaryProfile.kybStatusMessages.approved[locale]}
-                      </div>
-                    ) : kybApplicationStatus === KYB_STATUS_IDS.DeclinedByKybProvider ? (
-                      <div className="flex items-center gap-4 border border-error text-error rounded-4 px-8 py-4">
-                        <Icon icon="jam:close-circle" className="w-20 h-20" />
-                        {dictionaryProfile.kybStatusMessages.declined[locale]}
-                      </div>
-                    ) : (
-                      <>
-                        <div className="flex items-center gap-4 border border-error text-error rounded-4 px-8 py-4">
-                          <Icon icon="jam:close-circle" className="w-18 h-18" />
-                          {kybApplicationStatus === KYB_STATUS_IDS.Pending
-                            ? dictionaryProfile.kybStatusMessages.notStarted[locale]
-                            : dictionaryProfile.kybStatusMessages.timedOut[locale]}
-                        </div>
-                        <div
-                          onClick={handleStartKYB}
-                          className=" text-white text-1 flex items-center gap-2 cursor-pointer u-transition-color hover:text-info"
-                        >
-                          {dictionaryProfile.kybStatusMessages.startKyb[locale]}
-                          <Icon icon={"ep:right"}></Icon>
-                        </div>
-                      </>
-                    )}
-                  </div>
-                </div>
-                <div className="p-24 md:p-32 rounded-8 bg-white/5 w-full">
-                  <div className="text-20 font-bold text-secondary-200">
-                    {dictionaryProfile.headings.complianceStatus[locale]}
-                  </div>
-                  <div className="mt-18 flex items-center gap-12">
-                    {kybApplicationStatus === KYB_STATUS_IDS.ApprovedByCompliance ? (
-                      <div className="flex items-center gap-4 border border-success text-success rounded-4 px-8 py-4">
-                        <Icon icon="ph:seal-check-bold" className="w-20 h-20" />
-                        {dictionaryProfile.complianceStatusMessages.approved[locale]}
-                      </div>
-                    ) : kybApplicationStatus === KYB_STATUS_IDS.RejectedByCompliance ? (
-                      <div className="flex items-center gap-4 border border-error text-error rounded-4 px-8 py-4">
-                        <Icon icon="jam:close-circle" className="w-20 h-20" />
-                        {dictionaryProfile.complianceStatusMessages.disapproved[locale]}
-                      </div>
-                    ) : (
-                      <div className="flex items-center gap-4 border border-error text-error rounded-4 px-8 py-4">
-                        <Icon icon="bi:hourglass" className="w-20 h-20" />
-                        {dictionaryProfile.complianceStatusMessages.pending[locale]}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-
-              <div className="p-24 md:p-32 rounded-8 bg-white/5 w-full">
-                <div className="text-20 font-bold text-secondary-200">{dictionaryProfile.headings.setting[locale]}</div>
-                <div className="flex md:items-center gap-12 md:gap-32 mt-18 flex-col md:flex-row items-start">
-                  <div className=" flex items-center gap-4">
-                    <span>{dictionaryProfile.settings.acceptNonStablecoin[locale]} </span>
-                    <div className="relative group">
-                      <Icon icon="fe:question" className="text-info w-17 h-17 cursor-pointer inline" />
-                      <div className="absolute left-1/2 bottom-full -translate-x-[85%] md:-translate-x-1/2 w-280 text-12 bg-primary-700 p-12 rounded-8 transition-all duration-100 group-hover:opacity-100 group-hover:pointer-events-auto group-hover:mb-4 -mb-4 pointer-events-none opacity-0">
-                        {dictionaryProfile.settings.tooltip[locale]}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-6 text-12 ">
-                    OFF
-                    <CustomSwitch value={acceptNonStablecoinPayments} onChange={setNonStableCoinsSetting} />
-                    ON
-                  </div>
-                </div>
-              </div>
-
+            <div className="flex flex-col md:flex-row gap-16">
               <div className="p-24 md:p-32 rounded-8 bg-white/5 w-full">
                 <div className="text-20 font-bold text-secondary-200">
-                  {dictionaryProfile.headings.bankDetail[locale]}
+                  {dictionaryProfile.headings.kybStatus[locale]}
                 </div>
-                {!bankAccountHolder ? (
-                  <div className="mt-12 text-info cursor-pointer" onClick={() => setBankModalShow(true)}>
-                    {dictionaryProfile.bankDetail.connectBank[locale]}
-                  </div>
-                ) : (
-                  <div className="flex gap-12 mt-18 flex-col items-start">
-                    <div className="flex gap-4 flex-col sm:flex-row break-all">
-                      <span className="opacity-60 text-white flex-none w-200">
-                        {dictionaryProfile.bankDetail.accountName[locale]}
-                      </span>
-                      {bankAccountHolder}
+                <div className="mt-18 flex items-center gap-12">
+                  {kybApplicationStatus > KYB_STATUS_IDS.DeclinedByKybProvider ? (
+                    <div className="flex items-center gap-4 border border-success text-success rounded-4 px-8 py-4">
+                      <Icon icon="ph:seal-check-bold" className="w-20 h-20" />
+                      {dictionaryProfile.kybStatusMessages.approved[locale]}
                     </div>
-                    <div className="flex gap-4 flex-col sm:flex-row break-all">
-                      <span className="opacity-60 text-white flex-none w-200">
-                        {dictionaryProfile.bankDetail.iban[locale]}
-                      </span>
-                      {bankIban}
+                  ) : kybApplicationStatus === KYB_STATUS_IDS.DeclinedByKybProvider ? (
+                    <div className="flex items-center gap-4 border border-error text-error rounded-4 px-8 py-4">
+                      <Icon icon="jam:close-circle" className="w-20 h-20" />
+                      {dictionaryProfile.kybStatusMessages.declined[locale]}
                     </div>
-                    <div className="flex gap-4 flex-col sm:flex-row break-all">
-                      <span className="opacity-60 text-white flex-none w-200">
-                        {dictionaryProfile.bankDetail.bic[locale]}
-                      </span>
-                      {bankBic}
-                    </div>
-                  </div>
-                )}
+                  ) : (
+                    <>
+                      <div className="flex items-center gap-4 border border-error text-error rounded-4 px-8 py-4">
+                        <Icon icon="jam:close-circle" className="w-18 h-18" />
+                        {kybApplicationStatus === KYB_STATUS_IDS.Pending
+                          ? dictionaryProfile.kybStatusMessages.notStarted[locale]
+                          : dictionaryProfile.kybStatusMessages.timedOut[locale]}
+                      </div>
+                      <div
+                        onClick={handleStartKYB}
+                        className=" text-white text-1 flex items-center gap-2 cursor-pointer u-transition-color hover:text-info"
+                      >
+                        {dictionaryProfile.kybStatusMessages.startKyb[locale]}
+                        <Icon icon={"ep:right"}></Icon>
+                      </div>
+                    </>
+                  )}
+                </div>
               </div>
-            </>
+              <div className="p-24 md:p-32 rounded-8 bg-white/5 w-full">
+                <div className="text-20 font-bold text-secondary-200">
+                  {dictionaryProfile.headings.complianceStatus[locale]}
+                </div>
+                <div className="mt-18 flex items-center gap-12">
+                  {kybApplicationStatus === KYB_STATUS_IDS.ApprovedByCompliance ? (
+                    <div className="flex items-center gap-4 border border-success text-success rounded-4 px-8 py-4">
+                      <Icon icon="ph:seal-check-bold" className="w-20 h-20" />
+                      {dictionaryProfile.complianceStatusMessages.approved[locale]}
+                    </div>
+                  ) : kybApplicationStatus === KYB_STATUS_IDS.RejectedByCompliance ? (
+                    <div className="flex items-center gap-4 border border-error text-error rounded-4 px-8 py-4">
+                      <Icon icon="jam:close-circle" className="w-20 h-20" />
+                      {dictionaryProfile.complianceStatusMessages.disapproved[locale]}
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-4 border border-error text-error rounded-4 px-8 py-4">
+                      <Icon icon="bi:hourglass" className="w-20 h-20" />
+                      {dictionaryProfile.complianceStatusMessages.pending[locale]}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {(role === ROLES.BUSINESS || role === ROLES.AGENT) && (
+            <div className="p-24 md:p-32 rounded-8 bg-white/5 w-full">
+              <div className="text-20 font-bold text-secondary-200">
+                {role === ROLES.AGENT && dictionaryGlobal.roles[locale].Business}{" "}
+                {dictionaryProfile.headings.setting[locale]}
+              </div>
+              <div className="flex md:items-center gap-12 md:gap-32 mt-18 flex-col md:flex-row items-start">
+                <div className=" flex items-center gap-4">
+                  <span>{dictionaryProfile.settings.acceptNonStablecoin[locale]} </span>
+                  <div className="relative group">
+                    <Icon icon="fe:question" className="text-info w-17 h-17 cursor-pointer inline" />
+                    <div className="absolute left-1/2 bottom-full -translate-x-[85%] md:-translate-x-1/2 w-280 text-12 bg-primary-700 p-12 rounded-8 transition-all duration-100 group-hover:opacity-100 group-hover:pointer-events-auto group-hover:mb-4 -mb-4 pointer-events-none opacity-0">
+                      {dictionaryProfile.settings.tooltip[locale]}
+                    </div>
+                  </div>
+                </div>
+                <div className="flex items-center gap-6 text-12 ">
+                  OFF
+                  <CustomSwitch
+                    clickable={role === ROLES.BUSINESS}
+                    value={acceptNonStablecoinPayments}
+                    onChange={setNonStableCoinsSetting}
+                  />
+                  ON
+                </div>
+              </div>
+            </div>
+          )}
+
+          {role === ROLES.BUSINESS && (
+            <div className="p-24 md:p-32 rounded-8 bg-white/5 w-full">
+              <div className="text-20 font-bold text-secondary-200">
+                {dictionaryProfile.headings.bankDetail[locale]}
+              </div>
+              {!bankAccountHolder ? (
+                <div className="mt-12 text-info cursor-pointer" onClick={() => setBankModalShow(true)}>
+                  {dictionaryProfile.bankDetail.connectBank[locale]}
+                </div>
+              ) : (
+                <div className="flex gap-12 mt-18 flex-col items-start">
+                  <div className="flex gap-4 flex-col sm:flex-row break-all">
+                    <span className="opacity-60 text-white flex-none w-200">
+                      {dictionaryProfile.bankDetail.accountName[locale]}
+                    </span>
+                    {bankAccountHolder}
+                  </div>
+                  <div className="flex gap-4 flex-col sm:flex-row break-all">
+                    <span className="opacity-60 text-white flex-none w-200">
+                      {dictionaryProfile.bankDetail.iban[locale]}
+                    </span>
+                    {bankIban}
+                  </div>
+                  <div className="flex gap-4 flex-col sm:flex-row break-all">
+                    <span className="opacity-60 text-white flex-none w-200">
+                      {dictionaryProfile.bankDetail.bic[locale]}
+                    </span>
+                    {bankBic}
+                  </div>
+                </div>
+              )}
+            </div>
           )}
         </div>
       </div>
