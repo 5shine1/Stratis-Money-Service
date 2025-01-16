@@ -12,7 +12,7 @@ const ConnectButton = ({ chainProp, amount, paymentDestination, selectedCurrency
   const { openConnectModal } = useConnectModal();
 
   const { data: hash, isPending, sendTransaction } = useSendTransaction();
-  const { data: contractTxHash, isPending: isContractPending, writeContract } = useWriteContract();
+  const { data: contractTxHash, isPending: isContractPending, writeContract, writeContractAsync } = useWriteContract();
   const { isLoading: isConfirming, isSuccess: isConfirmed } = useWaitForTransactionReceipt({ hash });
   const { isLoading: isContractConfirming, isSuccess: isContractConfirmed } = useWaitForTransactionReceipt({
     hash: contractTxHash,
@@ -35,6 +35,15 @@ const ConnectButton = ({ chainProp, amount, paymentDestination, selectedCurrency
         chainId: chain.chainId,
       });
     } else {
+      await writeContractAsync({
+        abi: erc20Abi,
+        address: selectedCurrency.tokenContract,
+        functionName: "approve",
+        chain: chains.find((item) => item.id === chain.chainId),
+        chainId: chain.chainId,
+        args: [account.address, BigInt(amount * Math.pow(10, selectedCurrency.decimals))],
+        account: account.address,
+      });
       writeContract({
         abi: erc20Abi,
         address: selectedCurrency.tokenContract,
