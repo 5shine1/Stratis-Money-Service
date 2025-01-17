@@ -113,6 +113,15 @@ export const apiUserInfo = async () => {
     throw error;
   }
 };
+export const apiBusinessInfo = async () => {
+  try {
+    const result = await axiosInstance.post("/api/Identity/BusinessInfo");
+    if (result?.data?.isSucceed === false) throw "Something went wrong";
+    return result?.data?.data;
+  } catch (error) {
+    throw error;
+  }
+};
 
 export const apiGetSetting = async () => {
   try {
