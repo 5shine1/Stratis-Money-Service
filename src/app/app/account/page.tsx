@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Icon } from "@iconify/react";
 
@@ -8,7 +8,7 @@ import { LoadingContext } from "@/components/providers/LoadingProvider";
 import useAppSelector from "@/hooks/global/useAppSelector";
 import { apiStartKYB } from "@/api/compliance.api";
 import { KYB_STATUS_IDS, ROLES } from "@/@types/common";
-import { apiGetSetting, apiSetSetting } from "@/api/auth.api";
+import { apiBusinessInfo, apiGetSetting, apiSetSetting } from "@/api/auth.api";
 import BankModal from "./components/BankModal";
 import useAppDispatch from "@/hooks/global/useAppDispatch";
 import { setSettings } from "@/store/slices/setting.slice";
@@ -16,6 +16,7 @@ import { dictionaryGlobal, dictionaryProfile } from "@/config/dictionary";
 
 const AccountPage = () => {
   const { locale } = useAppSelector((state) => state.locale);
+  const [businessInfo, setBusinessInfo] = useState<any>({});
   const { setLoading } = useContext(LoadingContext);
   const [bankModalShow, setBankModalShow] = useState(false);
   const { userId, name, role, email, kybApplicationStatus, mobileNumber, country } = useAppSelector(
@@ -78,6 +79,16 @@ const AccountPage = () => {
     }
     setLoading(false);
   };
+  const getBusinessInfo = async () => {
+    try {
+      const result = await apiBusinessInfo();
+      setBusinessInfo(result);
+    } catch (error) {}
+  };
+  useEffect(() => {
+    getBusinessInfo();
+  }, []);
+  console.log(businessInfo);
 
   return (
     <>
@@ -127,6 +138,54 @@ const AccountPage = () => {
               </div>
             </div>
           </div>
+
+          {role === ROLES.AGENT && (
+            <div className="p-24 md:p-32 rounded-8 bg-white/5 w-full">
+              <div className="text-20 font-bold text-secondary-200">
+                {role === ROLES.AGENT && dictionaryGlobal.roles[locale].Business}{" "}
+                {dictionaryProfile.headings.profile[locale]}
+              </div>
+              <div className="flex flex-col gap-16 mt-18 text-white">
+                <div className="flex gap-4 flex-col sm:flex-row break-all">
+                  <span className="opacity-60 text-white flex-none w-200">
+                    {dictionaryProfile.profileLabels.userId[locale]}
+                  </span>
+                  {businessInfo?.businessId}
+                </div>
+                <div className="flex gap-4 flex-col sm:flex-row break-all">
+                  <span className="opacity-60 text-white flex-none w-200">
+                    {dictionaryProfile.profileLabels.email[locale]}
+                  </span>
+                  {businessInfo?.email}
+                </div>
+                <div className="flex gap-4 flex-col sm:flex-row break-all">
+                  <span className="opacity-60 text-white flex-none w-200">
+                    {dictionaryProfile.profileLabels.name[locale]}
+                  </span>
+                  {businessInfo?.name}
+                </div>
+                <div className={`flex gap-4 flex-col sm:flex-row break-all`}>
+                  <span className="opacity-60 text-white flex-none w-200">
+                    {dictionaryProfile.profileLabels.role[locale]}
+                  </span>
+                  {dictionaryGlobal.roles[locale]["Business"]}
+                </div>
+
+                <div className="flex gap-4 flex-col sm:flex-row break-all">
+                  <span className="opacity-60 text-white flex-none w-200">
+                    {dictionaryProfile.profileLabels.phoneNumber[locale]}
+                  </span>
+                  {businessInfo?.mobileNumber}
+                </div>
+                <div className="flex gap-4 flex-col sm:flex-row break-all">
+                  <span className="opacity-60 text-white flex-none w-200">
+                    {dictionaryProfile.profileLabels.address[locale]}
+                  </span>
+                  {businessInfo?.country}
+                </div>
+              </div>
+            </div>
+          )}
 
           {role === ROLES.BUSINESS && (
             <div className="flex flex-col md:flex-row gap-16">
