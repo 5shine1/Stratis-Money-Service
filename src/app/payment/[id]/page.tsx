@@ -55,20 +55,25 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
   const [paymentAmount, setPaymentAmount] = useState(0);
   const [selectedCurrency, setSelectedCurrency] = useState<any>();
 
-  const currencyList = useMemo(
-    () => currencies.filter((item, index, self) => index === self.findIndex((t) => t.text === item.text)),
-    [currencies]
-  );
   const networkList = useMemo(
     () =>
       currencies
-        .filter((item) => {
-          return item.text === currencyList[currency]?.text;
-        })
+        .filter((item, index, self) => index === self.findIndex((t) => t.chainName === item.chainName))
         .map((item, id) => {
           return { ...item, id, text: item.chainName };
         }),
-    [currencies, currency, currencyList]
+    [currencies]
+  );
+  const currencyList = useMemo(
+    () =>
+      currencies
+        .filter((item) => {
+          return item.chainName === networkList[network]?.text;
+        })
+        .map((item, id) => {
+          return { ...item, id };
+        }),
+    [currencies, network, networkList]
   );
 
   const handleGetInfo = async () => {
@@ -524,23 +529,6 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
                   <div className="w-full  max-w-320 flex flex-col gap-16 md:gap-24">
                     <div>
                       <div className="text-14 md:text-16 mb-6 text-[#6B7A87]">
-                        {dictionaryPayment.labels.selectCurrency[locale]}
-                      </div>
-                      <CustomSelect
-                        data={currencyList}
-                        init={currencyList[currency]}
-                        onChange={(selected) => {
-                          setCurrency(selected.id);
-                          setNetwork(0);
-                        }}
-                        mainClass="border border-input-border text-input-text rounded-8 py-12 px-16 cursor-pointer u-text-overflow"
-                        padClass="absolute top-full left-0 w-full max-h-[240px] overflow-auto rounded-8 bg-[#192C37] border border-[#213541] shadow-tab overflow-y-auto z-10"
-                        listClass="p-16 cursor-pointer u-text-overflow rounded-4 border-b border-[#213541] last:border-b-0"
-                        isIcon={true}
-                      ></CustomSelect>
-                    </div>
-                    <div>
-                      <div className="text-14 md:text-16 mb-6 text-[#6B7A87]">
                         {dictionaryPayment.labels.selectNetwork[locale]}
                       </div>
                       <CustomSelect
@@ -548,14 +536,30 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
                         init={networkList[network]}
                         onChange={(selected) => {
                           setNetwork(selected.id);
+                          setCurrency(0);
                         }}
                         mainClass="border border-input-border text-input-text rounded-8 py-12 px-16 cursor-pointer u-text-overflow"
                         padClass="absolute top-full left-0 w-full max-h-[240px] overflow-auto rounded-8 bg-[#192C37] border border-[#213541] shadow-tab overflow-y-auto z-10"
                         listClass="p-16 cursor-pointer u-text-overflow rounded-4 border-b border-[#213541] last:border-b-0"
                       ></CustomSelect>
                     </div>
+                    <div>
+                      <div className="text-14 md:text-16 mb-6 text-[#6B7A87]">
+                        {dictionaryPayment.labels.selectCurrency[locale]}
+                      </div>
+                      <CustomSelect
+                        data={currencyList}
+                        init={currencyList[currency]}
+                        onChange={(selected) => {
+                          setCurrency(selected.id);
+                        }}
+                        mainClass="border border-input-border text-input-text rounded-8 py-12 px-16 cursor-pointer u-text-overflow"
+                        padClass="absolute top-full left-0 w-full max-h-[240px] overflow-auto rounded-8 bg-[#192C37] border border-[#213541] shadow-tab overflow-y-auto z-10"
+                        listClass="p-16 cursor-pointer u-text-overflow rounded-4 border-b border-[#213541] last:border-b-0"
+                        isIcon={true}
+                      ></CustomSelect>
+                    </div>
                   </div>
-
                   <button
                     onClick={handleMakePayment}
                     className="w-full max-w-320 text-button-text text-18 font-semibold py-16  rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50"
