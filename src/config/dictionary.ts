@@ -498,13 +498,13 @@ export const dictionaryLanding = {
 export const dictionaryAuth = {
   login: {
     title: {
-      EN: "Sign In Your Account",
+      EN: "Login to Your Account",
       ES: "Iniciar sesión en su cuenta",
       FR: "Connectez-vous à votre compte",
       RO: "Autentificați-vă în contul dvs.",
     },
     subtitle: {
-      EN: "Welcome to stratis money service. Enjoy now!",
+      EN: "Welcome to stratis money service. Enjoy it now!",
       ES: "Bienvenido al servicio de dinero Stratis. ¡Disfrútelo ahora!",
       FR: "Bienvenue sur le service Stratis Money. Profitez-en maintenant !",
       RO: "Bun venit la serviciul de bani Stratis. Bucurați-vă acum!",
