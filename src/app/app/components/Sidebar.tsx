@@ -60,7 +60,7 @@ const AppSidebar: React.FC<PropsWithChildren> = ({ children }) => {
                   pathname.includes("/app/order") ? "bg-primary-700" : "hover:bg-primary-700/40"
                 }`}
               >
-                <Icon icon="lets-icons:order-light" className="w-30 h-30 flex-none" />
+                <Icon icon="material-symbols-light:document-scanner-outline-rounded" className="w-30 h-30 flex-none" />
                 <div className={` ${isWrapped ? "block" : "hidden"}`}>
                   {dictionaryApp.appSidebar.menu.order[locale]}
                 </div>
@@ -124,7 +124,7 @@ const AppSidebar: React.FC<PropsWithChildren> = ({ children }) => {
                 pathname.includes("/app/account") ? "bg-primary-700" : "hover:bg-primary-700/40"
               }`}
             >
-              <Icon icon="ph:user-list-thin" className="w-30 h-30 flex-none" />
+              <Icon icon="material-symbols-light:manage-accounts-outline" className="w-30 h-30 flex-none" />
               <div className={` ${isWrapped ? "block" : "hidden"}`}>
                 {dictionaryApp.appSidebar.menu.profile[locale]}
               </div>
