@@ -99,7 +99,7 @@ const AppSidebar: React.FC<PropsWithChildren> = ({ children }) => {
                   pathname.includes("/app/user") ? "bg-primary-700" : "hover:bg-primary-700/40"
                 }`}
               >
-                <Icon icon="ph:users-three-thin" className="w-30 h-30 flex-none" />
+                <Icon icon="material-symbols-light:business-center-outline-rounded" className="w-30 h-30 flex-none" />
                 <div className={` ${isWrapped ? "block" : "hidden"}`}>
                   {dictionaryApp.appSidebar.menu.companies[locale]}
                 </div>
