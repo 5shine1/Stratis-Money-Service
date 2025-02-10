@@ -105,6 +105,19 @@ const AppSidebar: React.FC<PropsWithChildren> = ({ children }) => {
                 </div>
               </Link>
             )}
+            {role !== ROLES.COMPLIANCE && role !== ROLES.AGENT && (
+              <Link
+                href="/app/custody"
+                className={`p-9 flex items-center justify-start gap-12  u-transition-color rounded-8 overflow-hidden ${
+                  pathname.includes("/app/custody") ? "bg-primary-700" : "hover:bg-primary-700/40"
+                }`}
+              >
+                <Icon icon="material-symbols-light:account-balance-wallet-outline" className="w-30 h-30 flex-none" />
+                <div className={` ${isWrapped ? "block" : "hidden"}`}>
+                  {dictionaryApp.appSidebar.menu.custody[locale]}
+                </div>
+              </Link>
+            )}
             <Link
               href="/app/account"
               className={`p-9 flex items-center justify-start gap-12  u-transition-color rounded-8 overflow-hidden ${

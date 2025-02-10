@@ -1533,6 +1533,12 @@ export const dictionaryApp = {
         FR: "Entreprises",
         RO: "Companii",
       },
+      custody: {
+        EN: "Custody",
+        ES: "Custodia",
+        FR: "Garde",
+        RO: "Custodie",
+      },
       profile: {
         EN: "Profile",
         ES: "Perfil",
