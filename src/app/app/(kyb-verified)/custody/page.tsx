@@ -1,7 +1,8 @@
 import React from "react";
+import NoWallet from "./components/NoWallet";
 
 const CustodyPage = () => {
-  return <div>CustodyPage</div>;
+  return <NoWallet />;
 };
 
 export default CustodyPage;
