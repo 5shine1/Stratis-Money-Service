@@ -183,15 +183,17 @@ const OrderPage = () => {
                 placeholder={dictionaryOrder.placeholders.search[locale]}
               ></AppInput>
             </div>
-            <AnimatedSlideButton
-              onClick={() => {
-                setControlModalOpen(true);
-              }}
-              className=" text-white text-16 py-12 px-32 border border-secondary-300 rounded-full xl:ml-auto w-full xl:max-w-210"
-              backClassName="from-primary-400 to-secondary-300 "
-            >
-              {dictionaryOrder.buttons.generateNew[locale]}
-            </AnimatedSlideButton>
+            {role !== ROLES.ADMIN && (
+              <AnimatedSlideButton
+                onClick={() => {
+                  setControlModalOpen(true);
+                }}
+                className=" text-white text-16 py-12 px-32 border border-secondary-300 rounded-full xl:ml-auto w-full xl:max-w-210"
+                backClassName="from-primary-400 to-secondary-300 "
+              >
+                {dictionaryOrder.buttons.generateNew[locale]}
+              </AnimatedSlideButton>
+            )}
           </div>
           {isLoading ? (
             <div className="text-white/70 p-12 text-center">
