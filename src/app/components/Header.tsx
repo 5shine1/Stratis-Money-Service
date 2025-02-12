@@ -166,7 +166,7 @@ const Header = () => {
           <div className="flex items-center gap-4">
             {LOCALES.map((item, i) => {
               return (
-                <>
+                <React.Fragment key={i}>
                   {i !== 0 && <hr className="rotate-90 w-16" />}
                   <button
                     key={item.code}
@@ -175,7 +175,7 @@ const Header = () => {
                   >
                     {item.code}
                   </button>
-                </>
+                </React.Fragment>
               );
             })}
           </div>

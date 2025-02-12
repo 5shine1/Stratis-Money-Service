@@ -1,3 +1,4 @@
+import { LOCALES } from "@/config/constants";
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
@@ -5,7 +6,15 @@ const initialState = {
 };
 
 if (typeof window !== "undefined") {
-  initialState.locale = localStorage.getItem("stratis-locale") || "EN";
+  try {
+    const storageData = localStorage.getItem("stratis-locale");
+    if (storageData) initialState.locale = storageData;
+    else {
+      const locationData = navigator.language?.slice(0, 2)?.toUpperCase() || "EN";
+      const localItem = LOCALES.find((item) => item.code === locationData);
+      if (localItem) initialState.locale = locationData;
+    }
+  } catch (error) {}
 }
 
 export const localeSlice = createSlice({
