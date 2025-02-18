@@ -220,3 +220,117 @@ export const apiActivateAgent = async (agentUserId: string) => {
     throw error;
   }
 };
+
+export const apiSetupTOTP = async () => {
+  try {
+    const result = await axiosInstance.post("/api/Identity/SetupTOTP");
+    return result?.data;
+  } catch (error) {
+    throw "Something went wrong.";
+  }
+};
+
+export const apiVerifyTOTP = async (code: string) => {
+  try {
+    const result = await axiosInstance.post("/api/Identity/VerifyTOTP", { code });
+    return result?.data;
+  } catch (error) {
+    throw "Something went wrong.";
+  }
+};
+
+export const apiSetupEmailAuth = async () => {
+  try {
+    const result = await axiosInstance.post("/api/Identity/SetupEmailAuth");
+    return result?.data;
+  } catch (error) {
+    throw "Something went wrong.";
+  }
+};
+
+export const apiVerifyEmailAuth = async (code: string) => {
+  try {
+    const result = await axiosInstance.post("/api/Identity/VerifyEmailAuth", { code });
+    return result?.data;
+  } catch (error) {
+    throw "Something went wrong.";
+  }
+};
+
+export const apiDisable2FA = async (type: "email" | "totp") => {
+  try {
+    const result = await axiosInstance.post("/api/Identity/Disable2FA", { type });
+    return result?.data;
+  } catch (error) {
+    throw "Something went wrong.";
+  }
+};
+
+export const apiEnable2FA = async (type: "email" | "totp", culture: string = "EN") => {
+  try {
+    const result = await axiosInstance.post("/api/Identity/Enable2FA", {
+      type,
+      culture
+    });
+    return result?.data;
+  } catch (error) {
+    throw "Something went wrong.";
+  }
+};
+
+export const apiVerify2FASetup = async (type: "email" | "totp", code: string) => {
+  try {
+    const result = await axiosInstance.post("/api/Identity/Verify2FASetup", {
+      type,
+      code
+    });
+    return result?.data;
+  } catch (error) {
+    throw "Something went wrong.";
+  }
+};
+
+export const apiGenerateLoginCode = async (type: "email", culture: string = "EN") => {
+  try {   
+    const result = await axiosInstance.post("/api/Identity/GenerateLoginCode", {
+      type,
+      culture
+    });
+    return result?.data;
+  } catch (error) {
+    throw "Something went wrong.";
+  }
+};
+
+export const apiReauthenticate = async (type: "email" | "totp", code: string) => {
+  try {
+    const result = await axiosInstance.post("/api/Identity/ReAuthenticate", {
+      type,
+      code
+    });
+    return result?.data;
+  } catch (error) {
+    throw "Something went wrong.";
+  }
+};
+
+export const apiVerifyTwoFactorLogin = async (type: "email" | "totp", code: string) => {
+  try {
+    const result = await axiosInstance.post("/api/Identity/VerifyTwoFactorLogin", {
+      type,
+      code
+    });
+    return result?.data;
+  } catch (error) {
+    throw "Something went wrong.";
+  }
+};
+
+export const apiGetTwoFactorInfo = async () => {
+  try {
+    const result = await axiosInstance.get("/api/Identity/TwoFactorInfo");
+    return result?.data;
+  } catch (error) {
+    throw "Something went wrong.";
+  }
+};

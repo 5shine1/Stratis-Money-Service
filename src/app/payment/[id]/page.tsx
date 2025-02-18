@@ -25,6 +25,7 @@ import { arbitrumSepolia, baseSepolia, mainnet, optimismSepolia, polygonAmoy, se
 import ConnectButton from "@/app/components/ConnectButton";
 import "@rainbow-me/rainbowkit/styles.css";
 import { isMobile } from "react-device-detect";
+import ReauthenticateModal from "@/app/components/ReauthenticateModal";
 
 type Props = {
   params: {
@@ -54,6 +55,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
   const [paymentAddress, setPaymentAddress] = useState("");
   const [paymentAmount, setPaymentAmount] = useState(0);
   const [selectedCurrency, setSelectedCurrency] = useState<any>();
+  const [showReauth, setShowReauth] = useState(false);
 
   const networkList = useMemo(
     () =>
@@ -198,6 +200,14 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
   });
 
   const queryClient = new QueryClient();
+
+  const handleSensitiveAction = () => {
+    setShowReauth(true);
+  };
+
+  const handleReauthSuccess = () => {
+    // Proceed with sensitive action
+  };
 
   return (
     <WagmiProvider config={config}>
@@ -584,6 +594,12 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
                   );
                 })}
               </div>
+              <button onClick={handleSensitiveAction}>Approve Withdrawal</button>
+              <ReauthenticateModal
+                isOpen={showReauth}
+                onClose={() => setShowReauth(false)}
+                onSuccess={handleReauthSuccess}
+              />
             </main>
           )}
         </RainbowKitProvider>

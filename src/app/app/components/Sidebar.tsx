@@ -129,6 +129,17 @@ const AppSidebar: React.FC<PropsWithChildren> = ({ children }) => {
                 {dictionaryApp.appSidebar.menu.profile[locale]}
               </div>
             </Link>
+            <Link
+              href="/app/security/2fa"
+              className={`p-9 flex items-center justify-start gap-12  u-transition-color rounded-8 overflow-hidden ${
+                pathname.includes("/app/security/2fa") ? "bg-primary-700" : "hover:bg-primary-700/40"
+              }`}
+            >
+              <Icon icon="mdi:shield-lock-outline" className="w-30 h-30 flex-none" />
+              <div className={` ${isWrapped ? "block" : "hidden"}`}>
+                Two-Factor Auth
+              </div>
+            </Link>
           </div>
 
           <div className="mt-auto flex flex-col gap-12">

@@ -3,6 +3,7 @@ import { BACKEND_URL } from "./env";
 
 const axiosInstance = axios.create({
   baseURL: BACKEND_URL,
+  withCredentials: true,
   headers: {
     accept: "text/plain",
     "Content-Type": "application/json",
