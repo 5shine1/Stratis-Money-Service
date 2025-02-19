@@ -22,9 +22,19 @@ interface Props {
   requireBoth?: boolean;
   availableFactors?: string[];
   setupType?: "email" | "totp";
+  twoFactorToken?: string;
+  userId?: string;
 }
 
-const TwoFactorAuth: React.FC<Props> = ({ onComplete, isSetup = false, requireBoth = false, availableFactors = [], setupType }) => {
+const TwoFactorAuth: React.FC<Props> = ({ 
+  onComplete, 
+  isSetup = false, 
+  requireBoth = false, 
+  availableFactors = [], 
+  setupType,
+  twoFactorToken = "",
+  userId = ""
+}) => {
   const { locale } = useAppSelector((state) => state.locale);
   const [totpSecret, setTotpSecret] = useState("");
   const [totpCode, setTotpCode] = useState({ value: "", error: "" });
@@ -104,13 +114,13 @@ const TwoFactorAuth: React.FC<Props> = ({ onComplete, isSetup = false, requireBo
       if (isSetup) {
         await apiEnable2FA("email", locale);
       } else {
-        await apiGenerateLoginCode("email", locale);
+        await apiGenerateLoginCode("email", locale, twoFactorToken, userId);
       }
     } catch (error) {
       hasGeneratedEmailCode.current = false;
       toast.error("Failed to generate email code");
     }
-  }, [locale, isSetup, availableFactors]);
+  }, [locale, isSetup, availableFactors, twoFactorToken, userId]);
 
   useEffect(() => {
     if (!isSetup) {
@@ -130,14 +140,12 @@ const TwoFactorAuth: React.FC<Props> = ({ onComplete, isSetup = false, requireBo
     try {
       const result = isSetup 
         ? await apiVerify2FASetup("totp", totpCode.value)
-        : await apiVerifyTwoFactorLogin("totp", totpCode.value);
+        : await apiVerifyTwoFactorLogin("totp", totpCode.value, userId, twoFactorToken);
       
       if (result?.isSucceed) {
         if (isSetup) {
-          // For setup, complete immediately after TOTP verification
           onComplete?.(null);
         } else {
-          // For login, proceed with normal flow
           if (result.data?.loginResult?.accessToken) {
             onComplete?.(result.data.loginResult);
           } else {
@@ -163,17 +171,14 @@ const TwoFactorAuth: React.FC<Props> = ({ onComplete, isSetup = false, requireBo
     try {
       const result = isSetup 
         ? await apiVerify2FASetup("email", emailCode.value)
-        : await apiVerifyTwoFactorLogin("email", emailCode.value);
+        : await apiVerifyTwoFactorLogin("email", emailCode.value, userId, twoFactorToken);
         
       if (result?.isSucceed) {
         if (isSetup) {
-          // For setup, complete immediately after email verification
           onComplete?.(null);
         } else if (availableFactors.includes("totp")) {
-          // For login, proceed to TOTP if required
           setStep(3);
         } else {
-          // For login, complete if no TOTP required
           if (result.data?.loginResult?.accessToken) {
             onComplete?.(result.data.loginResult);
           } else {

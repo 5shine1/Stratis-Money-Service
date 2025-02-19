@@ -290,11 +290,13 @@ export const apiVerify2FASetup = async (type: "email" | "totp", code: string) =>
   }
 };
 
-export const apiGenerateLoginCode = async (type: "email", culture: string = "EN") => {
+export const apiGenerateLoginCode = async (type: "email", culture: string = "EN", twoFactorToken: string = "", userId: string = "") => {
   try {   
     const result = await axiosInstance.post("/api/Identity/GenerateLoginCode", {
       type,
-      culture
+      culture,
+      twoFactorToken,
+      userId
     });
     return result?.data;
   } catch (error) {
@@ -314,11 +316,13 @@ export const apiReauthenticate = async (type: "email" | "totp", code: string) =>
   }
 };
 
-export const apiVerifyTwoFactorLogin = async (type: "email" | "totp", code: string) => {
+export const apiVerifyTwoFactorLogin = async (type: "email" | "totp", code: string, userId: string = "", twoFactorToken: string = "") => {
   try {
     const result = await axiosInstance.post("/api/Identity/VerifyTwoFactorLogin", {
       type,
-      code
+      code,
+      userId,
+      twoFactorToken
     });
     return result?.data;
   } catch (error) {
