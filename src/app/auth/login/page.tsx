@@ -165,7 +165,9 @@ const LoginPage = () => {
               </Link>
               <TwoFactorAuth 
                 onComplete={handleTwoFactorComplete} 
-                availableFactors={tempAuthData?.availableFactors || []} 
+                availableFactors={tempAuthData?.availableFactors || []}
+                twoFactorToken={tempAuthData?.twoFactorToken || ""}
+                userId={tempAuthData?.userId || ""}
               />
             </div>
           )}
