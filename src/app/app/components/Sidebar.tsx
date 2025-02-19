@@ -36,7 +36,7 @@ const AppSidebar: React.FC<PropsWithChildren> = ({ children }) => {
     setLoading(false);
   };
   return (
-    <main id="mainSection" className="w-full h-[100vh] flex gap-4 bg-primary-800 overflow-auto">
+    <main id="mainSection" className="w-full min-h-[100vh] flex gap-4 bg-primary-800 overflow-auto flex">
       <aside
         className={`h-full p-8 flex-none text-secondary-100 fixed z-40 block top-0 transition-all duration-300 ${
           isOpenMobileMenu ? "left-0" : "-left-full lg:left-0"
@@ -135,10 +135,8 @@ const AppSidebar: React.FC<PropsWithChildren> = ({ children }) => {
                 pathname.includes("/app/security/2fa") ? "bg-primary-700" : "hover:bg-primary-700/40"
               }`}
             >
-              <Icon icon="mdi:shield-lock-outline" className="w-30 h-30 flex-none" />
-              <div className={` ${isWrapped ? "block" : "hidden"}`}>
-                Two-Factor Auth
-              </div>
+              <Icon icon="material-symbols-light:shield-lock-outline-rounded" className="w-30 h-30 flex-none" />
+              <div className={` ${isWrapped ? "block" : "hidden"}`}>Two-Factor Auth</div>
             </Link>
           </div>
 
@@ -231,7 +229,7 @@ const AppSidebar: React.FC<PropsWithChildren> = ({ children }) => {
         </div>
       </header>
       <section
-        className={`p-8 w-full transition-all duration-300 min-h-screen bg-primary-800 overflow-auto pt-65 lg:pt-0 ${
+        className={`p-8 w-full transition-all duration-300 bg-primary-800 pt-65 lg:pt-0 min-h-[100vh] ${
           isWrapped ? "lg:pl-256" : "lg:pl-80"
         }`}
       >
