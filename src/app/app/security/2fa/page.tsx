@@ -1,13 +1,11 @@
 "use client";
-import React, { useContext, useEffect, useState } from 'react';
-import { useRouter } from "next/navigation";
+import React, { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { Icon } from "@iconify/react";
 import TwoFactorAuth from "@/app/components/TwoFactorAuth";
 import { LoadingContext } from "@/components/providers/LoadingProvider";
-import useAppSelector from "@/hooks/global/useAppSelector";
 import { apiGetTwoFactorInfo, apiDisable2FA } from "@/api/auth.api";
 import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
+import IconBox from "@/components/global/IconBox";
 
 interface TwoFactorInfo {
   isEmailEnabled: boolean;
@@ -18,20 +16,17 @@ interface TwoFactorInfo {
 }
 
 const TwoFactorSetupPage = () => {
-  const router = useRouter();
   const { setLoading } = useContext(LoadingContext);
   const [status, setStatus] = useState<TwoFactorInfo | null>(null);
   const [setupType, setSetupType] = useState<"email" | "totp" | null>(null);
 
   const fetchStatus = async () => {
-    setLoading(true);
     try {
       const result = await apiGetTwoFactorInfo();
       setStatus(result?.data);
     } catch (error) {
       toast.error("Failed to get 2FA status");
     }
-    setLoading(false);
   };
 
   useEffect(() => {
@@ -60,75 +55,71 @@ const TwoFactorSetupPage = () => {
 
   if (setupType) {
     return (
-      <main className="overflow-x-hidden relative py-40 px-12 flex justify-center items-center min-h-screen">
-        <TwoFactorAuth 
-          isSetup
-          setupType={setupType}
-          onComplete={handleComplete}
-        />
+      <main className="relative py-40 px-12 flex justify-center items-center h-full">
+        <TwoFactorAuth isSetup setupType={setupType} onComplete={handleComplete} />
       </main>
     );
   }
 
   return (
-    <main className="overflow-x-hidden relative py-40 px-12 flex justify-center items-center min-h-screen">
+    <main className="h-full relative py-40 px-12 flex justify-center items-center">
       <div className="w-full max-w-720 flex flex-col gap-24">
-        <h2 className="text-24 font-semibold mb-24">Two-Factor Authentication</h2>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-24">
+        <h4 className="mb-24 text-center">Two-Factor Authentication</h4>
+
+        <div className="flex flex-col md:flex-row gap-24">
           {/* TOTP Section */}
-          <div className="bg-primary-900/50 rounded-16 p-24">
-            <div className="flex items-center gap-12 mb-16">
-              <Icon icon="mdi:shield-check" className="text-secondary-main w-24 h-24" />
+          <div className=" rounded-16 p-24 g-box-back border border-[#07263C] flex flex-col gap-32 w-full">
+            <div className="flex items-center gap-24 flex-col">
+              <IconBox icon="material-symbols-light:qr-code-scanner-rounded" />
               <h3 className="text-18 font-semibold">Authenticator App (TOTP)</h3>
             </div>
-            <p className="text-14 text-gray-400 mb-24">
-              {status?.isTotpEnabled 
-                ? "TOTP authentication is enabled" 
+            <p className="text-center">
+              {status?.isTotpEnabled
+                ? "TOTP authentication is enabled"
                 : "Secure your account with an authenticator app"}
             </p>
             {status?.isTotpEnabled ? (
-              <AnimatedSlideButton
-                onClick={() => handleDisable('totp')}
-                className="w-full text-16 py-12 border border-red-500 text-red-500 rounded-full hover:bg-red-500/10"
+              <button
+                onClick={() => handleDisable("totp")}
+                className="mt-auto mx-auto w-fit text-button-text font-semibold p-32 text-16 py-16  rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50"
               >
                 Disable TOTP
-              </AnimatedSlideButton>
+              </button>
             ) : (
-              <AnimatedSlideButton
-                onClick={() => setSetupType('totp')}
-                className="w-full text-16 py-12 border border-secondary-300 rounded-full"
+              <button
+                onClick={() => setSetupType("totp")}
+                className="mt-auto mx-auto w-fit text-button-text font-semibold p-32 text-16 py-16  rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50"
               >
                 Setup TOTP
-              </AnimatedSlideButton>
+              </button>
             )}
           </div>
 
           {/* Email Section */}
-          <div className="bg-primary-900/50 rounded-16 p-24">
-            <div className="flex items-center gap-12 mb-16">
-              <Icon icon="mdi:email-check" className="text-secondary-main w-24 h-24" />
+          <div className=" rounded-16 p-24 g-box-back border border-[#07263C] flex flex-col gap-32 w-full">
+            <div className="flex items-center gap-24 flex-col">
+              <IconBox icon="material-symbols-light:mark-email-read-outline-rounded" />
               <h3 className="text-18 font-semibold">Email Authentication</h3>
             </div>
-            <p className="text-14 text-gray-400 mb-24">
-              {status?.isEmailEnabled 
-                ? "Email authentication is enabled" 
+            <p className="text-center">
+              {status?.isEmailEnabled
+                ? "Email authentication is enabled"
                 : "Secure your account with email verification"}
             </p>
             {status?.isEmailEnabled ? (
-              <AnimatedSlideButton
-                onClick={() => handleDisable('email')}
-                className="w-full text-16 py-12 border border-red-500 text-red-500 rounded-full hover:bg-red-500/10"
+              <button
+                onClick={() => handleDisable("email")}
+                className="mt-auto mx-auto w-fit text-button-text font-semibold p-32 text-16 py-16  rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50"
               >
                 Disable Email
-              </AnimatedSlideButton>
+              </button>
             ) : (
-              <AnimatedSlideButton
-                onClick={() => setSetupType('email')}
-                className="w-full text-16 py-12 border border-secondary-300 rounded-full"
+              <button
+                onClick={() => setSetupType("email")}
+                className="mt-auto mx-auto w-fit text-button-text font-semibold p-32 text-16 py-16  rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50"
               >
                 Setup Email
-              </AnimatedSlideButton>
+              </button>
             )}
           </div>
         </div>
@@ -137,4 +128,4 @@ const TwoFactorSetupPage = () => {
   );
 };
 
-export default TwoFactorSetupPage; 
+export default TwoFactorSetupPage;
