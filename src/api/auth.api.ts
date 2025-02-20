@@ -338,3 +338,15 @@ export const apiGetTwoFactorInfo = async () => {
     throw "Something went wrong.";
   }
 };
+
+export const apiReset2FA = async (userId: string, force2FAGracePeriodInDays: number = 30) => {
+  try {
+    const result = await axiosInstance.post("/api/Identity/Reset2FA", {
+      userId,
+      force2FAGracePeriodInDays
+    });
+    return result?.data;
+  } catch (error) {
+    throw "Something went wrong.";
+  }
+};
