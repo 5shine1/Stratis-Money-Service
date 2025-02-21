@@ -5,6 +5,7 @@ import useAppSelector from "@/hooks/global/useAppSelector";
 import { ROLES } from "@/@types/common";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Pagination from "rc-pagination";
+import ConnectModal from "./components/ConnectModal";
 
 const CustodyPage = () => {
   const { locale } = useAppSelector((state) => state.locale);
@@ -12,6 +13,8 @@ const CustodyPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const filteredData = useMemo(() => [], []);
+  const [showModal, setShowModal] = useState(false);
+
   return (
     <div className="flex flex-col gap-24 lg:gap-32 lg:px-48 lg:py-64 py-32 p-8 text-14">
       <h4 className="w-fit g-header-app">Custody</h4>
@@ -87,6 +90,10 @@ const CustodyPage = () => {
             </div>
           </>
         )}
+        <button className="m-auto w-fit font-semibold p-16 text-12 py-8  rounded-8 gap-8 flex items-center justify-center border border-button-border from-button-from/10 to-button-to/10" onClick={() => setShowModal(true)}>
+          Withdraw through Ledger
+          <Icon icon={"akar-icons:arrow-cycle"} className="w-16 h-16" />
+        </button>
         <Pagination
           current={currentPage}
           onChange={setCurrentPage}
@@ -99,6 +106,7 @@ const CustodyPage = () => {
           showLessItems
           showTitle={false}
         />
+        <ConnectModal isOpen={showModal} onClose={() => setShowModal(false)} />
       </div>
     </div>
   );
