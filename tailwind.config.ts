@@ -29,6 +29,9 @@ module.exports = {
       inter: "Inter",
     },
     extend: {
+      screens: {
+        'xs': {'max': '399px'},
+      },
       fontSize: {
         ...range(minFontSize, maxFontSize).reduce((merged, f) => ({ ...merged, [f]: `${f}px` }), {}),
       },

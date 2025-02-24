@@ -2725,6 +2725,12 @@ export const dictionaryPayment = {
       FR: "Adresse de dépôt",
       RO: "Adresă de depunere",
     },
+    depositMoney: {
+      EN: "Deposit Money",
+      ES: "Depositar dinero",
+      FR: "Déposer de l'argent",
+      RO: "Depune bani",
+    },
     confirmations: {
       EN: "Confirmations",
       ES: "Confirmaciones",
