@@ -12,6 +12,15 @@ import IconBox from "@/components/global/IconBox";
 import CustomInput from "@/components/global/CustomInput";
 import axiosInstance from "@/config/axios";
 
+const ETHEREUM_DERIVATION_PATH = "44'/60'/0'/0/0";
+
+const LEDGER_STATUS_CODES = {
+  LOCKED: 0x6804,
+  APP_NOT_OPEN: 0x6700,
+  APP_NOT_OPEN_ALT: 0x6982,
+  USER_REJECTED: 0x6985
+} as const;
+
 // Add WebUSB types
 declare global {
   interface Navigator {
@@ -128,7 +137,7 @@ const ConnectModal: React.FC<Props> = ({ isOpen, onClose, withdrawalData }) => {
         // If we were previously in NO_APP state, we need to re-get the address
         if (deviceState === DeviceState.NO_APP) {
           try {
-            const { address: deviceAddress } = await eth.getAddress("44'/60'/0'/0/0", false);
+            const { address: deviceAddress } = await eth.getAddress(ETHEREUM_DERIVATION_PATH, false);
             setAddress(deviceAddress);
             setApprovalState(ApprovalState.CONNECTED);
             toast.success("Reconnected to Ethereum app!", { id: "ledger-connect" });
@@ -147,12 +156,12 @@ const ConnectModal: React.FC<Props> = ({ isOpen, onClose, withdrawalData }) => {
           handleDisconnect();
         }
         // Device is locked
-        else if (err.statusCode === 0x6804) {
+        else if (err.statusCode === LEDGER_STATUS_CODES.LOCKED) {
           setDeviceState(DeviceState.LOCKED);
           setError("Ledger device is locked. Please unlock it.");
         }
         // App is not open
-        else if (err.statusCode === 0x6700 || err.statusCode === 0x6982) {
+        else if (err.statusCode === LEDGER_STATUS_CODES.APP_NOT_OPEN || err.statusCode === LEDGER_STATUS_CODES.APP_NOT_OPEN_ALT) {
           setDeviceState(DeviceState.NO_APP);
           setError("Please open the Ethereum app on your Ledger device.");
         }
@@ -232,7 +241,7 @@ const ConnectModal: React.FC<Props> = ({ isOpen, onClose, withdrawalData }) => {
       // Get Ethereum address
       try {
         const eth = new Eth(newTransport);
-        const { address: deviceAddress } = await eth.getAddress("44'/60'/0'/0/0", false);
+        const { address: deviceAddress } = await eth.getAddress(ETHEREUM_DERIVATION_PATH, false);
         setAddress(deviceAddress);
         setApprovalState(ApprovalState.CONNECTED);
         toast.success("Connected to Ledger device!", { id: "ledger-connect" });
@@ -331,7 +340,7 @@ const ConnectModal: React.FC<Props> = ({ isOpen, onClose, withdrawalData }) => {
 
       try {
         toast.loading("Please confirm the transaction on your Ledger device...", { id: "ledger-sign" });
-        const signature = await eth.signTransaction("44'/60'/0'/0/0", unsignedTx);
+        const signature = await eth.signTransaction(ETHEREUM_DERIVATION_PATH, unsignedTx);
         
         // Store signature and transaction data
         const signedTxData = {
@@ -350,15 +359,15 @@ const ConnectModal: React.FC<Props> = ({ isOpen, onClose, withdrawalData }) => {
         console.error("Signing/submission error:", err);
         
         // Handle specific Ledger errors
-        if (err.statusCode === 0x6804) {
+        if (err.statusCode === LEDGER_STATUS_CODES.LOCKED) {
           setError("Ledger device is locked. Please unlock it.");
           setDeviceState(DeviceState.LOCKED);
-        } else if (err.statusCode === 0x6700 || err.statusCode === 0x6982) {
+        } else if (err.statusCode === LEDGER_STATUS_CODES.APP_NOT_OPEN || err.statusCode === LEDGER_STATUS_CODES.APP_NOT_OPEN_ALT) {
           setError("Please open the Ethereum app on your Ledger device.");
           setDeviceState(DeviceState.NO_APP);
         } else if (err.name === "DisconnectedDevice" || err.name === "DisconnectedDeviceDuringOperation") {
           handleDisconnect();
-        } else if (err.statusCode === 0x6985) {
+        } else if (err.statusCode === LEDGER_STATUS_CODES.USER_REJECTED) {
           setError("Transaction was rejected on Ledger device. Please try again.");
           setApprovalState(ApprovalState.CONNECTED);
           toast.error("Transaction rejected", { id: "ledger-sign" });
@@ -367,7 +376,7 @@ const ConnectModal: React.FC<Props> = ({ isOpen, onClose, withdrawalData }) => {
           setApprovalState(ApprovalState.CONNECTED);
         }
         
-        if (err.statusCode !== 0x6985) {
+        if (err.statusCode !== LEDGER_STATUS_CODES.USER_REJECTED) {
           setApprovalState(ApprovalState.ERROR);
           toast.error("Failed to sign or submit transaction", { id: "ledger-sign" });
         }
