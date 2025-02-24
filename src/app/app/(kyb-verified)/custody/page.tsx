@@ -20,7 +20,7 @@ const CustodyPage = () => {
     nonce: number;
   } | null>(null);
 
-  // Mock withdrawal data for testing - replace with actual data from your backend
+  // Mock withdrawal data for testing
   const handleWithdraw = () => {
     setWithdrawalData({
       amount: "0.1",

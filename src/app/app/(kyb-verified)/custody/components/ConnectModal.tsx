@@ -3,24 +3,22 @@ import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
 import { listen } from "@ledgerhq/logs";
 import TransportWebUSB from "@ledgerhq/hw-transport-webusb";
-import { SignerEthBuilder } from '@ledgerhq/device-signer-kit-ethereum';
-import { observableBehavior } from '@/utils/web3.utils';
 import { ethers } from "ethers";
 import toast from "react-hot-toast";
 import type Transport from "@ledgerhq/hw-transport";
 import Eth from "@ledgerhq/hw-app-eth";
-
 import { Icon } from "@iconify/react";
 import IconBox from "@/components/global/IconBox";
-import { DefaultSignerEth } from '@ledgerhq/device-signer-kit-ethereum/internal/DefaultSignerEth.js';
+import CustomInput from "@/components/global/CustomInput";
+import axiosInstance from "@/config/axios";
 
 type Props = {
   isOpen: boolean;
   onClose: () => void;
   withdrawalData?: {
     amount: string;
-    recipient: string;
     nonce: number;
+    chainId: number;
   };
 };
 
@@ -32,39 +30,40 @@ enum ApprovalState {
   ERROR
 }
 
-interface DeviceEvent {
-  status: string;
-  type?: string;
-}
-
-interface DiscoveredDevice {
-  id: string;
-  transport: TransportWebUSB;
-  deviceModel: {
-    productName: string;
-    productId: string;
-    vendorId: string;
-  };
-}
-
 const ConnectModal: React.FC<Props> = ({ isOpen, onClose, withdrawalData }) => {
   const [approvalState, setApprovalState] = useState<ApprovalState>(ApprovalState.DISCONNECTED);
   const [address, setAddress] = useState("");
-  const [signerEth, setSignerEth] = useState<DefaultSignerEth>();
   const [error, setError] = useState<string>("");
-  const [signedTx, setSignedTx] = useState<string>("");
   const [transport, setTransport] = useState<Transport | null>(null);
+  const [recipientAddress, setRecipientAddress] = useState("");
+  const [recipientError, setRecipientError] = useState("");
+
+  const validateRecipientAddress = (address: string) => {
+    try {
+      if (!address) {
+        setRecipientError("Recipient address is required");
+        return false;
+      }
+      if (!ethers.isAddress(address)) {
+        setRecipientError("Invalid Ethereum address");
+        return false;
+      }
+      setRecipientError("");
+      return true;
+    } catch (e) {
+      setRecipientError("Invalid Ethereum address");
+      return false;
+    }
+  };
 
   useEffect(() => {
     if (!isOpen) {
       setApprovalState(ApprovalState.DISCONNECTED);
       setError("");
-      setSignedTx("");
       if (transport) {
         transport.close();
       }
       setTransport(null);
-      setSignerEth(undefined);
     }
   }, [isOpen, transport]);
 
@@ -113,6 +112,10 @@ const ConnectModal: React.FC<Props> = ({ isOpen, onClose, withdrawalData }) => {
   };
 
   const handleSign = async () => {
+    if (!validateRecipientAddress(recipientAddress)) {
+      return;
+    }
+
     if (!withdrawalData || !transport) {
       setError("No withdrawal data or transport available");
       setApprovalState(ApprovalState.ERROR);
@@ -126,13 +129,14 @@ const ConnectModal: React.FC<Props> = ({ isOpen, onClose, withdrawalData }) => {
 
       const eth = new Eth(transport);
 
+      // Create transaction with user-provided recipient address
       const tx = {
-        to: withdrawalData.recipient,
+        to: recipientAddress, // Using user input recipient address
         value: ethers.parseEther(withdrawalData.amount),
         nonce: withdrawalData.nonce,
         gasLimit: ethers.toBigInt(21000),
         gasPrice: ethers.parseUnits("50", "gwei"),
-        chainId: 1
+        chainId: withdrawalData.chainId
       };
 
       const transaction = ethers.Transaction.from(tx);
@@ -140,15 +144,31 @@ const ConnectModal: React.FC<Props> = ({ isOpen, onClose, withdrawalData }) => {
 
       try {
         const signature = await eth.signTransaction("44'/60'/0'/0/0", unsignedTx);
-        const signatureStr = `${signature.r}${signature.s}${signature.v}`;
-        setSignedTx(signatureStr);
-        setApprovalState(ApprovalState.SIGNED);
-        toast.success("Transaction signed successfully!", { id: "ledger-sign" });
+        
+        // Send both signature and user-provided recipient to API
+        const signedTxData = {
+          r: signature.r,
+          s: signature.s,
+          v: signature.v,
+          recipient: recipientAddress, // Using user input recipient address
+          amount: withdrawalData.amount,
+          nonce: withdrawalData.nonce,
+          chainId: withdrawalData.chainId
+        };
+
+        // Call the API with signed transaction data
+        const response = await axiosInstance.post("/api/Payment/SignTx", signedTxData);
+        if (response.data?.isSucceed) {
+          setApprovalState(ApprovalState.SIGNED);
+          toast.success("Transaction signed and submitted successfully!", { id: "ledger-sign" });
+        } else {
+          throw new Error(response.data?.message || "Failed to submit transaction");
+        }
       } catch (err) {
-        console.error("Signing error:", err);
-        setError("Failed to sign transaction. Please try again.");
+        console.error("Signing/submission error:", err);
+        setError("Failed to sign or submit transaction. Please try again.");
         setApprovalState(ApprovalState.ERROR);
-        toast.error("Failed to sign transaction", { id: "ledger-sign" });
+        toast.error("Failed to sign or submit transaction", { id: "ledger-sign" });
       }
     } catch (e) {
       console.error("Signing error:", e);
@@ -194,13 +214,27 @@ const ConnectModal: React.FC<Props> = ({ isOpen, onClose, withdrawalData }) => {
             </p>
           )}
 
+          {/* Recipient Address Input */}
+          {approvalState >= ApprovalState.CONNECTED && (
+            <div className="w-full">
+              <CustomInput
+                value={recipientAddress}
+                onChange={(value) => {
+                  setRecipientAddress(value);
+                  validateRecipientAddress(value);
+                }}
+                placeholder="Enter recipient ETH address"
+                error={recipientError}
+              />
+            </div>
+          )}
+
           {/* Withdrawal Details */}
           {withdrawalData && approvalState >= ApprovalState.CONNECTED && (
             <div className="bg-primary-900/50 p-16 rounded-8 mt-8">
               <h5 className="text-16 font-semibold mb-12">Withdrawal Details</h5>
               <div className="flex flex-col gap-8">
                 <p>Amount: {withdrawalData.amount} ETH</p>
-                <p>Recipient: {withdrawalData.recipient}</p>
                 <p>Nonce: {withdrawalData.nonce}</p>
               </div>
             </div>
@@ -234,7 +268,8 @@ const ConnectModal: React.FC<Props> = ({ isOpen, onClose, withdrawalData }) => {
           {approvalState === ApprovalState.CONNECTED && (
             <button
               onClick={handleSign}
-              className="mt-16 w-full md:w-300 text-button-text text-18 font-semibold py-16 rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50"
+              disabled={!recipientAddress || !!recipientError}
+              className="mt-16 w-full md:w-300 text-button-text text-18 font-semibold py-16 rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Sign Transaction
               <Icon icon="material-symbols:approval-outline" className="w-20 h-20 ml-8" />
