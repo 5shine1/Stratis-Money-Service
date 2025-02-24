@@ -5,6 +5,7 @@ import useAppSelector from "@/hooks/global/useAppSelector";
 import { ROLES } from "@/@types/common";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Pagination from "rc-pagination";
+import ConnectModal from "./components/ConnectModal";
 
 const CustodyPage = () => {
   const { locale } = useAppSelector((state) => state.locale);
@@ -12,6 +13,25 @@ const CustodyPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const filteredData = useMemo(() => [], []);
+  const [showModal, setShowModal] = useState(false);
+  const [withdrawalData, setWithdrawalData] = useState<{
+    amount: string;
+    recipient: string;
+    nonce: number;
+    chainId: number;
+  } | null>(null);
+
+  // Mock withdrawal data for testing
+  const handleWithdraw = () => {
+    setWithdrawalData({
+      amount: "0.1",
+      recipient: "0x742d35Cc6634C0532925a3b844Bc454e4438f44e",
+      nonce: 1,
+      chainId: 1
+    });
+    setShowModal(true);
+  };
+
   return (
     <div className="flex flex-col gap-24 lg:gap-32 lg:px-48 lg:py-64 py-32 p-8 text-14">
       <h4 className="w-fit g-header-app">Custody</h4>
@@ -37,9 +57,12 @@ const CustodyPage = () => {
                 </div>
               </div>
             </div>
-            <button className="ml-auto w-fit text-button-text font-semibold p-32 text-16 py-16  rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50">
-              Withdraw
-              <Icon icon={"akar-icons:arrow-cycle"} className="w-16 h-16" />
+            <button 
+              onClick={handleWithdraw}
+              className="ml-auto w-fit text-button-text font-semibold p-32 text-16 py-16 rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50"
+            >
+              Withdraw using Ledger
+              <Icon icon={"akar-icons:arrow-cycle"} className="w-16 h-16 ml-8" />
             </button>
           </div>
         )}
@@ -98,6 +121,14 @@ const CustodyPage = () => {
           nextIcon={<Icon icon="icon-park-outline:right" />}
           showLessItems
           showTitle={false}
+        />
+        <ConnectModal 
+          isOpen={showModal} 
+          onClose={() => {
+            setShowModal(false);
+            setWithdrawalData(null);
+          }} 
+          withdrawalData={withdrawalData}
         />
       </div>
     </div>
