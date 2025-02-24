@@ -18,6 +18,7 @@ const CustodyPage = () => {
     amount: string;
     recipient: string;
     nonce: number;
+    chainId: number;
   } | null>(null);
 
   // Mock withdrawal data for testing
@@ -25,7 +26,8 @@ const CustodyPage = () => {
     setWithdrawalData({
       amount: "0.1",
       recipient: "0x742d35Cc6634C0532925a3b844Bc454e4438f44e",
-      nonce: 1
+      nonce: 1,
+      chainId: 1
     });
     setShowModal(true);
   };
@@ -59,7 +61,7 @@ const CustodyPage = () => {
               onClick={handleWithdraw}
               className="ml-auto w-fit text-button-text font-semibold p-32 text-16 py-16 rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50"
             >
-              Withdraw through Ledger
+              Withdraw using Ledger
               <Icon icon={"akar-icons:arrow-cycle"} className="w-16 h-16 ml-8" />
             </button>
           </div>
