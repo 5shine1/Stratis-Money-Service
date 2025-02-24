@@ -1,12 +1,14 @@
 import 'core-js/actual';
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
 import { listen } from "@ledgerhq/logs";
 import TransportWebUSB from "@ledgerhq/hw-transport-webusb";
-import { DeviceManagementKit } from '@ledgerhq/device-management-kit';
-import { SignerEthBuilder } from '@ledgerhq/device-signer-kit-ethereum'
+import { SignerEthBuilder } from '@ledgerhq/device-signer-kit-ethereum';
 import { observableBehavior } from '@/utils/web3.utils';
 import { ethers } from "ethers";
+import toast from "react-hot-toast";
+import type Transport from "@ledgerhq/hw-transport";
+import Eth from "@ledgerhq/hw-app-eth";
 
 import { Icon } from "@iconify/react";
 import IconBox from "@/components/global/IconBox";
@@ -15,48 +17,143 @@ import { DefaultSignerEth } from '@ledgerhq/device-signer-kit-ethereum/internal/
 type Props = {
   isOpen: boolean;
   onClose: () => void;
+  withdrawalData?: {
+    amount: string;
+    recipient: string;
+    nonce: number;
+  };
 };
 
-const ConnectModal: React.FC<Props> = ({ isOpen, onClose }) => {
-  const [isConnected, setConnected] = useState(false);
+enum ApprovalState {
+  DISCONNECTED,
+  CONNECTED,
+  SIGNING,
+  SIGNED,
+  ERROR
+}
+
+interface DeviceEvent {
+  status: string;
+  type?: string;
+}
+
+interface DiscoveredDevice {
+  id: string;
+  transport: TransportWebUSB;
+  deviceModel: {
+    productName: string;
+    productId: string;
+    vendorId: string;
+  };
+}
+
+const ConnectModal: React.FC<Props> = ({ isOpen, onClose, withdrawalData }) => {
+  const [approvalState, setApprovalState] = useState<ApprovalState>(ApprovalState.DISCONNECTED);
   const [address, setAddress] = useState("");
   const [signerEth, setSignerEth] = useState<DefaultSignerEth>();
+  const [error, setError] = useState<string>("");
+  const [signedTx, setSignedTx] = useState<string>("");
+  const [transport, setTransport] = useState<Transport | null>(null);
 
-  const handleSign = async () => {
-    const tx = {
-      to: "RECIPIENT_ADDRESS", // Replace with the recipient's address
-      value: ethers.parseEther("0.1"), // Amount of Ether to send (e.g., 0.1 ETH)
-      gasLimit: ethers.hexlify("21000"), // Set gas limit (typically 21000 for standard transactions)
-      gasPrice: ethers.parseUnits("50", "gwei") // Set gas price (e.g., 50 Gwei)
+  useEffect(() => {
+    if (!isOpen) {
+      setApprovalState(ApprovalState.DISCONNECTED);
+      setError("");
+      setSignedTx("");
+      if (transport) {
+        transport.close();
+      }
+      setTransport(null);
+      setSignerEth(undefined);
     }
-
-    const unsignedTx = new TextEncoder().encode(ethers.Transaction.from(tx).unsignedSerialized.substring(2));
-
-    const { observable, cancel } = signerEth.signTransaction(
-      "44'/60'/0'/0/0", unsignedTx
-    );
-  }
+  }, [isOpen, transport]);
 
   const handleConnect = async () => {
     try {
-      const transport = await TransportWebUSB.create();
+      setError("");
+      toast.loading("Connecting to Ledger device...", { id: "ledger-connect" });
 
-      // Listen to the events which are sent by the Ledger packages in order to debug the app
-      listen((log: any) => console.log(log));
+      // Create WebUSB transport
+      const newTransport = await TransportWebUSB.create();
+      setTransport(newTransport);
 
-      const dmk = new DeviceManagementKit();
-      const sessionId = "cd12538-b02a-4282-99de-4d90f10769a0";  // Example Session Id
-      const signerEth = new SignerEthBuilder({ dmk, sessionId }).build();
+      listen((log) => console.debug("Ledger log:", log));
 
-      const { observable, cancel } = signerEth.getAddress("44'/60'/0'/0/0");
-      const output = observableBehavior(observable)
+      // Create Ethereum app instance
+      const eth = new Eth(newTransport);
 
-      setSignerEth(signerEth)
-      setAddress(output.address)
-      setConnected(true);
-    
+      // Get Ethereum address
+      try {
+        const { address: deviceAddress } = await eth.getAddress("44'/60'/0'/0/0", false);
+        setAddress(deviceAddress);
+        setApprovalState(ApprovalState.CONNECTED);
+        toast.success("Connected to Ledger device!", { id: "ledger-connect" });
+      } catch (err) {
+        console.error("Failed to get address:", err);
+        setError("Failed to get address from Ledger device. Please make sure the Ethereum app is open.");
+        setApprovalState(ApprovalState.ERROR);
+        toast.error("Failed to connect to Ledger", { id: "ledger-connect" });
+        
+        if (newTransport) {
+          newTransport.close();
+        }
+        setTransport(null);
+      }
     } catch (e) {
-      window.alert(String(e.message || e))
+      console.error("Connection error:", e);
+      setError(e.message || "Failed to connect to Ledger device");
+      setApprovalState(ApprovalState.ERROR);
+      toast.error("Failed to connect to Ledger", { id: "ledger-connect" });
+      
+      if (transport) {
+        transport.close();
+      }
+      setTransport(null);
+    }
+  };
+
+  const handleSign = async () => {
+    if (!withdrawalData || !transport) {
+      setError("No withdrawal data or transport available");
+      setApprovalState(ApprovalState.ERROR);
+      toast.error("Missing withdrawal data or device connection");
+      return;
+    }
+
+    try {
+      setApprovalState(ApprovalState.SIGNING);
+      setError("");
+
+      const eth = new Eth(transport);
+
+      const tx = {
+        to: withdrawalData.recipient,
+        value: ethers.parseEther(withdrawalData.amount),
+        nonce: withdrawalData.nonce,
+        gasLimit: ethers.toBigInt(21000),
+        gasPrice: ethers.parseUnits("50", "gwei"),
+        chainId: 1
+      };
+
+      const transaction = ethers.Transaction.from(tx);
+      const unsignedTx = transaction.unsignedSerialized.substring(2);
+
+      try {
+        const signature = await eth.signTransaction("44'/60'/0'/0/0", unsignedTx);
+        const signatureStr = `${signature.r}${signature.s}${signature.v}`;
+        setSignedTx(signatureStr);
+        setApprovalState(ApprovalState.SIGNED);
+        toast.success("Transaction signed successfully!", { id: "ledger-sign" });
+      } catch (err) {
+        console.error("Signing error:", err);
+        setError("Failed to sign transaction. Please try again.");
+        setApprovalState(ApprovalState.ERROR);
+        toast.error("Failed to sign transaction", { id: "ledger-sign" });
+      }
+    } catch (e) {
+      console.error("Signing error:", e);
+      setError(e.message || "Failed to sign transaction");
+      setApprovalState(ApprovalState.ERROR);
     }
   };
 
@@ -64,7 +161,7 @@ const ConnectModal: React.FC<Props> = ({ isOpen, onClose }) => {
     <Modal
       isOpen={isOpen}
       onRequestClose={onClose}
-      className="relative z-50 g-box-back w-full max-w-740  rounded-20 shadow-md m-auto border border-modal-border"
+      className="relative z-50 g-box-back w-full max-w-740 rounded-20 shadow-md m-auto border border-modal-border"
       overlayClassName="bg-black/50 backdrop-blur-md fixed left-0 top-0 w-full h-full z-40 px-8 py-32 overflow-y-auto flex items-start justify-center"
     >
       <Icon
@@ -75,43 +172,86 @@ const ConnectModal: React.FC<Props> = ({ isOpen, onClose }) => {
       <div className="p-12 py-24 md:p-40 flex flex-col gap-32">
         <div className="flex items-start gap-12">
           <IconBox icon="material-symbols-light:assistant-device-outline" />
-          <h4 className="g-button-text w-fit mt-4 md:mt-3 mr-30">Approve</h4>
+          <h4 className="g-button-text w-fit mt-4 md:mt-3 mr-30">Approve Withdrawal</h4>
         </div>
+        
         <div className="flex flex-col gap-16 md:gap-24">
-          {isConnected? (
-            <>
-              <div className='text-xl flex items-center'>
-                <Icon icon="icon-park-outline:check-one" className="w-28 h-28 text-success mr-20" />
-                <span>Connected</span>
+          {/* Status Display */}
+          <div className="flex items-center gap-4">
+            <Icon 
+              icon={approvalState >= ApprovalState.CONNECTED ? "icon-park-outline:check-one" : "icon-park-outline:close-one"} 
+              className={`w-28 h-28 ${approvalState >= ApprovalState.CONNECTED ? "text-success" : "text-error"} mr-20`} 
+            />
+            <span className="text-xl">
+              {approvalState >= ApprovalState.CONNECTED ? "Connected" : "Disconnected"}
+            </span>
+          </div>
+
+          {/* Address Display */}
+          {address && (
+            <p className="text-xl">
+              Address: {address}
+            </p>
+          )}
+
+          {/* Withdrawal Details */}
+          {withdrawalData && approvalState >= ApprovalState.CONNECTED && (
+            <div className="bg-primary-900/50 p-16 rounded-8 mt-8">
+              <h5 className="text-16 font-semibold mb-12">Withdrawal Details</h5>
+              <div className="flex flex-col gap-8">
+                <p>Amount: {withdrawalData.amount} ETH</p>
+                <p>Recipient: {withdrawalData.recipient}</p>
+                <p>Nonce: {withdrawalData.nonce}</p>
               </div>
-              <p className="text-xl">
-                Address: {address}
-              </p>
+            </div>
+          )}
+
+          {/* Show message when no withdrawal data is available */}
+          {!withdrawalData && approvalState >= ApprovalState.CONNECTED && (
+            <div className="bg-warning/10 p-16 rounded-8 mt-8">
+              <p className="text-warning text-14">No withdrawal data available. Please try again.</p>
+            </div>
+          )}
+
+          {/* Error Display */}
+          {error && (
+            <div className="text-error text-14 mt-8">
+              {error}
+            </div>
+          )}
+
+          {/* Action Buttons */}
+          {approvalState === ApprovalState.DISCONNECTED && (
+            <button
+              onClick={handleConnect}
+              className="mt-16 w-full md:w-300 text-button-text text-18 font-semibold py-16 rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50"
+            >
+              Connect Ledger
+              <Icon icon="material-symbols:usb" className="w-20 h-20 ml-8" />
+            </button>
+          )}
+
+          {approvalState === ApprovalState.CONNECTED && (
+            <button
+              onClick={handleSign}
+              className="mt-16 w-full md:w-300 text-button-text text-18 font-semibold py-16 rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50"
+            >
+              Sign Transaction
+              <Icon icon="material-symbols:approval-outline" className="w-20 h-20 ml-8" />
+            </button>
+          )}
+
+          {approvalState === ApprovalState.SIGNED && (
+            <div className="flex flex-col gap-12 items-center">
+              <Icon icon="material-symbols:check-circle-outline" className="w-48 h-48 text-success" />
+              <p className="text-success text-16">Transaction signed successfully!</p>
               <button
-                onClick={handleSign}
-                className="mt-16 w-full md:w-300 text-button-text text-18 font-semibold py-16  rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50"
+                onClick={onClose}
+                className="mt-8 text-button-text text-16 py-12 px-24 rounded-8 border border-button-border hover:bg-button-border/10"
               >
-                Sign
-                <Icon icon={"akar-icons:arrow-cycle"} className="w-16 h-16" />
+                Close
               </button>
-            </>
-          ) : (
-            <>
-              <div className='text-xl flex items-center'>
-                <Icon icon="icon-park-outline:close-one" className="w-28 h-28 text-error mr-20" />
-                <span>Disconnected</span>
-              </div>
-              <p className="text-xl">
-                Connect your Ledger device to approve the withdraw.
-              </p>
-              <button
-                onClick={handleConnect}
-                className="mt-16 w-full md:w-300 text-button-text text-18 font-semibold py-16  rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50"
-              >
-                Connect
-                <Icon icon={"akar-icons:arrow-cycle"} className="w-16 h-16" />
-              </button>
-            </>
+            </div>
           )}
         </div>
       </div>
