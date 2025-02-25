@@ -6,6 +6,7 @@ import { ROLES } from "@/@types/common";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Pagination from "rc-pagination";
 import ConnectModal from "./components/ConnectModal";
+import Link from "next/link";
 
 const CustodyPage = () => {
   const { locale } = useAppSelector((state) => state.locale);
@@ -37,13 +38,13 @@ const CustodyPage = () => {
       <h4 className="w-fit g-header-app">Custody</h4>
       <div className="flex flex-col gap-32">
         {role === ROLES.BUSINESS && (
-          <div className="bg-white/5 rounded-8 p-16 py-24 md:p-32 flex items-start gap-8">
+          <div className="bg-white/5 rounded-8 p-16 py-24 md:p-32 flex items-start gap-32 md:flex-row flex-col">
             <div className="flex flex-col gap-6 ">
               <div className="text-24 text-secondary-200 font-bold mb-16 md:mb-0">Account</div>
               <div>0x12312312312312312332342</div>
               <div className="text-24 text-secondary-200 font-bold mt-12 mb-16 md:mb-0">Balance</div>
-              <div className="flex flex-col md:flex-row md:items-center gap-16 md:gap-32 text-14 text-white">
-                <div className="flex  items-center gap-8">
+              <div className="flex md:items-center gap-16 md:gap-32 text-14 text-white">
+                <div className="flex items-center gap-8">
                   <Icon icon={"cryptocurrency-color:usd"} className="w-24 h-24" />
                   <span>
                     123 <span className="opacity-50">USD</span>
@@ -57,13 +58,19 @@ const CustodyPage = () => {
                 </div>
               </div>
             </div>
-            <button 
-              onClick={handleWithdraw}
-              className="ml-auto w-fit text-button-text font-semibold p-32 text-16 py-16 rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50"
-            >
-              Withdraw using Ledger
-              <Icon icon={"akar-icons:arrow-cycle"} className="w-16 h-16 ml-8" />
-            </button>
+            <div className="flex ml-auto">
+              <Link href="/app/custody/deposit">
+                <button className="w-fit text-button-text font-semibold p-32 text-16 py-16  rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50 xs:px-24">
+                  Deposit
+                  <Icon icon={"mdi:cash-plus"} className="w-22 h-22 xs:hidden" />
+                </button>
+              </Link>
+              <button className="ml-20 w-fit text-button-text font-semibold p-32 text-16 py-16  rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50 xs:px-24">
+                Withdraw
+                <Icon icon={"mdi:cash-minus"} className="w-22 h-22 xs:hidden" />
+              </button>
+            </div>
+            
           </div>
         )}
         {isLoading ? (
@@ -110,6 +117,10 @@ const CustodyPage = () => {
             </div>
           </>
         )}
+        {role !== ROLES.BUSINESS && <button className="m-auto w-fit font-semibold p-16 text-12 py-8  rounded-8 gap-8 flex items-center justify-center border border-button-border from-button-from/10 to-button-to/10" onClick={() => setShowModal(true)}>
+          Withdraw through Ledger
+          <Icon icon={"akar-icons:arrow-cycle"} className="w-16 h-16" />
+        </button> }
         <Pagination
           current={currentPage}
           onChange={setCurrentPage}
