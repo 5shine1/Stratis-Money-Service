@@ -24,6 +24,8 @@ import "@rainbow-me/rainbowkit/styles.css";
 import { isMobile } from "react-device-detect";
 import { acceptableCurrencies } from "./data"
 import AppInput from "@/components/global/AppInput";
+import ProgressBar from "@/app/components/ProgressBar";
+import { shortenString } from "@/utils/string.utils";
 
 const DepositPage: React.FC = () => {
   const { locale } = useAppSelector((state) => state.locale);
@@ -35,6 +37,7 @@ const DepositPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isSpin2, setIsSpin2] = useState(false);
   const [isSpin3, setIsSpin3] = useState(false);
+  const [hash, setHash] = useState("")
   const [confirmStep, setConfirmStep] = useState(0);
   const [currencies, setCurrencies] = useState([]);
   const [paymentLinkData, setPaymentLinkData] = useState("");
@@ -74,7 +77,6 @@ const DepositPage: React.FC = () => {
 
       setPaymentLinkData(link);
       setSelectedCurrency(selectedCurrency);
-
       setStatus(60);
     } catch (error) {
       console.log(error);
@@ -82,6 +84,29 @@ const DepositPage: React.FC = () => {
     }
     setLoading(false);
   };
+
+  useEffect(() => {
+    const timer = setInterval(() => {     
+      setStatus((status) => {     
+        if (status !== 100) {
+          setHash("0x28SKDKER38F9S949DKSLWOD9SSEDFD8DSSDDR3");
+          setIsSpin2(true);
+          return 100;
+        } else {
+          setIsSpin3(true); 
+          return 200;
+        }
+      })
+    }, 6000);
+
+    setTimeout(() => {
+      clearInterval(timer);
+    }, 12000)
+
+    return () => {
+      clearInterval(timer);
+    };
+  }, []);
 
   useEffect(() => {
     const fetchCurrencies = async () => {
@@ -130,7 +155,7 @@ const DepositPage: React.FC = () => {
                 <SvgLogoApp className="w-48 h-48 !fill-secondary-200" />{" "}
                 <h4 className="text-center">Stratis Money Service</h4>
               </Link>
-              {status === 60 ? (
+              {status === 60 || status === 100 ? (
                 //-------------deposite------------
                 <section className="relative g-box-back rounded-20 border border-modal-border px-20 py-40 md:p-40 flex flex-col gap-40 w-full max-w-920 items-center">
                   <img
@@ -183,6 +208,42 @@ const DepositPage: React.FC = () => {
                       </span>
                     </div>
                   </div>
+                  {status === 100 ? (
+                    <div className="relative z-10 bg-[#031520B2] rounded-8 max-w-780 mx-auto w-full flex items-start md:items-end flex-col md:flex-row p-24 gap-24 justify-between">
+                      <div className="flex flex-col gap-24 md:gap-40">
+                        <div className="flex flex-col gap-6">
+                          <span className="text-[#6B7A87] text-14">
+                            {dictionaryPayment.labels.transactionHash[locale]}
+                          </span>
+                          <div className="font-medium text-[#BDCCD8] text-17 flex items-center gap-8">
+                            <span className="hidden md:block">{shortenString(hash, 8, 6)}</span>
+                            <span className="md:hidden">{shortenString(hash, 6, 4)}</span>
+                            <div
+                              className="cursor-pointer"
+                              onClick={() => {
+                                navigator.clipboard.writeText(hash);
+                                toast.success(dictionaryPayment.toast.copied[locale]);
+                              }}
+                            >
+                              <IconBoxSm icon="ph:copy-light" />
+                            </div>
+                            <a href={`/tx/${hash}`} target="_blank">
+                              <IconBoxSm icon="octicon:link-external-24" />
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="max-w-280 w-full">
+                        <ProgressBar
+                          percentage={(confirmStep / totalConfirmations) * 100}
+                          label={dictionaryPayment.labels.confirmations[locale]}
+                          progress={`${confirmStep}/${totalConfirmations} (${Math.floor(
+                            (confirmStep / totalConfirmations) * 100
+                          )}%)`}
+                        />
+                      </div>
+                    </div>
+                  ) : (
                   <div className="relative z-10 bg-[#031520B2] rounded-8 max-w-780 mx-auto w-full p-24">
                     <div className=" flex items-start md:items-center flex-col md:flex-row gap-40 md:gap-24 justify-between">
                       <div className="flex flex-col gap-24 md:gap-40">
@@ -262,6 +323,58 @@ const DepositPage: React.FC = () => {
                           selectedCurrency={selectedCurrency}
                         />
                       )}
+                    </div>
+                  </div> )}
+                </section>
+              ) : status === 200 ? (
+                <section className="relative g-box-back rounded-20 border border-modal-border py-24 px-24 md:px-40 flex flex-col gap-32 w-full max-w-820 items-center">
+                  <img
+                    src="/assets/global/back_pattern.png"
+                    draggable={false}
+                    alt=""
+                    className="absolute left-0 top-0"
+                  />
+                  <img
+                    src="/assets/global/back_pattern.png"
+                    draggable={false}
+                    alt=""
+                    className="absolute bottom-0 right-0 scale-y-[-1] scale-x-[-1] hidden md:block"
+                  />
+                  <div className="relative max-w-540 w-full flex items-center flex-col gap-12">
+                    <IconBox icon="lets-icons:check-ring" />
+                    <div className="text-24 text-center g-button-text font-semibold">
+                      {dictionaryPayment.transactionCompletedMessage[locale]}
+                    </div>
+                  </div>
+
+                  <div className="relative bg-[#031520B2] rounded-8 flex items-start md:items-center gap-32 justify-between w-full p-20 flex-col md:flex-row">
+                    <div className="text-18 text-[#DAE3EA] leading-[1.5] md:max-w-220">
+                      {dictionaryPayment.paymentDetails.paid[locale]}{" "}
+                      <span className="text-[#DEAD3D]">
+                        {paymentAmount.value} {selectedCurrency?.symbol}
+                      </span>
+                    </div>
+                    <div className="flex flex-col gap-6">
+                      <span className="text-[#6B7A87] text-14">
+                        {" "}
+                        {dictionaryPayment.labels.transactionHash[locale]}
+                      </span>
+                      <div className="font-medium text-[#BDCCD8] text-17 flex items-center gap-8">
+                        <span className="hidden md:block">{shortenString(hash, 8, 6)}</span>
+                        <span className="md:hidden">{shortenString(hash, 6, 4)}</span>
+                        <div
+                          className="cursor-pointer"
+                          onClick={() => {
+                            navigator.clipboard.writeText(hash);
+                            toast.success(dictionaryPayment.toast.copied[locale]);
+                          }}
+                        >
+                          <IconBoxSm icon="ph:copy-light" />
+                        </div>
+                        <a href={`/tx/${hash}`} target="_blank">
+                          <IconBoxSm icon="octicon:link-external-24" />
+                        </a>
+                      </div>
                     </div>
                   </div>
                 </section>
