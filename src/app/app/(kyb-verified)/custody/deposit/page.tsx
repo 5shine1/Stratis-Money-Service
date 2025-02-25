@@ -67,6 +67,11 @@ const DepositPage: React.FC = () => {
   );
 
   const handleMakePayment = async () => {
+    if (!paymentAmount.value) {
+      setPaymentAmount({...paymentAmount, error: dictionaryWithdraw.requestModal.errors.amountRequired[locale]});
+      return;
+    }
+
     setLoading(true);
     try {
       const selectedCurrency = acceptableCurrencies.find(
