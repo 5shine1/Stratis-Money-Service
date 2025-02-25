@@ -48,6 +48,13 @@ export interface IUser {
   transactionCount?: number;
   transactionVolume?: { EUR: number; USD: number };
   agents?: null | IAgent[];
+  timeZone: null | ITimeZone;
+  has2FA: boolean;
+}
+
+export interface ITimeZone {
+  id: number;
+  name: string;
 }
 
 export interface IWithdrawHistory {
