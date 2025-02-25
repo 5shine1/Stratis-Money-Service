@@ -15,6 +15,23 @@ const CustodyPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const filteredData = useMemo(() => [], []);
   const [showModal, setShowModal] = useState(false);
+  const [withdrawalData, setWithdrawalData] = useState<{
+    amount: string;
+    recipient: string;
+    nonce: number;
+    chainId: number;
+  } | null>(null);
+
+  // Mock withdrawal data for testing
+  const handleWithdraw = () => {
+    setWithdrawalData({
+      amount: "0.1",
+      recipient: "0x742d35Cc6634C0532925a3b844Bc454e4438f44e",
+      nonce: 1,
+      chainId: 1
+    });
+    setShowModal(true);
+  };
 
   return (
     <div className="flex flex-col gap-24 lg:gap-32 lg:px-48 lg:py-64 py-32 p-8 text-14">
@@ -116,7 +133,14 @@ const CustodyPage = () => {
           showLessItems
           showTitle={false}
         />
-        <ConnectModal isOpen={showModal} onClose={() => setShowModal(false)} />
+        <ConnectModal 
+          isOpen={showModal} 
+          onClose={() => {
+            setShowModal(false);
+            setWithdrawalData(null);
+          }} 
+          withdrawalData={withdrawalData}
+        />
       </div>
     </div>
   );

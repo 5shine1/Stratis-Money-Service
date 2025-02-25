@@ -8,6 +8,7 @@ import { Icon } from "@iconify/react";
 import AppInput from "@/components/global/AppInput";
 import CustomSelect from "@/components/global/CustomSelect";
 import { apiActivateUser, apiAdminUsers } from "@/api/admin.api";
+import { apiReset2FA } from "@/api/auth.api";
 import { IUser } from "@/@types/data";
 import { KYB_STATUS_IDS, ROLES } from "@/@types/common";
 import { LoadingContext } from "@/components/providers/LoadingProvider";
@@ -91,6 +92,19 @@ const UserPage = () => {
     }
     setLoading(false);
   };
+
+  const handleReset2FA = async (userId: string) => {
+    setLoading(true);
+    try {
+      await apiReset2FA(userId);
+      toast.success("2FA has been reset successfully");
+      await handleGetOrders(); // Refresh the list
+    } catch (error) {
+      toast.error("Failed to reset 2FA");
+    }
+    setLoading(false);
+  };
+
   useEffect(() => {
     handleGetOrders();
     return () => {};
@@ -191,6 +205,15 @@ const UserPage = () => {
                                 >
                                   <Icon icon="ph:eye-fill" className="w-20 h-20"></Icon>
                                 </Link>
+                                {item.has2FA && (
+                                  <button
+                                    onClick={() => handleReset2FA(item.userId)}
+                                    className="text-error u-transition-color hover:text-warning"
+                                    title="Reset 2FA"
+                                  >
+                                    <Icon icon="mdi:two-factor-authentication" className="w-20 h-20"></Icon>
+                                  </button>
+                                )}
                                 {item.kybApplicationStatus === KYB_STATUS_IDS.ApprovedByCompliance ? (
                                   <button
                                     onClick={() => {
