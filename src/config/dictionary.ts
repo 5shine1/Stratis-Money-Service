@@ -2276,6 +2276,12 @@ export const dictionaryWithdraw = {
         FR: "Mes Soldes",
         RO: "Soldurile Mele",
       },
+      custody: {
+        EN: "Custody Withdraw",
+        ES: "Retiro de custodia",
+        FR: "Retrait de garde",
+        RO: "Retragere din custodie"
+      }
     },
     tableHeaders: {
       withdrawId: {
