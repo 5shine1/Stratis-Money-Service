@@ -1,3 +1,41 @@
+export const history = [
+  {
+    type: 1,
+    amount: 0.1,
+    currency: "USDC",
+    status: 55,
+    requested: "2025-01-23T12:47:20.221583",
+  },
+  {
+    type: 1,
+    amount: 23,
+    currency: "ETH",
+    status: 60,
+    requested: "2025-01-22T12:47:07.2439791",
+  },
+  {
+    type: 0,
+    amount: 2.4,
+    currency: "POL",
+    status: 200,
+    requested: "2025-01-16T15:56:34.2204712",
+  },
+  {
+    type: 1,
+    amount: 3,
+    currency: "USDT",
+    status: 60,
+    requested: "2025-01-27T16:45:50.6267229",
+  },
+  {
+    type: 0,
+    amount: 2.4,
+    currency: "SOL",
+    status: 200,
+    requested: "2025-01-27T13:05:46.9178808",
+  },
+]
+
 export const acceptableCurrencies = [
   {
       "currencyId": 1,

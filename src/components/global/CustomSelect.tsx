@@ -70,7 +70,7 @@ export default function CustomSelect({
 
   return (
     <div ref={dropdownRef} className={`relative w-full ${parentClass}`}>
-      <div onClick={toggleDropdown} className={`relative flex justify-between items-center gap-2 w-full ${mainClass}`}>
+      <div onClick={toggleDropdown} className={`relative flex justify-between items-center gap-2 w-full border rounded-6 p-12 cursor-pointer ${mainClass}`}>
         <div className="u-text-overflow w-full flex items-center gap-8">
           {isIcon && <img src={init?.icon} alt="" className="w-20 h-20 rounded-full" />}
           {init && init.text}
@@ -82,7 +82,7 @@ export default function CustomSelect({
         ></Icon>
       </div>
       <div
-        className={`z-20 transition-all duration-100 block ${padClass} ${
+        className={`z-20 absolute w-full mt-4 top-full left-0 transition-all duration-100 block bg-[#192C37] rounded-6 border border-[#213541] ${padClass} ${
           isOpen ? "opacity-100 scale-100 pointer-events-auto" : "opacity-0 scale-90 pointer-events-none"
         }`}
       >
@@ -105,7 +105,7 @@ export default function CustomSelect({
           .map((item) => (
             <div
               key={`list-item-${item.key}`}
-              className={`${listClass} hover:bg-gray-400/5}`}
+              className={`hover:bg-gray-400/5 p-12 text-14 border-t border-[#213541] first:border-none cursor-pointer ${listClass}`}
               onClick={() => {
                 setSelected(item);
                 setIsOpen(false);
