@@ -8,7 +8,6 @@ import { acceptableCurrencies } from "../deposit/data";
 import { dictionaryPayment, dictionaryWithdraw } from "@/config/dictionary";
 import CustomSelect from "@/components/global/CustomSelect";
 import AppInput from "@/components/global/AppInput";
-import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
 import IconBox from "@/components/global/IconBox";
 
 type Props = {
@@ -66,7 +65,7 @@ const WithdrawModal: React.FC<Props> = ({ isOpen, onClose, availableCurrencies }
     };
 
     fetchCurrencies();
-  }, [acceptableCurrencies]);
+  }, []);
 
   const handleConnect = () => {
     if (!paymentAmount.value || paymentAmount.value > availableCurrencies.find((item) => item.symbol === currencyList[currency].text).amount) {

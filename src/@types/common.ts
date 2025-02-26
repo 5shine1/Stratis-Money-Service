@@ -1,3 +1,4 @@
+/* eslint-disable */
 export interface IIcon {
   className?: string;
 }
@@ -29,15 +30,15 @@ export interface IAuth {
 
 export interface IInputSelectItem {
   group: string;
-  items: string[];  
+  items: string[];
 }
 
 export enum ROLES {
-  ADMIN = "Admin", //eslint-disable-line
-  BUSINESS = "Business", //eslint-disable-line
-  COMPLIANCE = "Compliance", //eslint-disable-line
-  AGENT = "Agent", //eslint-disable-line
-  GUEST = "Guest", //eslint-disable-line
+  ADMIN = "Admin",
+  BUSINESS = "Business",
+  COMPLIANCE = "Compliance",
+  AGENT = "Agent",
+  GUEST = "Guest",
 }
 
 export const KYB_STATUS = {
