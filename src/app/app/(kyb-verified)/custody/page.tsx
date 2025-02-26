@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useMemo, useState } from "react";
-import NoWallet from "./components/NoWallet";
+// import NoWallet from "./components/NoWallet";
 import useAppSelector from "@/hooks/global/useAppSelector";
 import { ROLES } from "@/@types/common";
 import { Icon } from "@iconify/react/dist/iconify.js";
@@ -17,7 +17,7 @@ const CustodyPage = () => {
   const { role } = useAppSelector((state) => state.auth);
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
-  const filteredData = useMemo(() => history.sort((a, b) => new Date(b.requested).getTime() - new Date(a.requested).getTime()), [history]);
+  const filteredData = useMemo(() => history.sort((a, b) => new Date(b.requested).getTime() - new Date(a.requested).getTime()), []);
   const [showModal, setShowModal] = useState(false);
   const [withdrawModal, setWithdrawModal] = useState(false);
   const [withdrawalData, setWithdrawalData] = useState<{
@@ -29,7 +29,7 @@ const CustodyPage = () => {
   const [currencies, setCurrencies] = useState([])
 
   // Mock withdrawal data for testing
-  const handleWithdraw = () => {
+  const handleWithdraw = () => { //eslint-disable-line
     setWithdrawalData({
       amount: "0.1",
       recipient: "0x742d35Cc6634C0532925a3b844Bc454e4438f44e",
@@ -40,7 +40,9 @@ const CustodyPage = () => {
   };
 
   useEffect(() => {
+    setIsLoading(true)
     setCurrencies(acceptableCurrencies.filter((item, index, self) => index === self.findIndex((t) => t.symbol === item.symbol)).map(item => ({symbol: item.symbol, icon: item.icon, amount: Math.random() * 100})));
+    setIsLoading(false)
   }, [])
 
   return (
@@ -82,9 +84,9 @@ const CustodyPage = () => {
                     31.00 <span className="opacity-50">EUR</span>
                   </span>
                 </div>
-                {currencies.map((currency) => 
-                  <div className="flex items-center gap-8">
-                    <img className="w-24 h-24 rounded-full" src={currency.icon} />
+                {currencies.map((currency,i) => 
+                  <div key={i} className="flex items-center gap-8">
+                    <img className="w-24 h-24 rounded-full" src={currency.icon} alt="" />
                     <span>
                       {currency.amount.toFixed(2)} <span className="opacity-50">{currency.symbol}</span>
                     </span>
