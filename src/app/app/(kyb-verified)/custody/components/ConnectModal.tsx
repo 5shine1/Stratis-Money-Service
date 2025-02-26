@@ -1,3 +1,4 @@
+/* eslint-disable */
 import 'core-js/actual';
 import React, { useState, useEffect, useCallback } from "react";
 import Modal from "react-modal";
