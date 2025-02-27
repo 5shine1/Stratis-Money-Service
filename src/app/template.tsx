@@ -5,7 +5,6 @@ import { Toaster } from "react-hot-toast";
 import Modal from "react-modal";
 import { jwtDecode } from "jwt-decode";
 import { store } from "@/store";
-import { ScrollProvider } from "@/components/providers/ScrollProvider";
 import LoadingProvider from "@/components/providers/LoadingProvider";
 import useAppDispatch from "@/hooks/global/useAppDispatch";
 import { setAuth, setAuthLoading } from "@/store/slices/auth.slice";
@@ -19,7 +18,6 @@ const RootTemplate = ({ children }: PropsWithChildren) => {
   return (
     <>
       <Provider store={store}>
-        <ScrollProvider>
           <Toaster
             toastOptions={{
               className: "!bg-primary-500 !text-gray-200",
@@ -30,7 +28,6 @@ const RootTemplate = ({ children }: PropsWithChildren) => {
             <MainComponent />
             {children}
           </LoadingProvider>
-        </ScrollProvider>
       </Provider>
     </>
   );

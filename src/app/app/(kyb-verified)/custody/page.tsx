@@ -10,7 +10,10 @@ import Link from "next/link";
 import WithdrawModal from "./components/WithdrawModal";
 
 import { acceptableCurrencies, history } from "./deposit/data";
-import { formattedTime } from "@/utils/string.utils";
+import { formattedTime, shortenString } from "@/utils/string.utils";
+import IconBoxSm from "@/components/global/IconBoxSm";
+import toast from "react-hot-toast";
+import { dictionaryPayment } from "@/config/dictionary";
 
 const CustodyPage = () => {
   const { locale } = useAppSelector((state) => state.locale);
@@ -27,6 +30,8 @@ const CustodyPage = () => {
     chainId: number;
   } | null>(null);
   const [currencies, setCurrencies] = useState([])
+
+  const accountAddress = "0xd58eEd66d22160A8a49a16186e79A123EF5ce5E4";
 
   // Mock withdrawal data for testing
   const handleWithdraw = () => { //eslint-disable-line
@@ -50,11 +55,23 @@ const CustodyPage = () => {
       <h4 className="w-fit g-header-app">Custody</h4>
       <div className="flex flex-col gap-32">
         {role === ROLES.BUSINESS && (
-          <div className="bg-white/5 rounded-8 p-16 py-24 md:p-32">
+          <div className="bg-white/5 rounded-8 p-16 py-24 md:p-32 flex flex-col gap-10">
             <div className="flex">
-              <div className="flex flex-col gap-6">
-                <div className="text-24 text-secondary-200 font-bold mb-16 md:mb-0">Account</div>
-                <div>0xd58eEd66d22160A8a49a16186e79A123EF5ce5E4</div>
+              <div className="flex flex-col gap-16 md:gap-10">
+                <div className="text-24 text-secondary-200 font-bold">Account</div>
+                <div className="flex items-center gap-8 text-14 md:text-18">
+                  <span className="hidden md:block">{shortenString(accountAddress, 8, 6)}</span>
+                  <span className="md:hidden">{shortenString(accountAddress, 6, 4)}</span>
+                  <div
+                    className="cursor-pointer"
+                    onClick={() => {
+                      navigator.clipboard.writeText(accountAddress);
+                      toast.success(dictionaryPayment.toast.copied[locale]);
+                    }}
+                  >
+                    <IconBoxSm icon="ph:copy-light" />
+                  </div>
+                </div>
               </div>
               <div className="ml-auto hidden md:flex">
                 <Link href="/app/custody/deposit">
@@ -63,15 +80,15 @@ const CustodyPage = () => {
                     <Icon icon={"mdi:cash-plus"} className="w-22 h-22 xs:hidden" />
                   </button>
                 </Link>
-                <button onClick={() => setWithdrawModal(true)} className="ml-20 w-fit text-button-text font-semibold p-32 text-16 py-16  rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50 xs:px-24">
+                <button onClick={() => setWithdrawModal(true)} className="ml-20 w-fit h-fit text-button-text font-semibold p-32 text-16 py-16  rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50 xs:px-24">
                   Withdraw
                   <Icon icon={"mdi:cash-minus"} className="w-22 h-22 xs:hidden" />
                 </button>
               </div>
             </div>
-            <div className="flex flex-col gap-6 ">
-              <div className="text-24 text-secondary-200 font-bold mt-12 mb-16 md:mb-0">Balance</div>
-              <div className="flex md:items-center gap-16 md:gap-32 text-14 text-white flex-wrap">
+            <div className="flex flex-col gap-16 md:gap-10">
+              <div className="text-24 text-secondary-200 font-bold">Balance</div>
+              <div className="flex md:items-center gap-16 md:gap-x-32 text-14 text-white flex-wrap">
                 <div className="flex items-center gap-8">
                   <Icon icon={"cryptocurrency-color:usd"} className="w-24 h-24" />
                   <span>
@@ -101,7 +118,7 @@ const CustodyPage = () => {
                   <Icon icon={"mdi:cash-plus"} className="w-22 h-22 xs:hidden" />
                 </button>
               </Link>
-              <button onClick={() => setWithdrawModal(true)} className="ml-20 w-fit text-button-text font-semibold p-32 text-16 py-16  rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50 xs:px-24">
+              <button onClick={() => setWithdrawModal(true)} className="ml-20 w-fit h-fit text-button-text font-semibold p-32 text-16 py-16  rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50 xs:px-24">
                 Withdraw
                 <Icon icon={"mdi:cash-minus"} className="w-22 h-22 xs:hidden" />
               </button>
@@ -137,11 +154,11 @@ const CustodyPage = () => {
                     <>
                       {filteredData.slice(currentPage * 10 - 10, currentPage * 10).map((item, i) => {
                         return (
-                          <tr key={i} className="odd:bg-[#ffffff04] text-xs">
-                            <td className="px-8 py-16">
+                          <tr key={i} className="odd:bg-[#ffffff04]">
+                            <td className="px-8 py-16 text-xs">
                               {item.type ? 
-                              <span className="flex justify-center w-80 bg-teal-400/20 text-teal-400 border border-teal-400 font-semibold py-6 rounded-4">Deposit</span>:
-                              <span className="flex justify-center w-80 bg-orange-400/20 text-orange-400 border border-orange-400 font-semibold py-6 rounded-4">Withdraw</span>}
+                              <span className="flex justify-center w-80 bg-teal-400/20 text-teal-400 border border-teal-400 font-semibold py-4 rounded-4">Deposit</span>:
+                              <span className="flex justify-center w-80 bg-orange-400/20 text-orange-400 border border-orange-400 font-semibold py-4 rounded-4">Withdraw</span>}
                             </td>
                             <td className="px-8 py-16">
                               {item.amount} <span className="opacity-50">{item.currency}</span>
@@ -163,6 +180,52 @@ const CustodyPage = () => {
                 </tbody>
               </table>
             </div>
+            <div className="text-white/70 sm:hidden flex flex-col gap-6">
+                {!filteredData.length ? (
+                  <div className="text-error p-24 text-center">No History</div>
+                ) : (
+                  <>
+                    {filteredData.slice(currentPage * 10 - 10, currentPage * 10).map((item, i) => {
+                      return (
+                        <div key={i} className="bg-[#ffffff04] p-12 flex flex-col gap-12 rounded-6">
+                          <div className="flex justify-between items-center gap-72 overflow-hidden">
+                            <div className="flex-none opacity-70">Type</div>
+                            <div className="u-text-overflow text-xs">
+                              {item.type ? 
+                              <span className="flex justify-center w-80 bg-teal-400/20 text-teal-400 border border-teal-400 font-semibold py-4 rounded-4">Deposit</span>:
+                              <span className="flex justify-center w-80 bg-orange-400/20 text-orange-400 border border-orange-400 font-semibold py-4 rounded-4">Withdraw</span>}
+                            </div>
+                          </div>
+                          <div className="flex justify-between items-center gap-72 overflow-hidden">
+                            <div className="flex-none opacity-70">Amount</div>
+                            <div className="u-text-overflow">
+                              {item.amount} <span className="opacity-50">{item.currency}</span>
+                            </div>
+                          </div>
+                          <div className="flex justify-between items-center gap-72 overflow-hidden">
+                            <div className="flex-none opacity-70">Status</div>
+                            <div className="u-text-overflow">
+                              {item.status === 200?
+                              <span className="text-success">Confirmed</span>
+                              : (item.status === 60? 
+                              <span className="text-secondary-400">Pending</span>:
+                              <span className="text-error">Failed</span>)}
+                            </div>
+                          </div>
+                          <div className="flex justify-between items-center gap-72 overflow-hidden">
+                            <div className="flex-none opacity-70">Timestamp</div>
+                            <div className="u-text-overflow">{formattedTime(item.requested, locale)}</div>
+                          </div>
+                          <div className="flex justify-between items-center gap-72 overflow-hidden">
+                            <div className="flex-none opacity-70">Confirmation</div>
+                            <div className="u-text-overflow"></div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </>
+                )}
+              </div>
           </>
         )}
         {role !== ROLES.BUSINESS && <button className="m-auto w-fit font-semibold p-16 text-12 py-8  rounded-8 gap-8 flex items-center justify-center border border-button-border from-button-from/10 to-button-to/10" onClick={() => setShowModal(true)}>

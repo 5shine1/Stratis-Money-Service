@@ -167,7 +167,7 @@ const AppSidebar: React.FC<PropsWithChildren> = ({ children }) => {
                 <div className="text-14 flex items-center text-input-text mr-auto">
                   {LOCALES.map((item, i) => {
                     return (
-                      <>
+                      <React.Fragment key={i}>
                         {i !== 0 && <hr className="rotate-90 w-16" />}
                         <div
                           key={item.code}
@@ -178,7 +178,7 @@ const AppSidebar: React.FC<PropsWithChildren> = ({ children }) => {
                         >
                           {item.code}
                         </div>
-                      </>
+                      </React.Fragment>
                     );
                   })}
                 </div>
