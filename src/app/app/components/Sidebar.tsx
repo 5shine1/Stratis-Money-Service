@@ -36,7 +36,7 @@ const AppSidebar: React.FC<PropsWithChildren> = ({ children }) => {
     setLoading(false);
   };
   return (
-    <main id="mainSection" className="w-full min-h-[100vh] flex gap-4 bg-primary-800 overflow-auto flex">
+    <main id="mainSection" className="w-full min-h-[100vh] flex gap-4 bg-primary-800 overflow-auto">
       <aside
         className={`h-full p-8 flex-none text-secondary-100 fixed z-40 block top-0 transition-all duration-300 ${
           isOpenMobileMenu ? "left-0" : "-left-full lg:left-0"
