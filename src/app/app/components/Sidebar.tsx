@@ -48,8 +48,8 @@ const AppSidebar: React.FC<PropsWithChildren> = ({ children }) => {
           }`}
         >
           <Link href={"/"} className={`flex text-24 font-bold items-center justify-start overflow-hidden gap-12`}>
-            <SvgLogoApp className="w-48 h-48 flex-none !fill-secondary-100" />
-            <div className={`${isWrapped ? "block" : "hidden"}`}>STRATIS</div>
+            <SvgLogoApp className={"w-36 h-36 "} />
+            <div className={`${isWrapped ? "block" : "hidden"}`}>Stratis</div>
           </Link>
 
           <div className="mt-36 flex flex-col gap-8 text-14">
@@ -216,7 +216,7 @@ const AppSidebar: React.FC<PropsWithChildren> = ({ children }) => {
           className={`relative bg-primary-900 flex justify-between items-center h-full shadow-md p-8 transition-all duration-300`}
         >
           <Link href={"/"}>
-            <SvgLogoApp className="w-48 h-48 flex-none !fill-secondary-200" />
+            <SvgLogoApp className={"w-36 h-36 "} />
           </Link>
           <div
             className="p-6 cursor-pointer rounded-4 hover:bg-primary-700/30"
