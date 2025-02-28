@@ -2,8 +2,6 @@ import React, { useContext, useState } from "react";
 import Modal from "react-modal";
 
 import { ICurrency } from "@/@types/common";
-import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
-import AppCurrencySelect from "@/components/global/AppCurrencySelect";
 import AppInput from "@/components/global/AppInput";
 import useAppSelector from "@/hooks/global/useAppSelector";
 import { Icon } from "@iconify/react/dist/iconify.js";
@@ -12,6 +10,8 @@ import { LoadingContext } from "@/components/providers/LoadingProvider";
 import { apiRequestWithdraw } from "@/api/payment.api";
 import toast from "react-hot-toast";
 import { dictionaryWithdraw } from "@/config/dictionary";
+import IconBox from "@/components/global/IconBox";
+import AppCurrencySelect from "@/components/global/AppCurrencySelect";
 
 type Props = {
   isOpen: boolean;
@@ -59,16 +59,19 @@ const RequestWithdrawModal: React.FC<Props> = ({ isOpen, onClose }) => {
         setAmount({ value: "", error: "" });
         setCurrency({ value: null, error: "" });
       }}
-      className="relative z-50 overflow-hidden bg-primary-800 w-full max-w-480 p-24 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-12 shadow-md"
-      overlayClassName="bg-black/50 backdrop-blur-md fixed left-0 top-0 w-full h-full z-40 px-8 py-32"
+      className="relative z-50 g-box-back w-full max-w-500  rounded-20 shadow-md m-auto border border-modal-border"
+      overlayClassName="bg-black/50 backdrop-blur-md fixed left-0 top-0 w-full h-full z-40 px-8 py-32 overflow-y-auto flex items-start justify-center"
     >
       <Icon
-        icon="zondicons:close-outline"
-        className="w-32 h-32 hover:text-white/80 hover:text-primary-500 u-transition-color cursor-pointer absolute right-20 top-20"
+        icon="clarity:close-line"
+        className="w-32 h-32 text-white/50 hover:text-white/80 u-transition-color cursor-pointer absolute right-20 top-20"
         onClick={onClose}
       />
-      <div className="flex flex-col gap-32">
-        <h4 className="g-button-text w-fit pr-30">{dictionaryWithdraw.requestModal.title[locale]}</h4>
+      <div className="p-12 py-24 md:p-40 flex flex-col gap-32">
+        <div className="flex items-start gap-12">
+          <IconBox icon="mdi-light:credit-card" />
+          <h4 className="g-button-text w-fit mt-4 md:mt-3 mr-30">{dictionaryWithdraw.requestModal.title[locale]}</h4>
+        </div>
         <div className="flex flex-col gap-16">
           <AppCurrencySelect
             data={currencies}
@@ -99,21 +102,19 @@ const RequestWithdrawModal: React.FC<Props> = ({ isOpen, onClose }) => {
           )}
           {!bankAccountHolder ? (
             <Link href={"/app/account"} className="w-full">
-              <AnimatedSlideButton
-                className="w-full text-white text-20 py-12 px-32 border border-secondary-300  rounded-full mt-8"
-                backClassName="from-primary-400 to-secondary-300 "
+              <button
+              className="w-full max-w-500 text-button-text text-18 font-semibold py-16  rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50"
               >
                 {dictionaryWithdraw.requestModal.buttons.connectBank[locale]}
-              </AnimatedSlideButton>
+              </button>
             </Link>
           ) : (
-            <AnimatedSlideButton
-              onClick={handleRequest}
-              className="text-white text-20 py-12 px-32 border border-secondary-300  rounded-full mt-8"
-              backClassName="from-primary-400 to-secondary-300 "
+            <button
+            onClick={handleRequest}
+            className="w-full max-w-500 text-button-text text-18 font-semibold py-16  rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50"
             >
               {dictionaryWithdraw.requestModal.buttons.requestWithdraw[locale]}
-            </AnimatedSlideButton>
+            </button>
           )}
         </div>
       </div>

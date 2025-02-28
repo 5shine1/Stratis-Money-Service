@@ -9,7 +9,6 @@ import { apiCancelPayment, apiGenerate, apiPaymentHistory } from "@/api/payment.
 import { ROLES } from "@/@types/common";
 import AppInput from "@/components/global/AppInput";
 import { LoadingContext } from "@/components/providers/LoadingProvider";
-import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
 import { formattedTime } from "@/utils/string.utils";
 
 import ControlModal from "./components/ControlModal";
@@ -166,7 +165,20 @@ const OrderPage = () => {
   return (
     <>
       <div className="flex flex-col gap-24 lg:gap-32 lg:px-48 lg:py-64 py-32 p-8 text-14">
-        <h4 className="w-fit g-header-app">{dictionaryOrder.headings.paymentOrders[locale]}</h4>
+        <div className="flex">
+          <h4 className="w-fit g-header-app">{dictionaryOrder.headings.paymentOrders[locale]}</h4>
+          {role !== ROLES.ADMIN && (
+            <button
+              onClick={() => {
+                setControlModalOpen(true);
+              }}
+              className="text-16 w-full max-w-210 ml-auto hidden sm:flex xl:hidden  text-button-text font-semibold py-12 rounded-12 gap-8 items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50"
+            >
+              {dictionaryOrder.buttons.generateNew[locale]}
+              <Icon icon={"akar-icons:arrow-cycle"} className="w-16 h-16" />
+            </button>
+          )}
+        </div>
         <div className="flex flex-col gap-32">
           <div className="flex items-stretch xl:items-center gap-12  xl:flex-row flex-col-reverse ">
             <div className="w-full xl:max-w-280">
@@ -184,15 +196,15 @@ const OrderPage = () => {
               ></AppInput>
             </div>
             {role !== ROLES.ADMIN && (
-              <AnimatedSlideButton
+              <button
                 onClick={() => {
                   setControlModalOpen(true);
                 }}
-                className=" text-white text-16 py-12 px-32 border border-secondary-300 rounded-full xl:ml-auto w-full xl:max-w-210"
-                backClassName="from-primary-400 to-secondary-300 "
+                className="text-16 w-full xl:max-w-210 xl:ml-auto sm:hidden xl:flex text-button-text font-semibold py-12 rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50"
               >
                 {dictionaryOrder.buttons.generateNew[locale]}
-              </AnimatedSlideButton>
+                <Icon icon={"akar-icons:arrow-cycle"} className="w-16 h-16" />
+              </button>
             )}
           </div>
           {isLoading ? (
@@ -232,7 +244,9 @@ const OrderPage = () => {
                               </td>
                               <td className="px-8 py-16">{item.description}</td>
                               <td className={`px-8 py-16`}>
-                                {dictionaryGlobal.paymentStatus[locale][item.state] || "Error"}
+                                {item.state === 200 ? 
+                                  <span className="text-success">{dictionaryGlobal.paymentStatus[locale][item.state] || "Error"}</span>
+                                  : ( item.state === 5 || item.state === 55 ? <span className="text-error">{dictionaryGlobal.paymentStatus[locale][item.state] || "Error"}</span>: <span className="text-secondary-400">{dictionaryGlobal.paymentStatus[locale][item.state] || "Error"}</span>)}
                               </td>
                               <td className="px-8 py-16">{formattedTime(item.requested, locale)}</td>
                               <td className="px-8 py-16">
@@ -300,7 +314,9 @@ const OrderPage = () => {
                           <div className="flex justify-between items-center gap-72 overflow-hidden">
                             <div className="flex-none opacity-70">{dictionaryOrder.tableHeaders.state[locale]}</div>
                             <div className="u-text-overflow">
-                              {dictionaryGlobal.paymentStatus[locale][item.state] || "Error"}
+                              {item.state === 200 ? 
+                              <span className="text-success">{dictionaryGlobal.paymentStatus[locale][item.state] || "Error"}</span>
+                              : ( item.state === 5 || item.state === 55 ? <span className="text-error">{dictionaryGlobal.paymentStatus[locale][item.state] || "Error"}</span>: <span className="text-secondary-400">{dictionaryGlobal.paymentStatus[locale][item.state] || "Error"}</span>)}
                             </div>
                           </div>
                           <div className="flex justify-between items-center gap-72 overflow-hidden">

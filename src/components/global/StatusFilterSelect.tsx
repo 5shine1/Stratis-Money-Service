@@ -19,7 +19,9 @@ const StatusFilterSelect = ({ value, onChange }: Props) => {
       })}
     >
       <div
-        className="relative flex justify-between items-center gap-2 w-full bg-primary-700 rounded-6 py-12 px-16 cursor-pointer u-text-overflow"
+        className={` text-14 relative flex justify-between items-center gap-2 w-full border rounded-6 p-12 cursor-pointer ${
+          isOpen ? "border-[#3C5D71]" : "border-input-border "
+        }`}
         onClick={() => setIsOpen(!isOpen)}
       >
         {dictionaryGlobal.statusFilter.label[locale]}{" "}
@@ -30,7 +32,7 @@ const StatusFilterSelect = ({ value, onChange }: Props) => {
         ></Icon>
       </div>
       <div
-        className={`z-20 transition-all duration-100  absolute top-full left-0 w-full max-h-[240px] overflow-auto shadow-lg rounded-8 mt-6 bg-primary-700 text-white/70 flex flex-col overflow-y-auto  p-8 ${
+        className={`z-20 absolute w-full mt-4 top-full left-0 transition-all duration-100 block bg-[#192C37] rounded-6 border border-[#213541] ${
           isOpen ? "opacity-100 scale-100 pointer-events-auto" : "opacity-0 scale-90 pointer-events-none "
         }`}
       >
@@ -46,7 +48,7 @@ const StatusFilterSelect = ({ value, onChange }: Props) => {
             >
               <Icon
                 icon={value.includes(item.id) ? "mdi:checkbox-blank-outline" : "mdi:checkbox-intermediate"}
-                className="w-24 h-24 text-primary-200"
+                className="w-24 h-24 text-[#618aa3]"
               />
               {item.text}
             </div>
