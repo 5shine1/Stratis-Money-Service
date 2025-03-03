@@ -39,6 +39,7 @@ const LoginPage = () => {
       const result = await apiLogin(email.value, password.value);
       if (result?.isSucceed) {
         if (result.data.requiresTwoFactorAuthentication) {
+          console.log(result.data);
           setTempAuthData(result.data);
           setShowTwoFactor(true);
           setLoading(false);
@@ -163,8 +164,8 @@ const LoginPage = () => {
               <Link href={"/"}>
                 <SvgLogo className="w-50 h-50" />
               </Link>
-              <TwoFactorAuth 
-                onComplete={handleTwoFactorComplete} 
+              <TwoFactorAuth
+                onComplete={handleTwoFactorComplete}
                 availableFactors={tempAuthData?.availableFactors || []}
                 twoFactorToken={tempAuthData?.twoFactorToken || ""}
                 userId={tempAuthData?.userId || ""}

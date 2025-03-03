@@ -47,8 +47,11 @@ const AppSidebar: React.FC<PropsWithChildren> = ({ children }) => {
             isWrapped ? "w-240" : "w-64"
           }`}
         >
-          <Link href={"/"} className={`flex text-24 font-bold items-center justify-start overflow-hidden gap-12`}>
-            <SvgLogoApp className={"w-36 h-36 "} />
+          <Link
+            href={"/"}
+            className={`p-6 flex text-24 font-semibold items-center justify-start overflow-hidden gap-12`}
+          >
+            <SvgLogoApp className={"w-36 h-36 flex-none"} />
             <div className={`${isWrapped ? "block" : "hidden"}`}>Stratis</div>
           </Link>
 
