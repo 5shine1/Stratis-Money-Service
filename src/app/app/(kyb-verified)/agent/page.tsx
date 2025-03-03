@@ -4,7 +4,6 @@ import Pagination from "rc-pagination";
 import { Icon } from "@iconify/react";
 
 import AppInput from "@/components/global/AppInput";
-import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
 import InviteModal from "./components/InviteModal";
 import { apiActivateAgent, apiRemoveAgent, apiUserInfo } from "@/api/auth.api";
 import DeleteModal from "./components/DeleteModal";
@@ -93,10 +92,21 @@ const OrderPage = () => {
   return (
     <>
       <div className="flex flex-col gap-24 lg:gap-32 lg:px-48 lg:py-64 py-32 p-8 text-14">
-        <h4 className="w-fit g-header-app">{dictionaryAgent.agentsPage.headings.title[locale]}</h4>
+        <div className="flex">
+          <h4 className="w-fit g-header-app">{dictionaryAgent.agentsPage.headings.title[locale]}</h4>
+          <button
+            onClick={() => {
+              setIsInviteModalOpen(true);
+            }}
+            className="text-16 max-w-210 ml-auto hidden sm:flex xl:hidden  text-button-text font-semibold py-12 px-32 rounded-12 gap-8 items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50"
+          >
+            {dictionaryAgent.agentsPage.buttons.inviteAgent[locale]}
+            <Icon icon="material-symbols-light:real-estate-agent-outline" className="w-16 h-16" />
+          </button> 
+        </div>
         <div className="flex flex-col gap-32">
           <div className="flex items-stretch md:items-center justify-between gap-12  md:flex-row flex-col-reverse ">
-            <div className="w-full md:max-w-320">
+            <div className="w-full xl:max-w-320">
               <AppInput
                 value={searchIndex}
                 onChange={setSearchIndex}
@@ -104,15 +114,15 @@ const OrderPage = () => {
                 placeholder="Search by name and email"
               ></AppInput>
             </div>
-            <AnimatedSlideButton
+            <button
               onClick={() => {
                 setIsInviteModalOpen(true);
               }}
-              className=" text-white text-16 py-12 px-32 border border-secondary-300 rounded-full"
-              backClassName="from-primary-400 to-secondary-300 "
+              className="text-16 w-full flex xl:max-w-210 xl:ml-auto sm:hidden xl:flex text-button-text font-semibold py-12 rounded-12 gap-8 items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50"
             >
               {dictionaryAgent.agentsPage.buttons.inviteAgent[locale]}
-            </AnimatedSlideButton>
+              <Icon icon="material-symbols-light:real-estate-agent-outline" className="w-16 h-16" />
+            </button>
           </div>
           {isLoading ? (
             <div className="text-white/70 p-12 text-center">
@@ -120,7 +130,7 @@ const OrderPage = () => {
             </div>
           ) : (
             <>
-              <div className="w-full overflow-x-auto ">
+              <div className="w-full overflow-x-auto hidden sm:block">
                 <table className="w-full text-white/70">
                   <thead>
                     <tr className="border-b border-white/10">
@@ -180,6 +190,56 @@ const OrderPage = () => {
                   </tbody>
                 </table>
               </div>
+              <div className="text-white/70 sm:hidden flex flex-col gap-6">
+                {!filteredData.length ? (
+                  <div className="text-error p-24 text-center">{dictionaryAgent.agentsPage.messages.noAgents[locale]}</div>
+                ) : (
+                  <>
+                    {filteredData.slice(currentPage * 10 - 10, currentPage * 10).map((item, i) => {
+                      return (
+                        <div key={i} className="bg-[#ffffff04] p-12 flex flex-col gap-12 rounded-6">
+                          <div className="flex justify-between items-center gap-72 overflow-hidden">
+                            <div className="flex-none opacity-70">{dictionaryAgent.agentsPage.tableHeaders.name[locale]}</div>
+                            <div className="u-text-overflow">{item.name}</div>
+                          </div>
+                          <div className="flex justify-between items-center gap-72 overflow-hidden">
+                            <div className="flex-none opacity-70">{dictionaryAgent.agentsPage.tableHeaders.email[locale]}</div>
+                            <div className="u-text-overflow">{item.email}</div>
+                          </div>
+                          <div className="flex justify-between items-center gap-72 overflow-hidden">
+                            <div className="flex-none opacity-70">{dictionaryAgent.agentsPage.tableHeaders.location[locale]}</div>
+                            <div className="u-text-overflow">{item.country}</div>
+                          </div>
+                          <div className="flex justify-between items-center gap-72 overflow-hidden">
+                            <div className="flex-none opacity-70">{dictionaryAgent.agentsPage.tableHeaders.phone[locale]}</div>
+                            <div className="u-text-overflow">{item.mobileNumber}</div>
+                          </div>
+                          <div className="flex justify-between items-center gap-24 overflow-hidden">
+                            <div className="flex-none opacity-70">{dictionaryAgent.agentsPage.tableHeaders.actions[locale]}</div>
+                            <div className="flex items-center gap-16 justify-end">
+                              {item.isDeleted ? (
+                                <button
+                                  onClick={() => setActiveModalOpen(item.agentId)}
+                                  className="text-white/40 u-transition-color hover:text-info disabled:cursor-not-allowed disabled:hover:text-white/40"
+                                >
+                                  <Icon icon="mdi:restore-clock" className="w-20 h-20"></Icon>
+                                </button>
+                              ) : (
+                                <button
+                                  onClick={() => setDeleteModalOpen(item.agentId)}
+                                  className="text-white/40 u-transition-color hover:text-error disabled:cursor-not-allowed disabled:hover:text-white/40"
+                                >
+                                  <Icon icon="bxs:trash" className="w-18 h-18"></Icon>
+                                </button>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </>
+                )}
+              </div>              
             </>
           )}
           <Pagination

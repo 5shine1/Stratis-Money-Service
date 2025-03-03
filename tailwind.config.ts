@@ -30,7 +30,7 @@ module.exports = {
     },
     extend: {
       screens: {
-        'xs': {'max': '399px'},
+        'xs': {'max': '420px'},
       },
       fontSize: {
         ...range(minFontSize, maxFontSize).reduce((merged, f) => ({ ...merged, [f]: `${f}px` }), {}),
