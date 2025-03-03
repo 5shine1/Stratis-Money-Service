@@ -57,27 +57,27 @@ export default function AppCurrencySelect({
   };
 
   return (
-    <div className="w-full flex flex-col gap-4">
-      {label && <span className="text-white/50 text-14">{label}</span>}
+    <div className="w-full flex flex-col gap-8">
+      {label && <span className="text-input-label text-14">{label}</span>}
       <div ref={dropdownRef} className={`relative w-full `}>
         <div
           onClick={toggleDropdown}
-          className={`relative flex justify-between items-center gap-2 w-full border  rounded-6 p-12 cursor-pointer u-text-overflow text-14 ${
-            error ? "border-error" : isOpen ? "border-primary-400" : "border-primary-500"
+          className={` text-14 relative flex justify-between items-center gap-2 w-full border rounded-6 p-12 cursor-pointer ${
+            error ? "border-error" : isOpen ? "border-[#3C5D71]" : "border-input-border "
           }`}
         >
           <div
-            className={`u-text-overflow w-full flex items-center gap-1 text-gray-200 ${value ? "" : "text-white/40"}`}
+            className={`u-text-overflow w-full flex items-center gap-8 text-gray-200 ${value ? "" : "text-white/40"}`}
           >
             {value ? value.symbol : placeholder}
           </div>
           <Icon
             icon={`ep:arrow-down`}
-            className={`w-16 h-16 transition-transform duration-300 text-gray-200 ${isOpen ? " rotate-180" : ""}`}
+            className={`w-16 h-16 transition-transform duration-300 ${isOpen ? " rotate-180" : ""}`}
           ></Icon>
         </div>
         <div
-          className={`z-20 transition-all duration-100 text-14 absolute top-full left-0 w-full max-h-[240px] overflow-auto shadow-lg rounded-8 mt-6 bg-primary-900 flex flex-col gap-4 overflow-y-auto backdrop-blur-md p-8 text-gray-200 ${
+          className={`z-20 absolute w-full mt-4 top-full left-0 transition-all duration-100 block bg-[#192C37] rounded-6 border border-[#213541] ${
             isOpen ? "opacity-100 scale-100 pointer-events-auto" : "opacity-0 scale-90 pointer-events-none"
           }`}
         >
@@ -103,15 +103,13 @@ export default function AppCurrencySelect({
             .map((item) => (
               <div
                 key={`list-item-${item.currencyId}`}
-                className={`py-12 px-10 cursor-pointer u-text-overflow rounded-4 ${
-                  selected?.currencyId === item.currencyId ? "bg-primary-500/50" : "hover:bg-white/10"
-                }`}
+                className="p-12 text-14 border-t border-[#213541] first:border-none cursor-pointer"
                 onClick={() => {
                   setSelected(item);
                   setIsOpen(false);
                 }}
               >
-                <div className="u-text-overflow flex items-center gap-1">{item.symbol}</div>
+                {item.symbol}
               </div>
             ))}
         </div>

@@ -97,8 +97,8 @@ const WithdrawModal: React.FC<Props> = ({ isOpen, onClose, availableCurrencies }
         </div>
         <div className="flex flex-col gap-16 md:gap-24">
           <div className="flex flex-col gap-16">
-            <div>
-              <div className="text-14 md:text-16 mb-6 text-[#6B7A87]">
+            <div className="flex flex-col gap-8">
+              <div className="text-input-label text-14">
                 {dictionaryPayment.labels.selectNetwork[locale]}
               </div>
               <CustomSelect
@@ -113,8 +113,8 @@ const WithdrawModal: React.FC<Props> = ({ isOpen, onClose, availableCurrencies }
                 listClass="p-16 cursor-pointer u-text-overflow rounded-4 border-b border-[#213541] last:border-b-0"
               ></CustomSelect>
             </div>
-            <div>
-              <div className="text-14 md:text-16 mb-6 text-[#6B7A87]">
+            <div className="flex flex-col gap-8">
+              <div className="text-input-label text-14">
                 {dictionaryPayment.labels.selectCurrency[locale]}
               </div>
               <CustomSelect
@@ -147,7 +147,7 @@ const WithdrawModal: React.FC<Props> = ({ isOpen, onClose, availableCurrencies }
             onClick={handleConnect}
             className="w-full max-w-500 text-button-text text-18 font-semibold py-16  rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50"
           >
-            {dictionaryPayment.buttons.continue[locale]}
+            {dictionaryWithdraw.requestModal.buttons.requestWithdraw[locale]}
             <Icon icon={"octicon:arrow-right-16"} className="w-16 h-16" />
           </button>
       </div>
