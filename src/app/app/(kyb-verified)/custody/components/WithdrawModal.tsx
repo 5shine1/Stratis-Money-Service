@@ -147,7 +147,7 @@ const WithdrawModal: React.FC<Props> = ({ isOpen, onClose, availableCurrencies }
             onClick={handleConnect}
             className="w-full max-w-500 text-button-text text-18 font-semibold py-16  rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50"
           >
-            {dictionaryPayment.buttons.continue[locale]}
+            {dictionaryWithdraw.requestModal.buttons.requestWithdraw[locale]}
             <Icon icon={"octicon:arrow-right-16"} className="w-16 h-16" />
           </button>
       </div>

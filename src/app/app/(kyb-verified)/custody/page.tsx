@@ -67,8 +67,8 @@ const CustodyPage = () => {
               <div className="flex flex-col gap-16 md:gap-10">
                 <div className="text-24 text-secondary-200 font-bold">Account</div>
                 <div className="flex items-center gap-8 text-14 md:text-18">
-                  <span className="hidden md:block">{shortenString(accountAddress, 8, 6)}</span>
-                  <span className="md:hidden">{shortenString(accountAddress, 6, 4)}</span>
+                  <span className="hidden xl:block">{accountAddress}</span>
+                  <span className="xl:hidden">{shortenString(accountAddress, 8, 6)}</span>
                   <div
                     className="cursor-pointer"
                     onClick={() => {
@@ -82,12 +82,12 @@ const CustodyPage = () => {
               </div>
               <div className="ml-auto hidden md:flex">
                 <Link href="/app/custody/deposit">
-                  <button className="w-fit text-button-text font-semibold p-32 text-16 py-16  rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50 xs:px-24">
+                  <button className="w-fit text-button-text font-semibold px-32 text-16 py-12 rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50 xs:px-24">
                     Deposit
                     <Icon icon={"mdi:cash-plus"} className="w-22 h-22 xs:hidden" />
                   </button>
                 </Link>
-                <button onClick={() => setWithdrawModal(true)} className="ml-20 w-fit h-fit text-button-text font-semibold p-32 text-16 py-16  rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50 xs:px-24">
+                <button onClick={() => setWithdrawModal(true)} className="ml-20 w-fit h-fit text-button-text font-semibold px-32 text-16 py-12 rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50 xs:px-24">
                   Withdraw
                   <Icon icon={"mdi:cash-minus"} className="w-22 h-22 xs:hidden" />
                 </button>
@@ -235,15 +235,6 @@ const CustodyPage = () => {
                 )}
               </div>
           </>
-        )}
-        {role !== ROLES.BUSINESS && (
-          <button
-            className="m-auto w-fit font-semibold p-16 text-12 py-8  rounded-8 gap-8 flex items-center justify-center border border-button-border from-button-from/10 to-button-to/10"
-            onClick={() => setShowModal(true)}
-          >
-            Withdraw through Ledger
-            <Icon icon={"akar-icons:arrow-cycle"} className="w-16 h-16" />
-          </button>
         )}
         <Pagination
           current={currentPage}
