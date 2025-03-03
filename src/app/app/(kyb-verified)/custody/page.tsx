@@ -87,7 +87,10 @@ const CustodyPage = () => {
                     <Icon icon={"mdi:cash-plus"} className="w-22 h-22 xs:hidden" />
                   </button>
                 </Link>
-                <button onClick={() => setWithdrawModal(true)} className="ml-20 w-fit h-fit text-button-text font-semibold px-32 text-16 py-12 rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50 xs:px-24">
+                <button
+                  onClick={() => setWithdrawModal(true)}
+                  className="ml-20 w-fit h-fit text-button-text font-semibold px-32 text-16 py-12 rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50 xs:px-24"
+                >
                   Withdraw
                   <Icon icon={"mdi:cash-minus"} className="w-22 h-22 xs:hidden" />
                 </button>
@@ -125,7 +128,10 @@ const CustodyPage = () => {
                   <Icon icon={"mdi:cash-plus"} className="w-22 h-22 xs:hidden" />
                 </button>
               </Link>
-              <button onClick={() => setWithdrawModal(true)} className="ml-20 w-fit h-fit text-button-text font-semibold p-32 text-16 py-16  rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50 xs:px-24">
+              <button
+                onClick={() => setWithdrawModal(true)}
+                className="ml-20 w-fit h-fit text-button-text font-semibold p-32 text-16 py-16  rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50 xs:px-24"
+              >
                 Withdraw
                 <Icon icon={"mdi:cash-minus"} className="w-22 h-22 xs:hidden" />
               </button>
@@ -162,9 +168,15 @@ const CustodyPage = () => {
                         return (
                           <tr key={i} className="odd:bg-[#ffffff04]">
                             <td className="px-8 py-16 text-xs">
-                              {item.type ? 
-                              <span className="flex justify-center w-80 bg-teal-400/20 text-teal-400 border border-teal-400 font-semibold py-4 rounded-4">Deposit</span>:
-                              <span className="flex justify-center w-80 bg-orange-400/20 text-orange-400 border border-orange-400 font-semibold py-4 rounded-4">Withdraw</span>}
+                              {item.type ? (
+                                <span className="flex justify-center w-80 bg-teal-400/20 text-teal-400 border border-teal-400 font-semibold py-4 rounded-4">
+                                  Deposit
+                                </span>
+                              ) : (
+                                <span className="flex justify-center w-80 bg-orange-400/20 text-orange-400 border border-orange-400 font-semibold py-4 rounded-4">
+                                  Withdraw
+                                </span>
+                              )}
                             </td>
                             <td className="px-8 py-16">
                               {item.amount} <span className="opacity-50">{item.currency}</span>
@@ -189,51 +201,59 @@ const CustodyPage = () => {
               </table>
             </div>
             <div className="text-white/70 sm:hidden flex flex-col gap-6">
-                {!filteredData.length ? (
-                  <div className="text-error p-24 text-center">No History</div>
-                ) : (
-                  <>
-                    {filteredData.slice(currentPage * 10 - 10, currentPage * 10).map((item, i) => {
-                      return (
-                        <div key={i} className="bg-[#ffffff04] p-12 flex flex-col gap-12 rounded-6">
-                          <div className="flex justify-between items-center gap-72 overflow-hidden">
-                            <div className="flex-none opacity-70">Type</div>
-                            <div className="u-text-overflow text-xs">
-                              {item.type ? 
-                              <span className="flex justify-center w-80 bg-teal-400/20 text-teal-400 border border-teal-400 font-semibold py-4 rounded-4">Deposit</span>:
-                              <span className="flex justify-center w-80 bg-orange-400/20 text-orange-400 border border-orange-400 font-semibold py-4 rounded-4">Withdraw</span>}
-                            </div>
-                          </div>
-                          <div className="flex justify-between items-center gap-72 overflow-hidden">
-                            <div className="flex-none opacity-70">Amount</div>
-                            <div className="u-text-overflow">
-                              {item.amount} <span className="opacity-50">{item.currency}</span>
-                            </div>
-                          </div>
-                          <div className="flex justify-between items-center gap-72 overflow-hidden">
-                            <div className="flex-none opacity-70">Status</div>
-                            <div className="u-text-overflow">
-                              {item.status === 200?
-                              <span className="text-success">Confirmed</span>
-                              : (item.status === 60? 
-                              <span className="text-secondary-400">Pending</span>:
-                              <span className="text-error">Failed</span>)}
-                            </div>
-                          </div>
-                          <div className="flex justify-between items-center gap-72 overflow-hidden">
-                            <div className="flex-none opacity-70">Timestamp</div>
-                            <div className="u-text-overflow">{formattedTime(item.requested, locale)}</div>
-                          </div>
-                          <div className="flex justify-between items-center gap-72 overflow-hidden">
-                            <div className="flex-none opacity-70">Confirmation</div>
-                            <div className="u-text-overflow"></div>
+              {!filteredData.length ? (
+                <div className="text-error p-24 text-center">No History</div>
+              ) : (
+                <>
+                  {filteredData.slice(currentPage * 10 - 10, currentPage * 10).map((item, i) => {
+                    return (
+                      <div key={i} className="bg-[#ffffff04] p-12 flex flex-col gap-12 rounded-6">
+                        <div className="flex justify-between items-center gap-72 overflow-hidden">
+                          <div className="flex-none opacity-70">Type</div>
+                          <div className="u-text-overflow text-xs">
+                            {item.type ? (
+                              <span className="flex justify-center w-80 bg-teal-400/20 text-teal-400 border border-teal-400 font-semibold py-4 rounded-4">
+                                Deposit
+                              </span>
+                            ) : (
+                              <span className="flex justify-center w-80 bg-orange-400/20 text-orange-400 border border-orange-400 font-semibold py-4 rounded-4">
+                                Withdraw
+                              </span>
+                            )}
                           </div>
                         </div>
-                      );
-                    })}
-                  </>
-                )}
-              </div>
+                        <div className="flex justify-between items-center gap-72 overflow-hidden">
+                          <div className="flex-none opacity-70">Amount</div>
+                          <div className="u-text-overflow">
+                            {item.amount} <span className="opacity-50">{item.currency}</span>
+                          </div>
+                        </div>
+                        <div className="flex justify-between items-center gap-72 overflow-hidden">
+                          <div className="flex-none opacity-70">Status</div>
+                          <div className="u-text-overflow">
+                            {item.status === 200 ? (
+                              <span className="text-success">Confirmed</span>
+                            ) : item.status === 60 ? (
+                              <span className="text-secondary-400">Pending</span>
+                            ) : (
+                              <span className="text-error">Failed</span>
+                            )}
+                          </div>
+                        </div>
+                        <div className="flex justify-between items-center gap-72 overflow-hidden">
+                          <div className="flex-none opacity-70">Timestamp</div>
+                          <div className="u-text-overflow">{formattedTime(item.requested, locale)}</div>
+                        </div>
+                        <div className="flex justify-between items-center gap-72 overflow-hidden">
+                          <div className="flex-none opacity-70">Confirmation</div>
+                          <div className="u-text-overflow"></div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </>
+              )}
+            </div>
           </>
         )}
         <Pagination

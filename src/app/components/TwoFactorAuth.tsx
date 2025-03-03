@@ -4,7 +4,6 @@ import QRCode from "react-qr-code";
 import { Icon } from "@iconify/react";
 import toast from "react-hot-toast";
 import CustomInput from "@/components/global/CustomInput";
-import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
 import {
   apiEnable2FA,
   apiVerify2FASetup,
@@ -32,14 +31,14 @@ interface Props {
   userId?: string;
 }
 
-const TwoFactorAuth: React.FC<Props> = ({ 
-  onComplete, 
-  isSetup = false, 
-  requireBoth = false, 
-  availableFactors = [], 
+const TwoFactorAuth: React.FC<Props> = ({
+  onComplete,
+  isSetup = false,
+  requireBoth = false,
+  availableFactors = [],
   setupType,
   twoFactorToken = "",
-  userId = ""
+  userId = "",
 }) => {
   const { locale } = useAppSelector((state) => state.locale);
   const [totpSecret, setTotpSecret] = useState("");
@@ -48,15 +47,8 @@ const TwoFactorAuth: React.FC<Props> = ({
   const [step, setStep] = useState(() => {
     if (isSetup) {
       return 1;
-    } else {
-      // For login flow
-      if (availableFactors.includes("email")) {
-        return 2; // Show email verification
-      } else if (availableFactors.includes("totp")) {
-        return 3; // Show TOTP verification
-      }
-      return 1;
     }
+    return 3;
   });
   const [isLoading, setIsLoading] = useState(false);
   const hasGeneratedEmailCode = useRef(false);
