@@ -2,7 +2,6 @@ import React from "react";
 import Modal from "react-modal";
 import { Icon } from "@iconify/react";
 
-import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
 import useAppSelector from "@/hooks/global/useAppSelector";
 import { dictionaryAgent } from "@/config/dictionary";
 
@@ -17,24 +16,24 @@ const DeleteModal: React.FC<Props> = ({ isOpen, onClose, onNext }) => {
     <Modal
       isOpen={isOpen !== null}
       onRequestClose={onClose}
-      className="relative z-50 overflow-hidden bg-primary-800 w-full max-w-400 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-12 shadow-md"
-      overlayClassName="bg-black/50 backdrop-blur-md fixed left-0 top-0 w-full h-full z-40 px-8 py-32"
+      className="relative z-50 g-box-back w-full max-w-350  rounded-20 shadow-md m-auto border border-modal-border"
+      overlayClassName="bg-black/50 backdrop-blur-md fixed left-0 top-0 w-full h-full z-40 px-8 py-32 overflow-y-auto flex items-start justify-center"
     >
       <Icon
-        icon="zondicons:close-outline"
-        className="w-32 h-32 hover:text-white/80 hover:text-primary-500 u-transition-color cursor-pointer absolute right-20 top-20"
+        icon="clarity:close-line"
+        className="w-32 h-32 text-white/50 hover:text-white/80 u-transition-color cursor-pointer absolute right-20 top-20"
         onClick={onClose}
       />
-      <div className="p-12 py-24 md:p-32 bg-transparent  flex flex-col gap-24  items-center">
+      <div className="p-12 py-24 md:p-40 flex flex-col gap-32 items-center">
         <Icon icon="line-md:question-circle" className="w-80 h-80 text-info"></Icon>
         <p className="bold text-center text-white">{dictionaryAgent.deleteModal.message[locale]}</p>
-        <AnimatedSlideButton
-          onClick={onNext}
-          className="text-white text-16 py-12 px-48 border border-secondary-300 rounded-full"
-          backClassName="from-primary-400 to-secondary-300 "
+
+        <button
+        onClick={onNext}
+        className="w-full max-w-350 text-button-text text-18 font-semibold py-16  rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50"
         >
           {dictionaryAgent.deleteModal.buttons.remove[locale]}
-        </AnimatedSlideButton>
+        </button>
       </div>
     </Modal>
   );

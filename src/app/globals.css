@@ -101,10 +101,10 @@ ul.rc-pagination {
   @apply w-full flex items-center justify-center;
 }
 ul.rc-pagination li {
-  @apply border border-primary-200 rounded-4 text-primary-200 p-6 min-w-28 h-28 flex items-center justify-center cursor-pointer hover:text-primary-400 hover:border-primary-400;
+  @apply border border-[#1a2c36] rounded-4 text-[#1a2c36] p-6 min-w-28 h-28 flex items-center justify-center cursor-pointer hover:text-[#4f7590] hover:border-[#4f7590];
 }
 ul.rc-pagination li.rc-pagination-item-active {
-  @apply text-white bg-primary-200;
+  @apply text-white bg-[#1a2c36];
 }
 
 ul.rc-pagination li.rc-pagination-disabled {

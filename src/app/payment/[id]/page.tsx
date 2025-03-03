@@ -216,7 +216,7 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
           {isLoading ? null : (
             <main className="overflow-x-hidden relative py-40 px-12 flex justify-between md:justify-center items-center h-full  min-h-screen m-auto flex-col gap-32 md:gap-60 w-full ">
               <Link href={"/"} className="flex flex-col md:flex-row items-center gap-16 justify-center">
-                <SvgLogoApp className="w-48 h-48 !fill-secondary-200" />{" "}
+                <SvgLogoApp className={"w-36 h-36 "} />{" "}
                 <h4 className="text-center">Stratis Money Service</h4>
               </Link>
               {status === 60 ? (
