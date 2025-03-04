@@ -47,8 +47,15 @@ const TwoFactorAuth: React.FC<Props> = ({
   const [step, setStep] = useState(() => {
     if (isSetup) {
       return 1;
+    } else {
+      // For login flow
+      if (availableFactors.includes("email")) {
+        return 2; // Show email verification
+      } else if (availableFactors.includes("totp")) {
+        return 3; // Show TOTP verification
+      }
+      return 1;
     }
-    return 3;
   });
   const [isLoading, setIsLoading] = useState(false);
   const hasGeneratedEmailCode = useRef(false);
@@ -223,7 +230,7 @@ const TwoFactorAuth: React.FC<Props> = ({
       )}
 
       {step === 2 && (
-        <div className="text-center g-box-back rounded-8 p-24 py-36 border border-[#07263C] flex flex-col gap-24">
+        <div className={`text-center flex flex-col gap-24 ${isSetup ? "g-box-back rounded-8 p-24 py-36 border border-[#07263C]" : ""}`}>
           {isSetup && setupType === "totp" ? (
             <>
               <h4 className="text-24 font-semibold">Setup Authenticator App</h4>
@@ -250,7 +257,7 @@ const TwoFactorAuth: React.FC<Props> = ({
             </>
           ) : (
             <>
-              <h4 className="text-24 font-semibold ">Email Authentication</h4>
+              <h4 className="text-24 font-semibold">Email Authentication</h4>
               <p className="">We&apos;ve sent a verification code to your email address</p>
               <div className="text-left">
                 <CustomInput
