@@ -12,6 +12,8 @@ import { Icon } from "@iconify/react";
 import IconBox from "@/components/global/IconBox";
 import CustomInput from "@/components/global/CustomInput";
 import axiosInstance from "@/config/axios";
+import useAppSelector from "@/hooks/global/useAppSelector";
+import { dictionaryCustody } from '@/config/dictionary';
 
 const ETHEREUM_DERIVATION_PATH = "44'/60'/0'/0/0";
 
@@ -80,6 +82,7 @@ const ConnectModal: React.FC<Props> = ({ isOpen, onClose, withdrawalData }) => {
     nonce: number;
     chainId: number;
   } | null>(null);
+  const { locale } = useAppSelector((state)=>state.locale);
 
   const handleDisconnect = useCallback(() => {
     console.log("Device disconnected");
@@ -411,7 +414,7 @@ const ConnectModal: React.FC<Props> = ({ isOpen, onClose, withdrawalData }) => {
       <div className="p-12 py-24 md:p-40 flex flex-col gap-32">
         <div className="flex items-start gap-12">
           <IconBox icon="material-symbols-light:assistant-device-outline" />
-          <h4 className="g-button-text w-fit mt-4 md:mt-3 mr-30">Approve Withdrawal</h4>
+          <h4 className="g-button-text w-fit mt-4 md:mt-3 mr-30">{dictionaryCustody.connectmodal.approve[locale]}</h4>
         </div>
         
         <div className="flex flex-col gap-16 md:gap-24">
@@ -435,7 +438,7 @@ const ConnectModal: React.FC<Props> = ({ isOpen, onClose, withdrawalData }) => {
             {deviceState === DeviceState.READY && address ? (
               <span>{address}</span>
             ) : (
-              <span className="text-gray-400">Connect Ledger to load address</span>
+              <span className="text-gray-400">{dictionaryCustody.connectmodal.loadaddress[locale]}</span>
             )}
           </div>
 
@@ -457,9 +460,9 @@ const ConnectModal: React.FC<Props> = ({ isOpen, onClose, withdrawalData }) => {
           {/* Withdrawal Details */}
           {withdrawalData && approvalState >= ApprovalState.CONNECTED && (
             <div className="bg-primary-900/50 p-16 rounded-8 mt-8">
-              <h5 className="text-16 font-semibold mb-12">Withdrawal Details</h5>
+              <h5 className="text-16 font-semibold mb-12">{dictionaryCustody.connectmodal.details[locale]}</h5>
               <div className="flex flex-col gap-8">
-                <p>Amount: {withdrawalData.amount} ETH</p>
+                <p>{dictionaryCustody.table.head.amount[locale]}: {withdrawalData.amount} ETH</p>
                 <p>Nonce: {withdrawalData.nonce}</p>
               </div>
             </div>
@@ -468,7 +471,7 @@ const ConnectModal: React.FC<Props> = ({ isOpen, onClose, withdrawalData }) => {
           {/* Show message when no withdrawal data is available */}
           {!withdrawalData && approvalState >= ApprovalState.CONNECTED && (
             <div className="bg-warning/10 p-16 rounded-8 mt-8">
-              <p className="text-warning text-14">No withdrawal data available. Please try again.</p>
+              <p className="text-warning text-14">{dictionaryCustody.connectmodal.nodata[locale]}</p>
             </div>
           )}
 
@@ -486,7 +489,7 @@ const ConnectModal: React.FC<Props> = ({ isOpen, onClose, withdrawalData }) => {
                 onClick={handleConnect}
                 className="mt-16 w-full md:w-300 text-button-text text-18 font-semibold py-16 rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50"
               >
-                Connect Ledger
+                {dictionaryCustody.connectmodal.connectledger[locale]}
                 <Icon icon="material-symbols:usb" className="w-20 h-20 ml-8" />
               </button>
             </div>
@@ -510,7 +513,7 @@ const ConnectModal: React.FC<Props> = ({ isOpen, onClose, withdrawalData }) => {
                   }}
                   className="text-secondary-400 text-14 hover:text-secondary-300"
                 >
-                  Clear signature and sign again
+                  {dictionaryCustody.connectmodal.clearsign[locale]}
                 </button>
               )}
             </div>
@@ -519,12 +522,12 @@ const ConnectModal: React.FC<Props> = ({ isOpen, onClose, withdrawalData }) => {
           {approvalState === ApprovalState.SIGNED && (
             <div className="flex flex-col gap-12 items-center">
               <Icon icon="material-symbols:check-circle-outline" className="w-48 h-48 text-success" />
-              <p className="text-success text-16">Transaction signed successfully!</p>
+              <p className="text-success text-16">{dictionaryCustody.connectmodal.signsuccess[locale]}</p>
               <button
                 onClick={onClose}
                 className="mt-8 text-button-text text-16 py-12 px-24 rounded-8 border border-button-border hover:bg-button-border/10"
               >
-                Close
+                {dictionaryCustody.connectmodal.close[locale]}
               </button>
             </div>
           )}
