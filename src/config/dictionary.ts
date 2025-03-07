@@ -1545,6 +1545,12 @@ export const dictionaryApp = {
         FR: "Profil",
         RO: "Profil",
       },
+      twoFactorAuth: {
+        EN: "Two-Factor Auth",
+        ES: "Autenticación de Dos Factores",
+        FR: "Authentification à Deux Facteurs",
+        RO: " Autentificare în Două Etape",
+      },
     },
     buttons: {
       logout: {
@@ -2975,4 +2981,218 @@ export const dictionaryInvitation = {
       RO: "Continuați",
     },
   },
+};
+
+export const dictionaryCustody = {
+  title:{
+    EN: "Custody",
+    ES: "Custodia",
+    FR: "Garde",
+    RO: "Custodie",
+  },
+  account:{
+    EN:"Account",
+    ES:"Cuenta",
+    FR:"Compte",
+    RO:"Cont",
+  },
+  balance:{
+    EN:"Balance",
+    ES:"Balance",
+    FR:"Solde",
+    RO:"Sold",
+  },
+  button:{
+    deposit:{
+      EN:"Deposit",
+      ES:"Depósito",
+      FR:"Dépôt",
+      RO:"Depozit",
+    },
+    withdraw:{
+      EN:"Withdraw",
+      ES:"Retirar",
+      FR:"Retirer",
+      RO:"Retrage",
+    },
+    ledger:{
+      EN:"Withdraw using Ledger",
+      ES:"Retirar usando Ledger",
+      FR:"Retirer en utilisant Ledger",
+      RO:"Retrage folosind Ledger",
+    },
+  },
+  table: {
+    head: {
+      type:{
+        EN:"Type",
+        ES:"Tipo",
+        FR:"Type",
+        RO:"Tip",
+      },
+      amount:{
+        EN:"Amount",
+        ES:"Cantidad",
+        FR:"Montant",
+        RO:"Sumă",
+      },
+      status:{
+        EN:"Status",
+        ES:"Estado",
+        FR:"Statut",
+        RO:"Stare",
+      },
+      timestamp:{
+        EN:"Timestamp",
+        ES:"Marca de tiempo",
+        FR:"Horodatage",
+        RO:"Marcaj temporal",
+      },
+      confirmation:{
+        EN:"Confirmation",
+        ES:"Confirmación",
+        FR:"Confirmation",
+        RO:"Confirmare",
+      },
+    },
+    body: {
+      state: {
+        confirmed:{
+          EN:"Confirmed",
+          ES:"Confirmado",
+          FR:"Confirmé",
+          RO:"Confirmat",
+        },
+        pending:{
+          EN:"Pending",
+          ES:"Pendiente",
+          FR:"En attente",
+          RO:"În așteptare",
+        },
+        failed:{
+          EN:"Failed",
+          ES:"Fallido",
+          FR:"Échoué",
+          RO:"Eșuat",
+        },
+      },
+    },
+  },
+  empty:{
+    EN:"No History",
+    ES:"Sin historial",
+    FR:"Pas d’historique",
+    RO:"Fără istoric",
+  },
+  deposit: {
+    stratismoney : {
+      EN:"Stratis Money Service",
+      ES:"Servicio de Dinero Stratis",
+      FR:"Service d'Argent Stratis",
+      RO:"Serviciul de Bani Stratis",
+    },
+  },
+  connectmodal: {
+    approve :{
+      EN:"Approve Withdrawal",
+      ES:"Aprobar Retiro",
+      FR:"Approuver le Retrait",
+      RO:"Aproba Retragerea",
+    },
+    loadaddress :{
+      EN:"Connect Ledger to load address",
+      ES:"Conectar Ledger para cargar la dirección",
+      FR:"Connecter Ledger pour charger l'adresse",
+      RO:"Conectează Ledger pentru a încărca adresa",
+    },
+    details :{
+      EN:"Withdrawal Details",
+      ES:"Detalles del Retiro",
+      FR:"Détails du Retrait",
+      RO:"Detalii Retragere",
+    },
+    nodata : {
+      EN:"No withdrawal data available. Please try again.",
+      ES:"No hay datos de retiro disponibles. Por favor, inténtelo de nuevo.",
+      FR:"Aucune donnée de retrait disponible. Veuillez réessayer.",
+      RO:"Nu sunt disponibile date de retragere. Vă rugăm să încercați din nou.",
+    },
+    connectledger :{
+      EN:"Connect Ledger",
+      ES:"Conectar Ledger",
+      FR:"Connecter Ledger",
+      RO:"Conectează Ledger",
+    },
+    clearsign :{
+      EN:"Clear signature and sign again",
+      ES:"Borrar la firma y firmar nuevamente",
+      FR:"Effacer la signature et signer à nouveau",
+      RO:"Șterge semnătura și semnează din nou",
+    },
+    signsuccess :{
+      EN:"Transaction signed successfully!",
+      ES:"¡Transacción firmada con éxito!",
+      FR:"Transaction signée avec succès !",
+      RO:"Tranzacție semnată cu succes!",
+    },
+    close: {
+      EN:"Close",
+      ES: "Cerrar",
+      FR: "Fermer",
+      RO: "Închide",
+    },
+  },
+  nowallet: {
+    createwalletexp: {
+      EN:"You do not have a custody wallet. Create your custody wallet to get payment.",
+      ES:"SNo tienes una billetera de custodia. Crea tu billetera de custodia para recibir el pago.",
+      FR:"Vous n'avez pas de portefeuille de garde. Créez votre portefeuille de garde pour recevoir le paiement.",
+      RO:"Nu aveți un portofel de custodie. Creați-vă portofelul de custodie pentru a primi plata.",
+    },
+    createwallet : {
+      EN:"Create Wallet",
+      ES:"Crear Billetera",
+      FR:"Créer un Portefeuille",
+      RO:"Creează Portofel",
+    },
+  },
+};
+
+export const dictionarySecurity = {
+  title: {
+    EN: "Two-Factor Authentication",
+    ES: "Autenticación de Dos Factores",
+    FR: "Authentification à Deux Facteurs",
+    RO: "Autentificare în Două Etape",
+  },
+  authenticatorApp: {
+    EN: "Authenticator App",
+    ES: "Aplicación de Autenticación",
+    FR: "Application d'Authentification",
+    RO: "Aplicație de Autentificare",
+  },
+  disable: {
+    EN: "Disable",
+    ES: "Deshabilitar",
+    FR: "Désactiver",
+    RO: "Dezactivează",
+  },
+  setup: {
+    EN: "Setup",
+    ES: "Configuración",
+    FR: "Configuration",
+    RO: "Configurare",
+  },
+  email: {
+    EN: "Email",
+    ES: "Correo electrónico",
+    FR: "Email",
+    RO: "Email",
+  },
+  authentication: {
+    EN: "Authentication",
+    ES: "Autenticación",
+    FR: "Authentification",
+    RO: "Autentificare",
+  }
 };
