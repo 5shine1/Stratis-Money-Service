@@ -8,19 +8,17 @@ import "./globals.css";
 // };
 
 export const metadata: Metadata = {
-  title: "Stratis Money Service",
+  title: "test-Stratis Money Service",
   description: "Stratis Crypto Payment Gateway Platform",
-  keywords: ["Next.js", "React", "Web Development"],
+  keywords: ["money service"],
   openGraph: {
     title: "Stratis Money Service",
-    description: "Stratis Crypto Payment Gateway Platform",
+    description: "At Stratis Money Service, we bridge the gap between traditional finance and the digital world. Regulated by the Bank of Spain (SEPBLAC) with a VASP registration, we provide a secure platform that allows your customers to pay in crypto, ensuring compliance and eliminating uncertainty.",
     url: "/",
     siteName: "Stratis Money Service",
     images: [
       {
-        url: "/assets/landing/meta_image.png",
-        width: 800,
-        height: 600,
+        url: "/assets/landing/meta-image.png",
         alt: "Stratis Money Service",
       },
     ],
