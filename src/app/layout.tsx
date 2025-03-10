@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     siteName: "Stratis Money Service",
     images: [
       {
-        url: "/assets/landing/meta_image.png",
+        url: "/assets/landing/meta-image.png",
         width: 800,
         height: 600,
         alt: "Stratis Money Service",
