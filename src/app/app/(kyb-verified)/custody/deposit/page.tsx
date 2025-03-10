@@ -12,7 +12,7 @@ import { getChainInfo } from "@/utils/web3.utils";
 import IconBox from "@/components/global/IconBox";
 import ChainLine from "@/app/payment/[id]/components/ChainLine";
 import IconBoxSm from "@/components/global/IconBoxSm";
-import { dictionaryPayment, dictionaryWithdraw } from "@/config/dictionary";
+import { dictionaryPayment, dictionaryWithdraw, dictionaryCustody } from "@/config/dictionary";
 import { RainbowKitProvider, darkTheme, getDefaultConfig } from "@rainbow-me/rainbowkit";
 import { metaMaskWallet, rainbowWallet, bitgetWallet, walletConnectWallet } from "@rainbow-me/rainbowkit/wallets";
 import { WagmiProvider } from "wagmi";
@@ -158,7 +158,7 @@ const DepositPage: React.FC = () => {
             <main className="overflow-x-hidden relative py-40 px-12 flex justify-between md:justify-center items-center h-full  min-h-screen m-auto flex-col gap-32 md:gap-60 w-full ">
               <Link href={"/"} className="flex flex-col md:flex-row items-center gap-16 justify-center">
                 <SvgLogoApp className={"w-36 h-36 "} />
-                <h4 className="text-center">Stratis Money Service</h4>
+                <h4 className="text-center">{dictionaryCustody.deposit.stratismoney[locale]}</h4>
               </Link>
               {status === 60 || status === 100 ? (
                 //-------------deposite------------
