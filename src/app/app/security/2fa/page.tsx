@@ -27,7 +27,7 @@ const TwoFactorSetupPage = () => {
       const result = await apiGetTwoFactorInfo();
       setStatus(result?.data);
     } catch (error) {
-      toast.error("Failed to get 2FA status");
+      toast.error(dictionarySecurity.toast.error.get2FA[locale]);
     }
   };
 
@@ -40,11 +40,11 @@ const TwoFactorSetupPage = () => {
     try {
       const result = await apiDisable2FA(type);
       if (result?.isSucceed) {
-        toast.success(`${type.toUpperCase()} authentication disabled`);
+        toast.success(type === "email" ? dictionarySecurity.toast.success.emailAuthenticationDisabled[locale] : dictionarySecurity.toast.success.totpAuthenticationDisabled[locale]);
         await fetchStatus();
       }
     } catch (error) {
-      toast.error(`Failed to disable ${type.toUpperCase()} authentication`);
+      toast.error(type === "email" ? dictionarySecurity.toast.error.emailAuthenticationDisabled[locale] : dictionarySecurity.toast.error.totpAuthenticationDisabled[locale]);
     }
     setLoading(false);
   };
@@ -52,7 +52,7 @@ const TwoFactorSetupPage = () => {
   const handleComplete = async () => {
     setSetupType(null);
     await fetchStatus();
-    toast.success("Two-factor authentication has been set up successfully");
+    toast.success(dictionarySecurity.toast.success.authenticationSetup[locale]);
   };
 
   if (setupType) {
@@ -77,8 +77,8 @@ const TwoFactorSetupPage = () => {
             </div>
             <p className="text-center">
               {status?.isTotpEnabled
-                ? "TOTP authentication is enabled"
-                : "Secure your account with an authenticator app"}
+                ? dictionarySecurity.text.totpAuthEnable[locale]
+                : dictionarySecurity.text.secureAccountWithApp[locale]}
             </p>
             {status?.isTotpEnabled ? (
               <button
@@ -105,8 +105,8 @@ const TwoFactorSetupPage = () => {
             </div>
             <p className="text-center">
               {status?.isEmailEnabled
-                ? "Email authentication is enabled"
-                : "Secure your account with email verification"}
+                ? dictionarySecurity.text.emailAuthEnable[locale]
+                : dictionarySecurity.text.secureAccountWithemail[locale]}
             </p>
             {status?.isEmailEnabled ? (
               <button
