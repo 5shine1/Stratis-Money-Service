@@ -27,7 +27,7 @@ const RootLayout: React.FC<PropsWithChildren> = ({ children }) => {
       <meta property="og:type" content="website" />
       {/* Twitter Card Meta Tags */}
       <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:title" content="Stratis Crypto Payment Gateway Platform" />
+      <meta name="twitter:title" content="Stratis Money Service" />
       <meta name="twitter:description" content="At Stratis Money Service, we bridge the gap between traditional finance and the digital world. Regulated by the Bank of Spain (SEPBLAC) with a VASP registration, we provide a secure platform that allows your customers to pay in crypto, ensuring compliance and eliminating uncertainty." />
       <meta name="twitter:image" content={`${url}/assets/landing/meta-image.png`}  />
       <meta name="twitter:image:width" content="1200" />
