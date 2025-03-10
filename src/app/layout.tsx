@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   keywords: ["Next.js", "React", "Web Development"],
   openGraph: {
     title: "Stratis Money Service",
-    description: "Stratis Crypto Payment Gateway Platform",
+    description: "At Stratis Money Service, we bridge the gap between traditional finance and the digital world. Regulated by the Bank of Spain (SEPBLAC) with a VASP registration, we provide a secure platform that allows your customers to pay in crypto, ensuring compliance and eliminating uncertainty.",
     url: "/",
     siteName: "Stratis Money Service",
     images: [
