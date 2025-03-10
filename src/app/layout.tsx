@@ -8,11 +8,11 @@ import "./globals.css";
 // };
 
 export const metadata: Metadata = {
-  title: "Stratis Money Service",
+  title: "website-Stratis Money Service",
   description: "Stratis Crypto Payment Gateway Platform",
   keywords: ["money service"],
   openGraph: {
-    title: "Stratis Money Service",
+    title: "meta-Stratis Money Service",
     description: "At Stratis Money Service, we bridge the gap between traditional finance and the digital world...",
     url: "https://beta.money.stratisplatform.com/",
     siteName: "Stratis Money Service",
