@@ -8,7 +8,7 @@ import "./globals.css";
 // };
 
 export const metadata: Metadata = {
-  title: "Stratis Money Service",
+  title: "test-Stratis Money Service",
   description: "Stratis Crypto Payment Gateway Platform",
   keywords: ["Next.js", "React", "Web Development"],
   openGraph: {
