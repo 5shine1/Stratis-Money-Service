@@ -12,6 +12,7 @@ import {
   apiGetTwoFactorInfo,
 } from "@/api/auth.api";
 import useAppSelector from "@/hooks/global/useAppSelector";
+import { dictionarySecurity } from "@/config/dictionary";
 
 interface TwoFactorInfo {
   isEmailEnabled: boolean;
@@ -73,7 +74,7 @@ const TwoFactorAuth: React.FC<Props> = ({
             (setupType === "totp" && result?.data?.isTotpEnabled) ||
             (setupType === "email" && result?.data?.isEmailEnabled)
           ) {
-            toast.success(`${setupType.toUpperCase()} authentication is already set up`);
+            toast.success(setupType === "email" ? dictionarySecurity.toast.success.emailAuthenticationSetup[locale] : dictionarySecurity.toast.success.totpAuthenticationSetup[locale]);
             onComplete?.(null);
             return;
           }
@@ -86,7 +87,7 @@ const TwoFactorAuth: React.FC<Props> = ({
             handleSetup();
           }
         } catch (error) {
-          toast.error("Failed to check 2FA status");
+          toast.error(dictionarySecurity.toast.error.check2FA[locale]);
         }
       }
     };
@@ -104,10 +105,10 @@ const TwoFactorAuth: React.FC<Props> = ({
         setTotpSecret(enableResult.data.qrCodeUri);
         setStep(2);
       } else {
-        throw new Error("Failed to get TOTP setup information");
+        throw new Error(dictionarySecurity.toast.error.get2FASetupInfo[locale]);
       }
     } catch (error) {
-      toast.error("Failed to setup TOTP");
+      toast.error(dictionarySecurity.toast.error.setupTOTP[locale]);
     }
     setIsLoading(false);
   }, [locale, isSetup, setupType]);
@@ -125,7 +126,7 @@ const TwoFactorAuth: React.FC<Props> = ({
       }
     } catch (error) {
       hasGeneratedEmailCode.current = false;
-      toast.error("Failed to generate email code");
+      toast.error(dictionarySecurity.toast.error.generateEmailCode[locale]);
     }
   }, [locale, isSetup, availableFactors, twoFactorToken, userId]);
 
@@ -137,9 +138,14 @@ const TwoFactorAuth: React.FC<Props> = ({
     }
   }, [isSetup, availableFactors, generateEmailCode]);
 
+  useEffect(()=>{
+    setTotpCode({ ...totpCode, error: dictionarySecurity.toast.error.codeRequire[locale] });
+    setEmailCode({ ...emailCode, error: dictionarySecurity.toast.error.codeRequire[locale] });
+  },[locale])
+
   const handleVerifyTOTP = async () => {
     if (!totpCode.value) {
-      setTotpCode({ ...totpCode, error: "Please enter the code" });
+      setTotpCode({ ...totpCode, error: dictionarySecurity.toast.error.codeRequire[locale] });
       return;
     }
 
@@ -159,17 +165,17 @@ const TwoFactorAuth: React.FC<Props> = ({
           }
         }
       } else {
-        setTotpCode({ ...totpCode, error: "Invalid code" });
+        setTotpCode({ ...totpCode, error: dictionarySecurity.toast.error.invalidCode[locale] });
       }
     } catch (error) {
-      toast.error("Verification failed");
+      toast.error(dictionarySecurity.toast.error.verification[locale]);
     }
     setIsLoading(false);
   };
 
   const handleVerifyEmail = async () => {
     if (!emailCode.value) {
-      setEmailCode({ ...emailCode, error: "Please enter the code" });
+      setEmailCode({ ...emailCode, error: dictionarySecurity.toast.error.codeRequire[locale] });
       return;
     }
 
@@ -191,10 +197,10 @@ const TwoFactorAuth: React.FC<Props> = ({
           }
         }
       } else {
-        setEmailCode({ ...emailCode, error: "Invalid code" });
+        setEmailCode({ ...emailCode, error: dictionarySecurity.toast.error.invalidCode[locale] });
       }
     } catch (error) {
-      toast.error("Verification failed");
+      toast.error(dictionarySecurity.toast.error.verification[locale]);
     }
     setIsLoading(false);
   };
@@ -203,19 +209,19 @@ const TwoFactorAuth: React.FC<Props> = ({
     <div className="flex flex-col gap-24 w-full max-w-420">
       {step === 1 && isSetup && (
         <div className="text-center flex flex-col gap-24">
-          <h4 className="text-24 font-semibold mb-12">Set Up Two-Factor Authentication</h4>
-          <p className="">To enhance your account security, we&apos;ll set up two authentication methods:</p>
+          <h4 className="text-24 font-semibold mb-12">{dictionarySecurity.text.setup2FA[locale]}</h4>
+          <p className="">{dictionarySecurity.text.setup2FAExplanation[locale]}</p>
           <ul className="text-left mx-auto flex flex-col gap-8">
             <li className="flex items-center gap-8">
               <Icon icon="material-symbols-light:qr-code-scanner-rounded" className="text-secondary-main text-24" />
-              Authenticator App (TOTP)
+              {dictionarySecurity.authenticatorApp[locale]} (TOTP)
             </li>
             <li className="flex items-center gap-8">
               <Icon
                 icon="material-symbols-light:mark-email-read-outline-rounded"
                 className="text-secondary-main text-24"
               />
-              Email Authentication
+              {dictionarySecurity.email[locale]} {dictionarySecurity.authentication[locale]}
             </li>
           </ul>
           <button
@@ -223,7 +229,7 @@ const TwoFactorAuth: React.FC<Props> = ({
             className=" text-button-text font-semibold p-32 text-16 py-16  rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50"
             disabled={isLoading}
           >
-            Begin Setup
+            {dictionarySecurity.beginSetup[locale]}
             {isLoading && <Icon icon={"line-md:loading-twotone-loop"} />}
           </button>
         </div>
@@ -233,8 +239,8 @@ const TwoFactorAuth: React.FC<Props> = ({
         <div className={`text-center flex flex-col gap-24 ${isSetup ? "g-box-back rounded-8 p-24 py-36 border border-[#07263C]" : ""}`}>
           {isSetup && setupType === "totp" ? (
             <>
-              <h4 className="text-24 font-semibold">Setup Authenticator App</h4>
-              <p className="">Scan this QR code with your authenticator app (like Google Authenticator or Authy)</p>
+              <h4 className="text-24 font-semibold">{dictionarySecurity.setup[locale]} {dictionarySecurity.authenticatorApp[locale]}</h4>
+              <p className="">{dictionarySecurity.text.setupAuthExp[locale]}</p>
               <div className="mx-auto w-180 h-180 p-12 bg-white rounded-8">
                 <QRCode value={totpSecret} style={{ height: "auto", maxWidth: "100%", width: "100%" }} />
               </div>
@@ -242,7 +248,7 @@ const TwoFactorAuth: React.FC<Props> = ({
                 <CustomInput
                   value={totpCode.value}
                   onChange={(e) => setTotpCode({ error: "", value: e })}
-                  placeholder="Enter 6-digit code"
+                  placeholder={dictionarySecurity.placeholder.enterDigitCode[locale]}
                   error={totpCode.error}
                 />
               </div>
@@ -251,19 +257,19 @@ const TwoFactorAuth: React.FC<Props> = ({
                 onClick={handleVerifyTOTP}
                 disabled={isLoading}
               >
-                Verify Code
+                {dictionarySecurity.verifyCode[locale]}
                 {isLoading && <Icon icon={"line-md:loading-twotone-loop"} />}
               </button>
             </>
           ) : (
             <>
-              <h4 className="text-24 font-semibold">Email Authentication</h4>
-              <p className="">We&apos;ve sent a verification code to your email address</p>
+              <h4 className="text-24 font-semibold">{dictionarySecurity.email[locale]} {dictionarySecurity.authentication[locale]}</h4>
+              <p className="">{dictionarySecurity.text.verifyCodeExp[locale]}</p>
               <div className="text-left">
                 <CustomInput
                   value={emailCode.value}
                   onChange={(e) => setEmailCode({ error: "", value: e })}
-                  placeholder="Enter verification code"
+                  placeholder={dictionarySecurity.placeholder.enterVerificationCode[locale]}
                   error={emailCode.error}
                 />
               </div>
@@ -272,7 +278,7 @@ const TwoFactorAuth: React.FC<Props> = ({
                 onClick={handleVerifyEmail}
                 disabled={isLoading}
               >
-                Verify Code
+                {dictionarySecurity.verifyCode[locale]}
                 {isLoading && <Icon icon={"line-md:loading-twotone-loop"} />}
               </button>
             </>
@@ -284,13 +290,13 @@ const TwoFactorAuth: React.FC<Props> = ({
         <div className="text-center flex flex-col gap-24">
           {isSetup ? (
             <>
-              <h4 className="text-24 font-semibold">Email Authentication</h4>
-              <p className="">We&apos;ve sent a verification code to your email address</p>
+              <h4 className="text-24 font-semibold">{dictionarySecurity.email[locale]} {dictionarySecurity.authentication[locale]}</h4>
+              <p className="">{dictionarySecurity.text.verifyCodeExp[locale]}</p>
               <div className="">
                 <CustomInput
                   value={emailCode.value}
                   onChange={(e) => setEmailCode({ error: "", value: e })}
-                  placeholder="Enter verification code"
+                  placeholder={dictionarySecurity.placeholder.enterVerificationCode[locale]}
                   error={emailCode.error}
                 />
               </div>
@@ -299,19 +305,19 @@ const TwoFactorAuth: React.FC<Props> = ({
                 onClick={handleVerifyEmail}
                 disabled={isLoading}
               >
-                Verify Email
+                {dictionarySecurity.verifyEmail[locale]}
                 {isLoading && <Icon icon={"line-md:loading-twotone-loop"} />}
               </button>
             </>
           ) : (
             <>
-              <h4 className="text-24 font-semibold">TOTP Authentication</h4>
-              <p className="">Enter the code from your authenticator app</p>
+              <h4 className="text-24 font-semibold">TOTP {dictionarySecurity.authentication[locale]}</h4>
+              <p className="">{dictionarySecurity.enterCode[locale]}</p>
               <div className="text-left">
                 <CustomInput
                   value={totpCode.value}
                   onChange={(e) => setTotpCode({ error: "", value: e })}
-                  placeholder="Enter 6-digit code"
+                  placeholder={dictionarySecurity.placeholder.enterDigitCode[locale]}
                   error={totpCode.error}
                 />
               </div>
@@ -320,7 +326,7 @@ const TwoFactorAuth: React.FC<Props> = ({
                 onClick={handleVerifyTOTP}
                 disabled={isLoading}
               >
-                Verify Code
+                {dictionarySecurity.verifyCode[locale]}
                 {isLoading && <Icon icon={"line-md:loading-twotone-loop"} />}
               </button>
             </>
