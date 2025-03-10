@@ -2,7 +2,6 @@
 
 import { PropsWithChildren } from "react";
 import { useEffect, useState } from "react";
-import Head from "next/head";
 import "./globals.css";
 
 const RootLayout: React.FC<PropsWithChildren> = ({ children }) => {
@@ -15,18 +14,16 @@ const RootLayout: React.FC<PropsWithChildren> = ({ children }) => {
   }, []);
   return (
     <html className="notranslate" translate="no">
-      <Head>
-        <title>Stratis Money Service</title>
-        <meta name="description" content="Stratis Crypto Payment Gateway Platform" />
-        <meta property="og:title" content="Stratis Money Service" />
-        <meta property="og:description" content="At Stratis Money Service, we bridge the gap between traditional finance and the digital world..." />
-        <meta property="og:url" content={url} />
-        <meta property="og:site_name" content="Stratis Money Service" />
-        <meta property="og:image" content={`${url}/assets/landing/meta-image.png`} />
-        <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="630" />
-        <meta property="og:type" content="website" />
-      </Head>
+      <title>Stratis Money Service</title>
+      <meta name="description" content="Stratis Crypto Payment Gateway Platform" />
+      <meta property="og:title" content="Stratis Money Service" />
+      <meta property="og:description" content="At Stratis Money Service, we bridge the gap between traditional finance and the digital world..." />
+      <meta property="og:url" content={url} />
+      <meta property="og:site_name" content="Stratis Money Service" />
+      <meta property="og:image" content={`${url}/assets/landing/meta-image.png`} />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta property="og:type" content="website" />
       <body>{children}</body>
     </html>
   );
