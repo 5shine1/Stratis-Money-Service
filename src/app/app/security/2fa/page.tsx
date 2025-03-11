@@ -4,7 +4,6 @@ import toast from "react-hot-toast";
 import TwoFactorAuth from "@/app/components/TwoFactorAuth";
 import { LoadingContext } from "@/components/providers/LoadingProvider";
 import { apiGetTwoFactorInfo, apiDisable2FA } from "@/api/auth.api";
-import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
 import IconBox from "@/components/global/IconBox";
 import { dictionarySecurity } from "@/config/dictionary";
 import useAppSelector from "@/hooks/global/useAppSelector";

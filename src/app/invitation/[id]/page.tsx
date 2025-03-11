@@ -39,6 +39,13 @@ const AgentInvitationPage = ({ params }: Props) => {
   });
   const [isLoading, setIsLoading] = useState(true);
   const [inviteInfo, setInviteInfo] = useState<any>();
+  const [url, setUrl] = useState("");
+          
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setUrl(window.location.origin);
+    }
+  }, []); 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -137,6 +144,25 @@ const AgentInvitationPage = ({ params }: Props) => {
 
   return (
     <>
+    <title>Invitation - Stratis Money Service</title>
+      {/* Open Graph Meta Tags */}
+      <meta name="description" content="Send or manage invitations for Stratis Money Service. Join now to experience seamless digital finance." />
+      <meta property="og:title" content="Invitation - Stratis Money Service" />
+      <meta property="og:description" content="Send invitations to users to join Stratis Money Service and enjoy secure financial services." />
+      <meta property="og:url" content={`${url}/invitation/${id}`} />
+      <meta property="og:site_name" content="Invitation - Stratis Money Service" />
+      <meta property="og:image" content={`${url}/assets/landing/meta-image.png`} />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta property="og:type" content="website" />
+      {/* Twitter Card Meta Tags */}
+      <meta name="twitter:card" content="summary" />
+      <meta name="twitter:title" content="Invitation - Stratis Money Service" />
+      <meta name="twitter:description" content="Invite users to join Stratis Money Service for secure and seamless digital payments." />
+      <meta name="twitter:image" content={`${url}/assets/landing/meta-image.png`}  />
+      <meta name="twitter:image:width" content="1200" />
+      <meta name="twitter:image:height" content="675" />
+
       {isLoading ? null : (
         <main className="relative w-full overflow-x-hidden">
           <div className="g-effect absolute -top-[300px] -right-[300px] w-[1000px] h-[1000px] scale-50 lg:scale-100"></div>
