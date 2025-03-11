@@ -32,6 +32,13 @@ const OrderPage = () => {
   const [deleteModalOpen, setDeleteModalOpen] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const { role } = useAppSelector((state) => state.auth);
+  const [url, setUrl] = useState("");
+  
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setUrl(window.location.origin);
+    }
+  }, []);  
 
   const creatorsList = useMemo(() => Array.from(new Set(paymentOrders.map((item) => item.creator))), [paymentOrders]);
 
@@ -164,6 +171,25 @@ const OrderPage = () => {
 
   return (
     <>
+      <title>Order Details - Stratis Money Service</title>
+      {/* Open Graph Meta Tags */}
+      <meta name="description" content="View and manage your orders on Stratis Money Service with secure and seamless transactions." />
+      <meta property="og:title" content="Order Details - Stratis Money Service" />
+      <meta property="og:description" content="Check your order history and track your transactions easily on Stratis Money Service." />
+      <meta property="og:url" content={`${url}/app/order`} />
+      <meta property="og:site_name" content="Order Details - Stratis Money Service" />
+      <meta property="og:image" content={`${url}/assets/landing/meta-image.png`} />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta property="og:type" content="website" />
+      {/* Twitter Card Meta Tags */}
+      <meta name="twitter:card" content="summary" />
+      <meta name="twitter:title" content="Order Details - Stratis Money Service" />
+      <meta name="twitter:description" content="Manage and track your orders securely on Stratis Money Service." />
+      <meta name="twitter:image" content={`${url}/assets/landing/meta-image.png`}  />
+      <meta name="twitter:image:width" content="1200" />
+      <meta name="twitter:image:height" content="675" />
+
       <div className="flex flex-col gap-24 lg:gap-32 lg:px-48 lg:py-64 py-32 p-8 text-14">
         <div className="flex">
           <h4 className="w-fit g-header-app">{dictionaryOrder.headings.paymentOrders[locale]}</h4>
