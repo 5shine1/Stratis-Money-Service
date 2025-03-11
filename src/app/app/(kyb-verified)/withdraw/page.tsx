@@ -29,13 +29,6 @@ const WithdrawPage = () => {
   const [isRequestModalOpen, setIsRequestModalOpen] = useState(false);
   const [isStatusModalOpen, setIsStatusModalOpen] = useState(null);
   const { setLoading } = useContext(LoadingContext);
-  const [url, setUrl] = useState("");
-    
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      setUrl(window.location.origin);
-    }
-  }, []); 
 
   const handleGetBalance = async () => {
     try {
@@ -92,25 +85,6 @@ const WithdrawPage = () => {
 
   return (
     <>
-      <title>Withdraw Funds - Stratis Money Service</title>
-      {/* Open Graph Meta Tags */}
-      <meta name="description" content="Easily withdraw your funds from Stratis Money Service with secure and fast transactions." />
-      <meta property="og:title" content="Withdraw Funds - Stratis Money Service" />
-      <meta property="og:description" content="Withdraw your funds securely and quickly from Stratis Money Service." />
-      <meta property="og:url" content={`${url}/app/withdraw`} />
-      <meta property="og:site_name" content="Withdraw Funds - Stratis Money Service" />
-      <meta property="og:image" content={`${url}/assets/landing/meta-image.png`} />
-      <meta property="og:image:width" content="1200" />
-      <meta property="og:image:height" content="630" />
-      <meta property="og:type" content="website" />
-      {/* Twitter Card Meta Tags */}
-      <meta name="twitter:card" content="summary" />
-      <meta name="twitter:title" content="Withdraw Funds - Stratis Money Service" />
-      <meta name="twitter:description" content="Secure and fast fund withdrawal from Stratis Money Service." />
-      <meta name="twitter:image" content={`${url}/assets/landing/meta-image.png`}  />
-      <meta name="twitter:image:width" content="1200" />
-      <meta name="twitter:image:height" content="675" />
-
       <div className="flex flex-col gap-24 lg:gap-32 lg:px-48 lg:py-64 py-32 p-8 text-14">
         <h4 className="w-fit g-header-app">{dictionaryWithdraw.withdrawPage.headings.title[locale]}</h4>
         <div className="flex flex-col gap-32">

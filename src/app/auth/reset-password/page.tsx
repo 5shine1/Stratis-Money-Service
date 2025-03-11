@@ -25,13 +25,6 @@ const ResetPasswordPage = () => {
     value: "",
     error: "",
   });
-  const [url, setUrl] = useState("");
-      
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      setUrl(window.location.origin);
-    }
-  }, []); 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -62,25 +55,6 @@ const ResetPasswordPage = () => {
 
   return (
     <>
-      <title>Reset Your Password - Stratis Money Service</title>
-      {/* Open Graph Meta Tags */}
-      <meta name="description" content="Reset your password securely and regain access to your Stratis Money Service account." />
-      <meta property="og:title" content="Reset Your Password - Stratis Money Service" />
-      <meta property="og:description" content="Reset your password securely and regain access to your Stratis Money Service account." />
-      <meta property="og:url" content={`${url}/auth/reset-password?email=${email}&code=${code}`} />
-      <meta property="og:site_name" content="Reset Your Password - Stratis Money Service" />
-      <meta property="og:image" content={`${url}/assets/landing/meta-image.png`} />
-      <meta property="og:image:width" content="1200" />
-      <meta property="og:image:height" content="630" />
-      <meta property="og:type" content="website" />
-      {/* Twitter Card Meta Tags */}
-      <meta name="twitter:card" content="summary" />
-      <meta name="twitter:title" content="Reset Your Password - Stratis Money Service" />
-      <meta name="twitter:description" content="Reset your password securely and regain access to your Stratis Money Service account." />
-      <meta name="twitter:image" content={`${url}/assets/landing/meta-image.png`}  />
-      <meta name="twitter:image:width" content="1200" />
-      <meta name="twitter:image:height" content="675" />
-
       <main className="relative w-full overflow-x-hidden">
         <div className="g-effect absolute -top-[300px] -right-[300px] w-[1000px] h-[1000px] scale-50 lg:scale-100"></div>
 

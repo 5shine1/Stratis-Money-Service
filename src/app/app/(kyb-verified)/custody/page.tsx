@@ -34,13 +34,6 @@ const CustodyPage = () => {
     chainId: number;
   } | null>(null);
   const [currencies, setCurrencies] = useState([]);
-  const [url, setUrl] = useState("");
-      
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      setUrl(window.location.origin);
-    }
-  }, []); 
 
   const accountAddress = "0xd58eEd66d22160A8a49a16186e79A123EF5ce5E4";
 
@@ -67,25 +60,6 @@ const CustodyPage = () => {
 
   return (
     <>
-      <title>Custody Services - Stratis Money Service</title>
-      {/* Open Graph Meta Tags */}
-      <meta name="description" content="Secure and reliable custody solutions for your digital assets on Stratis Money Service." />
-      <meta property="og:title" content="Custody Services - Stratis Money Service" />
-      <meta property="og:description" content="Protect your digital assets with our secure and efficient custody solutions." />
-      <meta property="og:url" content={`${url}/app/custody`} />
-      <meta property="og:site_name" content="Custody Services - Stratis Money Service" />
-      <meta property="og:image" content={`${url}/assets/landing/meta-image.png`} />
-      <meta property="og:image:width" content="1200" />
-      <meta property="og:image:height" content="630" />
-      <meta property="og:type" content="website" />
-      {/* Twitter Card Meta Tags */}
-      <meta name="twitter:card" content="summary" />
-      <meta name="twitter:title" content="Custody Services - Stratis Money Service" />
-      <meta name="twitter:description" content="Trust our secure custody services to protect your digital assets on Stratis Money Service." />
-      <meta name="twitter:image" content={`${url}/assets/landing/meta-image.png`}  />
-      <meta name="twitter:image:width" content="1200" />
-      <meta name="twitter:image:height" content="675" />
-
       <div className="flex flex-col gap-24 lg:gap-32 lg:px-48 lg:py-64 py-32 p-8 text-14">
         <h4 className="w-fit g-header-app">{dictionaryCustody.title[locale]}</h4>
         <div className="flex flex-col gap-32">

@@ -20,13 +20,6 @@ const TwoFactorSetupPage = () => {
   const [status, setStatus] = useState<TwoFactorInfo | null>(null);
   const [setupType, setSetupType] = useState<"email" | "totp" | null>(null);
   const { locale } = useAppSelector((state)=>state.locale);
-  const [url, setUrl] = useState("");
-        
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      setUrl(window.location.origin);
-    }
-  }, []); 
 
   const fetchStatus = async () => {
     try {
@@ -71,25 +64,6 @@ const TwoFactorSetupPage = () => {
 
   return (
     <>
-      <title>Two-Factor Authentication - Stratis Money Service</title>
-      {/* Open Graph Meta Tags */}
-      <meta name="description" content="Enhance your account security with Two-Factor Authentication (2FA) on Stratis Money Service." />
-      <meta property="og:title" content="Two-Factor Authentication - Stratis Money Service" />
-      <meta property="og:description" content="Enable Two-Factor Authentication (2FA) for an extra layer of security on your Stratis Money Service account." />
-      <meta property="og:url" content={`${url}/app/security/2fa`} />
-      <meta property="og:site_name" content="Two-Factor Authentication - Stratis Money Service" />
-      <meta property="og:image" content={`${url}/assets/landing/meta-image.png`} />
-      <meta property="og:image:width" content="1200" />
-      <meta property="og:image:height" content="630" />
-      <meta property="og:type" content="website" />
-      {/* Twitter Card Meta Tags */}
-      <meta name="twitter:card" content="summary" />
-      <meta name="twitter:title" content="Two-Factor Authentication - Stratis Money Service" />
-      <meta name="twitter:description" content="Secure your account with Two-Factor Authentication (2FA) on Stratis Money Service." />
-      <meta name="twitter:image" content={`${url}/assets/landing/meta-image.png`}  />
-      <meta name="twitter:image:width" content="1200" />
-      <meta name="twitter:image:height" content="675" />
-
       <main className="h-full relative py-40 px-12 flex justify-center items-center">
       <div className="w-full max-w-720 flex flex-col gap-24">
         <h4 className="mb-24 text-center">{dictionarySecurity.title[locale]}</h4>
