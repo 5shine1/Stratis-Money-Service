@@ -27,13 +27,6 @@ const LoginPage = () => {
   const [password, setPassword] = useState({ value: "", error: "" });
   const [showTwoFactor, setShowTwoFactor] = useState(false);
   const [tempAuthData, setTempAuthData] = useState<any>(null);
-  const [url, setUrl] = useState("");
-  
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      setUrl(window.location.origin);
-    }
-  }, []);  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -112,25 +105,6 @@ const LoginPage = () => {
 
   return (
     <>
-      <title>Login - Stratis Money Service</title>
-      {/* Open Graph Meta Tags */}
-      <meta name="description" content="Log in to your Stratis Money Service account to manage your crypto payments." />
-      <meta property="og:title" content="Login - Stratis Money Service" />
-      <meta property="og:description" content="Log in to your Stratis Money Service account to manage your crypto payments." />
-      <meta property="og:url" content={`${url}/auth/login`} />
-      <meta property="og:site_name" content="Login - Stratis Money Service" />
-      <meta property="og:image" content={`${url}/assets/landing/meta-image.png`} />
-      <meta property="og:image:width" content="1200" />
-      <meta property="og:image:height" content="630" />
-      <meta property="og:type" content="website" />
-      {/* Twitter Card Meta Tags */}
-      <meta name="twitter:card" content="summary" />
-      <meta name="twitter:title" content="Login - Stratis Money Service" />
-      <meta name="twitter:description" content="Log in to your Stratis Money Service account to manage your crypto payments." />
-      <meta name="twitter:image" content={`${url}/assets/landing/meta-image.png`}  />
-      <meta name="twitter:image:width" content="1200" />
-      <meta name="twitter:image:height" content="675" />
-      
       <main className="relative w-full overflow-x-hidden">
         <div className="g-effect absolute -top-[300px] -right-[300px] w-[1000px] h-[1000px] scale-50 lg:scale-100"></div>
 
