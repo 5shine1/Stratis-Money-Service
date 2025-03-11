@@ -171,7 +171,7 @@ const OrderPage = () => {
 
   return (
     <>
-      <title>Order Details - Stratis Money Service</title>
+      <title>Order Details(test) - Stratis Money Service</title>
       {/* Open Graph Meta Tags */}
       <meta name="description" content="View and manage your orders on Stratis Money Service with secure and seamless transactions." />
       <meta property="og:title" content="Order Details - Stratis Money Service" />
