@@ -99,12 +99,12 @@ const AccountPage = () => {
           <div className="p-24 md:p-32 rounded-8 bg-white/5 w-full">
             <div className="text-20 font-bold text-secondary-200">{dictionaryProfile.headings.profile[locale]}</div>
             <div className="flex flex-col gap-16 mt-18 text-white">
-              <div className="flex gap-4 flex-col sm:flex-row break-all">
+              {/* <div className="flex gap-4 flex-col sm:flex-row break-all">
                 <span className="opacity-60 text-white flex-none w-200">
                   {dictionaryProfile.profileLabels.userId[locale]}
                 </span>
                 {userId}
-              </div>
+              </div> */}
               <div className="flex gap-4 flex-col sm:flex-row break-all">
                 <span className="opacity-60 text-white flex-none w-200">
                   {dictionaryProfile.profileLabels.email[locale]}

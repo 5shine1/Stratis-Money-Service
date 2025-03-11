@@ -62,6 +62,9 @@ const AppSidebar: React.FC<PropsWithChildren> = ({ children }) => {
                 className={`p-9 flex items-center justify-start gap-12  u-transition-color rounded-8 overflow-hidden ${
                   pathname.includes("/app/order") ? "bg-primary-700" : "hover:bg-primary-700/40"
                 }`}
+                onClick={() => {
+                  setIsOpenMobileMenu(false);
+                }}
               >
                 <Icon icon="material-symbols-light:document-scanner-outline-rounded" className="w-30 h-30 flex-none" />
                 <div className={` ${isWrapped ? "block" : "hidden"}`}>
@@ -75,6 +78,9 @@ const AppSidebar: React.FC<PropsWithChildren> = ({ children }) => {
                 className={`p-9 flex items-center justify-start gap-12  u-transition-color rounded-8 overflow-hidden ${
                   pathname.includes("/app/withdraw") ? "bg-primary-700" : "hover:bg-primary-700/40"
                 }`}
+                onClick={() => {
+                  setIsOpenMobileMenu(false);
+                }}
               >
                 <Icon icon="ph:hand-withdraw-thin" className="w-30 h-30 flex-none" />
                 <div className={` ${isWrapped ? "block" : "hidden"}`}>
@@ -88,6 +94,9 @@ const AppSidebar: React.FC<PropsWithChildren> = ({ children }) => {
                 className={`p-9 flex items-center justify-start gap-12  u-transition-color rounded-8 overflow-hidden ${
                   pathname.includes("/app/agent") ? "bg-primary-700" : "hover:bg-primary-700/40"
                 }`}
+                onClick={() => {
+                  setIsOpenMobileMenu(false);
+                }}
               >
                 <Icon icon="material-symbols-light:real-estate-agent-outline-rounded" className="w-30 h-30 flex-none" />
                 <div className={` ${isWrapped ? "block" : "hidden"}`}>
@@ -101,6 +110,9 @@ const AppSidebar: React.FC<PropsWithChildren> = ({ children }) => {
                 className={`p-9 flex items-center justify-start gap-12  u-transition-color rounded-8 overflow-hidden ${
                   pathname.includes("/app/user") ? "bg-primary-700" : "hover:bg-primary-700/40"
                 }`}
+                onClick={() => {
+                  setIsOpenMobileMenu(false);
+                }}
               >
                 <Icon icon="material-symbols-light:business-center-outline-rounded" className="w-30 h-30 flex-none" />
                 <div className={` ${isWrapped ? "block" : "hidden"}`}>
@@ -114,6 +126,9 @@ const AppSidebar: React.FC<PropsWithChildren> = ({ children }) => {
                 className={`p-9 flex items-center justify-start gap-12  u-transition-color rounded-8 overflow-hidden ${
                   pathname.includes("/app/custody") ? "bg-primary-700" : "hover:bg-primary-700/40"
                 }`}
+                onClick={() => {
+                  setIsOpenMobileMenu(false);
+                }}
               >
                 <Icon icon="material-symbols-light:account-balance-wallet-outline" className="w-30 h-30 flex-none" />
                 <div className={` ${isWrapped ? "block" : "hidden"}`}>
@@ -126,6 +141,9 @@ const AppSidebar: React.FC<PropsWithChildren> = ({ children }) => {
               className={`p-9 flex items-center justify-start gap-12  u-transition-color rounded-8 overflow-hidden ${
                 pathname.includes("/app/account") ? "bg-primary-700" : "hover:bg-primary-700/40"
               }`}
+              onClick={() => {
+                setIsOpenMobileMenu(false);
+              }}
             >
               <Icon icon="material-symbols-light:manage-accounts-outline" className="w-30 h-30 flex-none" />
               <div className={` ${isWrapped ? "block" : "hidden"}`}>
@@ -137,6 +155,9 @@ const AppSidebar: React.FC<PropsWithChildren> = ({ children }) => {
               className={`p-9 flex items-center justify-start gap-12  u-transition-color rounded-8 overflow-hidden ${
                 pathname.includes("/app/security/2fa") ? "bg-primary-700" : "hover:bg-primary-700/40"
               }`}
+              onClick={() => {
+                setIsOpenMobileMenu(false);
+              }}
             >
               <Icon icon="material-symbols-light:shield-lock-outline-rounded" className="w-30 h-30 flex-none" />
               <div className={` ${isWrapped ? "block" : "hidden"}`}>2FA</div>
@@ -149,6 +170,9 @@ const AppSidebar: React.FC<PropsWithChildren> = ({ children }) => {
               className={`p-9 flex items-center justify-start gap-6  u-transition-color  rounded-8 overflow-hidden ${
                 pathname.includes("/app/account") ? "bg-primary-700" : "bg-primary-700/30"
               }`}
+              onClick={() => {
+                setIsOpenMobileMenu(false);
+              }}
             >
               <img src="/assets/global/avatar.png" alt="avatar" className=" w-30 h-30 flex-none rounded-full" />
 
@@ -177,7 +201,10 @@ const AppSidebar: React.FC<PropsWithChildren> = ({ children }) => {
                           className={`cursor-pointer ${
                             locale === item.code ? "text-secondary-400" : "hover:text-white"
                           }`}
-                          onClick={() => dispatch(setLocale(item.code))}
+                          onClick={() => {
+                            dispatch(setLocale(item.code));
+                            setIsOpenMobileMenu(false);
+                          }}
                         >
                           {item.code}
                         </div>
