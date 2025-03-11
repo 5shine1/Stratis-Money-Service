@@ -1545,6 +1545,12 @@ export const dictionaryApp = {
         FR: "Profil",
         RO: "Profil",
       },
+      // twoFactorAuth: {
+      //   EN: "Two-Factor Auth",
+      //   ES: "Autenticación de Dos Factores",
+      //   FR: "Authentification à Deux Facteurs",
+      //   RO: " Autentificare în Două Etape",
+      // },
     },
     buttons: {
       logout: {
@@ -2973,6 +2979,407 @@ export const dictionaryInvitation = {
       ES: "Continuar",
       FR: "Continuer",
       RO: "Continuați",
+    },
+  },
+};
+
+export const dictionaryCustody = {
+  title:{
+    EN: "Custody",
+    ES: "Custodia",
+    FR: "Garde",
+    RO: "Custodie",
+  },
+  account:{
+    EN:"Account",
+    ES:"Cuenta",
+    FR:"Compte",
+    RO:"Cont",
+  },
+  balance:{
+    EN:"Balance",
+    ES:"Balance",
+    FR:"Solde",
+    RO:"Sold",
+  },
+  button:{
+    deposit:{
+      EN:"Deposit",
+      ES:"Depósito",
+      FR:"Dépôt",
+      RO:"Depozit",
+    },
+    withdraw:{
+      EN:"Withdraw",
+      ES:"Retirar",
+      FR:"Retirer",
+      RO:"Retrage",
+    },
+    ledger:{
+      EN:"Withdraw using Ledger",
+      ES:"Retirar usando Ledger",
+      FR:"Retirer en utilisant Ledger",
+      RO:"Retrage folosind Ledger",
+    },
+  },
+  table: {
+    head: {
+      type:{
+        EN:"Type",
+        ES:"Tipo",
+        FR:"Type",
+        RO:"Tip",
+      },
+      amount:{
+        EN:"Amount",
+        ES:"Cantidad",
+        FR:"Montant",
+        RO:"Sumă",
+      },
+      status:{
+        EN:"Status",
+        ES:"Estado",
+        FR:"Statut",
+        RO:"Stare",
+      },
+      timestamp:{
+        EN:"Timestamp",
+        ES:"Marca de tiempo",
+        FR:"Horodatage",
+        RO:"Marcaj temporal",
+      },
+      confirmation:{
+        EN:"Confirmation",
+        ES:"Confirmación",
+        FR:"Confirmation",
+        RO:"Confirmare",
+      },
+    },
+    body: {
+      state: {
+        confirmed:{
+          EN:"Confirmed",
+          ES:"Confirmado",
+          FR:"Confirmé",
+          RO:"Confirmat",
+        },
+        pending:{
+          EN:"Pending",
+          ES:"Pendiente",
+          FR:"En attente",
+          RO:"În așteptare",
+        },
+        failed:{
+          EN:"Failed",
+          ES:"Fallido",
+          FR:"Échoué",
+          RO:"Eșuat",
+        },
+      },
+    },
+  },
+  empty:{
+    EN:"No History",
+    ES:"Sin historial",
+    FR:"Pas d’historique",
+    RO:"Fără istoric",
+  },
+  deposit: {
+    stratismoney : {
+      EN:"Stratis Money Service",
+      ES:"Servicio de Dinero Stratis",
+      FR:"Service d'Argent Stratis",
+      RO:"Serviciul de Bani Stratis",
+    },
+  },
+  connectmodal: {
+    approve :{
+      EN:"Approve Withdrawal",
+      ES:"Aprobar Retiro",
+      FR:"Approuver le Retrait",
+      RO:"Aproba Retragerea",
+    },
+    loadaddress :{
+      EN:"Connect Ledger to load address",
+      ES:"Conectar Ledger para cargar la dirección",
+      FR:"Connecter Ledger pour charger l'adresse",
+      RO:"Conectează Ledger pentru a încărca adresa",
+    },
+    details :{
+      EN:"Withdrawal Details",
+      ES:"Detalles del Retiro",
+      FR:"Détails du Retrait",
+      RO:"Detalii Retragere",
+    },
+    nodata : {
+      EN:"No withdrawal data available. Please try again.",
+      ES:"No hay datos de retiro disponibles. Por favor, inténtelo de nuevo.",
+      FR:"Aucune donnée de retrait disponible. Veuillez réessayer.",
+      RO:"Nu sunt disponibile date de retragere. Vă rugăm să încercați din nou.",
+    },
+    connectledger :{
+      EN:"Connect Ledger",
+      ES:"Conectar Ledger",
+      FR:"Connecter Ledger",
+      RO:"Conectează Ledger",
+    },
+    clearsign :{
+      EN:"Clear signature and sign again",
+      ES:"Borrar la firma y firmar nuevamente",
+      FR:"Effacer la signature et signer à nouveau",
+      RO:"Șterge semnătura și semnează din nou",
+    },
+    signsuccess :{
+      EN:"Transaction signed successfully!",
+      ES:"¡Transacción firmada con éxito!",
+      FR:"Transaction signée avec succès !",
+      RO:"Tranzacție semnată cu succes!",
+    },
+    close: {
+      EN:"Close",
+      ES: "Cerrar",
+      FR: "Fermer",
+      RO: "Închide",
+    },
+  },
+  nowallet: {
+    createwalletexp: {
+      EN:"You do not have a custody wallet. Create your custody wallet to get payment.",
+      ES:"SNo tienes una billetera de custodia. Crea tu billetera de custodia para recibir el pago.",
+      FR:"Vous n'avez pas de portefeuille de garde. Créez votre portefeuille de garde pour recevoir le paiement.",
+      RO:"Nu aveți un portofel de custodie. Creați-vă portofelul de custodie pentru a primi plata.",
+    },
+    createwallet : {
+      EN:"Create Wallet",
+      ES:"Crear Billetera",
+      FR:"Créer un Portefeuille",
+      RO:"Creează Portofel",
+    },
+  },
+};
+
+export const dictionarySecurity = {
+  title: {
+    EN: "Two-Factor Authentication",
+    ES: "Autenticación de Dos Factores",
+    FR: "Authentification à Deux Facteurs",
+    RO: "Autentificare în Două Etape",
+  },
+  authenticatorApp: {
+    EN: "Authenticator App",
+    ES: "Aplicación de Autenticación",
+    FR: "Application d'Authentification",
+    RO: "Aplicație de Autentificare",
+  },
+  disable: {
+    EN: "Disable",
+    ES: "Deshabilitar",
+    FR: "Désactiver",
+    RO: "Dezactivează",
+  },
+  setup: {
+    EN: "Setup",
+    ES: "Configuración",
+    FR: "Configuration",
+    RO: "Configurare",
+  },
+  email: {
+    EN: "Email",
+    ES: "Correo electrónico",
+    FR: "Email",
+    RO: "Email",
+  },
+  beginSetup: {
+    EN: "Begin Setup",
+    ES: "Comenzar la configuración",
+    FR: "Commencer la configuration",
+    RO: "Începe configurarea",
+  },
+  authentication: {
+    EN: "Authentication",
+    ES: "Autenticación",
+    FR: "Authentification",
+    RO: "Autentificare",
+  },
+  verifyCode: {
+    EN: "Verify Code",
+    ES: "Verificar código",
+    FR: "Vérifier le code",
+    RO: "Verifică codul",
+  },
+  verifyEmail: {
+    EN: "Verify Email",
+    ES: "Verificar Correo electrónico",
+    FR: "Vérifier l'e-mail",
+    RO: "Verifică e-mailul",
+  },
+  enterCode: {
+    EN: "Enter the code from your authenticator app",
+    ES: "Introduce el código de tu aplicación de autenticación",
+    FR: "Entrez le code de votre application d'authentification",
+    RO: "Introduce codul din aplicația ta de autentificare",
+  },
+  
+  toast: {
+    error: {
+      get2FA: {
+        EN: "Failed to get 2FA status",
+        ES: "Error al obtener el estado de 2FA",
+        FR: "Échec de la récupération du statut 2FA",
+        RO: "Eșec la obținerea statutului 2FA",
+      },
+      get2FASetupInfo: {
+        EN: "Failed to get TOTP setup information",
+        ES: "Error al obtener la información de configuración de TOTP",
+        FR: "Échec de l'obtention des informations de configuration de TOTP",
+        RO: "Eșec la obținerea informațiilor de configurare TOTP",
+      },
+      setupTOTP: {
+        EN: "Failed to setup TOTP",
+        ES: "Error al configurar TOTP",
+        FR: "Échec de la configuration de TOTP",
+        RO: "Eșec la configurarea TOTP",
+      },
+      codeRequire: {
+        EN: "Please enter the code",
+        ES: "Por favor ingrese el código",
+        FR: "Veuillez entrer le code",
+        RO: "Vă rugăm să introduceți codul",
+      },
+      verification: {
+        EN: "Verification failed",
+        ES: "Verificación fallida",
+        FR: "Vérification échouée",
+        RO: "Verificare eșuată",
+      },
+      invalidCode: {
+        EN: "Invalid code",
+        ES: "Código inválido",
+        FR: "Code invalide",
+        RO: "Cod invalid",
+      },
+      generateEmailCode: {
+        EN: "Failed to generate email code",
+        ES: "Error al generar el código de correo electrónico",
+        FR: "Échec de la génération du code par e-mail",
+        RO: "Eșec la generarea codului de e-mail",
+      },
+      emailAuthenticationDisabled: {
+        EN: "Failed to disable Email authentication",
+        ES: "Error al desactivar la autenticación por Correo electrónico",
+        FR: "Échec de la désactivation de l'authentification par Email",
+        RO: "Eșec la dezactivarea autentificării prin Email",
+      },
+      totpAuthenticationDisabled: {
+        EN: "Failed to disable TOTP authentication",
+        ES: "Error al desactivar la autenticación TOTP",
+        FR: "Échec de la désactivation de l'authentification TOTP",
+        RO: "Eșec la dezactivarea autentificării TOTP",
+      },
+      check2FA: {
+        EN: "Failed to check 2FA status",
+        ES: "Error al comprobar el estado de 2FA",
+        FR: "Échec de la vérification du statut 2FA",
+        RO: "Eșec la verificarea statutului 2FA",
+      },
+    },
+
+    success: {
+      emailAuthenticationDisabled: {
+        EN: "Email authentication disabled",
+        ES: "Autenticación por Correo Electrónico Desactivada",
+        FR: "Authentification Par Email Désactivée",
+        RO: "Autentificare Prin Email Dezactivată",
+      },
+      totpAuthenticationDisabled: {
+        EN: "TOTP authentication disabled",
+        ES: "Autenticación TOTP Desactivada",
+        FR: "Authentification TOTP Désactivée",
+        RO: "Autentificare TOTP Dezactivată",
+      },
+      emailAuthenticationSetup: {
+        EN: "Email authentication is already set up",
+        ES: "La autenticación por Correo electrónico ya está configurada",
+        FR: "L'authentification par Email est déjà configurée",
+        RO: "Autentificarea prin Email este deja configurată",
+      },
+      totpAuthenticationSetup: {
+        EN: "TOTP authentication is already set up",
+        ES: "La autenticación TOTP ya está configurada",
+        FR: "L'authentification TOTP est déjà configurée",
+        RO: "Autentificarea TOTP este deja configurată",
+      },
+      authenticationSetup: {
+        EN: "Two-factor authentication has been set up successfully",
+        ES: "La autenticación de dos factores se ha configurado correctamente",
+        FR: "L'authentification à deux facteurs a été configurée avec succès",
+        RO: "Autentificarea cu doi factori a fost configurată cu succes",
+      },
+    },
+  },
+
+  text: {
+    totpAuthEnable: {
+      EN: "TOTP authentication is enabled",
+      ES: "La autenticación TOTP está habilitada",
+      FR: "L'authentification TOTP est activée",
+      RO: "Autentificarea TOTP este activată",
+    },
+    secureAccountWithApp: {
+      EN: "Secure your account with an authenticator app",
+      ES: "Asegura tu cuenta con una aplicación de autenticación",
+      FR: "Sécurisez votre compte avec une application d'authentification",
+      RO: "Securizează-ți contul cu o aplicație de autentificare",
+    },
+    emailAuthEnable: {
+      EN: "Email authentication is enabled",
+      ES: "La autenticación por correo electrónico está habilitada",
+      FR: "L'authentification par e-mail est activée",
+      RO: " Autentificarea prin e-mail este activată",
+    },
+    secureAccountWithemail: {
+      EN: "Secure your account with email verification",
+      ES: "Asegura tu cuenta con la verificación por Correo electrónico",
+      FR: "Sécurisez votre compte avec la vérification par Email",
+      RO: "Securizează-ți contul cu verificarea prin Email",
+    },
+    setup2FA: {
+      EN: "Set Up Two-Factor Authentication",
+      ES: "Configurar la autenticación de dos factores",
+      FR: "Configurer l'authentification à deux facteurs",
+      RO: "Configurează autentificarea cu doi factori",
+    },
+    setup2FAExplanation: {
+      EN: "To enhance your account security, we'll set up two authentication methods:",
+      ES: "Para mejorar la seguridad de tu cuenta, configuraremos dos métodos de autenticación:",
+      FR: "Pour améliorer la sécurité de votre compte, nous configurerons deux méthodes d'authentification :",
+      RO: "Pentru a spori securitatea contului tău, vom configura două metode de autentificare:",
+    },
+    setupAuthExp: {
+      EN: "Scan this QR code with your authenticator app (like Google Authenticator or Authy)",
+      ES: "Escanea este código QR con tu aplicación de autenticación (como Google Authenticator o Authy)",
+      FR: "Scannez ce code QR avec votre application d'authentification (comme Google Authenticator ou Authy)",
+      RO: "Scanează acest cod QR cu aplicația ta de autentificare (cum ar fi Google Authenticator sau Authy)",
+    },
+    verifyCodeExp: {
+      EN: "We've sent a verification code to your email address",
+      ES: "Hemos enviado un código de verificación a tu dirección de correo electrónico",
+      FR: "Nous avons envoyé un code de vérification à votre adresse e-mail",
+      RO: "Am trimis un cod de verificare la adresa ta de e-mail",
+    },
+  },
+  placeholder: {
+    enterDigitCode: {
+      EN: "Enter 6-digit code",
+      ES: "Introduce el código de 6 dígitos",
+      FR: "Entrez le code à 6 chiffres",
+      RO: "Introduce codul de 6 cifre",
+    },
+    enterVerificationCode: {
+      EN: "Enter verification code",
+      ES: "Introduce el código de verificación",
+      FR: "Entrez le code de vérification",
+      RO: "Introduce codul de verificare",
     },
   },
 };

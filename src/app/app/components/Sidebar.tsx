@@ -139,7 +139,7 @@ const AppSidebar: React.FC<PropsWithChildren> = ({ children }) => {
               }`}
             >
               <Icon icon="material-symbols-light:shield-lock-outline-rounded" className="w-30 h-30 flex-none" />
-              <div className={` ${isWrapped ? "block" : "hidden"}`}>Two-Factor Auth</div>
+              <div className={` ${isWrapped ? "block" : "hidden"}`}>2FA</div>
             </Link>
           </div>
 

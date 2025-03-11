@@ -4,9 +4,9 @@ import toast from "react-hot-toast";
 import TwoFactorAuth from "@/app/components/TwoFactorAuth";
 import { LoadingContext } from "@/components/providers/LoadingProvider";
 import { apiGetTwoFactorInfo, apiDisable2FA } from "@/api/auth.api";
-import AnimatedSlideButton from "@/components/global/AnimatedSlideButton";
 import IconBox from "@/components/global/IconBox";
-
+import { dictionarySecurity } from "@/config/dictionary";
+import useAppSelector from "@/hooks/global/useAppSelector";
 interface TwoFactorInfo {
   isEmailEnabled: boolean;
   isTotpEnabled: boolean;
@@ -19,20 +19,14 @@ const TwoFactorSetupPage = () => {
   const { setLoading } = useContext(LoadingContext);
   const [status, setStatus] = useState<TwoFactorInfo | null>(null);
   const [setupType, setSetupType] = useState<"email" | "totp" | null>(null);
-  const [url, setUrl] = useState("");
-      
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      setUrl(window.location.origin);
-    }
-  }, []); 
+  const { locale } = useAppSelector((state)=>state.locale);
 
   const fetchStatus = async () => {
     try {
       const result = await apiGetTwoFactorInfo();
       setStatus(result?.data);
     } catch (error) {
-      toast.error("Failed to get 2FA status");
+      toast.error(dictionarySecurity.toast.error.get2FA[locale]);
     }
   };
 
@@ -45,11 +39,11 @@ const TwoFactorSetupPage = () => {
     try {
       const result = await apiDisable2FA(type);
       if (result?.isSucceed) {
-        toast.success(`${type.toUpperCase()} authentication disabled`);
+        toast.success(type === "email" ? dictionarySecurity.toast.success.emailAuthenticationDisabled[locale] : dictionarySecurity.toast.success.totpAuthenticationDisabled[locale]);
         await fetchStatus();
       }
     } catch (error) {
-      toast.error(`Failed to disable ${type.toUpperCase()} authentication`);
+      toast.error(type === "email" ? dictionarySecurity.toast.error.emailAuthenticationDisabled[locale] : dictionarySecurity.toast.error.totpAuthenticationDisabled[locale]);
     }
     setLoading(false);
   };
@@ -57,7 +51,7 @@ const TwoFactorSetupPage = () => {
   const handleComplete = async () => {
     setSetupType(null);
     await fetchStatus();
-    toast.success("Two-factor authentication has been set up successfully");
+    toast.success(dictionarySecurity.toast.success.authenticationSetup[locale]);
   };
 
   if (setupType) {
@@ -69,91 +63,69 @@ const TwoFactorSetupPage = () => {
   }
 
   return (
-    <>
-      <title>Two-Factor Authentication - Stratis Money Service</title>
-      {/* Open Graph Meta Tags */}
-      <meta name="description" content="Enhance your account security with Two-Factor Authentication (2FA) on Stratis Money Service." />
-      <meta property="og:title" content="Two-Factor Authentication - Stratis Money Service" />
-      <meta property="og:description" content="Enable Two-Factor Authentication (2FA) for an extra layer of security on your Stratis Money Service account." />
-      <meta property="og:url" content={`${url}/app/security/2fa`} />
-      <meta property="og:site_name" content="Two-Factor Authentication - Stratis Money Service" />
-      <meta property="og:image" content={`${url}/assets/landing/meta-image.png`} />
-      <meta property="og:image:width" content="1200" />
-      <meta property="og:image:height" content="630" />
-      <meta property="og:type" content="website" />
-      {/* Twitter Card Meta Tags */}
-      <meta name="twitter:card" content="summary" />
-      <meta name="twitter:title" content="Two-Factor Authentication - Stratis Money Service" />
-      <meta name="twitter:description" content="Secure your account with Two-Factor Authentication (2FA) on Stratis Money Service." />
-      <meta name="twitter:image" content={`${url}/assets/landing/meta-image.png`}  />
-      <meta name="twitter:image:width" content="1200" />
-      <meta name="twitter:image:height" content="675" />
-      
-      <main className="h-full relative py-40 px-12 flex justify-center items-center">
-        <div className="w-full max-w-720 flex flex-col gap-24">
-          <h4 className="mb-24 text-center">Two-Factor Authentication</h4>
+    <main className="h-full relative py-40 px-12 flex justify-center items-center">
+      <div className="w-full max-w-720 flex flex-col gap-24">
+        <h4 className="mb-24 text-center">{dictionarySecurity.title[locale]}</h4>
 
-          <div className="flex flex-col md:flex-row gap-24">
-            {/* TOTP Section */}
-            <div className=" rounded-16 p-24 g-box-back border border-[#07263C] flex flex-col gap-32 w-full">
-              <div className="flex items-center gap-24 flex-col">
-                <IconBox icon="material-symbols-light:qr-code-scanner-rounded" />
-                <h3 className="text-18 font-semibold">Authenticator App (TOTP)</h3>
-              </div>
-              <p className="text-center">
-                {status?.isTotpEnabled
-                  ? "TOTP authentication is enabled"
-                  : "Secure your account with an authenticator app"}
-              </p>
-              {status?.isTotpEnabled ? (
-                <button
-                  onClick={() => handleDisable("totp")}
-                  className="mt-auto mx-auto w-fit text-button-text font-semibold p-32 text-16 py-16  rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50"
-                >
-                  Disable TOTP
-                </button>
-              ) : (
-                <button
-                  onClick={() => setSetupType("totp")}
-                  className="mt-auto mx-auto w-fit text-button-text font-semibold p-32 text-16 py-16  rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50"
-                >
-                  Setup TOTP
-                </button>
-              )}
+        <div className="flex flex-col md:flex-row gap-24">
+          {/* TOTP Section */}
+          <div className=" rounded-16 p-24 g-box-back border border-[#07263C] flex flex-col gap-32 w-full">
+            <div className="flex items-center gap-24 flex-col">
+              <IconBox icon="material-symbols-light:qr-code-scanner-rounded" />
+              <h3 className="text-18 font-semibold flex-wrap text-center">{dictionarySecurity.authenticatorApp[locale]} (TOTP)</h3>
             </div>
+            <p className="text-center">
+              {status?.isTotpEnabled
+                ? dictionarySecurity.text.totpAuthEnable[locale]
+                : dictionarySecurity.text.secureAccountWithApp[locale]}
+            </p>
+            {status?.isTotpEnabled ? (
+              <button
+                onClick={() => handleDisable("totp")}
+                className="mt-auto mx-auto w-fit text-button-text font-semibold p-32 text-16 py-16  rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50"
+              >
+                {dictionarySecurity.disable[locale]} TOTP
+              </button>
+            ) : (
+              <button
+                onClick={() => setSetupType("totp")}
+                className="mt-auto mx-auto w-fit text-button-text font-semibold p-32 text-16 py-16  rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50"
+              >
+                {dictionarySecurity.setup[locale]} TOTP
+              </button>
+            )}
+          </div>
 
-            {/* Email Section */}
-            <div className=" rounded-16 p-24 g-box-back border border-[#07263C] flex flex-col gap-32 w-full">
-              <div className="flex items-center gap-24 flex-col">
-                <IconBox icon="material-symbols-light:mark-email-read-outline-rounded" />
-                <h3 className="text-18 font-semibold">Email Authentication</h3>
-              </div>
-              <p className="text-center">
-                {status?.isEmailEnabled
-                  ? "Email authentication is enabled"
-                  : "Secure your account with email verification"}
-              </p>
-              {status?.isEmailEnabled ? (
-                <button
-                  onClick={() => handleDisable("email")}
-                  className="mt-auto mx-auto w-fit text-button-text font-semibold p-32 text-16 py-16  rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50"
-                >
-                  Disable Email
-                </button>
-              ) : (
-                <button
-                  onClick={() => setSetupType("email")}
-                  className="mt-auto mx-auto w-fit text-button-text font-semibold p-32 text-16 py-16  rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50"
-                >
-                  Setup Email
-                </button>
-              )}
+          {/* Email Section */}
+          <div className=" rounded-16 p-24 g-box-back border border-[#07263C] flex flex-col gap-32 w-full">
+            <div className="flex items-center gap-24 flex-col">
+              <IconBox icon="material-symbols-light:mark-email-read-outline-rounded" />
+              <h3 className="text-18 font-semibold">{dictionarySecurity.email[locale] + " " + dictionarySecurity.authentication[locale]}</h3>
             </div>
+            <p className="text-center">
+              {status?.isEmailEnabled
+                ? dictionarySecurity.text.emailAuthEnable[locale]
+                : dictionarySecurity.text.secureAccountWithemail[locale]}
+            </p>
+            {status?.isEmailEnabled ? (
+              <button
+                onClick={() => handleDisable("email")}
+                className="mt-auto mx-auto w-fit text-button-text font-semibold p-32 text-16 py-16  rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50"
+              >
+                {dictionarySecurity.disable[locale] + " " + dictionarySecurity.email[locale]}
+              </button>
+            ) : (
+              <button
+                onClick={() => setSetupType("email")}
+                className="mt-auto mx-auto w-fit text-button-text font-semibold p-32 text-16 py-16  rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50"
+              >
+                {dictionarySecurity.setup[locale] + " " + dictionarySecurity.email[locale]}
+              </button>
+            )}
           </div>
         </div>
-      </main>
-    </>
-    
+      </div>
+    </main>
   );
 };
 
