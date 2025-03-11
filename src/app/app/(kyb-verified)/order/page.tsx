@@ -36,7 +36,7 @@ const OrderPage = () => {
   
   useEffect(() => {
     if (typeof window !== "undefined") {
-      setUrl(window.location.origin);
+      setUrl(`${window.location.origin}/app/order`);
     }
   }, []);  
 
@@ -176,7 +176,7 @@ const OrderPage = () => {
       <meta name="description" content="View and manage your orders on Stratis Money Service with secure and seamless transactions." />
       <meta property="og:title" content="Order Details - Stratis Money Service" />
       <meta property="og:description" content="Check your order history and track your transactions easily on Stratis Money Service." />
-      <meta property="og:url" content={`${url}/app/order`} />
+      <meta property="og:url" content={url} />
       <meta property="og:site_name" content="Order Details - Stratis Money Service" />
       <meta property="og:image" content={`${url}/assets/landing/meta-image.png`} />
       <meta property="og:image:width" content="1200" />
