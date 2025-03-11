@@ -20,13 +20,6 @@ const VerifyEmailPage = () => {
   const [isChecking, setIsChecking] = useState(true);
   const [isSuccess, setIsSuccess] = useState(false);
   const dispatch = useAppDispatch();
-  const [url, setUrl] = useState("");
-        
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      setUrl(window.location.origin);
-    }
-  }, []); 
 
   const handleCheckEmail = async (userId, code) => {
     try {
@@ -51,25 +44,6 @@ const VerifyEmailPage = () => {
 
   return (
     <>
-    <title>Verify Your Email - Stratis Money Service</title>
-      {/* Open Graph Meta Tags */}
-      <meta name="description" content="Verify your email address to activate your Stratis Money Service account securely." />
-      <meta property="og:title" content="Verify Your Email - Stratis Money Service" />
-      <meta property="og:description" content="Click the verification link to confirm your email and activate your account." />
-      <meta property="og:url" content={`${url}/auth/verify-email?userId=${userId}&code=${code}`} />
-      <meta property="og:site_name" content="Verify Your Email - Stratis Money Service" />
-      <meta property="og:image" content={`${url}/assets/landing/meta-image.png`} />
-      <meta property="og:image:width" content="1200" />
-      <meta property="og:image:height" content="630" />
-      <meta property="og:type" content="website" />
-      {/* Twitter Card Meta Tags */}
-      <meta name="twitter:card" content="summary" />
-      <meta name="twitter:title" content="Verify Your Email - Stratis Money Service" />
-      <meta name="twitter:description" content="Click the verification link to confirm your email and activate your account." />
-      <meta name="twitter:image" content={`${url}/assets/landing/meta-image.png`}  />
-      <meta name="twitter:image:width" content="1200" />
-      <meta name="twitter:image:height" content="675" />
-
       <main className="relative w-full overflow-x-hidden">
         <div className="g-effect absolute -top-[300px] -right-[300px] w-[1000px] h-[1000px] scale-50 lg:scale-100"></div>
 

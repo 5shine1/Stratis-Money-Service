@@ -26,13 +26,6 @@ const AccountPage = () => {
     (state) => state.setting
   );
   const dispatch = useAppDispatch();
-  const [url, setUrl] = useState("");
-        
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      setUrl(window.location.origin);
-    }
-  }, []); 
 
   const handleStartKYB = async () => {
     setLoading(true);
@@ -99,28 +92,6 @@ const AccountPage = () => {
 
   return (
     <>
-      <head>
-        <title>My Account - Stratis Money Service</title>
-        {/* Open Graph Meta Tags */}
-        <meta name="description" content="Manage your account settings, profile, and security options on Stratis Money Service." />
-        <meta property="og:title" content="My Account - Stratis Money Service" />
-        <meta property="og:description" content="Manage your account settings, profile, and security options on Stratis Money Service." />
-        <meta property="og:url" content={`${url}/app/account`} />
-        <meta property="og:site_name" content="My Account - Stratis Money Service" />
-        <meta property="og:image" content={`${url}/assets/landing/meta-image.png`} />
-        <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="630" />
-        <meta property="og:type" content="website" />
-        {/* Twitter Card Meta Tags */}
-        <meta name="twitter:card" content="summary" />
-        <meta name="twitter:title" content="My Account - Stratis Money Service" />
-        <meta name="twitter:description" content="Manage your account settings, profile, and security options on Stratis Money Service." />
-        <meta name="twitter:image" content={`${url}/assets/landing/meta-image.png`}  />
-        <meta name="twitter:image:width" content="1200" />
-        <meta name="twitter:image:height" content="675" />
-      </head>
-      
-
       <div className="flex flex-col gap-24 lg:gap-32 lg:px-48 lg:py-64 py-32 p-8 text-14">
         <h4 className="w-fit g-header-app">{dictionaryProfile.headings.myAccount[locale]}</h4>
 

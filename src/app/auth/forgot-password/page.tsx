@@ -16,13 +16,6 @@ const ForgotPasswordPage = () => {
   const { locale } = useAppSelector((state) => state.locale);
   const { setLoading } = useContext(LoadingContext);
   const [email, setEmail] = useState({ value: "", error: "" });
-  const [url, setUrl] = useState("");
-      
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      setUrl(window.location.origin);
-    }
-  }, []);  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -42,25 +35,6 @@ const ForgotPasswordPage = () => {
 
   return (
     <>
-      <title>Forgot Password - Stratis Money Service</title>
-      {/* Open Graph Meta Tags */}
-      <meta name="description" content="Reset your Stratis Money Service password securely and regain access to your account." />
-      <meta property="og:title" content="Forgot Password - Stratis Money Service" />
-      <meta property="og:description" content="Need to reset your password? Follow the steps to recover your Stratis Money Service account." />
-      <meta property="og:url" content={`${url}/auth/forgot-password`}/>
-      <meta property="og:site_name" content="Forgot Password - Stratis Money Service" />
-      <meta property="og:image" content={`${url}/assets/landing/meta-image.png`} />
-      <meta property="og:image:width" content="1200" />
-      <meta property="og:image:height" content="630" />
-      <meta property="og:type" content="website" />
-      {/* Twitter Card Meta Tags */}
-      <meta name="twitter:card" content="summary" />
-      <meta name="twitter:title" content="Forgot Password - Stratis Money Service" />
-      <meta name="twitter:description" content="Need to reset your password? Follow the steps to recover your Stratis Money Service account." />
-      <meta name="twitter:image" content={`${url}/assets/landing/meta-image.png`}  />
-      <meta name="twitter:image:width" content="1200" />
-      <meta name="twitter:image:height" content="675" />
-
       <main className="relative w-full overflow-x-hidden">
         <div className="g-effect absolute -top-[300px] -left-[300px] w-[1000px] h-[1000px] scale-50 lg:scale-100"></div>
 

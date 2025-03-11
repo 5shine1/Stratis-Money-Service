@@ -56,13 +56,6 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
   const [paymentAmount, setPaymentAmount] = useState(0);
   const [selectedCurrency, setSelectedCurrency] = useState<any>();
   const [showReauth, setShowReauth] = useState(false);
-  const [url, setUrl] = useState("");
-        
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      setUrl(window.location.origin);
-    }
-  }, []); 
 
   const networkList = useMemo(
     () =>
@@ -218,25 +211,6 @@ const PaymentPage: React.FC<Props> = ({ params }) => {
 
   return (
     <>
-      <title>Secure Payments - Stratis Money Service</title>
-      {/* Open Graph Meta Tags */}
-      <meta name="description" content="Make secure and seamless payments with Stratis Money Service." />
-      <meta property="og:title" content="Secure Payments - Stratis Money Service" />
-      <meta property="og:description" content="Process your payments securely with our trusted financial platform." />
-      <meta property="og:url" content={`${url}/payment/${id}`} />
-      <meta property="og:site_name" content="Secure Payments - Stratis Money Service" />
-      <meta property="og:image" content={`${url}/assets/landing/meta-image.png`} />
-      <meta property="og:image:width" content="1200" />
-      <meta property="og:image:height" content="630" />
-      <meta property="og:type" content="website" />
-      {/* Twitter Card Meta Tags */}
-      <meta name="twitter:card" content="summary" />
-      <meta name="twitter:title" content="Secure Payments - Stratis Money Service" />
-      <meta name="twitter:description" content="Make secure and seamless payments with Stratis Money Service." />
-      <meta name="twitter:image" content={`${url}/assets/landing/meta-image.png`}  />
-      <meta name="twitter:image:width" content="1200" />
-      <meta name="twitter:image:height" content="675" />
-
       <WagmiProvider config={config}>
         <QueryClientProvider client={queryClient}>
           <RainbowKitProvider theme={darkTheme({ accentColor: "#cdb053" })}>
