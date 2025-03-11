@@ -14,7 +14,7 @@ const RootLayout: React.FC<PropsWithChildren> = ({ children }) => {
   }, []);
   return (
     <html className="notranslate" translate="no">
-      <title>Stratis Money Service(Meta test)</title>
+      <title>Stratis Money Service</title>
       {/* Open Graph Meta Tags */}
       <meta name="description" content="Stratis Crypto Payment Gateway Platform" />
       <meta property="og:title" content="Stratis Money Service" />
@@ -26,7 +26,7 @@ const RootLayout: React.FC<PropsWithChildren> = ({ children }) => {
       <meta property="og:image:height" content="630" />
       <meta property="og:type" content="website" />
       {/* Twitter Card Meta Tags */}
-      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:card" content="summary" />
       <meta name="twitter:title" content="Stratis Money Service" />
       <meta name="twitter:description" content="At Stratis Money Service, we bridge the gap between traditional finance and the digital world." />
       <meta name="twitter:image" content={`${url}/assets/landing/meta-image.png`}  />
