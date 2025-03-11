@@ -4,6 +4,7 @@ import Link from "next/link";
 import Pagination from "rc-pagination";
 import toast from "react-hot-toast";
 import { Icon } from "@iconify/react";
+import Head from "next/head";
 
 import { apiCancelPayment, apiGenerate, apiPaymentHistory } from "@/api/payment.api";
 import { ROLES } from "@/@types/common";
@@ -171,24 +172,26 @@ const OrderPage = () => {
 
   return (
     <>
+      <Head>
       <title>Order Details(test) - Stratis Money Service</title>
-      {/* Open Graph Meta Tags */}
-      <meta name="description" content="View and manage your orders on Stratis Money Service with secure and seamless transactions." />
-      <meta property="og:title" content="Order Details - Stratis Money Service" />
-      <meta property="og:description" content="Check your order history and track your transactions easily on Stratis Money Service." />
-      <meta property="og:url" content={url} />
-      <meta property="og:site_name" content="Order Details - Stratis Money Service" />
-      <meta property="og:image" content={`${url}/assets/landing/meta-image.png`} />
-      <meta property="og:image:width" content="1200" />
-      <meta property="og:image:height" content="630" />
-      <meta property="og:type" content="website" />
-      {/* Twitter Card Meta Tags */}
-      <meta name="twitter:card" content="summary" />
-      <meta name="twitter:title" content="Order Details - Stratis Money Service" />
-      <meta name="twitter:description" content="Manage and track your orders securely on Stratis Money Service." />
-      <meta name="twitter:image" content={`${url}/assets/landing/meta-image.png`}  />
-      <meta name="twitter:image:width" content="1200" />
-      <meta name="twitter:image:height" content="675" />
+        {/* Open Graph Meta Tags */}
+        <meta name="description" content="View and manage your orders on Stratis Money Service with secure and seamless transactions." />
+        <meta property="og:title" content="Order Details - Stratis Money Service" />
+        <meta property="og:description" content="Check your order history and track your transactions easily on Stratis Money Service." />
+        <meta property="og:url" content={url} />
+        <meta property="og:site_name" content="Order Details - Stratis Money Service" />
+        <meta property="og:image" content={`${url}/assets/landing/meta-image.png`} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:type" content="website" />
+        {/* Twitter Card Meta Tags */}
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content="Order Details - Stratis Money Service" />
+        <meta name="twitter:description" content="Manage and track your orders securely on Stratis Money Service." />
+        <meta name="twitter:image" content={`${url}/assets/landing/meta-image.png`}  />
+        <meta name="twitter:image:width" content="1200" />
+        <meta name="twitter:image:height" content="675" />
+      </Head>
 
       <div className="flex flex-col gap-24 lg:gap-32 lg:px-48 lg:py-64 py-32 p-8 text-14">
         <div className="flex">
