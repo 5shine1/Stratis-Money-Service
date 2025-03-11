@@ -21,7 +21,7 @@ const RootLayout: React.FC<PropsWithChildren> = ({ children }) => {
       <meta property="og:description" content="At Stratis Money Service, we bridge the gap between traditional finance and the digital world." />
       <meta property="og:url" content={url} />
       <meta property="og:site_name" content="Stratis Money Service" />
-      <meta property="og:image" content={`${url}/assets/landing/meta-image.png`} />
+      <meta property="og:image" content={`${url}/assets/landing/meta-image.jpg`} />
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
       <meta property="og:type" content="website" />
