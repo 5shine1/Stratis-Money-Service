@@ -98,24 +98,26 @@ const OrderPage = () => {
 
   return (
     <>
-      <title>Agent Services - Stratis Money Servicee</title>
-      {/* Open Graph Meta Tags */}
-      <meta name="description" content="Join Stratis Money Service as an agent and help bridge the gap between traditional and digital finance." />
-      <meta property="og:title" content="Agent Services - Stratis Money Service" />
-      <meta property="og:description" content="Become an agent at Stratis Money Service and provide seamless financial solutions to users." />
-      <meta property="og:url" content={`${url}/app/agent`} />
-      <meta property="og:site_name" content="Agent Services - Stratis Money Service" />
-      <meta property="og:image" content={`${url}/assets/landing/meta-image.png`} />
-      <meta property="og:image:width" content="1200" />
-      <meta property="og:image:height" content="630" />
-      <meta property="og:type" content="website" />
-      {/* Twitter Card Meta Tags */}
-      <meta name="twitter:card" content="summary" />
-      <meta name="twitter:title" content="Agent Services - Stratis Money Service" />
-      <meta name="twitter:description" content="Join Stratis Money Service as an agent and help provide financial solutions." />
-      <meta name="twitter:image" content={`${url}/assets/landing/meta-image.png`}  />
-      <meta name="twitter:image:width" content="1200" />
-      <meta name="twitter:image:height" content="675" />
+      <head>
+        <title>Agent Services - Stratis Money Servicee</title>
+        {/* Open Graph Meta Tags */}
+        <meta name="description" content="Join Stratis Money Service as an agent and help bridge the gap between traditional and digital finance." />
+        <meta property="og:title" content="Agent Services - Stratis Money Service" />
+        <meta property="og:description" content="Become an agent at Stratis Money Service and provide seamless financial solutions to users." />
+        <meta property="og:url" content={`${url}/app/agent`} />
+        <meta property="og:site_name" content="Agent Services - Stratis Money Service" />
+        <meta property="og:image" content={`${url}/assets/landing/meta-image.png`} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:type" content="website" />
+        {/* Twitter Card Meta Tags */}
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content="Agent Services - Stratis Money Service" />
+        <meta name="twitter:description" content="Join Stratis Money Service as an agent and help provide financial solutions." />
+        <meta name="twitter:image" content={`${url}/assets/landing/meta-image.png`}  />
+        <meta name="twitter:image:width" content="1200" />
+        <meta name="twitter:image:height" content="675" />
+      </head>
 
       <div className="flex flex-col gap-24 lg:gap-32 lg:px-48 lg:py-64 py-32 p-8 text-14">
         <div className="flex">
