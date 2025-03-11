@@ -12,22 +12,23 @@ import { apiUserInfo } from "@/api/auth.api";
 import { ROLES } from "@/@types/common";
 import useAppSelector from "@/hooks/global/useAppSelector";
 import { setLocale } from "@/store/slices/locale.slice";
+import Head from "next/head";
 
 const RootTemplate = ({ children }: PropsWithChildren) => {
   Modal.setAppElement("body");
   return (
     <>
       <Provider store={store}>
-          <Toaster
-            toastOptions={{
-              className: "!bg-primary-500 !text-gray-200",
-              duration: 5000,
-            }}
-          />
-          <LoadingProvider>
-            <MainComponent />
-            {children}
-          </LoadingProvider>
+        <Toaster
+          toastOptions={{
+            className: "!bg-primary-500 !text-gray-200",
+            duration: 5000,
+          }}
+        />
+        <LoadingProvider>
+          <MainComponent />
+          {children}
+        </LoadingProvider>
       </Provider>
     </>
   );
@@ -54,14 +55,14 @@ const MainComponent = () => {
             role === "Administrator"
               ? ROLES.ADMIN
               : role === "Agent"
-              ? ROLES.AGENT
-              : role === "Compliance"
-              ? ROLES.COMPLIANCE
-              : role === "BusinessAdmin"
-              ? ROLES.BUSINESS
-              : decoded["UserName"] && !role
-              ? ROLES.BUSINESS
-              : ROLES.GUEST,
+                ? ROLES.AGENT
+                : role === "Compliance"
+                  ? ROLES.COMPLIANCE
+                  : role === "BusinessAdmin"
+                    ? ROLES.BUSINESS
+                    : decoded["UserName"] && !role
+                      ? ROLES.BUSINESS
+                      : ROLES.GUEST,
         })
       );
     } catch (error) {
@@ -72,8 +73,30 @@ const MainComponent = () => {
 
   useEffect(() => {
     handleGetAuth();
-    return () => {};
+    return () => { };
   }, []); //eslint-disable-line
 
-  return <></>;
+  return (
+  <Head>
+    <title>Stratis Money Service</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="index,follow" />
+    <meta name="description" content="Stratis Money Service" />
+    <meta name="twitter:image" content="/assets/landing/meta-image.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="STRAX LSD APP" />
+    <meta name="twitter:description" content="Stratis Crypto Payment Gateway Platform" />
+
+    <meta property="og:title" content="STRAX LSD APP" />
+    <meta property="og:description" content="Stratis Money Service" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/assets/landing/meta-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="600" />
+    <meta property="og:locale" content="en" />
+
+    <meta name="description" content="Stratis Money Service" />
+  </Head>)
 };
