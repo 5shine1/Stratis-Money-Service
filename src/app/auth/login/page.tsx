@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
@@ -27,6 +27,13 @@ const LoginPage = () => {
   const [password, setPassword] = useState({ value: "", error: "" });
   const [showTwoFactor, setShowTwoFactor] = useState(false);
   const [tempAuthData, setTempAuthData] = useState<any>(null);
+  const [url, setUrl] = useState("");
+  
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setUrl(window.location.origin);
+    }
+  }, []);  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -104,77 +111,99 @@ const LoginPage = () => {
   };
 
   return (
-    <main className="relative w-full overflow-x-hidden">
-      <div className="g-effect absolute -top-[300px] -right-[300px] w-[1000px] h-[1000px] scale-50 lg:scale-100"></div>
+    <>
+      <title>Login - Stratis Money Service</title>
+      {/* Open Graph Meta Tags */}
+      <meta name="description" content="Log in to your Stratis Money Service account to manage your crypto payments." />
+      <meta property="og:title" content="Login - Stratis Money Service" />
+      <meta property="og:description" content="Log in to your Stratis Money Service account to manage your crypto payments." />
+      <meta property="og:url" content={`${url}/auth/login`} />
+      <meta property="og:site_name" content="Login - Stratis Money Service" />
+      <meta property="og:image" content={`${url}/assets/landing/meta-image.png`} />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta property="og:type" content="website" />
+      {/* Twitter Card Meta Tags */}
+      <meta name="twitter:card" content="summary" />
+      <meta name="twitter:title" content="Login - Stratis Money Service" />
+      <meta name="twitter:description" content="Log in to your Stratis Money Service account to manage your crypto payments." />
+      <meta name="twitter:image" content={`${url}/assets/landing/meta-image.png`}  />
+      <meta name="twitter:image:width" content="1200" />
+      <meta name="twitter:image:height" content="675" />
+      
+      <main className="relative w-full overflow-x-hidden">
+        <div className="g-effect absolute -top-[300px] -right-[300px] w-[1000px] h-[1000px] scale-50 lg:scale-100"></div>
 
-      <div className="min-h-screen w-full max-w-1440 mx-auto relative flex flex-row-reverse items-center">
-        <div className="w-full h-full flex flex-col items-center justify-center px-16 py-36">
-          {!showTwoFactor ? (
-            <div className="w-full py-40 px-16 md:px-32 max-w-420  bg-white/5 rounded-16 items-center flex flex-col gap-24">
-              <Link href={"/"}>
-                <SvgLogo className="w-50 h-50" />
-              </Link>
-              <div>
-                <h4 className="g-button-text w-fit mx-auto text-center">{dictionaryAuth.login.title[locale]}</h4>
-                <p className="text-gray-400 text-14 mt-8 text-center">{dictionaryAuth.login.subtitle[locale]}</p>
+        <div className="min-h-screen w-full max-w-1440 mx-auto relative flex flex-row-reverse items-center">
+          <div className="w-full h-full flex flex-col items-center justify-center px-16 py-36">
+            {!showTwoFactor ? (
+              <div className="w-full py-40 px-16 md:px-32 max-w-420  bg-white/5 rounded-16 items-center flex flex-col gap-24">
+                <Link href={"/"}>
+                  <SvgLogo className="w-50 h-50" />
+                </Link>
+                <div>
+                  <h4 className="g-button-text w-fit mx-auto text-center">{dictionaryAuth.login.title[locale]}</h4>
+                  <p className="text-gray-400 text-14 mt-8 text-center">{dictionaryAuth.login.subtitle[locale]}</p>
+                </div>
+                <form onSubmit={handleSubmit} className="flex flex-col gap-24 mt-12 w-full">
+                  <div>
+                    <CustomInput
+                      value={email.value}
+                      onChange={(e) => setEmail({ error: "", value: e })}
+                      icon="ic:round-alternate-email"
+                      placeholder={dictionaryAuth.login.emailPlace[locale]}
+                      error={email.error}
+                    />
+                  </div>
+                  <div>
+                    <CustomInput
+                      value={password.value}
+                      onChange={(e) => setPassword({ error: "", value: e })}
+                      type="password"
+                      icon="solar:shield-keyhole-outline"
+                      placeholder={dictionaryAuth.login.pwdPlace[locale]}
+                      error={password.error}
+                    />
+                    <Link
+                      className="text-12 ml-12 text-right block mt-6 text-primary-400/80 u-transition-color hover:text-primary-400 focus:text-primary-400 outline-none"
+                      href={"/auth/forgot-password"}
+                    >
+                      {dictionaryAuth.login.forgot[locale]}
+                    </Link>
+                  </div>
+
+                  <AnimatedSlideButton className="text-18 py-14 border border-secondary-300 rounded-full" isSubmit={true}>
+                    {dictionaryAuth.login.button[locale]}
+                  </AnimatedSlideButton>
+                  <div className="text-center text-14 text-gray-500">
+                    {dictionaryAuth.login.donhave[locale]}{" "}
+                    <Link
+                      href="/auth/register"
+                      className="underline text-primary-400/80 u-transition-color hover:text-primary-400 focus:text-primary-400 outline-none"
+                    >
+                      {dictionaryAuth.login.signup[locale]}
+                    </Link>
+                  </div>
+                </form>
               </div>
-              <form onSubmit={handleSubmit} className="flex flex-col gap-24 mt-12 w-full">
-                <div>
-                  <CustomInput
-                    value={email.value}
-                    onChange={(e) => setEmail({ error: "", value: e })}
-                    icon="ic:round-alternate-email"
-                    placeholder={dictionaryAuth.login.emailPlace[locale]}
-                    error={email.error}
-                  />
-                </div>
-                <div>
-                  <CustomInput
-                    value={password.value}
-                    onChange={(e) => setPassword({ error: "", value: e })}
-                    type="password"
-                    icon="solar:shield-keyhole-outline"
-                    placeholder={dictionaryAuth.login.pwdPlace[locale]}
-                    error={password.error}
-                  />
-                  <Link
-                    className="text-12 ml-12 text-right block mt-6 text-primary-400/80 u-transition-color hover:text-primary-400 focus:text-primary-400 outline-none"
-                    href={"/auth/forgot-password"}
-                  >
-                    {dictionaryAuth.login.forgot[locale]}
-                  </Link>
-                </div>
-
-                <AnimatedSlideButton className="text-18 py-14 border border-secondary-300 rounded-full" isSubmit={true}>
-                  {dictionaryAuth.login.button[locale]}
-                </AnimatedSlideButton>
-                <div className="text-center text-14 text-gray-500">
-                  {dictionaryAuth.login.donhave[locale]}{" "}
-                  <Link
-                    href="/auth/register"
-                    className="underline text-primary-400/80 u-transition-color hover:text-primary-400 focus:text-primary-400 outline-none"
-                  >
-                    {dictionaryAuth.login.signup[locale]}
-                  </Link>
-                </div>
-              </form>
-            </div>
-          ) : (
-            <div className="w-full py-40 px-16 md:px-32 max-w-420 bg-white/5 rounded-16 items-center flex flex-col gap-24">
-              <Link href={"/"}>
-                <SvgLogo className="w-50 h-50" />
-              </Link>
-              <TwoFactorAuth
-                onComplete={handleTwoFactorComplete}
-                availableFactors={tempAuthData?.availableFactors || []}
-                twoFactorToken={tempAuthData?.twoFactorToken || ""}
-                userId={tempAuthData?.userId || ""}
-              />
-            </div>
-          )}
+            ) : (
+              <div className="w-full py-40 px-16 md:px-32 max-w-420 bg-white/5 rounded-16 items-center flex flex-col gap-24">
+                <Link href={"/"}>
+                  <SvgLogo className="w-50 h-50" />
+                </Link>
+                <TwoFactorAuth
+                  onComplete={handleTwoFactorComplete}
+                  availableFactors={tempAuthData?.availableFactors || []}
+                  twoFactorToken={tempAuthData?.twoFactorToken || ""}
+                  userId={tempAuthData?.userId || ""}
+                />
+              </div>
+            )}
+          </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </>
+    
   );
 };
 
