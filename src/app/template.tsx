@@ -82,14 +82,14 @@ const MainComponent = () => {
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="robots" content="index,follow" />
-    <meta name="description" content="Stratis Money Service" />
+    <meta name="description" content="At Stratis Money Service, we bridge the gap between traditional finance and the digital world." />
     <meta name="twitter:image" content="/assets/landing/meta-image.jpg" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="STRAX LSD APP" />
+    <meta name="twitter:title" content="Stratis Money Service" />
     <meta name="twitter:description" content="Stratis Crypto Payment Gateway Platform" />
 
-    <meta property="og:title" content="STRAX LSD APP" />
-    <meta property="og:description" content="Stratis Money Service" />
+    <meta property="og:title" content="Stratis Money Service" />
+    <meta property="og:description" content="At Stratis Money Service, we bridge the gap between traditional finance and the digital world." />
 
     <meta property="og:type" content="website" />
     <meta property="og:image" content="/assets/landing/meta-image.jpg" />
@@ -97,6 +97,6 @@ const MainComponent = () => {
     <meta property="og:image:height" content="600" />
     <meta property="og:locale" content="en" />
 
-    <meta name="description" content="Stratis Money Service" />
+    <meta name="description" content="At Stratis Money Service, we bridge the gap between traditional finance and the digital world." />
   </Head>)
 };
