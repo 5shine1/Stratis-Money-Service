@@ -243,7 +243,7 @@ const TwoFactorAuth: React.FC<Props> = ({
 
   return (
     <div className="flex flex-col gap-24 w-full max-w-420">
-      {step === 1 && isSetup && (
+      {/* {step === 1 && isSetup && (
         <div className="text-center flex flex-col gap-24">
           <h4 className="text-24 font-semibold mb-12">{dictionarySecurity.text.setup2FA[locale]}</h4>
           <p className="">{dictionarySecurity.text.setup2FAExplanation[locale]}</p>
@@ -269,7 +269,7 @@ const TwoFactorAuth: React.FC<Props> = ({
             {isLoading && <Icon icon={"line-md:loading-twotone-loop"} />}
           </button>
         </div>
-      )}
+      )} */}
 
       {step === 2 && (
         <div className={`text-center flex flex-col gap-24 ${isSetup ? "g-box-back rounded-8 p-24 py-36 border border-[#07263C]" : ""}`}>
