@@ -14,6 +14,8 @@ import {
 import useAppSelector from "@/hooks/global/useAppSelector";
 import { dictionarySecurity } from "@/config/dictionary";
 
+const EMAIL_VERIFICATION_TIMEOUT = 300; // 5 minutes in seconds
+
 interface TwoFactorInfo {
   isEmailEnabled: boolean;
   isTotpEnabled: boolean;
@@ -59,8 +61,39 @@ const TwoFactorAuth: React.FC<Props> = ({
     }
   });
   const [isLoading, setIsLoading] = useState(false);
+  const [isGeneratingCode, setIsGeneratingCode] = useState(false);
   const hasGeneratedEmailCode = useRef(false);
   const [methodsStatus, setMethodsStatus] = useState<TwoFactorInfo | null>(null);
+  const [timeLeft, setTimeLeft] = useState(EMAIL_VERIFICATION_TIMEOUT);
+  const [timerActive, setTimerActive] = useState(false);
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (timerActive && timeLeft > 0) {
+      timer = setInterval(() => {
+        setTimeLeft((prevTime) => prevTime - 1);
+      }, 1000);
+    } else if (timeLeft === 0) {
+      setTimerActive(false);
+      hasGeneratedEmailCode.current = false;
+      setEmailCode(prev => ({ ...prev, error: dictionarySecurity.toast.error.codeExpired[locale] }));
+    }
+
+    return () => {
+      if (timer) clearInterval(timer);
+    };
+  }, [timerActive, timeLeft, locale]);
+
+  const formatTime = (seconds: number) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+  };
+
+  const startTimer = () => {
+    setTimeLeft(EMAIL_VERIFICATION_TIMEOUT);
+    setTimerActive(true);
+  };
 
   useEffect(() => {
     const checkMethodsStatus = async () => {
@@ -117,6 +150,7 @@ const TwoFactorAuth: React.FC<Props> = ({
     if (!isSetup && !availableFactors.includes("email")) return;
 
     if (hasGeneratedEmailCode.current) return;
+    setIsGeneratingCode(true);
     try {
       hasGeneratedEmailCode.current = true;
       if (isSetup) {
@@ -124,10 +158,12 @@ const TwoFactorAuth: React.FC<Props> = ({
       } else {
         await apiGenerateLoginCode("email", locale, twoFactorToken, userId);
       }
+      startTimer();
     } catch (error) {
       hasGeneratedEmailCode.current = false;
       toast.error(dictionarySecurity.toast.error.generateEmailCode[locale]);
     }
+    setIsGeneratingCode(false);
   }, [locale, isSetup, availableFactors, twoFactorToken, userId]);
 
   useEffect(() => {
@@ -137,11 +173,6 @@ const TwoFactorAuth: React.FC<Props> = ({
       }
     }
   }, [isSetup, availableFactors, generateEmailCode]);
-
-  useEffect(()=>{
-    setTotpCode({ ...totpCode, error: dictionarySecurity.toast.error.codeRequire[locale] });
-    setEmailCode({ ...emailCode, error: dictionarySecurity.toast.error.codeRequire[locale] });
-  },[locale])
 
   const handleVerifyTOTP = async () => {
     if (!totpCode.value) {
@@ -176,6 +207,11 @@ const TwoFactorAuth: React.FC<Props> = ({
   const handleVerifyEmail = async () => {
     if (!emailCode.value) {
       setEmailCode({ ...emailCode, error: dictionarySecurity.toast.error.codeRequire[locale] });
+      return;
+    }
+
+    if (!timerActive) {
+      setEmailCode({ ...emailCode, error: dictionarySecurity.toast.error.codeExpired[locale] });
       return;
     }
 
@@ -265,22 +301,42 @@ const TwoFactorAuth: React.FC<Props> = ({
             <>
               <h4 className="text-24 font-semibold">{dictionarySecurity.email[locale]} {dictionarySecurity.authentication[locale]}</h4>
               <p className="">{dictionarySecurity.text.verifyCodeExp[locale]}</p>
+              {isGeneratingCode ? (
+                <div className="flex items-center justify-center gap-8 text-secondary-400">
+                  <Icon icon="line-md:loading-twotone-loop" className="animate-spin" />
+                  <span>Sending verification code...</span>
+                </div>
+              ) : timerActive && (
+                <p className="text-secondary-400">
+                  Code expires in: {formatTime(timeLeft)}
+                </p>
+              )}
               <div className="text-left">
                 <CustomInput
                   value={emailCode.value}
                   onChange={(e) => setEmailCode({ error: "", value: e })}
                   placeholder={dictionarySecurity.placeholder.enterVerificationCode[locale]}
                   error={emailCode.error}
+                  disabled={isGeneratingCode}
                 />
               </div>
-              <button
-                className="mx-auto w-fit text-button-text font-semibold p-32 text-16 py-16  rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50"
-                onClick={handleVerifyEmail}
-                disabled={isLoading}
-              >
-                {dictionarySecurity.verifyCode[locale]}
-                {isLoading && <Icon icon={"line-md:loading-twotone-loop"} />}
-              </button>
+              <div className="flex flex-col gap-12 items-center">
+                <button
+                  className="mx-auto w-fit text-button-text font-semibold p-32 text-16 py-16  rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50"
+                  onClick={handleVerifyEmail}
+                  disabled={isLoading || isGeneratingCode || !timerActive}
+                >
+                  {dictionarySecurity.verifyCode[locale]}
+                  {isLoading && <Icon icon={"line-md:loading-twotone-loop"} />}
+                </button>
+                <button
+                  onClick={generateEmailCode}
+                  disabled={timerActive || isGeneratingCode}
+                  className={`text-secondary-400 text-14 hover:text-secondary-300 ${(timerActive || isGeneratingCode) ? 'opacity-50 cursor-not-allowed' : ''}`}
+                >
+                  {isGeneratingCode ? 'Sending...' : dictionarySecurity.resendCode[locale]}
+                </button>
+              </div>
             </>
           )}
         </div>
