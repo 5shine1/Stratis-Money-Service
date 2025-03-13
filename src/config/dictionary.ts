@@ -1378,6 +1378,32 @@ export const dictionaryAuth = {
       },
     },
   },
+  twoFactorAlert: {
+    title: {
+      EN: "Two-Factor Authentication Required",
+      ES: "Autenticación de Dos Factores Requerida",
+      FR: "Authentification à Deux Facteurs Requise",
+      RO: "Autentificare cu Doi Factori Necesară"
+    },
+    message: {
+      EN: "For enhanced security, your account requires two-factor authentication.",
+      ES: "Para mayor seguridad, su cuenta requiere autenticación de dos factores.",
+      FR: "Pour une sécurité renforcée, votre compte nécessite une authentification à deux facteurs.",
+      RO: "Pentru securitate sporită, contul dvs. necesită autentificare cu doi factori."
+    },
+    description: {
+      EN: "You will be redirected to set up 2FA. This helps protect your account from unauthorized access.",
+      ES: "Será redirigido para configurar 2FA. Esto ayuda a proteger su cuenta contra accesos no autorizados.",
+      FR: "Vous serez redirigé pour configurer la 2FA. Cela aide à protéger votre compte contre les accès non autorisés.",
+      RO: "Veți fi redirecționat pentru a configura 2FA. Acest lucru ajută la protejarea contului dvs. împotriva accesului neautorizat."
+    },
+    continueButton: {
+      EN: "Continue to 2FA Setup",
+      ES: "Continuar a la Configuración 2FA",
+      FR: "Continuer vers la Configuration 2FA",
+      RO: "Continuați la Configurarea 2FA"
+    }
+  },
 };
 
 export const dictionaryApp = {
