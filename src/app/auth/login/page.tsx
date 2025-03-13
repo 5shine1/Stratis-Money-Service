@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { jwtDecode } from "jwt-decode";
+import { Icon } from "@iconify/react";
 
 import SvgLogo from "@/assets/SvgLogo";
 import { LoadingContext } from "@/components/providers/LoadingProvider";
@@ -12,7 +13,7 @@ import CustomInput from "@/components/global/CustomInput";
 import useAppDispatch from "@/hooks/global/useAppDispatch";
 import { setAuth } from "@/store/slices/auth.slice";
 import { isValidEmail } from "@/utils/string.utils";
-import { apiLogin } from "@/api/auth.api";
+import { apiLogin, apiGetTwoFactorInfo } from "@/api/auth.api";
 import { ROLES } from "@/@types/common";
 import useAppSelector from "@/hooks/global/useAppSelector";
 import { dictionaryAuth } from "@/config/dictionary";
@@ -27,6 +28,7 @@ const LoginPage = () => {
   const [password, setPassword] = useState({ value: "", error: "" });
   const [showTwoFactor, setShowTwoFactor] = useState(false);
   const [tempAuthData, setTempAuthData] = useState<any>(null);
+  const [show2FAAlert, setShow2FAAlert] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -47,7 +49,7 @@ const LoginPage = () => {
         }
 
         // No 2FA required, proceed with login
-        completeLogin(result.data);
+        await completeLogin(result.data);
       } else {
         if (result?.messages.email) setEmail({ ...email, error: dictionaryAuth.login.emailNotFound[locale] });
         if (result?.messages?.password)
@@ -61,46 +63,72 @@ const LoginPage = () => {
     setLoading(false);
   };
 
-  const completeLogin = (authData) => {
+  const completeLogin = async (authData) => {
     if (authData.accessToken) {
       localStorage.setItem("stratis-auth-token", authData.accessToken);
       localStorage.setItem("stratis-auth-refresh", authData.refreshToken);
       const decoded = jwtDecode(authData.accessToken);
       const role = decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
+      const userRole = role === "Administrator"
+        ? ROLES.ADMIN
+        : role === "Agent"
+        ? ROLES.AGENT
+        : role === "Compliance"
+        ? ROLES.COMPLIANCE
+        : role === "BusinessAdmin"
+        ? ROLES.BUSINESS
+        : decoded["UserName"] && !role
+        ? ROLES.BUSINESS
+        : ROLES.GUEST;
+      
       dispatch(
         setAuth({
           ...authData,
           email: email.value,
-          role:
-            role === "Administrator"
-              ? ROLES.ADMIN
-              : role === "Agent"
-              ? ROLES.AGENT
-              : role === "Compliance"
-              ? ROLES.COMPLIANCE
-              : role === "BusinessAdmin"
-              ? ROLES.BUSINESS
-              : decoded["UserName"] && !role
-              ? ROLES.BUSINESS
-              : ROLES.GUEST,
+          role: userRole,
         })
       );
 
       toast.success(dictionaryAuth.login.toast.success[locale]);
+      
+      // Check if user is a business user or admin and needs 2FA setup
+      if (userRole === ROLES.BUSINESS || userRole === ROLES.ADMIN) {
+        try {
+          const twoFactorInfo = await apiGetTwoFactorInfo();
+          if (twoFactorInfo?.isSucceed && twoFactorInfo.data) {
+            const { isEmailEnabled, isTotpEnabled } = twoFactorInfo.data;
+            
+            // If neither email nor TOTP 2FA is enabled, show alert modal
+            if (!isEmailEnabled && !isTotpEnabled) {
+              setShow2FAAlert(true);
+              return;
+            }
+          }
+        } catch (error) {
+          console.error("Failed to check 2FA status:", error);
+          // Continue with normal flow if 2FA check fails
+        }
+      }
+      
       if (authData.isVerifiedEmail) {
-        router.push(role !== ROLES.COMPLIANCE ? "/app/order" : "/app/user");
+        router.push(userRole !== ROLES.COMPLIANCE ? "/app/order" : "/app/user");
       } else {
         router.push(`/auth/verify-email/send?email=${email.value}`);
       }
     }
   };
 
-  const handleTwoFactorComplete = (loginResult) => {
+  const handleTwoFactorComplete = async (loginResult) => {
     if (loginResult) {
-      completeLogin(loginResult);
+      await completeLogin(loginResult);
     } else {
-      completeLogin(tempAuthData);
+      await completeLogin(tempAuthData);
     }
+  };
+
+  const handle2FAAlertConfirm = () => {
+    setShow2FAAlert(false);
+    router.push("/app/security/2fa");
   };
 
   return (
@@ -175,9 +203,38 @@ const LoginPage = () => {
             )}
           </div>
         </div>
+
+        {/* 2FA Alert Modal */}
+        {show2FAAlert && (
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+            <div className="bg-[#192C37] rounded-16 p-24 w-full max-w-420">
+              <div className="flex justify-between items-center mb-16">
+                <h4 className="text-20 font-semibold">{dictionaryAuth.twoFactorAlert.title[locale]}</h4>
+              </div>
+              
+              <div className="flex flex-col gap-16 mb-24">
+                <div className="flex items-center gap-12">
+                  <Icon icon="material-symbols-light:shield-lock-outline-rounded" className="text-secondary-400 text-24" />
+                  <p className="text-16">
+                    {dictionaryAuth.twoFactorAlert.message[locale]}
+                  </p>
+                </div>
+                <p className="text-14 text-gray-400">
+                  {dictionaryAuth.twoFactorAlert.description[locale]}
+                </p>
+              </div>
+
+              <button
+                onClick={handle2FAAlertConfirm}
+                className="w-full text-button-text font-semibold p-32 text-16 py-16 rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50"
+              >
+                {dictionaryAuth.twoFactorAlert.continueButton[locale]}
+              </button>
+            </div>
+          </div>
+        )}
       </main>
     </>
-    
   );
 };
 
