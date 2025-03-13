@@ -10,6 +10,7 @@ type Props = {
   error?: string;
   icon?: string;
   readonly?: boolean;
+  disabled?: boolean;
 };
 const CustomInput: React.FC<Props> = ({
   value,
@@ -19,13 +20,14 @@ const CustomInput: React.FC<Props> = ({
   icon = "",
   placeholder,
   readonly = false,
+  disabled = false,
 }) => {
   return (
     <div className="w-full">
       <div
         className={`w-full border-b-2 flex items-center gap-12  u-transition-color group relative ${
           error ? "border-error" : "border-primary-300/80 focus-within:border-primary-400"
-        }`}
+        } ${disabled ? "opacity-50" : ""}`}
       >
         {icon && (
           <Icon
@@ -44,6 +46,7 @@ const CustomInput: React.FC<Props> = ({
           }`}
           placeholder={placeholder}
           readOnly={readonly}
+          disabled={disabled}
         />
       </div>
       {error && <span className="text-error mt-4 text-12 mx-12">{error}</span>}

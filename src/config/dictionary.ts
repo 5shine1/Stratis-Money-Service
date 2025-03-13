@@ -3081,7 +3081,7 @@ export const dictionaryCustody = {
   empty:{
     EN:"No History",
     ES:"Sin historial",
-    FR:"Pas d’historique",
+    FR:"Pas d'historique",
     RO:"Fără istoric",
   },
   deposit: {
@@ -3282,6 +3282,12 @@ export const dictionarySecurity = {
         FR: "Échec de la vérification du statut 2FA",
         RO: "Eșec la verificarea statutului 2FA",
       },
+      codeExpired: {
+        EN: "Code has expired. Please request a new one",
+        ES: "El código ha expirado. Por favor solicite uno nuevo",
+        FR: "Le code a expiré. Veuillez en demander un nouveau",
+        RO: "Codul a expirat. Vă rugăm să solicitați unul nou"
+      },
     },
 
     success: {
@@ -3381,5 +3387,11 @@ export const dictionarySecurity = {
       FR: "Entrez le code de vérification",
       RO: "Introduce codul de verificare",
     },
+  },
+  resendCode: {
+    EN: "Resend Code",
+    ES: "Reenviar Código",
+    FR: "Renvoyer le Code",
+    RO: "Retrimite Codul"
   },
 };
