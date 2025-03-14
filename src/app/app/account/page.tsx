@@ -19,12 +19,8 @@ const AccountPage = () => {
   const [businessInfo, setBusinessInfo] = useState<any>({});
   const { setLoading } = useContext(LoadingContext);
   const [bankModalShow, setBankModalShow] = useState(false);
-  const { userId, name, role, email, kybApplicationStatus, mobileNumber, country } = useAppSelector(
-    (state) => state.auth
-  );
-  const { bankAccountHolder, bankIban, bankBic, acceptNonStablecoinPayments } = useAppSelector(
-    (state) => state.setting
-  );
+  const { userId, name, role, email, kybApplicationStatus, mobileNumber, country } = useAppSelector((state) => state.auth);
+  const { bankAccountHolder, bankIban, bankBic, acceptNonStablecoinPayments } = useAppSelector((state) => state.setting);
   const dispatch = useAppDispatch();
 
   const handleStartKYB = async () => {
@@ -63,14 +59,7 @@ const AccountPage = () => {
   const setNonStableCoinsSetting = async () => {
     setLoading(true);
     try {
-      const result = await apiSetSetting(
-        userId,
-        true,
-        bankAccountHolder,
-        bankIban,
-        bankBic,
-        !acceptNonStablecoinPayments
-      );
+      const result = await apiSetSetting(userId, true, bankAccountHolder, bankIban, bankBic, !acceptNonStablecoinPayments);
       if (result) toast.success(dictionaryProfile.toastMessages.settingChanged[locale]);
       getSetting();
     } catch (error) {
@@ -106,34 +95,24 @@ const AccountPage = () => {
                 {userId}
               </div> */}
               <div className="flex gap-4 flex-col sm:flex-row break-all">
-                <span className="opacity-60 text-white flex-none w-200">
-                  {dictionaryProfile.profileLabels.email[locale]}
-                </span>
+                <span className="opacity-60 text-white flex-none w-200">{dictionaryProfile.profileLabels.email[locale]}</span>
                 {email}
               </div>
               <div className="flex gap-4 flex-col sm:flex-row break-all">
-                <span className="opacity-60 text-white flex-none w-200">
-                  {dictionaryProfile.profileLabels.name[locale]}
-                </span>
+                <span className="opacity-60 text-white flex-none w-200">{dictionaryProfile.profileLabels.name[locale]}</span>
                 {name}
               </div>
               <div className={`flex gap-4 flex-col sm:flex-row break-all ${role === ROLES.ADMIN ? "text-info" : ""}`}>
-                <span className="opacity-60 text-white flex-none w-200">
-                  {dictionaryProfile.profileLabels.role[locale]}
-                </span>
+                <span className="opacity-60 text-white flex-none w-200">{dictionaryProfile.profileLabels.role[locale]}</span>
                 {dictionaryGlobal.roles[locale][role]}
               </div>
 
               <div className="flex gap-4 flex-col sm:flex-row break-all">
-                <span className="opacity-60 text-white flex-none w-200">
-                  {dictionaryProfile.profileLabels.phoneNumber[locale]}
-                </span>
+                <span className="opacity-60 text-white flex-none w-200">{dictionaryProfile.profileLabels.phoneNumber[locale]}</span>
                 {mobileNumber}
               </div>
               <div className="flex gap-4 flex-col sm:flex-row break-all">
-                <span className="opacity-60 text-white flex-none w-200">
-                  {dictionaryProfile.profileLabels.address[locale]}
-                </span>
+                <span className="opacity-60 text-white flex-none w-200">{dictionaryProfile.profileLabels.address[locale]}</span>
                 {country}
               </div>
             </div>
@@ -142,45 +121,34 @@ const AccountPage = () => {
           {role === ROLES.AGENT && (
             <div className="p-24 md:p-32 rounded-8 bg-white/5 w-full">
               <div className="text-20 font-bold text-secondary-200">
-                {role === ROLES.AGENT && dictionaryGlobal.roles[locale].Business}{" "}
-                {dictionaryProfile.headings.profile[locale]}
+                {role === ROLES.AGENT && dictionaryGlobal.roles[locale].Business} {dictionaryProfile.headings.profile[locale]}
               </div>
               <div className="flex flex-col gap-16 mt-18 text-white">
-                <div className="flex gap-4 flex-col sm:flex-row break-all">
+                {/* <div className="flex gap-4 flex-col sm:flex-row break-all">
                   <span className="opacity-60 text-white flex-none w-200">
                     {dictionaryProfile.profileLabels.userId[locale]}
                   </span>
                   {businessInfo?.businessId}
-                </div>
+                </div> */}
                 <div className="flex gap-4 flex-col sm:flex-row break-all">
-                  <span className="opacity-60 text-white flex-none w-200">
-                    {dictionaryProfile.profileLabels.email[locale]}
-                  </span>
+                  <span className="opacity-60 text-white flex-none w-200">{dictionaryProfile.profileLabels.email[locale]}</span>
                   {businessInfo?.email}
                 </div>
                 <div className="flex gap-4 flex-col sm:flex-row break-all">
-                  <span className="opacity-60 text-white flex-none w-200">
-                    {dictionaryProfile.profileLabels.name[locale]}
-                  </span>
+                  <span className="opacity-60 text-white flex-none w-200">{dictionaryProfile.profileLabels.name[locale]}</span>
                   {businessInfo?.name}
                 </div>
                 <div className={`flex gap-4 flex-col sm:flex-row break-all`}>
-                  <span className="opacity-60 text-white flex-none w-200">
-                    {dictionaryProfile.profileLabels.role[locale]}
-                  </span>
+                  <span className="opacity-60 text-white flex-none w-200">{dictionaryProfile.profileLabels.role[locale]}</span>
                   {dictionaryGlobal.roles[locale]["Business"]}
                 </div>
 
                 <div className="flex gap-4 flex-col sm:flex-row break-all">
-                  <span className="opacity-60 text-white flex-none w-200">
-                    {dictionaryProfile.profileLabels.phoneNumber[locale]}
-                  </span>
+                  <span className="opacity-60 text-white flex-none w-200">{dictionaryProfile.profileLabels.phoneNumber[locale]}</span>
                   {businessInfo?.mobileNumber}
                 </div>
                 <div className="flex gap-4 flex-col sm:flex-row break-all">
-                  <span className="opacity-60 text-white flex-none w-200">
-                    {dictionaryProfile.profileLabels.address[locale]}
-                  </span>
+                  <span className="opacity-60 text-white flex-none w-200">{dictionaryProfile.profileLabels.address[locale]}</span>
                   {businessInfo?.country}
                 </div>
               </div>
@@ -190,9 +158,7 @@ const AccountPage = () => {
           {role === ROLES.BUSINESS && (
             <div className="flex flex-col md:flex-row gap-16">
               <div className="p-24 md:p-32 rounded-8 bg-white/5 w-full">
-                <div className="text-20 font-bold text-secondary-200">
-                  {dictionaryProfile.headings.kybStatus[locale]}
-                </div>
+                <div className="text-20 font-bold text-secondary-200">{dictionaryProfile.headings.kybStatus[locale]}</div>
                 <div className="mt-18 flex items-center gap-12">
                   {kybApplicationStatus > KYB_STATUS_IDS.DeclinedByKybProvider ? (
                     <div className="flex items-center gap-4 border border-success text-success rounded-4 px-8 py-4">
@@ -208,14 +174,9 @@ const AccountPage = () => {
                     <>
                       <div className="flex items-center gap-4 border border-error text-error rounded-4 px-8 py-4">
                         <Icon icon="jam:close-circle" className="w-18 h-18" />
-                        {kybApplicationStatus === KYB_STATUS_IDS.Pending
-                          ? dictionaryProfile.kybStatusMessages.notStarted[locale]
-                          : dictionaryProfile.kybStatusMessages.timedOut[locale]}
+                        {kybApplicationStatus === KYB_STATUS_IDS.Pending ? dictionaryProfile.kybStatusMessages.notStarted[locale] : dictionaryProfile.kybStatusMessages.timedOut[locale]}
                       </div>
-                      <div
-                        onClick={handleStartKYB}
-                        className=" text-white text-1 flex items-center gap-2 cursor-pointer u-transition-color hover:text-info"
-                      >
+                      <div onClick={handleStartKYB} className=" text-white text-1 flex items-center gap-2 cursor-pointer u-transition-color hover:text-info">
                         {dictionaryProfile.kybStatusMessages.startKyb[locale]}
                         <Icon icon={"ep:right"}></Icon>
                       </div>
@@ -224,9 +185,7 @@ const AccountPage = () => {
                 </div>
               </div>
               <div className="p-24 md:p-32 rounded-8 bg-white/5 w-full">
-                <div className="text-20 font-bold text-secondary-200">
-                  {dictionaryProfile.headings.complianceStatus[locale]}
-                </div>
+                <div className="text-20 font-bold text-secondary-200">{dictionaryProfile.headings.complianceStatus[locale]}</div>
                 <div className="mt-18 flex items-center gap-12">
                   {kybApplicationStatus === KYB_STATUS_IDS.ApprovedByCompliance ? (
                     <div className="flex items-center gap-4 border border-success text-success rounded-4 px-8 py-4">
@@ -252,8 +211,7 @@ const AccountPage = () => {
           {(role === ROLES.BUSINESS || role === ROLES.AGENT) && (
             <div className="p-24 md:p-32 rounded-8 bg-white/5 w-full">
               <div className="text-20 font-bold text-secondary-200">
-                {role === ROLES.AGENT && dictionaryGlobal.roles[locale].Business}{" "}
-                {dictionaryProfile.headings.setting[locale]}
+                {role === ROLES.AGENT && dictionaryGlobal.roles[locale].Business} {dictionaryProfile.headings.setting[locale]}
               </div>
               <div className="flex md:items-center gap-12 md:gap-32 mt-18 flex-col md:flex-row items-start">
                 <div className=" flex items-center gap-4">
@@ -267,11 +225,7 @@ const AccountPage = () => {
                 </div>
                 <div className="flex items-center gap-6 text-12 ">
                   OFF
-                  <CustomSwitch
-                    clickable={role === ROLES.BUSINESS}
-                    value={acceptNonStablecoinPayments}
-                    onChange={setNonStableCoinsSetting}
-                  />
+                  <CustomSwitch clickable={role === ROLES.BUSINESS} value={acceptNonStablecoinPayments} onChange={setNonStableCoinsSetting} />
                   ON
                 </div>
               </div>
@@ -280,9 +234,7 @@ const AccountPage = () => {
 
           {role === ROLES.BUSINESS && (
             <div className="p-24 md:p-32 rounded-8 bg-white/5 w-full">
-              <div className="text-20 font-bold text-secondary-200">
-                {dictionaryProfile.headings.bankDetail[locale]}
-              </div>
+              <div className="text-20 font-bold text-secondary-200">{dictionaryProfile.headings.bankDetail[locale]}</div>
               {!bankAccountHolder ? (
                 <div className="mt-12 text-info cursor-pointer" onClick={() => setBankModalShow(true)}>
                   {dictionaryProfile.bankDetail.connectBank[locale]}
@@ -290,21 +242,15 @@ const AccountPage = () => {
               ) : (
                 <div className="flex gap-12 mt-18 flex-col items-start">
                   <div className="flex gap-4 flex-col sm:flex-row break-all">
-                    <span className="opacity-60 text-white flex-none w-200">
-                      {dictionaryProfile.bankDetail.accountName[locale]}
-                    </span>
+                    <span className="opacity-60 text-white flex-none w-200">{dictionaryProfile.bankDetail.accountName[locale]}</span>
                     {bankAccountHolder}
                   </div>
                   <div className="flex gap-4 flex-col sm:flex-row break-all">
-                    <span className="opacity-60 text-white flex-none w-200">
-                      {dictionaryProfile.bankDetail.iban[locale]}
-                    </span>
+                    <span className="opacity-60 text-white flex-none w-200">{dictionaryProfile.bankDetail.iban[locale]}</span>
                     {bankIban}
                   </div>
                   <div className="flex gap-4 flex-col sm:flex-row break-all">
-                    <span className="opacity-60 text-white flex-none w-200">
-                      {dictionaryProfile.bankDetail.bic[locale]}
-                    </span>
+                    <span className="opacity-60 text-white flex-none w-200">{dictionaryProfile.bankDetail.bic[locale]}</span>
                     {bankBic}
                   </div>
                 </div>
