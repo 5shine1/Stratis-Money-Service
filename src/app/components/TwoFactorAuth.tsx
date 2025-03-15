@@ -4,13 +4,7 @@ import QRCode from "react-qr-code";
 import { Icon } from "@iconify/react";
 import toast from "react-hot-toast";
 import CustomInput from "@/components/global/CustomInput";
-import {
-  apiEnable2FA,
-  apiVerify2FASetup,
-  apiGenerateLoginCode,
-  apiVerifyTwoFactorLogin,
-  apiGetTwoFactorInfo,
-} from "@/api/auth.api";
+import { apiEnable2FA, apiVerify2FASetup, apiGenerateLoginCode, apiVerifyTwoFactorLogin, apiGetTwoFactorInfo } from "@/api/auth.api";
 import useAppSelector from "@/hooks/global/useAppSelector";
 import { dictionarySecurity } from "@/config/dictionary";
 
@@ -34,15 +28,7 @@ interface Props {
   userId?: string;
 }
 
-const TwoFactorAuth: React.FC<Props> = ({
-  onComplete,
-  isSetup = false,
-  requireBoth = false,
-  availableFactors = [],
-  setupType,
-  twoFactorToken = "",
-  userId = "",
-}) => {
+const TwoFactorAuth: React.FC<Props> = ({ onComplete, isSetup = false, requireBoth = false, availableFactors = [], setupType, twoFactorToken = "", userId = "" }) => {
   const { locale } = useAppSelector((state) => state.locale);
   const [totpSecret, setTotpSecret] = useState("");
   const [totpCode, setTotpCode] = useState({ value: "", error: "" });
@@ -66,33 +52,41 @@ const TwoFactorAuth: React.FC<Props> = ({
   const [methodsStatus, setMethodsStatus] = useState<TwoFactorInfo | null>(null);
   const [timeLeft, setTimeLeft] = useState(EMAIL_VERIFICATION_TIMEOUT);
   const [timerActive, setTimerActive] = useState(false);
+  const [isSetTimer, setIsSetTimer] = useState(false);
+  const [expireTime, setExpireTime] = useState(Number);
 
   useEffect(() => {
+    if (isSetTimer) {
+      setExpireTime(Date.now() + EMAIL_VERIFICATION_TIMEOUT * 1000);
+      setIsSetTimer(false);
+    }
     let timer: NodeJS.Timeout;
-    if (timerActive && timeLeft > 0) {
-      timer = setInterval(() => {
-        setTimeLeft((prevTime) => prevTime - 1);
-      }, 1000);
+    if (timerActive && expireTime && timeLeft > 0) {
+      const updateCountdown = () => {
+        setTimeLeft(expireTime - Date.now());
+      };
+      timer = setInterval(updateCountdown, 1000);
+      updateCountdown();
     } else if (timeLeft === 0) {
       setTimerActive(false);
       hasGeneratedEmailCode.current = false;
-      setEmailCode(prev => ({ ...prev, error: dictionarySecurity.toast.error.codeExpired[locale] }));
+      setEmailCode((prev) => ({ ...prev, error: dictionarySecurity.toast.error.codeExpired[locale] }));
     }
-
     return () => {
       if (timer) clearInterval(timer);
     };
-  }, [timerActive, timeLeft, locale]);
+  }, [timerActive, timeLeft, locale, isSetTimer, expireTime]);
 
   const formatTime = (seconds: number) => {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = seconds % 60;
-    return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+    const minutes = Math.floor(seconds / 60000);
+    const remainingSeconds = Math.floor((seconds % 60000) / 1000);
+    return `${minutes}:${remainingSeconds.toString().padStart(2, "0")}`;
   };
 
   const startTimer = () => {
     setTimeLeft(EMAIL_VERIFICATION_TIMEOUT);
     setTimerActive(true);
+    setIsSetTimer(true);
   };
 
   useEffect(() => {
@@ -103,10 +97,7 @@ const TwoFactorAuth: React.FC<Props> = ({
           setMethodsStatus(result?.data);
 
           // If the requested method is already enabled, complete setup
-          if (
-            (setupType === "totp" && result?.data?.isTotpEnabled) ||
-            (setupType === "email" && result?.data?.isEmailEnabled)
-          ) {
+          if ((setupType === "totp" && result?.data?.isTotpEnabled) || (setupType === "email" && result?.data?.isEmailEnabled)) {
             toast.success(setupType === "email" ? dictionarySecurity.toast.success.emailAuthenticationSetup[locale] : dictionarySecurity.toast.success.totpAuthenticationSetup[locale]);
             onComplete?.(null);
             return;
@@ -182,9 +173,7 @@ const TwoFactorAuth: React.FC<Props> = ({
 
     setIsLoading(true);
     try {
-      const result = isSetup
-        ? await apiVerify2FASetup("totp", totpCode.value)
-        : await apiVerifyTwoFactorLogin("totp", totpCode.value, userId, twoFactorToken);
+      const result = isSetup ? await apiVerify2FASetup("totp", totpCode.value) : await apiVerifyTwoFactorLogin("totp", totpCode.value, userId, twoFactorToken);
       if (result?.isSucceed) {
         if (isSetup) {
           onComplete?.(null);
@@ -217,9 +206,7 @@ const TwoFactorAuth: React.FC<Props> = ({
 
     setIsLoading(true);
     try {
-      const result = isSetup
-        ? await apiVerify2FASetup("email", emailCode.value)
-        : await apiVerifyTwoFactorLogin("email", emailCode.value, userId, twoFactorToken);
+      const result = isSetup ? await apiVerify2FASetup("email", emailCode.value) : await apiVerifyTwoFactorLogin("email", emailCode.value, userId, twoFactorToken);
       if (result?.isSucceed) {
         if (isSetup) {
           onComplete?.(null);
@@ -275,18 +262,15 @@ const TwoFactorAuth: React.FC<Props> = ({
         <div className={`text-center flex flex-col gap-24 ${isSetup ? "g-box-back rounded-8 p-24 py-36 border border-[#07263C]" : ""}`}>
           {isSetup && setupType === "totp" ? (
             <>
-              <h4 className="text-24 font-semibold">{dictionarySecurity.setup[locale]} {dictionarySecurity.authenticatorApp[locale]}</h4>
+              <h4 className="text-24 font-semibold">
+                {dictionarySecurity.setup[locale]} {dictionarySecurity.authenticatorApp[locale]}
+              </h4>
               <p className="">{dictionarySecurity.text.setupAuthExp[locale]}</p>
               <div className="mx-auto w-180 h-180 p-12 bg-white rounded-8">
                 <QRCode value={totpSecret} style={{ height: "auto", maxWidth: "100%", width: "100%" }} />
               </div>
               <div className="text-left">
-                <CustomInput
-                  value={totpCode.value}
-                  onChange={(e) => setTotpCode({ error: "", value: e })}
-                  placeholder={dictionarySecurity.placeholder.enterDigitCode[locale]}
-                  error={totpCode.error}
-                />
+                <CustomInput value={totpCode.value} onChange={(e) => setTotpCode({ error: "", value: e })} placeholder={dictionarySecurity.placeholder.enterDigitCode[locale]} error={totpCode.error} />
               </div>
               <button
                 className="mx-auto w-fit text-button-text font-semibold p-32 text-16 py-16  rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50"
@@ -299,17 +283,17 @@ const TwoFactorAuth: React.FC<Props> = ({
             </>
           ) : (
             <>
-              <h4 className="text-24 font-semibold">{dictionarySecurity.email[locale]} {dictionarySecurity.authentication[locale]}</h4>
+              <h4 className="text-24 font-semibold">
+                {dictionarySecurity.email[locale]} {dictionarySecurity.authentication[locale]}
+              </h4>
               <p className="">{dictionarySecurity.text.verifyCodeExp[locale]}</p>
               {isGeneratingCode ? (
                 <div className="flex items-center justify-center gap-8 text-secondary-400">
                   <Icon icon="line-md:loading-twotone-loop" className="animate-spin" />
                   <span>Sending verification code...</span>
                 </div>
-              ) : timerActive && (
-                <p className="text-secondary-400">
-                  Code expires in: {formatTime(timeLeft)}
-                </p>
+              ) : (
+                timerActive && <p className="text-secondary-400">Code expires in: {formatTime(timeLeft)}</p>
               )}
               <div className="text-left">
                 <CustomInput
@@ -332,9 +316,9 @@ const TwoFactorAuth: React.FC<Props> = ({
                 <button
                   onClick={generateEmailCode}
                   disabled={timerActive || isGeneratingCode}
-                  className={`text-secondary-400 text-14 hover:text-secondary-300 ${(timerActive || isGeneratingCode) ? 'opacity-50 cursor-not-allowed' : ''}`}
+                  className={`text-secondary-400 text-14 hover:text-secondary-300 ${timerActive || isGeneratingCode ? "opacity-50 cursor-not-allowed" : ""}`}
                 >
-                  {isGeneratingCode ? 'Sending...' : dictionarySecurity.resendCode[locale]}
+                  {isGeneratingCode ? "Sending..." : dictionarySecurity.resendCode[locale]}
                 </button>
               </div>
             </>
@@ -346,7 +330,9 @@ const TwoFactorAuth: React.FC<Props> = ({
         <div className="text-center flex flex-col gap-24">
           {isSetup ? (
             <>
-              <h4 className="text-24 font-semibold">{dictionarySecurity.email[locale]} {dictionarySecurity.authentication[locale]}</h4>
+              <h4 className="text-24 font-semibold">
+                {dictionarySecurity.email[locale]} {dictionarySecurity.authentication[locale]}
+              </h4>
               <p className="">{dictionarySecurity.text.verifyCodeExp[locale]}</p>
               <div className="">
                 <CustomInput
@@ -370,12 +356,7 @@ const TwoFactorAuth: React.FC<Props> = ({
               <h4 className="text-24 font-semibold">TOTP {dictionarySecurity.authentication[locale]}</h4>
               <p className="">{dictionarySecurity.enterCode[locale]}</p>
               <div className="text-left">
-                <CustomInput
-                  value={totpCode.value}
-                  onChange={(e) => setTotpCode({ error: "", value: e })}
-                  placeholder={dictionarySecurity.placeholder.enterDigitCode[locale]}
-                  error={totpCode.error}
-                />
+                <CustomInput value={totpCode.value} onChange={(e) => setTotpCode({ error: "", value: e })} placeholder={dictionarySecurity.placeholder.enterDigitCode[locale]} error={totpCode.error} />
               </div>
               <button
                 className="mx-auto w-fit text-button-text font-semibold p-32 text-16 py-16  rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50"
