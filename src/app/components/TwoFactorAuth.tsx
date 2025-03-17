@@ -4,7 +4,13 @@ import QRCode from "react-qr-code";
 import { Icon } from "@iconify/react";
 import toast from "react-hot-toast";
 import CustomInput from "@/components/global/CustomInput";
-import { apiEnable2FA, apiVerify2FASetup, apiGenerateLoginCode, apiVerifyTwoFactorLogin, apiGetTwoFactorInfo } from "@/api/auth.api";
+import {
+  apiEnable2FA,
+  apiVerify2FASetup,
+  apiGenerateLoginCode,
+  apiVerifyTwoFactorLogin,
+  apiGetTwoFactorInfo,
+} from "@/api/auth.api";
 import useAppSelector from "@/hooks/global/useAppSelector";
 import { dictionarySecurity } from "@/config/dictionary";
 
@@ -28,7 +34,15 @@ interface Props {
   userId?: string;
 }
 
-const TwoFactorAuth: React.FC<Props> = ({ onComplete, isSetup = false, requireBoth = false, availableFactors = [], setupType, twoFactorToken = "", userId = "" }) => {
+const TwoFactorAuth: React.FC<Props> = ({
+  onComplete,
+  isSetup = false,
+  requireBoth = false,
+  availableFactors = [],
+  setupType,
+  twoFactorToken = "",
+  userId = "",
+}) => {
   const { locale } = useAppSelector((state) => state.locale);
   const [totpSecret, setTotpSecret] = useState("");
   const [totpCode, setTotpCode] = useState({ value: "", error: "" });
@@ -54,6 +68,12 @@ const TwoFactorAuth: React.FC<Props> = ({ onComplete, isSetup = false, requireBo
   const [timerActive, setTimerActive] = useState(false);
   const [isSetTimer, setIsSetTimer] = useState(false);
   const [expireTime, setExpireTime] = useState(Number);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const userAgent = navigator.userAgent.toLowerCase();
+    setIsMobile(/android|iphone|ipad|ipod/i.test(userAgent));
+  }, []);
 
   useEffect(() => {
     if (isSetTimer) {
@@ -97,8 +117,15 @@ const TwoFactorAuth: React.FC<Props> = ({ onComplete, isSetup = false, requireBo
           setMethodsStatus(result?.data);
 
           // If the requested method is already enabled, complete setup
-          if ((setupType === "totp" && result?.data?.isTotpEnabled) || (setupType === "email" && result?.data?.isEmailEnabled)) {
-            toast.success(setupType === "email" ? dictionarySecurity.toast.success.emailAuthenticationSetup[locale] : dictionarySecurity.toast.success.totpAuthenticationSetup[locale]);
+          if (
+            (setupType === "totp" && result?.data?.isTotpEnabled) ||
+            (setupType === "email" && result?.data?.isEmailEnabled)
+          ) {
+            toast.success(
+              setupType === "email"
+                ? dictionarySecurity.toast.success.emailAuthenticationSetup[locale]
+                : dictionarySecurity.toast.success.totpAuthenticationSetup[locale]
+            );
             onComplete?.(null);
             return;
           }
@@ -173,7 +200,9 @@ const TwoFactorAuth: React.FC<Props> = ({ onComplete, isSetup = false, requireBo
 
     setIsLoading(true);
     try {
-      const result = isSetup ? await apiVerify2FASetup("totp", totpCode.value) : await apiVerifyTwoFactorLogin("totp", totpCode.value, userId, twoFactorToken);
+      const result = isSetup
+        ? await apiVerify2FASetup("totp", totpCode.value)
+        : await apiVerifyTwoFactorLogin("totp", totpCode.value, userId, twoFactorToken);
       if (result?.isSucceed) {
         if (isSetup) {
           onComplete?.(null);
@@ -206,7 +235,9 @@ const TwoFactorAuth: React.FC<Props> = ({ onComplete, isSetup = false, requireBo
 
     setIsLoading(true);
     try {
-      const result = isSetup ? await apiVerify2FASetup("email", emailCode.value) : await apiVerifyTwoFactorLogin("email", emailCode.value, userId, twoFactorToken);
+      const result = isSetup
+        ? await apiVerify2FASetup("email", emailCode.value)
+        : await apiVerifyTwoFactorLogin("email", emailCode.value, userId, twoFactorToken);
       if (result?.isSucceed) {
         if (isSetup) {
           onComplete?.(null);
@@ -226,6 +257,17 @@ const TwoFactorAuth: React.FC<Props> = ({ onComplete, isSetup = false, requireBo
       toast.error(dictionarySecurity.toast.error.verification[locale]);
     }
     setIsLoading(false);
+  };
+
+  const addToAuth = () => {
+    window.location.href = totpSecret;
+    // Set a timeout to detect failure
+    setTimeout(() => {
+      // Check if still on the same page (i.e., app didn't open)
+      if (document.visibilityState === "visible") {
+        toast.error("Authenticator app not found. Please install Google Authenticator or Microsoft Authenticator.");
+      }
+    }, 2000);
   };
 
   return (
@@ -259,7 +301,11 @@ const TwoFactorAuth: React.FC<Props> = ({ onComplete, isSetup = false, requireBo
       )} */}
 
       {step === 2 && (
-        <div className={`text-center flex flex-col gap-24 ${isSetup ? "g-box-back rounded-8 p-24 py-36 border border-[#07263C]" : ""}`}>
+        <div
+          className={`text-center flex flex-col gap-24 ${
+            isSetup ? "g-box-back rounded-8 p-24 py-36 border border-[#07263C]" : ""
+          }`}
+        >
           {isSetup && setupType === "totp" ? (
             <>
               <h4 className="text-24 font-semibold">
@@ -269,8 +315,22 @@ const TwoFactorAuth: React.FC<Props> = ({ onComplete, isSetup = false, requireBo
               <div className="mx-auto w-180 h-180 p-12 bg-white rounded-8">
                 <QRCode value={totpSecret} style={{ height: "auto", maxWidth: "100%", width: "100%" }} />
               </div>
+              {totpSecret && isMobile && (
+                <button
+                  className="mx-auto w-fit text-button-text font-semibold p-32 text-16 py-16  rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50"
+                  onClick={addToAuth}
+                  disabled={isLoading}
+                >
+                  Add to Authenticator App
+                </button>
+              )}
               <div className="text-left">
-                <CustomInput value={totpCode.value} onChange={(e) => setTotpCode({ error: "", value: e })} placeholder={dictionarySecurity.placeholder.enterDigitCode[locale]} error={totpCode.error} />
+                <CustomInput
+                  value={totpCode.value}
+                  onChange={(e) => setTotpCode({ error: "", value: e })}
+                  placeholder={dictionarySecurity.placeholder.enterDigitCode[locale]}
+                  error={totpCode.error}
+                />
               </div>
               <button
                 className="mx-auto w-fit text-button-text font-semibold p-32 text-16 py-16  rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50"
@@ -316,7 +376,9 @@ const TwoFactorAuth: React.FC<Props> = ({ onComplete, isSetup = false, requireBo
                 <button
                   onClick={generateEmailCode}
                   disabled={timerActive || isGeneratingCode}
-                  className={`text-secondary-400 text-14 hover:text-secondary-300 ${timerActive || isGeneratingCode ? "opacity-50 cursor-not-allowed" : ""}`}
+                  className={`text-secondary-400 text-14 hover:text-secondary-300 ${
+                    timerActive || isGeneratingCode ? "opacity-50 cursor-not-allowed" : ""
+                  }`}
                 >
                   {isGeneratingCode ? "Sending..." : dictionarySecurity.resendCode[locale]}
                 </button>
@@ -356,7 +418,12 @@ const TwoFactorAuth: React.FC<Props> = ({ onComplete, isSetup = false, requireBo
               <h4 className="text-24 font-semibold">TOTP {dictionarySecurity.authentication[locale]}</h4>
               <p className="">{dictionarySecurity.enterCode[locale]}</p>
               <div className="text-left">
-                <CustomInput value={totpCode.value} onChange={(e) => setTotpCode({ error: "", value: e })} placeholder={dictionarySecurity.placeholder.enterDigitCode[locale]} error={totpCode.error} />
+                <CustomInput
+                  value={totpCode.value}
+                  onChange={(e) => setTotpCode({ error: "", value: e })}
+                  placeholder={dictionarySecurity.placeholder.enterDigitCode[locale]}
+                  error={totpCode.error}
+                />
               </div>
               <button
                 className="mx-auto w-fit text-button-text font-semibold p-32 text-16 py-16  rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50"
