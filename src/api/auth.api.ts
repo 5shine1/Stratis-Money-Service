@@ -270,7 +270,7 @@ export const apiEnable2FA = async (type: "email" | "totp", culture: string = "EN
   try {
     const result = await axiosInstance.post("/api/Identity/Enable2FA", {
       type,
-      culture
+      culture,
     });
     return result?.data;
   } catch (error) {
@@ -282,7 +282,7 @@ export const apiVerify2FASetup = async (type: "email" | "totp", code: string) =>
   try {
     const result = await axiosInstance.post("/api/Identity/Verify2FASetup", {
       type,
-      code
+      code,
     });
     return result?.data;
   } catch (error) {
@@ -290,13 +290,18 @@ export const apiVerify2FASetup = async (type: "email" | "totp", code: string) =>
   }
 };
 
-export const apiGenerateLoginCode = async (type: "email", culture: string = "EN", twoFactorToken: string = "", userId: string = "") => {
-  try {   
+export const apiGenerateLoginCode = async (
+  type: "email",
+  culture: string = "EN",
+  twoFactorToken: string = "",
+  userId: string = ""
+) => {
+  try {
     const result = await axiosInstance.post("/api/Identity/GenerateLoginCode", {
       type,
       culture,
       twoFactorToken,
-      userId
+      userId,
     });
     return result?.data;
   } catch (error) {
@@ -308,7 +313,7 @@ export const apiReauthenticate = async (type: "email" | "totp", code: string) =>
   try {
     const result = await axiosInstance.post("/api/Identity/ReAuthenticate", {
       type,
-      code
+      code,
     });
     return result?.data;
   } catch (error) {
@@ -316,13 +321,18 @@ export const apiReauthenticate = async (type: "email" | "totp", code: string) =>
   }
 };
 
-export const apiVerifyTwoFactorLogin = async (type: "email" | "totp", code: string, userId: string = "", twoFactorToken: string = "") => {
+export const apiVerifyTwoFactorLogin = async (
+  type: "email" | "totp",
+  code: string,
+  userId: string = "",
+  twoFactorToken: string = ""
+) => {
   try {
     const result = await axiosInstance.post("/api/Identity/VerifyTwoFactorLogin", {
       type,
       code,
       userId,
-      twoFactorToken
+      twoFactorToken,
     });
     return result?.data;
   } catch (error) {
@@ -343,7 +353,7 @@ export const apiReset2FA = async (userId: string, force2FAGracePeriodInDays: num
   try {
     const result = await axiosInstance.post("/api/Identity/Reset2FA", {
       userId,
-      force2FAGracePeriodInDays
+      force2FAGracePeriodInDays,
     });
     return result?.data;
   } catch (error) {
