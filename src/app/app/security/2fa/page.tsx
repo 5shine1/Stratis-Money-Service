@@ -39,11 +39,19 @@ const TwoFactorSetupPage = () => {
     try {
       const result = await apiDisable2FA(type);
       if (result?.isSucceed) {
-        toast.success(type === "email" ? dictionarySecurity.toast.success.emailAuthenticationDisabled[locale] : dictionarySecurity.toast.success.totpAuthenticationDisabled[locale]);
+        toast.success(
+          type === "email"
+            ? dictionarySecurity.toast.success.emailAuthenticationDisabled[locale]
+            : dictionarySecurity.toast.success.totpAuthenticationDisabled[locale]
+        );
         await fetchStatus();
       }
     } catch (error) {
-      toast.error(type === "email" ? dictionarySecurity.toast.error.emailAuthenticationDisabled[locale] : dictionarySecurity.toast.error.totpAuthenticationDisabled[locale]);
+      toast.error(
+        type === "email"
+          ? dictionarySecurity.toast.error.emailAuthenticationDisabled[locale]
+          : dictionarySecurity.toast.error.totpAuthenticationDisabled[locale]
+      );
     }
     setLoading(false);
   };
@@ -73,9 +81,15 @@ const TwoFactorSetupPage = () => {
             <div className=" rounded-16 p-24 g-box-back border border-[#07263C] flex flex-col gap-32 w-full">
               <div className="flex items-center gap-24 flex-col">
                 <IconBox icon="material-symbols-light:qr-code-scanner-rounded" />
-                <h3 className="text-18 font-semibold flex-wrap text-center">{dictionarySecurity.authenticatorApp[locale]} (TOTP)</h3>
+                <h3 className="text-18 font-semibold flex-wrap text-center">
+                  {dictionarySecurity.authenticatorApp[locale]} (TOTP)
+                </h3>
               </div>
-              <p className="text-center">{status?.isTotpEnabled ? dictionarySecurity.text.totpAuthEnable[locale] : dictionarySecurity.text.secureAccountWithApp[locale]}</p>
+              <p className="text-center">
+                {status?.isTotpEnabled
+                  ? dictionarySecurity.text.totpAuthEnable[locale]
+                  : dictionarySecurity.text.secureAccountWithApp[locale]}
+              </p>
               {status?.isTotpEnabled ? (
                 <button
                   onClick={() => handleDisable("totp")}
@@ -97,9 +111,15 @@ const TwoFactorSetupPage = () => {
             <div className=" rounded-16 p-24 g-box-back border border-[#07263C] flex flex-col gap-32 w-full">
               <div className="flex items-center gap-24 flex-col">
                 <IconBox icon="material-symbols-light:mark-email-read-outline-rounded" />
-                <h3 className="text-18 font-semibold">{dictionarySecurity.email[locale] + " " + dictionarySecurity.authentication[locale]}</h3>
+                <h3 className="text-18 font-semibold">
+                  {dictionarySecurity.email[locale] + " " + dictionarySecurity.authentication[locale]}
+                </h3>
               </div>
-              <p className="text-center">{status?.isEmailEnabled ? dictionarySecurity.text.emailAuthEnable[locale] : dictionarySecurity.text.secureAccountWithemail[locale]}</p>
+              <p className="text-center">
+                {status?.isEmailEnabled
+                  ? dictionarySecurity.text.emailAuthEnable[locale]
+                  : dictionarySecurity.text.secureAccountWithemail[locale]}
+              </p>
               {status?.isEmailEnabled ? (
                 <button
                   onClick={() => handleDisable("email")}
