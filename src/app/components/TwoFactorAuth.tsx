@@ -87,7 +87,7 @@ const TwoFactorAuth: React.FC<Props> = ({
       };
       timer = setInterval(updateCountdown, 1000);
       updateCountdown();
-    } else if (timeLeft === 0) {
+    } else if (timeLeft < 0) {
       setTimerActive(false);
       hasGeneratedEmailCode.current = false;
       setEmailCode((prev) => ({ ...prev, error: dictionarySecurity.toast.error.codeExpired[locale] }));
