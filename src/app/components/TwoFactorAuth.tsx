@@ -67,7 +67,7 @@ const TwoFactorAuth: React.FC<Props> = ({
   const [timeLeft, setTimeLeft] = useState(EMAIL_VERIFICATION_TIMEOUT);
   const [timerActive, setTimerActive] = useState(false);
   const [isSetTimer, setIsSetTimer] = useState(false);
-  const [expireTime, setExpireTime] = useState(Number);
+  const [expireTime, setExpireTime] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -88,6 +88,7 @@ const TwoFactorAuth: React.FC<Props> = ({
       timer = setInterval(updateCountdown, 1000);
       updateCountdown();
     } else if (timeLeft < 0) {
+      setExpireTime(null);
       setTimerActive(false);
       hasGeneratedEmailCode.current = false;
       setEmailCode((prev) => ({ ...prev, error: dictionarySecurity.toast.error.codeExpired[locale] }));
@@ -374,7 +375,10 @@ const TwoFactorAuth: React.FC<Props> = ({
                   {isLoading && <Icon icon={"line-md:loading-twotone-loop"} />}
                 </button>
                 <button
-                  onClick={generateEmailCode}
+                  onClick={()=>{
+                    generateEmailCode();
+                    setEmailCode((prev) => ({ ...prev, error: "" }));
+                  }}
                   disabled={timerActive || isGeneratingCode}
                   className={`text-secondary-400 text-14 hover:text-secondary-300 ${
                     timerActive || isGeneratingCode ? "opacity-50 cursor-not-allowed" : ""
