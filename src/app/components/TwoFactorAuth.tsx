@@ -261,14 +261,98 @@ const TwoFactorAuth: React.FC<Props> = ({
   };
 
   const addToAuth = () => {
-    window.location.href = totpSecret;
-    // Set a timeout to detect failure
-    setTimeout(() => {
-      // Check if still on the same page (i.e., app didn't open)
-      if (document.visibilityState === "visible") {
+    // Platform detection
+    const isAndroid = /Android/i.test(navigator.userAgent);
+    const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+    if (isAndroid) {
+      androidAuthFlow();
+    } else if (isIOS) {
+      iosAuthFlow();
+    } else {
+      // Desktop fallback
+      window.location.href = totpSecret;
+      setTimeout(() => {
         toast.error("Authenticator app not found. Please install Google Authenticator or Microsoft Authenticator.");
+      }, 1500);
+    }
+
+  };
+
+  // Android-specific flow
+  const androidAuthFlow = () => {
+    let appOpened = false;
+    const handleVisibilityChange = () => {
+      if (document.hidden) appOpened = true;
+    };
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    // 1. Try Google Authenticator via Intent
+    try {
+      const encodedUri = encodeURIComponent(totpSecret.replace('otpauth://', ''));
+      window.location.href = `intent://scan/${encodedUri}#Intent;scheme=googleauthenticator;package=com.google.android.apps.authenticator2;end`;
+    } catch (e) {
+      console.error("Google Auth Intent failed:", e);
+    }
+
+    // 2. Check after 500ms
+    setTimeout(() => {
+      if (!appOpened) {
+        // 3. Fallback to generic otpauth
+        try {
+          window.location.href = totpSecret;
+          // Final check after 1s
+          setTimeout(() => {
+            if (!appOpened) toast.error("Authenticator app not found. Please install Google Authenticator or Microsoft Authenticator.");
+          }, 1000);
+        } catch (e) {
+          console.error("Generic auth failed:", e);
+          toast.error("Authenticator app not found. Please install Google Authenticator or Microsoft Authenticator.");
+        }
       }
-    }, 2000);
+    }, 500);
+  };
+
+  // iOS-specific flow
+  const iosAuthFlow = () => {
+    let appOpened = false;
+    const handleVisibilityChange = () => {
+      if (document.hidden) appOpened = true;
+    };
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    // 1. Try Google Authenticator first
+    try {
+      window.location.href = `googleauth://${totpSecret}`;
+    } catch (e) {
+      console.error("Google Auth deep link failed:", e);
+    }
+
+    // 2. Check after 300ms (iOS is generally faster)
+    setTimeout(() => {
+      if (!appOpened) {
+        // 3. Try Microsoft Authenticator as common fallback
+        try {
+          window.location.href = `msauth://${totpSecret}`;
+          
+          // 4. Final fallback after 700ms
+          setTimeout(() => {
+            if (!appOpened) {
+              try {
+                window.location.href = totpSecret;
+                setTimeout(() => {
+                  if (!appOpened) toast.error("Authenticator app not found. Please install Google Authenticator or Microsoft Authenticator.");
+                }, 1000);
+              } catch (e) {
+                console.error("Generic auth failed:", e);
+                toast.error("Authenticator app not found. Please install Google Authenticator or Microsoft Authenticator.");
+              }
+            }
+          }, 700);
+        } catch (e) {
+          console.error("MS Auth failed:", e);
+          toast.error("Authenticator app not found. Please install Google Authenticator or Microsoft Authenticator.");
+        }
+      }
+    }, 300);
   };
 
   return (
@@ -316,7 +400,7 @@ const TwoFactorAuth: React.FC<Props> = ({
               <div className="mx-auto w-180 h-180 p-12 bg-white rounded-8">
                 <QRCode value={totpSecret} style={{ height: "auto", maxWidth: "100%", width: "100%" }} />
               </div>
-              {totpSecret && isMobile && (
+              {totpSecret  && (
                 <button
                   className="mx-auto w-fit text-button-text font-semibold p-32 text-16 py-16  rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50"
                   onClick={addToAuth}
