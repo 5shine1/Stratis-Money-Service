@@ -3197,6 +3197,14 @@ export const dictionarySecurity = {
     FR: "Application d'Authentification",
     RO: "Aplicație de Autentificare",
   },
+  button: {
+    addToAuthApp: {
+      EN: "Add to Authenticator App",
+      ES: "Agregar a la aplicación Authenticator",
+      FR: "Ajouter à l'application Authenticator",
+      RO: "Adaugă în aplicația Authenticator",
+    },
+  },
   disable: {
     EN: "Disable",
     ES: "Deshabilitar",
