@@ -400,13 +400,13 @@ const TwoFactorAuth: React.FC<Props> = ({
               <div className="mx-auto w-180 h-180 p-12 bg-white rounded-8">
                 <QRCode value={totpSecret} style={{ height: "auto", maxWidth: "100%", width: "100%" }} />
               </div>
-              {totpSecret  && (
+              {totpSecret  && isMobile && (
                 <button
                   className="mx-auto w-fit text-button-text font-semibold p-32 text-16 py-16  rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50"
                   onClick={addToAuth}
                   disabled={isLoading}
                 >
-                  Add to Authenticator App
+                  {dictionarySecurity.button.addToAuthApp[locale]}
                 </button>
               )}
               <div className="text-left">
