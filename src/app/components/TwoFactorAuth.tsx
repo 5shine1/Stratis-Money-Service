@@ -281,9 +281,9 @@ const TwoFactorAuth: React.FC<Props> = ({
             if (!document.hidden) {
               toast.error("No Authenticator app found. Please install Google Authenticator.");
             }
-          }, 1000);
+          }, 2000);
         }
-      }, 1000);
+      }, 2000);
     }
     // iOS: Try Google Auth → Fallback to any TOTP app → App Store
     else if (isIOS) {
@@ -300,9 +300,9 @@ const TwoFactorAuth: React.FC<Props> = ({
               toast.error("No Authenticator app found. Please install Google Authenticator.");
               // window.open("https://apps.apple.com/app/google-authenticator/id388497605", "_blank");
             }
-          }, 1000);
+          }, 2000);
         }
-      }, 1000);
+      }, 2000);
     }
 
   };
