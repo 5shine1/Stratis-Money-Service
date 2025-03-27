@@ -10,6 +10,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@headlessui/react": "^1.7.19",
     "@iconify/react": "^4.1.1",
     "@ledgerhq/device-management-kit": "^0.6.1",
     "@ledgerhq/device-signer-kit-ethereum": "^1.2.0",
@@ -24,6 +25,7 @@
     "core-js": "^3.40.0",
     "ethers": "^6.13.4",
     "framer-motion": "^11.1.7",
+    "headlessui": "^0.0.0",
     "jwt-decode": "^4.0.0",
     "lottie-react": "^2.4.0",
     "next": "14.2.1",
