@@ -270,47 +270,26 @@ const TwoFactorAuth: React.FC<Props> = ({
 
   const testApp = (url: string): Promise<boolean> => {
     return new Promise((resolve) => {
-      const startTime = Date.now();
-      const timer = setTimeout(() => resolve(false), 2500);
+      const iframe = document.createElement("iframe");
+      iframe.style.display = "none";
+      iframe.src = url;
+      
+      let timeout = setTimeout(() => {
+          resolve(false); // If timeout occurs, we assume the app was not installed
+      }, 1500); // 1.5 seconds timeout
 
-      const checkVisibility = () => {
-        if (document.hidden) {
-          clearTimeout(timer);
-          resolve(true);
-          return true;
-        }
-        return false;
+      iframe.onload = () => {
+          clearTimeout(timeout);
+          resolve(true); // If the iframe loaded, app was opened
       };
 
-      // Immediate check
-      if (checkVisibility()) return;
+      iframe.onerror = () => {
+          clearTimeout(timeout);
+          resolve(false); // If there was an error, app was not opened
+      };
 
-      // Periodic checks
-      const interval = setInterval(() => {
-        if (checkVisibility() || Date.now() - startTime > 2000) {
-          clearInterval(interval);
-        }
-      }, 100);
-
-      // Try navigation
-      try {
-        window.location.href = url;
-      } catch (err) {
-        const iframe = document.createElement('iframe');
-        iframe.style.display = 'none';
-        iframe.src = url;
-        document.body.appendChild(iframe);
-        setTimeout(() => document.body.removeChild(iframe), 1500);
-      }
-
-      // Final cleanup
-      setTimeout(() => {
-        clearInterval(interval);
-        if (!checkVisibility()) {
-          resolve(false);
-        }
-      }, 2500);
-    });
+      document.body.appendChild(iframe);
+  });
   };
 
   const addToAuth = async () => {
@@ -321,7 +300,7 @@ const TwoFactorAuth: React.FC<Props> = ({
         icon: <GoogleIcon />, 
         test: {
           ios: "otpauth-migration://offline?data=test",
-          android: "intent://scan/#Intent;scheme=otpauth;package=com.google.android.apps.authenticator2;end"
+          android: "otpauth://"
         },
         ios: `otpauth-migration://offline?data=${encodedSecret}`,
         android: `intent://scan/?data=${encodedSecret}#Intent;scheme=otpauth;package=com.google.android.apps.authenticator2;end`
@@ -331,7 +310,7 @@ const TwoFactorAuth: React.FC<Props> = ({
         icon: <MicrosoftIcon />, 
         test: {
           ios: "msauth://scan/",
-          android: "intent://scan/#Intent;scheme=otpauth;package=com.azure.authenticator;end" 
+          android: "msauth://" 
         },
         ios: `msauth://scan/?data=${encodedSecret}`,
         android: `intent://scan/?data=${encodedSecret}#Intent;scheme=otpauth;package=com.azure.authenticator;end`
@@ -341,7 +320,7 @@ const TwoFactorAuth: React.FC<Props> = ({
         icon: <AuthyIcon />, 
         test: {
           ios: "authy://scan/",
-          android: "intent://scan/#Intent;scheme=otpauth;package=com.authy.authy;end"
+          android: "authy://"
         },
         ios: `authy://scan/?data=${encodedSecret}`,
         android: `intent://scan/?data=${encodedSecret}#Intent;scheme=otpauth;package=com.authy.authy;end`
