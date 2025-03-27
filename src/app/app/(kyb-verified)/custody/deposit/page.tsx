@@ -38,10 +38,10 @@ const DepositPage: React.FC = () => {
   const [isSpin2, setIsSpin2] = useState(false);
   const [isSpin3, setIsSpin3] = useState(false);
   const [hash, setHash] = useState("")
-  const [confirmStep, setConfirmStep] = useState(0);
+  const confirmStep = 0;
   const [currencies, setCurrencies] = useState([]);
   const [paymentLinkData, setPaymentLinkData] = useState("");
-  const [paymentAddress, setPaymentAddress] = useState("0x45782255586944a4587df5rr6s5e");
+  const paymentAddress = "0x45782255586944a4587df5rr6s5e";
   const [paymentAmount, setPaymentAmount] = useState({error: "", value: ""});
   const [selectedCurrency, setSelectedCurrency] = useState<any>();
 
@@ -134,7 +134,7 @@ const DepositPage: React.FC = () => {
     setIsLoading(false);
 
     fetchCurrencies();
-  }, [acceptableCurrencies]);
+  }, [acceptableCurrencies]); //eslint-disable-line
 
   const config = getDefaultConfig({
     appName: "stratis money service",

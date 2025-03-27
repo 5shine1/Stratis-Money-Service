@@ -4,7 +4,6 @@ import Link from "next/link";
 import Pagination from "rc-pagination";
 import toast from "react-hot-toast";
 import { Icon } from "@iconify/react";
-import Head from "next/head";
 
 import { apiCancelPayment, apiGenerate, apiPaymentHistory } from "@/api/payment.api";
 import { ROLES } from "@/@types/common";
