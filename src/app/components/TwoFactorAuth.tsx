@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect, useCallback, useRef } from "react";
+import { GoogleIcon, MicrosoftIcon, AuthyIcon } from '@/app/components/icons';
 import QRCode from "react-qr-code";
 import { Icon } from "@iconify/react";
 import toast from "react-hot-toast";
@@ -69,7 +70,14 @@ const TwoFactorAuth: React.FC<Props> = ({
   const [isSetTimer, setIsSetTimer] = useState(false);
   const [expireTime, setExpireTime] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
-
+  const [detectedApps, setDetectedApps] = useState<{
+    name: string;
+    icon: string;
+    url: string;
+  }[]>([]);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isDetecting, setIsDetecting] = useState(false);
+  
   useEffect(() => {
     const userAgent = navigator.userAgent.toLowerCase();
     setIsMobile(/android|iphone|ipad|ipod/i.test(userAgent));
@@ -260,55 +268,124 @@ const TwoFactorAuth: React.FC<Props> = ({
     setIsLoading(false);
   };
 
-  const addToAuth = () => {
-    // Platform detection
-    const isAndroid = /Android/i.test(navigator.userAgent);
-    const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+  const testApp = (url: string): Promise<boolean> => {
+    return new Promise((resolve) => {
+      const startTime = Date.now();
+      const timer = setTimeout(() => resolve(false), 2500);
 
-    const encodedUri = encodeURIComponent(totpSecret);
-
-    // Android: Try Google Auth → Fallback to any TOTP app → Play Store
-    if (isAndroid) {
-      // Google Authenticator (direct intent)
-      const googleAuthIntent = `intent://scan/${encodedUri}#Intent;scheme=otpauth;package=com.google.android.apps.authenticator2;S.browser_fallback_url=${encodedUri};end`;
-      window.location.href = googleAuthIntent;
-
-      // Fallback to any TOTP app if Google Auth fails
-      setTimeout(() => {
-        if (!document.hidden) { // If still on page (intent failed)
-          window.location.href = totpSecret; // Generic otpauth:// fallback
-          setTimeout(() => {
-            if (!document.hidden) {
-              toast.error("No Authenticator app found. Please install Google Authenticator.");
-            }
-          }, 2000);
+      const checkVisibility = () => {
+        if (document.hidden) {
+          clearTimeout(timer);
+          resolve(true);
+          return true;
         }
-      }, 2000);
-    }
-    // iOS: Try Google Auth → Fallback to any TOTP app → App Store
-    else if (isIOS) {
-      // Google Authenticator (iOS deep link)
-      const googleAuthIOS = `otpauth-migration://offline?data=${encodedUri}`;
-      window.location.href = googleAuthIOS;
+        return false;
+      };
 
-      // Fallback to any TOTP app → App Store
-      setTimeout(() => {
-        if (!document.hidden) {
-          window.location.href = totpSecret; // Generic otpauth:// fallback
-          setTimeout(() => {
-            if (!document.hidden) {
-              toast.error("No Authenticator app found. Please install Google Authenticator.");
-              // window.open("https://apps.apple.com/app/google-authenticator/id388497605", "_blank");
-            }
-          }, 2000);
+      // Immediate check
+      if (checkVisibility()) return;
+
+      // Periodic checks
+      const interval = setInterval(() => {
+        if (checkVisibility() || Date.now() - startTime > 2000) {
+          clearInterval(interval);
         }
-      }, 2000);
-    }
+      }, 100);
 
+      // Try navigation
+      try {
+        window.location.href = url;
+      } catch (err) {
+        const iframe = document.createElement('iframe');
+        iframe.style.display = 'none';
+        iframe.src = url;
+        document.body.appendChild(iframe);
+        setTimeout(() => document.body.removeChild(iframe), 1500);
+      }
+
+      // Final cleanup
+      setTimeout(() => {
+        clearInterval(interval);
+        if (!checkVisibility()) {
+          resolve(false);
+        }
+      }, 2500);
+    });
   };
+
+  const addToAuth = async () => {
+    const encodedSecret = encodeURIComponent(totpSecret);
+    const APPS = [
+      { 
+        name: "Google Authenticator", 
+        icon: <GoogleIcon />, 
+        test: {
+          ios: "otpauth-migration://offline?data=test",
+          android: "intent://scan/#Intent;scheme=otpauth;package=com.google.android.apps.authenticator2;end"
+        },
+        ios: `otpauth-migration://offline?data=${encodedSecret}`,
+        android: `intent://scan/?data=${encodedSecret}#Intent;scheme=otpauth;package=com.google.android.apps.authenticator2;end`
+      },
+      { 
+        name: "Microsoft Authenticator", 
+        icon: <MicrosoftIcon />, 
+        test: {
+          ios: "msauth://scan/",
+          android: "intent://scan/#Intent;scheme=otpauth;package=com.azure.authenticator;end" 
+        },
+        ios: `msauth://scan/?data=${encodedSecret}`,
+        android: `intent://scan/?data=${encodedSecret}#Intent;scheme=otpauth;package=com.azure.authenticator;end`
+      },
+      { 
+        name: "Authy", 
+        icon: <AuthyIcon />, 
+        test: {
+          ios: "authy://scan/",
+          android: "intent://scan/#Intent;scheme=otpauth;package=com.authy.authy;end"
+        },
+        ios: `authy://scan/?data=${encodedSecret}`,
+        android: `intent://scan/?data=${encodedSecret}#Intent;scheme=otpauth;package=com.authy.authy;end`
+      }
+    ];
+    setIsDetecting(true);
+    try {
+      const installedApps = [];
+      const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+        
+      for (const app of APPS) {
+        const isInstalled = await testApp(isIOS ? app.test.ios : app.test.android);
+        if (isInstalled) {
+          installedApps.push({
+            name: app.name,
+            icon: app.icon,
+            url: isIOS ? app.ios : app.android
+          });
+        }
+      }
+
+      setDetectedApps(installedApps);
+        
+      if (installedApps.length === 0) {
+        toast.error("No authenticator apps found. Please install one.");
+      }
+      else if (installedApps.length ===1) {
+        window.location.href = installedApps[0].url;
+      }
+      else {
+        setIsOpen(true);
+      }
+    } catch (err) {
+      toast.error("Failed to detect apps");
+    } finally {
+      setIsDetecting(false);
+    }
+    
+  };
+
 
   return (
     <div className="flex flex-col gap-24 w-full max-w-420">
+      
       {/* {step === 1 && isSetup && (
         <div className="text-center flex flex-col gap-24">
           <h4 className="text-24 font-semibold mb-12">{dictionarySecurity.text.setup2FA[locale]}</h4>
@@ -338,94 +415,137 @@ const TwoFactorAuth: React.FC<Props> = ({
       )} */}
 
       {step === 2 && (
-        <div
-          className={`text-center flex flex-col gap-24 ${
-            isSetup ? "g-box-back rounded-8 p-24 py-36 border border-[#07263C]" : ""
-          }`}
-        >
-          {isSetup && setupType === "totp" ? (
-            <>
+        <div>
+          {isOpen?
+          <div className="p-4 max-w-md mx-auto">
+            <div
+              className={"text-center flex flex-col gap-24 g-box-back rounded-8 p-24 py-36 border border-[#07263C]"
+              }
+            >
               <h4 className="text-24 font-semibold">
-                {dictionarySecurity.setup[locale]} {dictionarySecurity.authenticatorApp[locale]}
+                Available Authenticator Apps
               </h4>
-              <p className="">{dictionarySecurity.text.setupAuthExp[locale]}</p>
-              <div className="mx-auto w-180 h-180 p-12 bg-white rounded-8">
-                <QRCode value={totpSecret} style={{ height: "auto", maxWidth: "100%", width: "100%" }} />
-              </div>
-              {totpSecret && isMobile && (
-                <button
-                  className="mx-auto w-fit text-button-text font-semibold p-32 text-16 py-16  rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50"
-                  onClick={addToAuth}
-                  disabled={isLoading}
-                >
-                  {dictionarySecurity.button.addToAuthApp[locale]}
-                </button>
-              )}
-              <div className="text-left">
-                <CustomInput
-                  value={totpCode.value}
-                  onChange={(e) => setTotpCode({ error: "", value: e })}
-                  placeholder={dictionarySecurity.placeholder.enterDigitCode[locale]}
-                  error={totpCode.error}
-                />
-              </div>
+
+              <div className="w-[98%] h-2 bg-[#07263C]"></div>
+
+              {detectedApps.map((app,_)=>{
+                return (<button
+                className="mx-auto w-4/5 text-button-text font-semibold p-32 text-16 py-16  rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50"
+                onClick={()=>{
+                  window.location.href = app.url;
+                  setIsOpen(false);
+                }}
+              >
+                <span className="text-xl">{app.icon}</span>
+                <span>{app.name}</span>
+              </button>)
+              })}
+
+              <div className="w-[98%] h-2 bg-[#07263C]"></div>
+              
               <button
                 className="mx-auto w-fit text-button-text font-semibold p-32 text-16 py-16  rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50"
-                onClick={handleVerifyTOTP}
-                disabled={isLoading}
+                onClick={()=>{
+                  setIsOpen(false)
+                }}
               >
-                {dictionarySecurity.verifyCode[locale]}
-                {isLoading && <Icon icon={"line-md:loading-twotone-loop"} />}
+                Cancel
               </button>
-            </>
-          ) : (
-            <>
-              <h4 className="text-24 font-semibold">
-                {dictionarySecurity.email[locale]} {dictionarySecurity.authentication[locale]}
-              </h4>
-              <p className="">{dictionarySecurity.text.verifyCodeExp[locale]}</p>
-              {isGeneratingCode ? (
-                <div className="flex items-center justify-center gap-8 text-secondary-400">
-                  <Icon icon="line-md:loading-twotone-loop" className="animate-spin" />
-                  <span>Sending verification code...</span>
-                </div>
+            </div>
+          </div>
+          :
+          <div className="p-4 max-w-md mx-auto">
+            <div
+              className={`text-center flex flex-col gap-24 ${
+                isSetup ? "g-box-back rounded-8 p-24 py-36 border border-[#07263C]" : ""
+              }`}
+            >
+              {isSetup && setupType === "totp" ? (
+                <>
+                  <h4 className="text-24 font-semibold">
+                    {dictionarySecurity.setup[locale]} {dictionarySecurity.authenticatorApp[locale]}
+                  </h4>
+                  <p className="">{dictionarySecurity.text.setupAuthExp[locale]}</p>
+                  <div className="mx-auto w-180 h-180 p-12 bg-white rounded-8">
+                    <QRCode value={totpSecret} style={{ height: "auto", maxWidth: "100%", width: "100%" }} />
+                  </div>
+                  {totpSecret && isMobile && (
+                    <button
+                      className="mx-auto w-fit text-button-text font-semibold p-32 text-16 py-16  rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50"
+                      onClick={addToAuth}
+                      disabled={isLoading}
+                    >
+                      {dictionarySecurity.button.addToAuthApp[locale]}
+                    </button>
+                  )}
+                  <div className="text-left">
+                    <CustomInput
+                      value={totpCode.value}
+                      onChange={(e) => setTotpCode({ error: "", value: e })}
+                      placeholder={dictionarySecurity.placeholder.enterDigitCode[locale]}
+                      error={totpCode.error}
+                    />
+                  </div>
+                  <button
+                    className="mx-auto w-fit text-button-text font-semibold p-32 text-16 py-16  rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50"
+                    onClick={handleVerifyTOTP}
+                    disabled={isLoading}
+                  >
+                    {dictionarySecurity.verifyCode[locale]}
+                    {isLoading && <Icon icon={"line-md:loading-twotone-loop"} />}
+                  </button>
+                </>
               ) : (
-                timerActive && <p className="text-secondary-400">Code expires in: {formatTime(timeLeft)}</p>
+                <>
+                  <h4 className="text-24 font-semibold">
+                    {dictionarySecurity.email[locale]} {dictionarySecurity.authentication[locale]}
+                  </h4>
+                  <p className="">{dictionarySecurity.text.verifyCodeExp[locale]}</p>
+                  {isGeneratingCode ? (
+                    <div className="flex items-center justify-center gap-8 text-secondary-400">
+                      <Icon icon="line-md:loading-twotone-loop" className="animate-spin" />
+                      <span>Sending verification code...</span>
+                    </div>
+                  ) : (
+                    timerActive && <p className="text-secondary-400">Code expires in: {formatTime(timeLeft)}</p>
+                  )}
+                  <div className="text-left">
+                    <CustomInput
+                      value={emailCode.value}
+                      onChange={(e) => setEmailCode({ error: "", value: e })}
+                      placeholder={dictionarySecurity.placeholder.enterVerificationCode[locale]}
+                      error={emailCode.error}
+                      disabled={isGeneratingCode}
+                    />
+                  </div>
+                  <div className="flex flex-col gap-12 items-center">
+                    <button
+                      className="mx-auto w-fit text-button-text font-semibold p-32 text-16 py-16  rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50"
+                      onClick={handleVerifyEmail}
+                      disabled={isLoading || isGeneratingCode || !timerActive}
+                    >
+                      {dictionarySecurity.verifyCode[locale]}
+                      {isLoading && <Icon icon={"line-md:loading-twotone-loop"} />}
+                    </button>
+                    <button
+                      onClick={()=>{
+                        generateEmailCode();
+                        setEmailCode((prev) => ({ ...prev, error: "" }));
+                      }}
+                      disabled={timerActive || isGeneratingCode}
+                      className={`text-secondary-400 text-14 hover:text-secondary-300 ${
+                        timerActive || isGeneratingCode ? "opacity-50 cursor-not-allowed" : ""
+                      }`}
+                    >
+                      {isGeneratingCode ? "Sending..." : dictionarySecurity.resendCode[locale]}
+                    </button>
+                  </div>
+                </>
               )}
-              <div className="text-left">
-                <CustomInput
-                  value={emailCode.value}
-                  onChange={(e) => setEmailCode({ error: "", value: e })}
-                  placeholder={dictionarySecurity.placeholder.enterVerificationCode[locale]}
-                  error={emailCode.error}
-                  disabled={isGeneratingCode}
-                />
-              </div>
-              <div className="flex flex-col gap-12 items-center">
-                <button
-                  className="mx-auto w-fit text-button-text font-semibold p-32 text-16 py-16  rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50"
-                  onClick={handleVerifyEmail}
-                  disabled={isLoading || isGeneratingCode || !timerActive}
-                >
-                  {dictionarySecurity.verifyCode[locale]}
-                  {isLoading && <Icon icon={"line-md:loading-twotone-loop"} />}
-                </button>
-                <button
-                  onClick={()=>{
-                    generateEmailCode();
-                    setEmailCode((prev) => ({ ...prev, error: "" }));
-                  }}
-                  disabled={timerActive || isGeneratingCode}
-                  className={`text-secondary-400 text-14 hover:text-secondary-300 ${
-                    timerActive || isGeneratingCode ? "opacity-50 cursor-not-allowed" : ""
-                  }`}
-                >
-                  {isGeneratingCode ? "Sending..." : dictionarySecurity.resendCode[locale]}
-                </button>
-              </div>
-            </>
-          )}
+            </div>
+          </div>}
         </div>
+        
       )}
 
       {step === 3 && (
