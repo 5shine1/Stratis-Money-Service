@@ -68,12 +68,6 @@ const TwoFactorAuth: React.FC<Props> = ({
   const [isSetTimer, setIsSetTimer] = useState(false);
   const [expireTime, setExpireTime] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
-  const [detectedApps, setDetectedApps] = useState<{
-    name: string;
-    icon: string;
-    url: string;
-  }[]>([]);
-  const [isOpen, setIsOpen] = useState(false);
   
   useEffect(() => {
     const userAgent = navigator.userAgent.toLowerCase();
@@ -265,97 +259,9 @@ const TwoFactorAuth: React.FC<Props> = ({
     setIsLoading(false);
   };
 
-  const testApp = (url: string): Promise<boolean> => {
-    return new Promise((resolve) => {
-      const iframe = document.createElement("iframe");
-      iframe.style.display = "none";
-      iframe.src = url;
-      
-      let timeout = setTimeout(() => {
-          resolve(false); // If timeout occurs, we assume the app was not installed
-      }, 1500); // 1.5 seconds timeout
-
-      iframe.onload = () => {
-          clearTimeout(timeout);
-          resolve(true); // If the iframe loaded, app was opened
-      };
-
-      iframe.onerror = () => {
-          clearTimeout(timeout);
-          resolve(false); // If there was an error, app was not opened
-      };
-
-      document.body.appendChild(iframe);
-  });
-  };
-
   const addToAuth = async () => {
-    const encodedSecret = encodeURIComponent(totpSecret);
-    const APPS = [
-      { 
-        name: "Google Authenticator", 
-        icon: <GoogleIcon />, 
-        test: {
-          ios: "otpauth-migration://offline?data=test",
-          android: "otpauth://"
-        },
-        ios: `otpauth-migration://offline?data=${encodedSecret}`,
-        android: `intent://scan/?data=${encodedSecret}#Intent;scheme=otpauth;package=com.google.android.apps.authenticator2;end`
-      },
-      { 
-        name: "Microsoft Authenticator", 
-        icon: <MicrosoftIcon />, 
-        test: {
-          ios: "msauth://scan/",
-          android: "msauth://" 
-        },
-        ios: `msauth://scan/?data=${encodedSecret}`,
-        android: `intent://scan/?data=${encodedSecret}#Intent;scheme=otpauth;package=com.azure.authenticator;end`
-      },
-      { 
-        name: "Authy", 
-        icon: <AuthyIcon />, 
-        test: {
-          ios: "authy://scan/",
-          android: "authy://"
-        },
-        ios: `authy://scan/?data=${encodedSecret}`,
-        android: `intent://scan/?data=${encodedSecret}#Intent;scheme=otpauth;package=com.authy.authy;end`
-      }
-    ];
-    try {
-      const installedApps = [];
-      const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
-        
-      for (const app of APPS) {
-        const isInstalled = await testApp(isIOS ? app.test.ios : app.test.android);
-        if (isInstalled) {
-          installedApps.push({
-            name: app.name,
-            icon: app.icon,
-            url: isIOS ? app.ios : app.android
-          });
-        }
-      }
-
-      setDetectedApps(installedApps);
-        
-      if (installedApps.length === 0) {
-        toast.error("No authenticator apps found. Please install one.");
-      }
-      else if (installedApps.length ===1) {
-        window.location.href = installedApps[0].url;
-      }
-      else {
-        setIsOpen(true);
-      }
-    } catch (err) {
-      toast.error("Failed to detect apps");
-    } finally {
-    }
-    
+    window.location.href = totpSecret;
   };
-
 
   return (
     <div className="flex flex-col gap-24 w-full max-w-420">
@@ -390,45 +296,6 @@ const TwoFactorAuth: React.FC<Props> = ({
 
       {step === 2 && (
         <div>
-          {isOpen?
-          <div className="p-4 max-w-md mx-auto">
-            <div
-              className={"text-center flex flex-col gap-24 g-box-back rounded-8 p-24 py-36 border border-[#07263C]"
-              }
-            >
-              <h4 className="text-24 font-semibold">
-                Available Authenticator Apps
-              </h4>
-
-              <div className="w-[98%] h-2 bg-[#07263C]"></div>
-
-              {detectedApps.map((app)=>{
-                return (<button
-                className="mx-auto w-4/5 text-button-text font-semibold p-32 text-16 py-16  rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50"
-                onClick={()=>{
-                  window.location.href = app.url;
-                  setIsOpen(false);
-                }}
-                key={app.url}
-              >
-                <span className="text-xl">{app.icon}</span>
-                <span>{app.name}</span>
-              </button>)
-              })}
-
-              <div className="w-[98%] h-2 bg-[#07263C]"></div>
-              
-              <button
-                className="mx-auto w-fit text-button-text font-semibold p-32 text-16 py-16  rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50"
-                onClick={()=>{
-                  setIsOpen(false)
-                }}
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-          :
           <div className="p-4 max-w-md mx-auto">
             <div
               className={`text-center flex flex-col gap-24 ${
@@ -518,7 +385,7 @@ const TwoFactorAuth: React.FC<Props> = ({
                 </>
               )}
             </div>
-          </div>}
+          </div> 
         </div>
         
       )}
