@@ -32,7 +32,7 @@ const TwoFactorSetupPage = () => {
 
   useEffect(() => {
     fetchStatus();
-  }, []);
+  }, []); //eslint-disable-line
 
   const handleDisable = async (type: "email" | "totp") => {
     setLoading(true);

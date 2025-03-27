@@ -28,7 +28,6 @@ interface TwoFactorInfo {
 interface Props {
   onComplete?: (loginResult: any) => void; //eslint-disable-line
   isSetup?: boolean;
-  requireBoth?: boolean;
   availableFactors?: string[];
   setupType?: "email" | "totp";
   twoFactorToken?: string;
@@ -38,7 +37,6 @@ interface Props {
 const TwoFactorAuth: React.FC<Props> = ({
   onComplete,
   isSetup = false,
-  requireBoth = false,
   availableFactors = [],
   setupType,
   twoFactorToken = "",
@@ -64,7 +62,7 @@ const TwoFactorAuth: React.FC<Props> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [isGeneratingCode, setIsGeneratingCode] = useState(false);
   const hasGeneratedEmailCode = useRef(false);
-  const [methodsStatus, setMethodsStatus] = useState<TwoFactorInfo | null>(null);
+  const [methodsStatus, setMethodsStatus] = useState<TwoFactorInfo | null>(null); //eslint-disable-line
   const [timeLeft, setTimeLeft] = useState(EMAIL_VERIFICATION_TIMEOUT);
   const [timerActive, setTimerActive] = useState(false);
   const [isSetTimer, setIsSetTimer] = useState(false);
@@ -76,7 +74,6 @@ const TwoFactorAuth: React.FC<Props> = ({
     url: string;
   }[]>([]);
   const [isOpen, setIsOpen] = useState(false);
-  const [isDetecting, setIsDetecting] = useState(false);
   
   useEffect(() => {
     const userAgent = navigator.userAgent.toLowerCase();
@@ -326,7 +323,6 @@ const TwoFactorAuth: React.FC<Props> = ({
         android: `intent://scan/?data=${encodedSecret}#Intent;scheme=otpauth;package=com.authy.authy;end`
       }
     ];
-    setIsDetecting(true);
     try {
       const installedApps = [];
       const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
@@ -356,7 +352,6 @@ const TwoFactorAuth: React.FC<Props> = ({
     } catch (err) {
       toast.error("Failed to detect apps");
     } finally {
-      setIsDetecting(false);
     }
     
   };
@@ -407,13 +402,14 @@ const TwoFactorAuth: React.FC<Props> = ({
 
               <div className="w-[98%] h-2 bg-[#07263C]"></div>
 
-              {detectedApps.map((app,_)=>{
+              {detectedApps.map((app)=>{
                 return (<button
                 className="mx-auto w-4/5 text-button-text font-semibold p-32 text-16 py-16  rounded-12 gap-8 flex items-center justify-center border border-button-border bg-gradient-to-r from-button-from/10 to-button-to/10 transition-all duration-300 hover:from-button-from/50 hover:to-button-to/50"
                 onClick={()=>{
                   window.location.href = app.url;
                   setIsOpen(false);
                 }}
+                key={app.url}
               >
                 <span className="text-xl">{app.icon}</span>
                 <span>{app.name}</span>
