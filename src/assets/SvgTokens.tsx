@@ -1,7 +1,7 @@
 import React from "react";
 import { IIcon } from "@/@types/common";
 
-const SvgTokens: React.FC<IIcon> = ({ className }) => {
+const SvgTokens: React.FC<IIcon> = () => {
   return (
     <svg width="248" height="40" viewBox="0 0 248 40" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path
