@@ -260,15 +260,20 @@ const TwoFactorAuth: React.FC<Props> = ({
   };
 
   const addToAuth = async () => {
+    
     const isAndroid = /Android/i.test(navigator.userAgent);
     const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
     if (isAndroid) {
       window.location.href = totpSecret;
     } else if (isIOS) {
-      const encode = encodeURI(totpSecret);
-      window.location.href = encode;
+      const encodedSecret = encodeURIComponent("DUZH2WWLORBMPSJTZHP4RJ45BLJSDHL7");
+      const encodedIssuer = encodeURIComponent("StratisMoneyService");
+      const encodedAccount = encodeURIComponent("StratisMoneyService:sms-business@stratisplatform.com");
+
+      const encodedURL = `otpauth://totp/${encodedAccount}?secret=${encodedSecret}&issuer=${encodedIssuer}&digits=6`;
+
+      window.location.href = encodedURL;
     }
-    
   };
 
   return (
