@@ -260,15 +260,14 @@ const TwoFactorAuth: React.FC<Props> = ({
   };
 
   const addToAuth = async () => {
+    
     const isAndroid = /Android/i.test(navigator.userAgent);
     const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
     if (isAndroid) {
       window.location.href = totpSecret;
     } else if (isIOS) {
-      const encode = encodeURI(totpSecret);
-      window.location.href = encode;
+      window.open(totpSecret, "_self");
     }
-    
   };
 
   return (
