@@ -266,7 +266,11 @@ const TwoFactorAuth: React.FC<Props> = ({
     if (isAndroid) {
       window.location.href = totpSecret;
     } else if (isIOS) {
-      window.open(totpSecret, "_self");
+      const encodedTotpSecret = totpSecret
+            .replace(/:/g, '%3A')
+            .replace(/@/g, '%40')
+            .replace(/\?/g, '%3F');
+      window.location.href = encodedTotpSecret;
     }
   };
 
