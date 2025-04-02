@@ -266,13 +266,7 @@ const TwoFactorAuth: React.FC<Props> = ({
     if (isAndroid) {
       window.location.href = totpSecret;
     } else if (isIOS) {
-      const encodedSecret = encodeURIComponent("DUZH2WWLORBMPSJTZHP4RJ45BLJSDHL7");
-      const encodedIssuer = encodeURIComponent("StratisMoneyService");
-      const encodedAccount = encodeURIComponent("StratisMoneyService:sms-business@stratisplatform.com");
-
-      const encodedURL = `otpauth://totp/${encodedAccount}?secret=${encodedSecret}&issuer=${encodedIssuer}&digits=6`;
-
-      window.location.href = encodedURL;
+      window.open(totpSecret, "_self");
     }
   };
 
